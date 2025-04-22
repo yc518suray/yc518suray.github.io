@@ -42,14 +42,14 @@ function loadWidget(config) {
                 }
             }
         }
-        var text = "\u6B22\u8FCE\u9605\u8BFB<span>\u300C".concat(document.title.split(' - ')[0], "\u300D</span>");
+        var text = "\u6B61\u8FCE\u95B1\u8B80<span>\u300C".concat(document.title.split(' - ')[0], "\u300D</span>");
         var from;
         if (document.referrer !== '') {
             var referrer = new URL(document.referrer), domain = referrer.hostname.split('.')[1];
             var domains = {
                 baidu: '百度',
-                so: '360搜索',
-                google: '谷歌搜索',
+                so: '360搜尋',
+                google: '谷歌搜尋',
             };
             if (location.hostname === referrer.hostname)
                 return text;
@@ -57,7 +57,7 @@ function loadWidget(config) {
                 from = domains[domain];
             else
                 from = referrer.hostname;
-            return "Hello\uFF01\u6765\u81EA <span>".concat(from, "</span> \u7684\u670B\u53CB<br>").concat(text);
+            return "Hello\uFF01\u4F86\u81EA <span>".concat(from, "</span> \u7684\u670B\u53CB<br>").concat(text);
         }
         return text;
     }
@@ -157,7 +157,7 @@ function initWidget(config, apiPath) {
             apiPath: apiPath,
         };
     }
-    document.body.insertAdjacentHTML('beforeend', "<div id=\"waifu-toggle\">\n       <span>\u770B\u677F\u5A18</span>\n     </div>");
+    document.body.insertAdjacentHTML('beforeend', "<div id=\"waifu-toggle\">\n       <span>\u770B\u677F\u5A18\u5728\u6B64</span>\n     </div>");
     var toggle = document.getElementById('waifu-toggle');
     toggle === null || toggle === void 0 ? void 0 : toggle.addEventListener('click', function () {
         toggle.classList.remove('waifu-toggle-active');

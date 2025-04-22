@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://yc518suray.github.io/2025/04/22/add-live2d/</loc>
+    
+    <lastmod>2025-04-22</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://yc518suray.github.io/2025/04/22/hello-world/</loc>
     
     <lastmod>2025-04-22</lastmod>
@@ -54,6 +63,13 @@
     <priority>1.0</priority>
   </url>
 
+  
+  <url>
+    <loc>https://yc518suray.github.io/tags/Live2D-%E7%B6%B2%E8%AA%8C%E8%A8%AD%E8%A8%88/</loc>
+    <lastmod>2025-04-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
   
   <url>
     <loc>https://yc518suray.github.io/tags/test/</loc>
