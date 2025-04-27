@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hexo-image-resize</title>
+    <title>在Hexo自由設定圖片的大小</title>
     <url>/2025/04/27/Hexo-image-resize/</url>
     <content><![CDATA[<h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>&emsp;&emsp;寫文章的時候要貼上圖片，這時候可以使用 Markdown 語法：<code>![&#123;imag name&#125;](&#123;url&#125;)</code>，可惜這樣寫並不能任意調整圖片的尺寸。因此在網路上搜尋一陣，找到<a href="https://bobcn.github.io/2018/03/24/hexo_reset_image_size/">這位的作法</a>。以下簡單說明。</p>
 <span id="more"></span>
