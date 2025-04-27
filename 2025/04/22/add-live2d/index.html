@@ -20,18 +20,19 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"yc518suray.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="Why?&emsp;&emsp;記得以前有看過別人的網誌加上了一個會動的看板娘，就覺得「哎這什麼啊太有味道了」，瀏覽網誌的時候，碰到無聊的段落或是需要思考的段落，游標就可以去逗弄角落的看板娘，很有趣不是嗎？ &emsp;&emsp;於是趁著最近時間很多，心血來潮就在自己的網誌實驗看看。 How?&emsp;&emsp;在網路找到這位的博客有手把手的教學，於是就跟著教學手把手的做出來。簡單來說，就是">
+    <meta name="description" content="Why?&emsp;&emsp;記得以前有看過別人的網誌加上了一個會動的看板娘，就覺得「哎這什麼啊太有味道了」，瀏覽網誌的時候，碰到無聊的段落或是需要思考的段落，游標就可以去逗弄角落的看板娘，很有趣不是嗎？">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在網誌加上Live2D看板娘">
 <meta property="og:url" content="https://yc518suray.github.io/2025/04/22/add-live2d/index.html">
 <meta property="og:site_name" content="R.S. Random Space">
-<meta property="og:description" content="Why?&emsp;&emsp;記得以前有看過別人的網誌加上了一個會動的看板娘，就覺得「哎這什麼啊太有味道了」，瀏覽網誌的時候，碰到無聊的段落或是需要思考的段落，游標就可以去逗弄角落的看板娘，很有趣不是嗎？ &emsp;&emsp;於是趁著最近時間很多，心血來潮就在自己的網誌實驗看看。 How?&emsp;&emsp;在網路找到這位的博客有手把手的教學，於是就跟著教學手把手的做出來。簡單來說，就是">
+<meta property="og:description" content="Why?&emsp;&emsp;記得以前有看過別人的網誌加上了一個會動的看板娘，就覺得「哎這什麼啊太有味道了」，瀏覽網誌的時候，碰到無聊的段落或是需要思考的段落，游標就可以去逗弄角落的看板娘，很有趣不是嗎？">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://yc518suray.github.io/uploads/images/chatgpt_0422.png">
 <meta property="article:published_time" content="2025-04-22T15:15:28.000Z">
-<meta property="article:modified_time" content="2025-04-22T17:11:20.339Z">
+<meta property="article:modified_time" content="2025-04-27T08:40:41.324Z">
 <meta property="article:author" content="Raymond Su">
-<meta property="article:tag" content="Live2D, 網誌設計">
+<meta property="article:tag" content="Live2D">
+<meta property="article:tag" content="網誌設計">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://yc518suray.github.io/uploads/images/chatgpt_0422.png">
 
@@ -93,7 +94,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa-solid fa-house fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/archives" rel="section"><i class="fa-solid fa-folder-open fa-fw"></i>Archives</a></li><li class="menu-item menu-item-tags"><a href="/tags" rel="section"><i class="fa-solid fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa-solid fa-user fa-fw"></i>About</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa-solid fa-house fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/archives" rel="section"><i class="fa-solid fa-folder-open fa-fw"></i>Archives</a></li><li class="menu-item menu-item-categories"><a href="/categories" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-tags"><a href="/tags" rel="section"><i class="fa-solid fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa-solid fa-user fa-fw"></i>About</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
         </a>
@@ -163,9 +164,14 @@
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -236,7 +242,16 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2025-04-23 01:11:20" itemprop="dateModified" datetime="2025-04-23T01:11:20+08:00">2025-04-23</time>
+      <time title="Modified: 2025-04-27 16:40:41" itemprop="dateModified" datetime="2025-04-27T16:40:41+08:00">2025-04-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%B6%B2%E9%A0%81%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">網頁前端</span></a>
+        </span>
     </span>
 
   
@@ -249,6 +264,8 @@
     
     
     <div class="post-body" itemprop="articleBody"><h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>&emsp;&emsp;記得以前有看過別人的網誌加上了一個會動的看板娘，就覺得「哎這什麼啊太有味道了」，瀏覽網誌的時候，碰到無聊的段落或是需要思考的段落，游標就可以去逗弄角落的看板娘，很有趣不是嗎？</p>
+<span id="more"></span>
+
 <p>&emsp;&emsp;於是趁著最近時間很多，心血來潮就在自己的網誌實驗看看。</p>
 <h2 id="How"><a href="#How" class="headerlink" title="How?"></a>How?</h2><p>&emsp;&emsp;在網路找到<a target="_blank" rel="noopener" href="https://yzs020220.github.io/posts/41158/#fork%E5%B9%B6%E5%85%8B%E9%9A%86%E4%BB%93%E5%BA%93%E5%88%B0%E6%9C%AC%E5%9C%B0">這位的博客</a>有手把手的教學，於是就跟著教學手把手的做出來。簡單來說，就是把Github裡的兩個專案：<code>live2d-widget</code>(注入html的js)和<code>live2d_api</code>(live2d model相關)clone到網誌的資料夾裡，然後做一些必要的更動。在這裡感謝兩位專案作者的貢獻。</p>
 <p>&emsp;&emsp;照著步驟做完後，就會發現──怎麼會跑出<code>ReferenceError: initWidget is not defined</code>啊！對於對javascript完全不懂、網頁前端也是一知半解的我來說，打擊之沉重，可想而知。</p>
@@ -270,18 +287,22 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Live2D-%E7%B6%B2%E8%AA%8C%E8%A8%AD%E8%A8%88/" rel="tag"># Live2D, 網誌設計</a>
+              <a href="/tags/Live2D/" rel="tag"><i class="fa fa-tag"></i> Live2D</a>
+              <a href="/tags/%E7%B6%B2%E8%AA%8C%E8%A8%AD%E8%A8%88/" rel="tag"><i class="fa fa-tag"></i> 網誌設計</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2025/04/22/hello-world/" rel="prev" title="Welcome to R.S. Random Space!">
-                  <i class="fa fa-angle-left"></i> Welcome to R.S. Random Space!
+                <a href="/2025/03/20/test/" rel="prev" title="test">
+                  <i class="fa fa-angle-left"></i> test
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/2025/04/26/hello-world/" rel="next" title="Welcome to R.S. Random Space!">
+                  Welcome to R.S. Random Space! <i class="fa fa-angle-right"></i>
+                </a>
             </div>
           </div>
     </footer>

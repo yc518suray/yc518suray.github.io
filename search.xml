@@ -1,29 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Welcome to R.S. Random Space!</title>
-    <url>/2025/04/22/hello-world/</url>
-    <content><![CDATA[<h2 id="What"><a href="#What" class="headerlink" title="What?"></a>What?</h2><p>&emsp;&emsp;這裡是我的個人網誌，發表和文學、音樂、電影、科學、工程等等相關的各種雜七雜八東西的地方，一個相當「隨機」的發表空間。</p>
-<h2 id="When"><a href="#When" class="headerlink" title="When?"></a>When?</h2><p>&emsp;&emsp;這個網誌是在2025年，一個晴空萬里、空氣冷冽的三月天下午建立的。那時，我確定要前往南部大學念研究所，正在消極地待在房間裡瀏覽人力銀行網站、尋找一份度過漫長三個月的工作。</p>
-<p>&emsp;&emsp;每天都要進步一點，對於如此放縱的我，也只能這樣要求自己。</p>
-<h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>&emsp;&emsp;建立對話，不論是與自己或是與他人的對話。我記性很差，有想法最好盡快記錄下來，那麼最起碼這個網誌有這樣的功能，作為我那軟爛大腦的外接硬碟。</p>
-<h2 id="Where"><a href="#Where" class="headerlink" title="Where?"></a>Where?</h2><p>&emsp;&emsp;目前(2025&#x2F;03&#x2F;20)部署在Github pages上。不知道網站會存在多久，也許可以用一個隨機模型來描述它…能活多久就是多久吧。</p>
-<h2 id="So"><a href="#So" class="headerlink" title="So?"></a>So?</h2><p>&emsp;&emsp;更多有關我的巴啦巴啦，請看 <a href="/about"><em>關於我</em></a>。</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>test</title>
-    <url>/2025/03/20/test/</url>
-    <content><![CDATA[<p>Nothing. Just a test.</p>
-]]></content>
-      <tags>
-        <tag>test</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>在網誌加上Live2D看板娘</title>
     <url>/2025/04/22/add-live2d/</url>
     <content><![CDATA[<h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>&emsp;&emsp;記得以前有看過別人的網誌加上了一個會動的看板娘，就覺得「哎這什麼啊太有味道了」，瀏覽網誌的時候，碰到無聊的段落或是需要思考的段落，游標就可以去逗弄角落的看板娘，很有趣不是嗎？</p>
+<span id="more"></span>
+
 <p>&emsp;&emsp;於是趁著最近時間很多，心血來潮就在自己的網誌實驗看看。</p>
 <h2 id="How"><a href="#How" class="headerlink" title="How?"></a>How?</h2><p>&emsp;&emsp;在網路找到<a href="https://yzs020220.github.io/posts/41158/#fork%E5%B9%B6%E5%85%8B%E9%9A%86%E4%BB%93%E5%BA%93%E5%88%B0%E6%9C%AC%E5%9C%B0">這位的博客</a>有手把手的教學，於是就跟著教學手把手的做出來。簡單來說，就是把Github裡的兩個專案：<code>live2d-widget</code>(注入html的js)和<code>live2d_api</code>(live2d model相關)clone到網誌的資料夾裡，然後做一些必要的更動。在這裡感謝兩位專案作者的貢獻。</p>
 <p>&emsp;&emsp;照著步驟做完後，就會發現──怎麼會跑出<code>ReferenceError: initWidget is not defined</code>啊！對於對javascript完全不懂、網頁前端也是一知半解的我來說，打擊之沉重，可想而知。</p>
@@ -37,8 +19,34 @@
 <h2 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h2><p>&emsp;&emsp;結果還挺不錯的呢！雖然Kanna只是站在那邊沒有什麼表情，這樣就很滿意了。話又說回來，網誌的功能還這麼陽春、連文章都還沒開始寫，就花了一天時間做這個看板娘，算是不務正業吧？不管啦，這裡是我的空間，我的random space，做無聊事在這裡是被允許的！</p>
 <p>&emsp;&emsp;動動你的游標，和角落的看板娘互動看看吧。</p>
 ]]></content>
+      <categories>
+        <category>網頁前端</category>
+      </categories>
       <tags>
-        <tag>Live2D, 網誌設計</tag>
+        <tag>Live2D</tag>
+        <tag>網誌設計</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>test</title>
+    <url>/2025/03/20/test/</url>
+    <content><![CDATA[<p>Nothing. Just a test.</p>
+]]></content>
+      <tags>
+        <tag>test</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Welcome to R.S. Random Space!</title>
+    <url>/2025/04/26/hello-world/</url>
+    <content><![CDATA[<h2 id="What"><a href="#What" class="headerlink" title="What?"></a>What?</h2><p>&emsp;&emsp;這裡是我的個人網誌，發表和文學、音樂、電影、科學、工程等等相關的各種雜七雜八東西的地方，一個相當「隨機」的發表空間。</p>
+<span id="more"></span>
+
+<h2 id="When"><a href="#When" class="headerlink" title="When?"></a>When?</h2><p>&emsp;&emsp;這個網誌是在2025年，一個晴空萬里、空氣冷冽的三月天下午建立的。那時，我確定要前往南部大學念研究所，正在消極地待在房間裡瀏覽人力銀行網站、尋找一份度過漫長三個月的工作。</p>
+<p>&emsp;&emsp;每天都要進步一點，對於如此放縱的我，也只能這樣要求自己。</p>
+<h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>&emsp;&emsp;建立對話，不論是與自己或是與他人的對話。我記性很差，有想法最好盡快記錄下來，那麼最起碼這個網誌有這樣的功能，作為我那軟爛大腦的外接硬碟。</p>
+<h2 id="Where"><a href="#Where" class="headerlink" title="Where?"></a>Where?</h2><p>&emsp;&emsp;目前(2025&#x2F;03&#x2F;20)部署在Github pages上。不知道網站會存在多久，也許可以用一個隨機模型來描述它…能活多久就是多久吧。</p>
+<h2 id="So"><a href="#So" class="headerlink" title="So?"></a>So?</h2><p>&emsp;&emsp;更多有關我的巴啦巴啦，請看 <a href="/about"><em>關於我</em></a>。</p>
+]]></content>
   </entry>
 </search>
