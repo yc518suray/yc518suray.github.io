@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>在Hexo自由設定圖片的大小</title>
+    <url>/2025/04/27/Hexo-image-resize/</url>
+    <content><![CDATA[<h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>&emsp;&emsp;寫文章的時候要貼上圖片，這時候可以使用 Markdown 語法：<code>![&#123;imag name&#125;](&#123;url&#125;)</code>，可惜這樣寫並不能任意調整圖片的尺寸。因此在網路上搜尋一陣，找到<a href="https://bobcn.github.io/2018/03/24/hexo_reset_image_size/">這位的作法</a>。以下簡單說明。</p>
+<span id="more"></span>
+
+<h2 id="How"><a href="#How" class="headerlink" title="How?"></a>How?</h2><p>&emsp;&emsp;上述的網誌<strong>Bob Playground</strong>的作者在 Github 寫好了JS腳本，<code>hexo_resize_image.js</code>。將這個腳本放在<code>&#123;Hexo部落格root&#125;/source/js</code>裡，沒有這個資料夾的話就自己建立一個。接著，編輯<code>&#123;Hexo部落格root&#125;/source/_data/head.njk</code>，在這個檔案裡加上：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;/js/hexo_resize_image.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;一樣，如果沒有這個路徑和檔案，就自己建立這個路徑和檔案。完成後，Hexo會將<code>head.njk</code>裡的 script tag 加入到生成的 html 檔，就可以使用<code>hexo_resize_image.js</code>的腳本。</p>
+<p><strong>Note:</strong> 要使用<code>head.njk</code>，必須在主題(我的例子是Next)的設置檔(我的例子是<code>_config.next.yml</code>)加入以下設置：</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">custom_file_path:</span></span><br><span class="line">  <span class="attr">head:</span> <span class="string">source/_data/head.njk</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h2><p>&emsp;&emsp;結果很理想，可以自由調整圖片尺寸。</p>
+]]></content>
+      <categories>
+        <category>網頁前端</category>
+      </categories>
+      <tags>
+        <tag>網誌設計</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>在網誌加上Live2D看板娘</title>
     <url>/2025/04/22/add-live2d/</url>
     <content><![CDATA[<h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>&emsp;&emsp;記得以前有看過別人的網誌加上了一個會動的看板娘，就覺得「哎這什麼啊太有味道了」，瀏覽網誌的時候，碰到無聊的段落或是需要思考的段落，游標就可以去逗弄角落的看板娘，很有趣不是嗎？</p>
@@ -23,31 +45,22 @@
         <category>網頁前端</category>
       </categories>
       <tags>
-        <tag>Live2D</tag>
         <tag>網誌設計</tag>
+        <tag>Live2D</tag>
       </tags>
   </entry>
   <entry>
-    <title>在Hexo自由設定圖片的大小</title>
-    <url>/2025/04/27/Hexo-image-resize/</url>
-    <content><![CDATA[<h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>&emsp;&emsp;寫文章的時候要貼上圖片，這時候可以使用 Markdown 語法：<code>![&#123;imag name&#125;](&#123;url&#125;)</code>，可惜這樣寫並不能任意調整圖片的尺寸。因此在網路上搜尋一陣，找到<a href="https://bobcn.github.io/2018/03/24/hexo_reset_image_size/">這位的作法</a>。以下簡單說明。</p>
+    <title>Welcome to R.S. Random Space!</title>
+    <url>/2025/04/26/hello-world/</url>
+    <content><![CDATA[<h2 id="What"><a href="#What" class="headerlink" title="What?"></a>What?</h2><p>&emsp;&emsp;這裡是我的個人網誌，發表和文學、音樂、電影、科學、工程等等相關的各種雜七雜八東西的地方，一個相當「隨機」的發表空間。</p>
 <span id="more"></span>
 
-<h2 id="How"><a href="#How" class="headerlink" title="How?"></a>How?</h2><p>&emsp;&emsp;上述的網誌<strong>Bob Playground</strong>的作者在 Github 寫好了JS腳本，<code>hexo_resize_image.js</code>。將這個腳本放在<code>&#123;Hexo部落格root&#125;/source/js</code>裡，沒有這個資料夾的話就自己建立一個。接著，編輯<code>&#123;Hexo部落格root&#125;/source/_data/head.njk</code>，在這個檔案裡加上：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;/js/hexo_resize_image.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>&emsp;&emsp;一樣，如果沒有這個路徑和檔案，就自己建立這個路徑和檔案。完成後，Hexo會將<code>head.njk</code>裡的 script tag 加入到生成的 html 檔，就可以使用<code>hexo_resize_image.js</code>的腳本。</p>
-<p><strong>Note:</strong> 要使用<code>head.njk</code>，必須在主題(我的例子是Next)的設置檔(我的例子是<code>_config.next.yml</code>)加入以下設置：</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">custom_file_path:</span></span><br><span class="line">  <span class="attr">head:</span> <span class="string">source/_data/head.njk</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h2><p>&emsp;&emsp;結果很理想，可以自由調整圖片尺寸。</p>
+<h2 id="When"><a href="#When" class="headerlink" title="When?"></a>When?</h2><p>&emsp;&emsp;這個網誌是在2025年，一個晴空萬里、空氣冷冽的三月天下午建立的。那時，我確定要前往南部大學念研究所，正在消極地待在房間裡瀏覽人力銀行網站、尋找一份度過漫長三個月的工作。</p>
+<p>&emsp;&emsp;每天都要進步一點，對於如此放縱的我，也只能這樣要求自己。</p>
+<h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>&emsp;&emsp;建立對話，不論是與自己或是與他人的對話。我記性很差，有想法最好盡快記錄下來，那麼最起碼這個網誌有這樣的功能，作為我那軟爛大腦的外接硬碟。</p>
+<h2 id="Where"><a href="#Where" class="headerlink" title="Where?"></a>Where?</h2><p>&emsp;&emsp;目前(2025&#x2F;03&#x2F;20)部署在Github pages上。不知道網站會存在多久，也許可以用一個隨機模型來描述它…能活多久就是多久吧。</p>
+<h2 id="So"><a href="#So" class="headerlink" title="So?"></a>So?</h2><p>&emsp;&emsp;更多有關我的巴啦巴啦，請看 <a href="/about"><em>關於我</em></a>。</p>
 ]]></content>
-      <categories>
-        <category>網頁前端</category>
-      </categories>
-      <tags>
-        <tag>網誌設計</tag>
-      </tags>
   </entry>
   <entry>
     <title>讀後隨想：「動物農莊」</title>
@@ -121,25 +134,87 @@
       </tags>
   </entry>
   <entry>
-    <title>Welcome to R.S. Random Space!</title>
-    <url>/2025/04/26/hello-world/</url>
-    <content><![CDATA[<h2 id="What"><a href="#What" class="headerlink" title="What?"></a>What?</h2><p>&emsp;&emsp;這裡是我的個人網誌，發表和文學、音樂、電影、科學、工程等等相關的各種雜七雜八東西的地方，一個相當「隨機」的發表空間。</p>
-<span id="more"></span>
-
-<h2 id="When"><a href="#When" class="headerlink" title="When?"></a>When?</h2><p>&emsp;&emsp;這個網誌是在2025年，一個晴空萬里、空氣冷冽的三月天下午建立的。那時，我確定要前往南部大學念研究所，正在消極地待在房間裡瀏覽人力銀行網站、尋找一份度過漫長三個月的工作。</p>
-<p>&emsp;&emsp;每天都要進步一點，對於如此放縱的我，也只能這樣要求自己。</p>
-<h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>&emsp;&emsp;建立對話，不論是與自己或是與他人的對話。我記性很差，有想法最好盡快記錄下來，那麼最起碼這個網誌有這樣的功能，作為我那軟爛大腦的外接硬碟。</p>
-<h2 id="Where"><a href="#Where" class="headerlink" title="Where?"></a>Where?</h2><p>&emsp;&emsp;目前(2025&#x2F;03&#x2F;20)部署在Github pages上。不知道網站會存在多久，也許可以用一個隨機模型來描述它…能活多久就是多久吧。</p>
-<h2 id="So"><a href="#So" class="headerlink" title="So?"></a>So?</h2><p>&emsp;&emsp;更多有關我的巴啦巴啦，請看 <a href="/about"><em>關於我</em></a>。</p>
-]]></content>
-  </entry>
-  <entry>
     <title>test</title>
     <url>/2025/03/20/test/</url>
     <content><![CDATA[<p>Nothing. Just a test.</p>
 ]]></content>
       <tags>
         <tag>test</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>論文閱讀：Log-normal Shadowing</title>
+    <url>/2025/05/29/paper-why-lognormal-shadowing/</url>
+    <content><![CDATA[<p>&emsp;&emsp;還記得在large-scale fading的通道模型中，將path loss model為一個log-normal的隨機變數(或是以距離$x$為自變數的隨機過程)嗎？但是為什麼用log-normal來model，而不是其他的分布呢？這篇論文嘗試回答這個問題。</p>
+<span id="more"></span>
+
+<h2 id="論文資訊"><a href="#論文資訊" class="headerlink" title="論文資訊"></a>論文資訊</h2><ul>
+<li>論文標題：<strong>Why is Shadow Fading Lognormal?</strong></li>
+<li>作者：J. Salo, L. Vuokko and P. Vainikainen, Radio Laboratory&#x2F;SMARAD, Helsinki University of Technology</li>
+<li>發表：<em>Proc. International Symposium on Wireless Personal Multimedia Communications</em>, Sept. 18-22, 2005, pp. 522-526</li>
+<li>關鍵字：沒有提供</li>
+</ul>
+<h2 id="論文內容"><a href="#論文內容" class="headerlink" title="論文內容"></a>論文內容</h2><p><img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Helsingin_ydinkeskustaa_ja_Mannerheimintien_alkup%C3%A4%C3%A4t%C3%A4_Erottajan_paloaseman_tornista_%28cropped%29.jpg" alt="helsinki-view"></p>
+<center><font color="cyan">赫爾辛基。這篇論文是赫爾辛基理工大學的團隊所寫。<br>圖片來源：Otso Kivekäs, via Wikimedia Commons </font><a href="https://upload.wikimedia.org/wikipedia/commons/3/37/Helsingin_ydinkeskustaa_ja_Mannerheimintien_alkup%C3%A4%C3%A4t%C3%A4_Erottajan_paloaseman_tornista_%28cropped%29.jpg"><font color="cyan">連結</font></a></center>
+
+<br>
+
+<p>&emsp;&emsp;教科書裡通常用<strong>相乘模型</strong>(multiplicative model)來解釋lognormal shadow fading的由來，但是這個解釋有幾個缺點：</p>
+<ol>
+<li><p>過去的論文指出，path loss取對數後若要趨近於常態分佈，則需要大量的attenuation factors，而這很難從實際的傳播環境驗證。</p>
+</li>
+<li><p>過去的論文指出，如果相乘模型是對的，則path loss應該是(與Tx)距離的指數函數。然而實證的資料卻支持path loss是距離的冪函數(power function)。</p>
+</li>
+<li><p>若相乘模型是對的，則隨著距離增加，path loss r.v.的變異數應該要隨之增加，因為random attenuation factors的數量也增加了。但是實證的資料顯示這個變異數幾乎和距離無關。</p>
+</li>
+</ol>
+<p>&emsp;&emsp;於是論文提及幾篇其他論文的想法，比如說[1]這篇論文提出time-variant multiple scattering的理論，佐以森林和郊區的資料為證；還有一篇論文[2]用反射(也就是additive而非multiplicative)來解釋LOS microcell的lognormality，只可惜沒有推廣到其他傳播環境，也沒有理論上的驗證。</p>
+<p>&emsp;&emsp;因此，這篇論文呈現<font color="yellow"><strong>additive cluster-based model</strong></font>，並且提供理論上的驗證。首先區分兩種shadow fading的模型：<strong>path loss dependent</strong>和<strong>path loss independent</strong>。</p>
+<ul>
+<li><p><font color="cyan">Path loss dependent</font>：獲得實證資料(比如說實驗結果)後，假設一個函數模型(比如說linear in dB)，再用fitting的方式確立模型，而residual error則model為隨機變數。因此，這種shadow fading的模型(隨機變數的分布)和假設的函數模型，以及fitting的方法相關，因為同樣的資料，只要假設不同函數、使用不同fitting方法，residual error的分布就會不同。</p>
+</li>
+<li><p><font color="cyan">Path loss independent</font>：主要關注<strong>local mean signal power</strong>，通常是在一個點附近取sliding median。這個local mean rx power的變動也經常被model為lognormal的隨機變數。</p>
+</li>
+</ul>
+<p>&emsp;&emsp;這篇論文關注的是第二種，path loss independent的shadow fading模型，因為這個模型不預設path loss的函數模型。以下是理論及驗證。</p>
+<p>&emsp;&emsp;假設在某一點接收到的訊號是從$N$個cluster而來(透過反射與散射等)，$N$固定為常數。在某點$x$的narrow-band channel impulse response可以表示為</p>
+<p>$$<br>h(x) &#x3D; \frac{1}{\sqrt{\mu_N}} \sum_{n &#x3D; 1}^{N}{w_n(x)g_n(x)}<br>$$</p>
+<p>&emsp;&emsp;$w_n$是大於零的權重，$g_n$是zero mean、unit variance、circularly symmetric的i.i.d complex Gaussian r.v.。這個response是normalized power的，即</p>
+<p>$$<br>E[\sum_{n &#x3D; 1}^{N}{w_n^2}] &#x3D; \mu_N<br>$$</p>
+<p>&emsp;&emsp;一般來說，$w_n$會隨著$x$的變化而變動。不過，在幾個波長內的範圍裡(所謂的local area)，$w_n(x) \approx w_n$。又由於$g_n(x)$是i.i.d r.v.(或random process)，可以得到h(x)的分布：</p>
+<p>$$<br>h(x) \sim \sqrt{\frac{1}{\mu_N}\sum_{n &#x3D; 1}^{N}{w_n^2}} g(x) &#x3D; \sqrt{m} g(x)<br>$$</p>
+<br>
+
+<p><img src="/uploads/images/why-lognormal-local-area.png?450x" alt="local_area.png"></p>
+<center><font color="cyan">local area的概念。圖片來源：此篇論文</font></center>
+
+<br>
+
+<p>&emsp;&emsp;事實上，等號右邊是一個<font color="yellow">spherically invariant random process</font>，也有用在其他模型中。由此，local mean power即為</p>
+<p>$$<br>\begin{align}<br>E[20\log{(|h(x)|)}] &amp;&#x3D; E[10\log{(m)} + 20\log{(|g(x)|)}] \\<br>                    &amp;&#x3D; m_{dB} + 20E[\log{(|g(x)|)}] \\<br>                    &amp;&#x3D; m_{dB} - 2.51<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;上式中第二項是一個log-Rayleigh的隨機變數的期望值，算出來就是$-2.51 dB$。第一項則是local mean power，在local area內為常數。那麼在local area的附近(extended local area)，local power &#x3D; $10\log{(m)}$作為一個隨機變數，其分佈為何？有了下面三項前提，我們可以用常態分佈來近似local power的分佈。</p>
+<br>
+
+<blockquote>
+<p>A1. 當$N \rightarrow \infty$，則$m$的分佈收斂到常態分佈。(中央極限定理)<br>A2. 對於所有$N$，$E[m] &#x3D; 1$。(normalized power)<br>A3. $\lim_{N \rightarrow \infty}{Var[m]} &#x3D; 0$</p>
+</blockquote>
+<blockquote>
+<p><ins><strong>Theorem 1</strong></ins><br>考慮一個連續可微函數，$y &#x3D; f(x)$，若A1 ~ A3的前提為真，則隨機變數$y &#x3D; f(m)$漸進式(asymptotically)的近似於常態分佈，且$E[y] &#x3D; f(1)$，$Var[y] &#x3D; Var[m][f’(1)]^2$。</p>
+</blockquote>
+<br>
+
+<p>&emsp;&emsp;這個定理的證明與推導，論文沒有提供，只是說相關的證明可以從一本time series的書裡找到。之後有空再來嘗試推導。Theorem 1的結論告訴我們，不論cluster power($w_n^2$)的分佈是什麼，最後得到的signal power(dB)都是lognormal分佈的，而且這個lognormal的部分和Tx-Rx距離無關。</p>
+<p>&emsp;&emsp;論文的後半部描述電腦模擬的方法與結果，以及一些實際量測的結果，和理論相當一致。量測結果可能資料量不夠大，pdf的曲線看不出吻合的程度。</p>
+<h2 id="讀後想法"><a href="#讀後想法" class="headerlink" title="讀後想法"></a>讀後想法</h2><p>&emsp;&emsp;這篇論文篇幅很短，只有五頁，我卻寫了這麼多字，看來講重點的功力還不到。精煉短小的一篇論文，數學的部分也不會太複雜，不過需要更大量的資料來佐證。之後可能會用MATLAB來模擬看看。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[1] J.B. Andersen and I.Z. Kov&aacute;cs, “Power distributions revisited,” in <em>Proc. COST273 3rd Management Committee Meeting</em>, Jan. 17-18,2002.</p>
+<p>[2] S.A. Abbas and A.U. Sheikh, “On understanding the nature of slow fading in LOS microcellular channels,” in _Proc. 47th IEEE Veh. Tech. Conf., vol.2, 1997, pp.662–666.</p>
+]]></content>
+      <categories>
+        <category>通訊技術</category>
+      </categories>
+      <tags>
+        <tag>無線通訊</tag>
+        <tag>Modeling</tag>
       </tags>
   </entry>
 </search>
