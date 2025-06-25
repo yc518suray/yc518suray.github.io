@@ -20,26 +20,31 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"yc518suray.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="What?&emsp;&emsp;這裡是我的個人網誌，發表和文學、音樂、電影、科學、工程等等相關的各種雜七雜八東西的地方，一個相當「隨機」的發表空間。">
+    <meta name="description" content="Content今年(2025)五月開始對無線通道有一些初步的了解，將筆記記錄在這裡。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Welcome to R.S. Random Space!">
-<meta property="og:url" content="https://yc518suray.github.io/2025/04/26/hello-world/index.html">
+<meta property="og:title" content="無線通道介紹-1：通道模型簡介">
+<meta property="og:url" content="https://yc518suray.github.io/2025/04/28/wireless-channel-intro/index.html">
 <meta property="og:site_name" content="R.S. Random Space">
-<meta property="og:description" content="What?&emsp;&emsp;這裡是我的個人網誌，發表和文學、音樂、電影、科學、工程等等相關的各種雜七雜八東西的地方，一個相當「隨機」的發表空間。">
+<meta property="og:description" content="Content今年(2025)五月開始對無線通道有一些初步的了解，將筆記記錄在這裡。">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2025-04-26T02:12:29.575Z">
-<meta property="article:modified_time" content="2025-04-26T02:12:29.576Z">
+<meta property="og:image" content="https://yc518suray.github.io/2025/04/28/wireless-channel-intro/comm-data-rate-history.png">
+<meta property="article:published_time" content="2025-04-28T03:37:14.000Z">
+<meta property="article:modified_time" content="2025-06-22T15:06:34.504Z">
 <meta property="article:author" content="Raymond Su">
+<meta property="article:tag" content="Modeling">
+<meta property="article:tag" content="無線通道">
+<meta property="article:tag" content="OFDM">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yc518suray.github.io/2025/04/28/wireless-channel-intro/comm-data-rate-history.png">
 
 
-<link rel="canonical" href="https://yc518suray.github.io/2025/04/26/hello-world/">
+<link rel="canonical" href="https://yc518suray.github.io/2025/04/28/wireless-channel-intro/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://yc518suray.github.io/2025/04/26/hello-world/","path":"2025/04/26/hello-world/","title":"Welcome to R.S. Random Space!"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://yc518suray.github.io/2025/04/28/wireless-channel-intro/","path":"2025/04/28/wireless-channel-intro/","title":"無線通道介紹-1：通道模型簡介"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Welcome to R.S. Random Space! | R.S. Random Space</title>
+<title>無線通道介紹-1：通道模型簡介 | R.S. Random Space</title>
   
 
 
@@ -142,7 +147,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#What"><span class="nav-number">1.</span> <span class="nav-text">What?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#When"><span class="nav-number">2.</span> <span class="nav-text">When?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Why"><span class="nav-number">3.</span> <span class="nav-text">Why?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Where"><span class="nav-number">4.</span> <span class="nav-text">Where?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#So"><span class="nav-number">5.</span> <span class="nav-text">So?</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Content"><span class="nav-number">1.</span> <span class="nav-text">Content</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%A8%8A%E9%80%9A%E9%81%93543"><span class="nav-number">2.</span> <span class="nav-text">通訊通道543</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Large-Scale-Fading"><span class="nav-number">3.</span> <span class="nav-text">Large-Scale Fading</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Small-Scale-Fading"><span class="nav-number">4.</span> <span class="nav-text">Small-Scale Fading</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AA%9E"><span class="nav-number">5.</span> <span class="nav-text">結語</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -203,7 +208,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://yc518suray.github.io/2025/04/26/hello-world/">
+    <link itemprop="mainEntityOfPage" href="https://yc518suray.github.io/2025/04/28/wireless-channel-intro/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/images/blog_avatar.png">
@@ -216,12 +221,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Welcome to R.S. Random Space! | R.S. Random Space">
+      <meta itemprop="name" content="無線通道介紹-1：通道模型簡介 | R.S. Random Space">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Welcome to R.S. Random Space!
+          無線通道介紹-1：通道模型簡介
         </h1>
 
         <div class="post-meta-container">
@@ -232,7 +237,23 @@
       </span>
       <span class="post-meta-item-text">發表於</span>
 
-      <time title="創建時間：2025-04-26 10:12:29" itemprop="dateCreated datePublished" datetime="2025-04-26T10:12:29+08:00">2025-04-26</time>
+      <time title="創建時間：2025-04-28 11:37:14" itemprop="dateCreated datePublished" datetime="2025-04-28T11:37:14+08:00">2025-04-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2025-06-22 23:06:34" itemprop="dateModified" datetime="2025-06-22T23:06:34+08:00">2025-06-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/" itemprop="url" rel="index"><span itemprop="name">通訊技術</span></a>
+        </span>
     </span>
 
   
@@ -244,8 +265,8 @@
       </span>
       <span class="post-meta-item-text">Disqus：</span>
     
-    <a title="disqus" href="/2025/04/26/hello-world/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2025/04/26/hello-world/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2025/04/28/wireless-channel-intro/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2025/04/28/wireless-channel-intro/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -258,15 +279,26 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="What"><a href="#What" class="headerlink" title="What?"></a>What?</h2><p>&emsp;&emsp;這裡是我的個人網誌，發表和文學、音樂、電影、科學、工程等等相關的各種雜七雜八東西的地方，一個相當「隨機」的發表空間。</p>
+    <div class="post-body" itemprop="articleBody"><h2 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h2><p>今年(2025)五月開始對無線通道有一些初步的了解，將筆記記錄在這裡。</p>
 <span id="more"></span>
 
-<h2 id="When"><a href="#When" class="headerlink" title="When?"></a>When?</h2><p>&emsp;&emsp;這個網誌是在2025年，一個晴空萬里、空氣冷冽的三月天下午建立的。那時，我確定要前往南部大學念研究所，正在消極地待在房間裡瀏覽人力銀行網站、尋找一份度過漫長三個月的工作。</p>
-<p>&emsp;&emsp;每天都要進步一點，對於如此放縱的我，也只能這樣要求自己。</p>
-<h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>&emsp;&emsp;建立對話，不論是與自己或是與他人的對話。我記性很差，有想法最好盡快記錄下來，那麼最起碼這個網誌有這樣的功能，作為我那軟爛大腦的外接硬碟。</p>
-<h2 id="Where"><a href="#Where" class="headerlink" title="Where?"></a>Where?</h2><p>&emsp;&emsp;目前(2025&#x2F;03&#x2F;20)部署在Github pages上。不知道網站會存在多久，也許可以用一個隨機模型來描述它…能活多久就是多久吧。</p>
-<h2 id="So"><a href="#So" class="headerlink" title="So?"></a>So?</h2><p>&emsp;&emsp;更多有關我的巴啦巴啦，請看 <a href="/about"><em>關於我</em></a>。</p>
+<p>以下是無線通道介紹的全系列文章：</p>
+<ul>
+<li><a href="/2025/04/28/wireless-channel-intro/" title="無線通道介紹-1：通道模型簡介">無線通道介紹-1：通道模型簡介</a></li>
+</ul>
+<h2 id="通訊通道543"><a href="#通訊通道543" class="headerlink" title="通訊通道543"></a>通訊通道543</h2><p>&emsp;&emsp;在通訊技術的發展歷史中，無線與有線的競爭非常精彩。最早使用電能的通訊技術是有線的(當然飛鴿傳書不算)──西元 1837 年 Morse 發明<font color="yellow">摩斯密碼</font>，電報系統開創現代通訊的紀元；西元 1895 年，Marconi 發明<font color="yellow">無線電報傳輸</font>，是為無線通訊的濫觴。自此以後，通訊技術便在有線與無線的方式之間擺盪：二十世紀初，電話網路系統 <font color="yellow">PSTN</font> (有線)逐漸形成，同時 AM 和 FM <font color="yellow">無線電廣播</font>(無線)也蓬勃發展；戰後<font color="yellow">無線電視</font>與<font color="yellow">有線電視</font>互別苗頭，同時隨著電腦間通訊的需求出現，1970 年代的 ARPANET (有線)和 ALOHA 網路(無線)開啟了接下來五十年的技術大躍進──<font color="yellow">Ethernet</font> (有線)、AMPS (無線)、光纖傳輸(有線)及<font color="yellow">行動通訊</font>(無線)輪番上陣，形成現在的局面。</p>
+<br>
 
+<img src="/2025/04/28/wireless-channel-intro/comm-data-rate-history.png" class="">
+<center><font color="cyan">無線通訊與有線通訊的data rate演進，有線通訊還是佔上風。<br>圖片來源：<i>Terahertz Integrated Circuits and Systems for High-Speed Wireless Communications: Challenges and Design Perspectives</i>, Payam Heydari, </font><a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/9530765"><font color="cyan">連結</font></a></center>
+
+<br>
+
+<p>&emsp;&emsp;無線通訊系統在終端無須佈線、建置成本降低，同時增加使用者數量，這些是它的優勢。不過無線通訊還有一點是有線通訊無法企及的，就是移動性(mobility)，不論是行動通訊、衛星通訊還是車聯網、IoT，只要通信雙方有相對運動，都要求滿足移動性的通訊方式。因此，無線通訊仍是值得深入研究的主題。(當然有線通訊也有其重要性，尤其是硬體間資料傳輸，如 GPU 和 memory 之間的通訊，便是現在非常重要的研究領域)</p>
+<p>&emsp;&emsp;無線通訊(wireless)和有線通訊(wireline)的物理傳輸介質──傳輸通道，有著非常不一樣的特性。有線通訊使用傳輸線或光纖作為傳輸通道，傳輸線的話要考慮線路阻抗、符號間干擾(頻率響應)、串擾(cross-talk)等問題；無線通訊使用空氣&#x2F;大氣作為傳輸通道，除了各種反射、散射與繞射等大規模衰減(large-scale fading)效應之外，由於通訊雙方會有相對運動，通道基本上是time-variant的，還要考慮Doppler shift、delay spread和angle spread等問題。無線通訊的通道比起有線通訊，挑戰更巨大。</p>
+<p>&emsp;&emsp;接著我們就來討論無線通道面臨的兩種挑戰：large-scale fading 及 small-scale fading。</p>
+<h2 id="Large-Scale-Fading"><a href="#Large-Scale-Fading" class="headerlink" title="Large-Scale Fading"></a>Large-Scale Fading</h2><h2 id="Small-Scale-Fading"><a href="#Small-Scale-Fading" class="headerlink" title="Small-Scale Fading"></a>Small-Scale Fading</h2><h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;第一篇到此為止。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2>
     </div>
 
     
@@ -283,7 +315,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>文章連結：</strong>
-      <a href="https://yc518suray.github.io/2025/04/26/hello-world/" title="Welcome to R.S. Random Space!">https://yc518suray.github.io/2025/04/26/hello-world/</a>
+      <a href="https://yc518suray.github.io/2025/04/28/wireless-channel-intro/" title="無線通道介紹-1：通道模型簡介">https://yc518suray.github.io/2025/04/28/wireless-channel-intro/</a>
   </li>
   <li class="post-copyright-license">
       <strong>版權聲明： </strong>本網誌所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 許可協議。轉載請註明出處！
@@ -291,18 +323,23 @@
 </ul>
 </div>
 
+          <div class="post-tags">
+              <a href="/tags/Modeling/" rel="tag"><i class="fa fa-tag"></i> Modeling</a>
+              <a href="/tags/%E7%84%A1%E7%B7%9A%E9%80%9A%E9%81%93/" rel="tag"><i class="fa fa-tag"></i> 無線通道</a>
+              <a href="/tags/OFDM/" rel="tag"><i class="fa fa-tag"></i> OFDM</a>
+          </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2025/04/22/add-live2d/" rel="prev" title="在網誌加上Live2D看板娘">
-                  <i class="fa fa-angle-left"></i> 在網誌加上Live2D看板娘
+                <a href="/2025/04/27/Hexo-image-resize/" rel="prev" title="在Hexo自由設定圖片的大小">
+                  <i class="fa fa-angle-left"></i> 在Hexo自由設定圖片的大小
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2025/04/27/Hexo-image-resize/" rel="next" title="在Hexo自由設定圖片的大小">
-                  在Hexo自由設定圖片的大小 <i class="fa fa-angle-right"></i>
+                <a href="/2025/05/29/paper-why-lognormal-shadowing/" rel="next" title="論文閱讀：Log-normal Shadowing">
+                  論文閱讀：Log-normal Shadowing <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
