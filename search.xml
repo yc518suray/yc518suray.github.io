@@ -3,7 +3,7 @@
   <entry>
     <title>在Hexo自由設定圖片的大小</title>
     <url>/2025/04/27/Hexo-image-resize/</url>
-    <content><![CDATA[<h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>&emsp;&emsp;寫文章的時候要貼上圖片，這時候可以使用 Markdown 語法：<code>![&#123;imag name&#125;](&#123;url&#125;)</code>，可惜這樣寫並不能任意調整圖片的尺寸。因此在網路上搜尋一陣，找到<a href="https://bobcn.github.io/2018/03/24/hexo_reset_image_size/">這位的作法</a>。以下簡單說明。</p>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>&emsp;&emsp;寫文章的時候要貼上圖片，這時候可以使用 Markdown 語法：<code>![&#123;imag name&#125;](&#123;url&#125;)</code>，可惜這樣寫並不能任意調整圖片的尺寸。因此在網路上搜尋一陣，找到<a href="https://bobcn.github.io/2018/03/24/hexo_reset_image_size/">這位的作法</a>。以下簡單說明。</p>
 <span id="more"></span>
 
 <h2 id="How"><a href="#How" class="headerlink" title="How?"></a>How?</h2><p>&emsp;&emsp;上述的網誌<strong>Bob Playground</strong>的作者在 Github 寫好了JS腳本，<code>hexo_resize_image.js</code>。將這個腳本放在<code>&#123;Hexo部落格root&#125;/source/js</code>裡，沒有這個資料夾的話就自己建立一個。接著，編輯<code>&#123;Hexo部落格root&#125;/source/_data/head.njk</code>，在這個檔案裡加上：</p>
@@ -23,9 +23,36 @@
       </tags>
   </entry>
   <entry>
+    <title>在網誌加上Live2D看板娘</title>
+    <url>/2025/04/22/add-live2d/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>&emsp;&emsp;記得以前有看過別人的網誌加上了一個會動的看板娘，就覺得「哎這什麼啊太有味道了」，瀏覽網誌的時候，碰到無聊的段落或是需要思考的段落，游標就可以去逗弄角落的看板娘，很有趣不是嗎？</p>
+<span id="more"></span>
+
+<p>&emsp;&emsp;於是趁著最近時間很多，心血來潮就在自己的網誌實驗看看。</p>
+<h2 id="How"><a href="#How" class="headerlink" title="How?"></a>How?</h2><p>&emsp;&emsp;在網路找到<a href="https://yzs020220.github.io/posts/41158/#fork%E5%B9%B6%E5%85%8B%E9%9A%86%E4%BB%93%E5%BA%93%E5%88%B0%E6%9C%AC%E5%9C%B0">這位的博客</a>有手把手的教學，於是就跟著教學手把手的做出來。簡單來說，就是把Github裡的兩個專案：<code>live2d-widget</code>(注入html的js)和<code>live2d_api</code>(live2d model相關)clone到網誌的資料夾裡，然後做一些必要的更動。在這裡感謝兩位專案作者的貢獻。</p>
+<p>&emsp;&emsp;照著步驟做完後，就會發現──怎麼會跑出<code>ReferenceError: initWidget is not defined</code>啊！對於對javascript完全不懂、網頁前端也是一知半解的我來說，打擊之沉重，可想而知。</p>
+<p>&emsp;&emsp;不過幸好還有ChatGPT對吧？就和GPT-4o一起討論、推敲，總算是想出一個workaround。原來，問題是來自initWidget沒有被綁到global的window上，所以在autoload.js裡呼叫initWidget時，不知道它指的就是window.initWidget。在<code>/src/index.ts</code>裡加上下面這行：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">(<span class="variable language_">window</span> <span class="keyword">as</span> any).<span class="property">initWidget</span> = initWidget;</span><br></pre></td></tr></table></figure>
+<p>就行了。</p>
+<img src="/uploads/images/chatgpt_0422.png" width=600 height=300 />
+
+<p>&emsp;&emsp;接著又碰到另一個問題：在<code>waifu-tips.js</code>裡用到動態query的方式來取用live2d model，用Hexo部署的話會有問題。於是修改了一下<code>/src/model.ts</code>裡的判斷條件，讓它每次取用live2d model都是透過靜態路徑(<code>$&#123;this.cdnPath&#125;model/$&#123;target&#125;/index.json</code>)。這就是不用CDN的下場嗎？</p>
+<p>&emsp;&emsp;都是一些亂七八糟的做法呢！明明都有GPT-4o可以請教了…因為我的目的只是要正常顯示live2d看板娘，所以一當看到看板娘正常顯示，也顧不得這麼多了，能動就好！</p>
+<h2 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h2><p>&emsp;&emsp;結果還挺不錯的呢！雖然Kanna只是站在那邊沒有什麼表情，這樣就很滿意了。話又說回來，網誌的功能還這麼陽春、連文章都還沒開始寫，就花了一天時間做這個看板娘，算是不務正業吧？不管啦，這裡是我的空間，我的random space，做無聊事在這裡是被允許的！</p>
+<p>&emsp;&emsp;動動你的游標，和角落的看板娘互動看看吧。</p>
+]]></content>
+      <categories>
+        <category>網頁前端</category>
+      </categories>
+      <tags>
+        <tag>網誌設計</tag>
+        <tag>Live2D</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>讀後隨想：「動物農莊」</title>
     <url>/2025/06/15/animal-farm-reading/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>&emsp;&emsp;這本書已經借了很久，最近要還了，所以趕快把書看一看。篇幅不長、翻譯的精準、口語且節奏明快，所以很快就看完。畢竟是歐威爾的作品，看完也很有感觸，於是馬上寫下這篇熱騰騰的讀後隨想。這也是我的網誌上第一篇讀後隨想，所以內容之生嫩可期。</p>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>&emsp;&emsp;這本書已經借了很久，最近要還了，所以趕快把書看一看。篇幅不長、翻譯的精準、口語且節奏明快，所以很快就看完。畢竟是歐威爾的作品，看完也很有感觸，於是馬上寫下這篇熱騰騰的讀後隨想。這也是我的網誌上第一篇讀後隨想，所以內容之生嫩可期。</p>
 <span id="more"></span>
 
 <h2 id="書籍資訊"><a href="#書籍資訊" class="headerlink" title="書籍資訊"></a>書籍資訊</h2><ul>
@@ -128,250 +155,6 @@
       <tags>
         <tag>閱讀</tag>
         <tag>政治</tag>
-        <tag>文學</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>在網誌加上Live2D看板娘</title>
-    <url>/2025/04/22/add-live2d/</url>
-    <content><![CDATA[<h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>&emsp;&emsp;記得以前有看過別人的網誌加上了一個會動的看板娘，就覺得「哎這什麼啊太有味道了」，瀏覽網誌的時候，碰到無聊的段落或是需要思考的段落，游標就可以去逗弄角落的看板娘，很有趣不是嗎？</p>
-<span id="more"></span>
-
-<p>&emsp;&emsp;於是趁著最近時間很多，心血來潮就在自己的網誌實驗看看。</p>
-<h2 id="How"><a href="#How" class="headerlink" title="How?"></a>How?</h2><p>&emsp;&emsp;在網路找到<a href="https://yzs020220.github.io/posts/41158/#fork%E5%B9%B6%E5%85%8B%E9%9A%86%E4%BB%93%E5%BA%93%E5%88%B0%E6%9C%AC%E5%9C%B0">這位的博客</a>有手把手的教學，於是就跟著教學手把手的做出來。簡單來說，就是把Github裡的兩個專案：<code>live2d-widget</code>(注入html的js)和<code>live2d_api</code>(live2d model相關)clone到網誌的資料夾裡，然後做一些必要的更動。在這裡感謝兩位專案作者的貢獻。</p>
-<p>&emsp;&emsp;照著步驟做完後，就會發現──怎麼會跑出<code>ReferenceError: initWidget is not defined</code>啊！對於對javascript完全不懂、網頁前端也是一知半解的我來說，打擊之沉重，可想而知。</p>
-<p>&emsp;&emsp;不過幸好還有ChatGPT對吧？就和GPT-4o一起討論、推敲，總算是想出一個workaround。原來，問題是來自initWidget沒有被綁到global的window上，所以在autoload.js裡呼叫initWidget時，不知道它指的就是window.initWidget。在<code>/src/index.ts</code>裡加上下面這行：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">(<span class="variable language_">window</span> <span class="keyword">as</span> any).<span class="property">initWidget</span> = initWidget;</span><br></pre></td></tr></table></figure>
-<p>就行了。</p>
-<img src="/uploads/images/chatgpt_0422.png" width=600 height=300 />
-
-<p>&emsp;&emsp;接著又碰到另一個問題：在<code>waifu-tips.js</code>裡用到動態query的方式來取用live2d model，用Hexo部署的話會有問題。於是修改了一下<code>/src/model.ts</code>裡的判斷條件，讓它每次取用live2d model都是透過靜態路徑(<code>$&#123;this.cdnPath&#125;model/$&#123;target&#125;/index.json</code>)。這就是不用CDN的下場嗎？</p>
-<p>&emsp;&emsp;都是一些亂七八糟的做法呢！明明都有GPT-4o可以請教了…因為我的目的只是要正常顯示live2d看板娘，所以一當看到看板娘正常顯示，也顧不得這麼多了，能動就好！</p>
-<h2 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h2><p>&emsp;&emsp;結果還挺不錯的呢！雖然Kanna只是站在那邊沒有什麼表情，這樣就很滿意了。話又說回來，網誌的功能還這麼陽春、連文章都還沒開始寫，就花了一天時間做這個看板娘，算是不務正業吧？不管啦，這裡是我的空間，我的random space，做無聊事在這裡是被允許的！</p>
-<p>&emsp;&emsp;動動你的游標，和角落的看板娘互動看看吧。</p>
-]]></content>
-      <categories>
-        <category>網頁前端</category>
-      </categories>
-      <tags>
-        <tag>網誌設計</tag>
-        <tag>Live2D</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Welcome to R.S. Random Space!</title>
-    <url>/2025/04/26/hello-world/</url>
-    <content><![CDATA[<h2 id="What"><a href="#What" class="headerlink" title="What?"></a>What?</h2><p>&emsp;&emsp;這裡是我的個人網誌，發表和文學、音樂、電影、科學、工程等等相關的各種雜七雜八東西的地方，一個相當「隨機」的發表空間。</p>
-<span id="more"></span>
-
-<h2 id="When"><a href="#When" class="headerlink" title="When?"></a>When?</h2><p>&emsp;&emsp;這個網誌是在2025年，一個晴空萬里、空氣冷冽的三月天下午建立的。那時，我確定要前往南部大學念研究所，正在消極地待在房間裡瀏覽人力銀行網站、尋找一份度過漫長三個月的工作。</p>
-<p>&emsp;&emsp;每天都要進步一點，對於如此放縱的我，也只能這樣要求自己。</p>
-<h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>&emsp;&emsp;建立對話，不論是與自己或是與他人的對話。我記性很差，有想法最好盡快記錄下來，那麼最起碼這個網誌有這樣的功能，作為我那軟爛大腦的外接硬碟。</p>
-<h2 id="Where"><a href="#Where" class="headerlink" title="Where?"></a>Where?</h2><p>&emsp;&emsp;目前(2025&#x2F;03&#x2F;20)部署在Github pages上。不知道網站會存在多久，也許可以用一個隨機模型來描述它…能活多久就是多久吧。</p>
-<h2 id="So"><a href="#So" class="headerlink" title="So?"></a>So?</h2><p>&emsp;&emsp;更多有關我的巴啦巴啦，請看 <a href="/about"><em>關於我</em></a>。</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>論文閱讀：Log-normal Shadowing</title>
-    <url>/2025/05/29/paper-why-lognormal-shadowing/</url>
-    <content><![CDATA[<p>&emsp;&emsp;還記得在large-scale fading的通道模型中，將path loss model為一個log-normal的隨機變數(或是以距離$x$為自變數的隨機過程)嗎？但是為什麼用log-normal來model，而不是其他的分布呢？這篇論文嘗試回答這個問題。</p>
-<span id="more"></span>
-
-<h2 id="論文資訊"><a href="#論文資訊" class="headerlink" title="論文資訊"></a>論文資訊</h2><ul>
-<li>論文標題：<strong>Why is Shadow Fading Lognormal?</strong></li>
-<li>作者：J. Salo, L. Vuokko and P. Vainikainen, Radio Laboratory&#x2F;SMARAD, Helsinki University of Technology</li>
-<li>發表：<em>Proc. International Symposium on Wireless Personal Multimedia Communications</em>, Sept. 18-22, 2005, pp. 522-526</li>
-<li>關鍵字：沒有提供</li>
-</ul>
-<h2 id="論文內容"><a href="#論文內容" class="headerlink" title="論文內容"></a>論文內容</h2><p><img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Helsingin_ydinkeskustaa_ja_Mannerheimintien_alkup%C3%A4%C3%A4t%C3%A4_Erottajan_paloaseman_tornista_%28cropped%29.jpg" alt="helsinki-view"></p>
-<center><font color="cyan">赫爾辛基。這篇論文是赫爾辛基理工大學的團隊所寫。<br>圖片來源：Otso Kivekäs, via Wikimedia Commons </font><a href="https://upload.wikimedia.org/wikipedia/commons/3/37/Helsingin_ydinkeskustaa_ja_Mannerheimintien_alkup%C3%A4%C3%A4t%C3%A4_Erottajan_paloaseman_tornista_%28cropped%29.jpg"><font color="cyan">連結</font></a></center>
-
-<br>
-
-<p>&emsp;&emsp;教科書裡通常用<strong>相乘模型</strong>(multiplicative model)來解釋lognormal shadow fading的由來，但是這個解釋有幾個缺點：</p>
-<ol>
-<li><p>過去的論文指出，path loss取對數後若要趨近於常態分佈，則需要大量的attenuation factors，而這很難從實際的傳播環境驗證。</p>
-</li>
-<li><p>過去的論文指出，如果相乘模型是對的，則path loss應該是(與Tx)距離的指數函數。然而實證的資料卻支持path loss是距離的冪函數(power function)。</p>
-</li>
-<li><p>若相乘模型是對的，則隨著距離增加，path loss r.v.的變異數應該要隨之增加，因為random attenuation factors的數量也增加了。但是實證的資料顯示這個變異數幾乎和距離無關。</p>
-</li>
-</ol>
-<p>&emsp;&emsp;於是論文提及幾篇其他論文的想法，比如說[1]這篇論文提出time-variant multiple scattering的理論，佐以森林和郊區的資料為證；還有一篇論文[2]用反射(也就是additive而非multiplicative)來解釋LOS microcell的lognormality，只可惜沒有推廣到其他傳播環境，也沒有理論上的驗證。</p>
-<p>&emsp;&emsp;因此，這篇論文呈現<font color="yellow"><strong>additive cluster-based model</strong></font>，並且提供理論上的驗證。首先區分兩種shadow fading的模型：<strong>path loss dependent</strong>和<strong>path loss independent</strong>。</p>
-<ul>
-<li><p><font color="cyan">Path loss dependent</font>：獲得實證資料(比如說實驗結果)後，假設一個函數模型(比如說linear in dB)，再用fitting的方式確立模型，而residual error則model為隨機變數。因此，這種shadow fading的模型(隨機變數的分布)和假設的函數模型，以及fitting的方法相關，因為同樣的資料，只要假設不同函數、使用不同fitting方法，residual error的分布就會不同。</p>
-</li>
-<li><p><font color="cyan">Path loss independent</font>：主要關注<strong>local mean signal power</strong>，通常是在一個點附近取sliding median。這個local mean rx power的變動也經常被model為lognormal的隨機變數。</p>
-</li>
-</ul>
-<p>&emsp;&emsp;這篇論文關注的是第二種，path loss independent的shadow fading模型，因為這個模型不預設path loss的函數模型。以下是理論及驗證。</p>
-<p>&emsp;&emsp;假設在某一點接收到的訊號是從$N$個cluster而來(透過反射與散射等)，$N$固定為常數。在某點$x$的narrow-band channel impulse response可以表示為</p>
-<p>$$<br>h(x) &#x3D; \frac{1}{\sqrt{\mu_N}} \sum_{n &#x3D; 1}^{N}{w_n(x)g_n(x)}<br>$$</p>
-<p>&emsp;&emsp;$w_n$是大於零的權重，$g_n$是zero mean、unit variance、circularly symmetric的i.i.d complex Gaussian r.v.。這個response是normalized power的，即</p>
-<p>$$<br>E[\sum_{n &#x3D; 1}^{N}{w_n^2}] &#x3D; \mu_N<br>$$</p>
-<p>&emsp;&emsp;一般來說，$w_n$會隨著$x$的變化而變動。不過，在幾個波長內的範圍裡(所謂的local area)，$w_n(x) \approx w_n$。又由於$g_n(x)$是i.i.d r.v.(或random process)，可以得到h(x)的分布：</p>
-<p>$$<br>h(x) \sim \sqrt{\frac{1}{\mu_N}\sum_{n &#x3D; 1}^{N}{w_n^2}} g(x) &#x3D; \sqrt{m} g(x)<br>$$</p>
-<br>
-
-<p><img src="/uploads/images/why-lognormal-local-area.png?450x" alt="local_area.png"></p>
-<center><font color="cyan">local area的概念。圖片來源：此篇論文</font></center>
-
-<br>
-
-<p>&emsp;&emsp;事實上，等號右邊是一個<font color="yellow">spherically invariant random process</font>，也有用在其他模型中。由此，local mean power即為</p>
-<p>$$<br>\begin{align}<br>E[20\log{(|h(x)|)}] &amp;&#x3D; E[10\log{(m)} + 20\log{(|g(x)|)}] \\<br>                    &amp;&#x3D; m_{dB} + 20E[\log{(|g(x)|)}] \\<br>                    &amp;&#x3D; m_{dB} - 2.51<br>\end{align}<br>$$</p>
-<p>&emsp;&emsp;上式中第二項是一個log-Rayleigh的隨機變數的期望值，算出來就是$-2.51 dB$。第一項則是local mean power，在local area內為常數。那麼在local area的附近(extended local area)，local power &#x3D; $10\log{(m)}$作為一個隨機變數，其分佈為何？有了下面三項前提，我們可以用常態分佈來近似local power的分佈。</p>
-<br>
-
-<blockquote>
-<p>A1. 當$N \rightarrow \infty$，則$m$的分佈收斂到常態分佈。(中央極限定理)<br>A2. 對於所有$N$，$E[m] &#x3D; 1$。(normalized power)<br>A3. $\lim_{N \rightarrow \infty}{Var[m]} &#x3D; 0$</p>
-</blockquote>
-<blockquote>
-<p><ins><strong>Theorem 1</strong></ins><br>考慮一個連續可微函數，$y &#x3D; f(x)$，若A1 ~ A3的前提為真，則隨機變數$y &#x3D; f(m)$漸進式(asymptotically)的近似於常態分佈，且$E[y] &#x3D; f(1)$，$Var[y] &#x3D; Var[m][f’(1)]^2$。</p>
-</blockquote>
-<br>
-
-<p>&emsp;&emsp;這個定理的證明與推導，論文沒有提供，只是說相關的證明可以從一本time series的書裡找到。之後有空再來嘗試推導。Theorem 1的結論告訴我們，不論cluster power($w_n^2$)的分佈是什麼，最後得到的signal power(dB)都是lognormal分佈的，而且這個lognormal的部分和Tx-Rx距離無關。</p>
-<p>&emsp;&emsp;論文的後半部描述電腦模擬的方法與結果，以及一些實際量測的結果，和理論相當一致。量測結果可能資料量不夠大，pdf的曲線看不出吻合的程度。</p>
-<h2 id="讀後想法"><a href="#讀後想法" class="headerlink" title="讀後想法"></a>讀後想法</h2><p>&emsp;&emsp;這篇論文篇幅很短，只有五頁，我卻寫了這麼多字，看來講重點的功力還不到。精煉短小的一篇論文，數學的部分也不會太複雜，不過需要更大量的資料來佐證。之後可能會用MATLAB來模擬看看。</p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[1] J.B. Andersen and I.Z. Kov&aacute;cs, “Power distributions revisited,” in <em>Proc. COST273 3rd Management Committee Meeting</em>, Jan. 17-18,2002.</p>
-<p>[2] S.A. Abbas and A.U. Sheikh, “On understanding the nature of slow fading in LOS microcellular channels,” in _Proc. 47th IEEE Veh. Tech. Conf., vol.2, 1997, pp.662–666.</p>
-]]></content>
-      <categories>
-        <category>通訊技術</category>
-      </categories>
-      <tags>
-        <tag>無線通訊</tag>
-        <tag>Modeling</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>test</title>
-    <url>/2025/03/20/test/</url>
-    <content><![CDATA[<p>Nothing. Just a test.</p>
-]]></content>
-      <tags>
-        <tag>test</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>無線通道介紹-1：通道模型簡介</title>
-    <url>/2025/04/28/wireless-channel-intro/</url>
-    <content><![CDATA[<h2 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h2><p>今年(2025)五月開始對無線通道有一些初步的了解，將筆記記錄在這裡。</p>
-<span id="more"></span>
-
-<p>以下是無線通道介紹的全系列文章：</p>
-<ul>
-<li><a href="/2025/04/28/wireless-channel-intro/" title="無線通道介紹-1：通道模型簡介">無線通道介紹-1：通道模型簡介</a></li>
-</ul>
-<h2 id="通訊通道543"><a href="#通訊通道543" class="headerlink" title="通訊通道543"></a>通訊通道543</h2><p>&emsp;&emsp;在通訊技術的發展歷史中，無線與有線的競爭非常精彩。最早使用電能的通訊技術是有線的(當然飛鴿傳書不算)──西元 1837 年 Morse 發明<font color="yellow">摩斯密碼</font>，電報系統開創現代通訊的紀元；西元 1895 年，Marconi 發明<font color="yellow">無線電報傳輸</font>，是為無線通訊的濫觴。自此以後，通訊技術便在有線與無線的方式之間擺盪：二十世紀初，電話網路系統 <font color="yellow">PSTN</font> (有線)逐漸形成，同時 AM 和 FM <font color="yellow">無線電廣播</font>(無線)也蓬勃發展；戰後<font color="yellow">無線電視</font>與<font color="yellow">有線電視</font>互別苗頭，同時隨著電腦間通訊的需求出現，1970 年代的 ARPANET (有線)和 ALOHA 網路(無線)開啟了接下來五十年的技術大躍進──<font color="yellow">Ethernet</font> (有線)、AMPS (無線)、光纖傳輸(有線)及<font color="yellow">行動通訊</font>(無線)輪番上陣，形成現在的局面。</p>
-<br>
-
-<img src="/2025/04/28/wireless-channel-intro/comm-data-rate-history.png" class="">
-<center><font color="cyan">無線通訊與有線通訊的data rate演進，有線通訊還是佔上風。<br>圖片來源：<i>Terahertz Integrated Circuits and Systems for High-Speed Wireless Communications: Challenges and Design Perspectives</i>, Payam Heydari, </font><a href="https://ieeexplore.ieee.org/document/9530765"><font color="cyan">連結</font></a></center>
-
-<br>
-
-<p>&emsp;&emsp;無線通訊系統在終端無須佈線、建置成本降低，同時增加使用者數量，這些是它的優勢。不過無線通訊還有一點是有線通訊無法企及的，就是移動性(mobility)，不論是行動通訊、衛星通訊還是車聯網、IoT，只要通信雙方有相對運動，都要求滿足移動性的通訊方式。因此，無線通訊仍是值得深入研究的主題。(當然有線通訊也有其重要性，尤其是硬體間資料傳輸，如 GPU 和 memory 之間的通訊，便是現在非常重要的研究領域)</p>
-<p>&emsp;&emsp;無線通訊(wireless)和有線通訊(wireline)的物理傳輸介質──傳輸通道，有著非常不一樣的特性。有線通訊使用傳輸線或光纖作為傳輸通道，傳輸線的話要考慮線路阻抗、符號間干擾(頻率響應)、串擾(cross-talk)等問題；無線通訊使用空氣&#x2F;大氣作為傳輸通道，除了各種反射、散射與繞射等大規模衰減(large-scale fading)效應之外，由於通訊雙方會有相對運動，通道基本上是time-variant的，還要考慮Doppler shift、delay spread和angle spread等問題。無線通訊的通道比起有線通訊，挑戰更巨大。</p>
-<p>&emsp;&emsp;接著我們就來討論無線通道面臨的兩種挑戰：large-scale fading 及 small-scale fading。</p>
-<h2 id="Large-Scale-Fading"><a href="#Large-Scale-Fading" class="headerlink" title="Large-Scale Fading"></a>Large-Scale Fading</h2><h2 id="Small-Scale-Fading"><a href="#Small-Scale-Fading" class="headerlink" title="Small-Scale Fading"></a>Small-Scale Fading</h2><h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;第一篇到此為止。</p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2>]]></content>
-      <categories>
-        <category>通訊技術</category>
-      </categories>
-      <tags>
-        <tag>Modeling</tag>
-        <tag>無線通道</tag>
-        <tag>OFDM</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>讀後隨想：「克蘇魯神話 I 呼喚」</title>
-    <url>/2025/06/23/lovecraft-reading/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><br>
-
-<p><img src="https://m.media-amazon.com/images/M/MV5BZmM5ZGQyNTItZGRhOC00YTk5LThiMzktYTdjZWE4NmJlOGE0XkEyXkFqcGc@._V1_FMjpg_UX1280_.jpg?600x" alt="Netflix愛x死x機器人截圖"></p>
-<center><font color="cyan">Netflix影集「愛x死x機器人」其中一集「In Vaulted Halls Entombed」，嘗試動畫化克蘇魯恐怖。<br>圖片來源：IMDb, </font><a href="https://www.imdb.com/title/tt20239438/?ref_=mv_close"><font color="cyan">連結</font></a></center>
-
-<br>
-
-<p>&emsp;&emsp;H.P. Lovecraft的作品總是那個調調：陰暗寒冷的新英格蘭地區，潮濕的沼澤與濃密的樹林之間，遊蕩著比地球還要古老的、純粹邪惡的存在。十篇裡面，有七篇都是這樣寫的。但是讀著讀著，這些形象便愈來愈鮮明，讀者愈來愈無法置身事外…。然而這也是他獨特的風格。</p>
-<span id="more"></span>
-
-<h2 id="書籍資訊"><a href="#書籍資訊" class="headerlink" title="書籍資訊"></a>書籍資訊</h2><ul>
-<li>書名：「克蘇魯神話 I：呼喚」</li>
-<li>作者：洛夫克拉夫特(L.P. Lovecraft)</li>
-<li>譯者：姚向輝</li>
-<li>出版：奇幻基地出版&#x2F;城邦文化，2021&#x2F;06，<a href="https://www.eslite.com/product/1001131382682018350001?srsltid=AfmBOoqtRGLF6rWDXxEPA7j6a_GoR4kmD3xZYotALXiQLi8w4eqmDQka">網路連結</a></li>
-</ul>
-<h2 id="隨想"><a href="#隨想" class="headerlink" title="隨想"></a>隨想</h2><p>&emsp;&emsp;輯 I 收錄了八篇短篇，這邊只談其中兩篇：「黑暗中的低語」和「敦威治恐怖事件」。</p>
-<h3 id="「黑暗中的低語-The-Whisperer-in-Darkness-」"><a href="#「黑暗中的低語-The-Whisperer-in-Darkness-」" class="headerlink" title="「黑暗中的低語 (The Whisperer in Darkness)」"></a>「黑暗中的低語 (The Whisperer in Darkness)」</h3><p>&emsp;&emsp;「希望我沒有過份的打擾您，也希望您最終會決定聯繫我，而不是將這封信當作瘋子的胡言亂語扔進廢紙簍裡。」小說裡，居住在深山中的埃克利在信裡這麼寫道。讀者以威爾瑪斯的第一人稱視角，一邊審視埃克利寄來的信與物品，一邊結合自己在人類學、民間文化的知識來思考，一步一步踏入可怕的真實。</p>
-<br>
-
-<p>&emsp;&emsp;Lovecraft的作品裡，主角大多受過高等教育，面對異常現象，還是驚恐莫名。這是為了告訴讀者，接下來的恐怖情節，並非憑藉人類的知識就能輕易除魅；這些恐怖已經超越了現有科學的疆界，如果說科學是現代人依靠的最後堡壘，Lovecraft大概會和讀者這麼說：「你終究要走出這個堡壘的吧？看你的眼神，已經被堡壘外頭更廣闊的世界吸引住了不是嗎？」書中的主角，包括這篇作品裡的威爾瑪斯，都是因為強烈的好奇心、以及對知識邊界的探究精神，而步上無法回頭的道路，可謂「不作死不會死」。</p>
-<br>
-
-<p>&emsp;&emsp;話說回來，探索未知、向人類知識的邊界航行，難道不是人類的天性嗎？當然，也不是所有人都富有探險精神，我就沒有。不過，正是因為這些勇於嘗試、勇往直前的探險家，我們對世界的認識才能愈來愈完整。Lovecraft也是其中之一，若沒有這些作品描述克蘇魯神話的巨大與無以名狀，我們對於這些巨大與無以名狀的感受也會感到陌生；就好像「香草」口味之於冰淇淋一般，Lovecraft的創作讓我們對恐懼的口味變得明確，無形中，成為我們面對可怕事物時，可以依憑的堡壘。(<font color="yellow">試想，在神聖而禁忌的城市阿萊耶見到克蘇魯本尊時，心裡喃喃道『啊，我知道，這個就是克蘇魯』XD</font>)</p>
-<br>
-
-<p>&emsp;&emsp;對我來說，這篇作品最可怕之處，要屬威爾瑪斯來到深山裡的埃克利家，兩人促膝長談的那段。闃暗的房間裡，虛弱的埃克利躺在安樂椅上，一動也不動，向威爾瑪斯述說著從宇宙深處前來地球的存在，散發出的怪異氣味、詭異的嘶啞語氣，讓來訪的威爾瑪斯渾身毛骨悚然：</p>
-<br>
-
-<blockquote>
-<p>(埃克利)他的病況應該激起我的憐憫，實際上卻讓我毛骨悚然。他的身體那麼僵硬，毫無生氣，像一具屍體，而那持續不斷的低語聲又那麼可憎，完全不像人類！  </p>
-<p align="right">──摘自「黑暗中的低語」</p></blockquote>
-<br>
-
-<p>&emsp;&emsp;讀到這裡時，我就有預感埃克利異狀下隱藏的真相了，但是作者不打算立刻揭發，而是讓主角威爾瑪斯繼續那個夜晚的可怕經歷，直到最後才揭露那張安樂椅上的驚悚假象。雖然有點老套，但是讀著還是令人不禁心頭一縮，對埃克利的遭遇感到既好奇又畏懼。</p>
-<br>
-
-<p>&emsp;&emsp;我也不得不佩服Lovecraft對於「桶中大腦」的構想，相當的前衛啊！不知道他是第一個描述這樣想法的人，還是受到其他人的影響。不過，作者沒有提及這些外星活物的真正目的，將大腦脫離軀體、放進桶裡後，外星活物會依埃克利所言，帶著人類的意識一窺宇宙的終極真相嗎？還是物盡其用，享用人類的意識能量完，再利用殘餘的軀體誘騙更多人獻身？小說裡沒有交代，讓讀者即使知道了這麼多，還是感覺被蒙在鼓裡，沒有意識到可怕計畫的真正目的。</p>
-<br>
-
-<p><img src="https://upload.wikimedia.org/wikipedia/en/b/bd/Town_of_derry.png" alt="it-derry-main-stephen-king"></p>
-<center><font color="cyan">電影「牠」的背景設定在新英格蘭地區的緬因州。<br>我最喜歡的小說家之一，Stephen King，本人就是來自緬因州。<br>圖片來源：Wikipedia，電影截圖 </font><a href="https://en.wikipedia.org/wiki/Derry_%28Stephen_King%29"><font color="cyan">連結</font></a></center>
-
-<br>
-
-<h3 id="「敦威治恐怖事件-The-Dunwich-Horror-」"><a href="#「敦威治恐怖事件-The-Dunwich-Horror-」" class="headerlink" title="「敦威治恐怖事件 (The Dunwich Horror)」"></a>「敦威治恐怖事件 (The Dunwich Horror)」</h3><p>&emsp;&emsp;又是發生在新英格蘭地區的恐怖事件：山谷中的維特利家住著一對古怪的父女，某天女兒誕下新生，但是這個新生命擁有某些絕非地球上尋常生物會有的特質。維特利家的新成員，威爾伯，生長異常迅速，面容怪異，為了異教儀式的需要，他走訪各地的圖書館，期望找到一本名為「死靈之書」的狂語典籍(這本書屢次在Lovecraft的作品中出現，可以說是克蘇魯神話中的聖經吧)，卻在圖書館遭受攻擊，現出原形，自此山谷裡的敦威治便發生多起慘劇…。</p>
-<br>
-
-<p>&emsp;&emsp;小說裡描述圖書館裡遭受攻擊的活物軀體時，是這樣形容的：</p>
-<br>
-
-<blockquote>
-<p>說人類的筆力無法描述它不但老套，而且也不盡準確，然而任何人，只要他對形狀和輪廓的概念還被這顆星球上的普通生命和僅僅三個已知維度束縛著，就不可能形象而生動地想像它的樣子。  </p>
-<p align="right">──摘自「敦威治恐怖事件」</p></blockquote>
-<br>
-
-<p>&emsp;&emsp;有沒有「牛之首」或「鮫島事件」的感覺呢？其實做法都差不多，不正面描述，反而是旁敲側擊、從其他角度側面形容；此時讀者完全沒有第一手的感受，只能從當事人的反應、常識與認知被破壞的程度，來體驗「二手」的恐懼。這樣的恐懼，反而更為普遍、能觸動到更多人，原因沒有別的，正是因為恐怖的細節完全操之於我們的想像，每個人都可以在腦海裡創造出自己認為最可怕的畫面。另一方面，這一層「不知道」的認知，也是Lovecraft作品一貫的作法：未知的恐怖，最為恐怖。</p>
-<br>
-
-<p>&emsp;&emsp;這讓我想起數學家、律師費馬(Fermat，1601 ~ 1665)著名的那句話：「我發現了一個非常漂亮的證明，但這裡沒有足夠的空間寫下。」沒錯，就是釣胃口嘛！費馬這個未填補的洞，吸引了幾百年來無數數學家躍身而入，直到上世紀才解決。同樣的，Lovecraft也在讀者最渴望細節描述的時候，將讀者的視線撇開，說：「<font color="yellow">眼前就是人類理智無法理解的恐怖了，但是即使看到了也無法以文字形容。</font>」這不是更讓人想要一窺究竟了嗎？正是這份好奇與求知的衝動，提升了恐懼的強度。</p>
-<br>
-
-<p>&emsp;&emsp;話說回來，這篇的風格比較偏向鄉野民俗、黑暗魔法一類，克蘇魯神話的成分(相較於其他篇)較少，算是書裡我認為比較沒有特色的一篇。那為什麼還是講這篇呢？嗯，我也不知道。</p>
-<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;小時候，我很常做一種夢。這個夢沒有劇情，也沒有任何角色，更準確的說，不是夢，更像是入睡後一種精神上的體驗。意識在睡意中載浮載沉，忽然，一個異常龐大、轟隆運轉的精密機械倏地佔據腦海裡所有空間。機械的全貌無法看清，只能感知到齒輪嵌合、軸承轉動的細節；機械實在過於龐大，導致意識被它的存在壓迫得緊張起來，開始心悸，但是沒多久，腦海就恢復澄清，什麼也沒有。一直以來，我無法說明清楚這個奇怪的體驗到底是什麼，無以名狀。於是，當我認識到Lovecraft的作品，便好像尋覓到知音，碰觸到一個古老卻似曾相識的世界。</p>
-<br>
-
-<p>&emsp;&emsp;書衣的封底引用Lovecraft的一句話：</p>
-<br>
-
-<blockquote>
-<p>The oldest and strongest emotion of mankind is fear; and the oldest and strongest kind of fear is fear of the unknown.</p>
-</blockquote>
-<br>
-
-<p>&emsp;&emsp;也許並不是所有人都能感染到Lovecraft作品裡的可怕氣息，但是Lovecraft的這句話，我認為說出了恐懼的本質。時至今日，各類創作中的恐怖元素之繽紛多元，早已不可同日而語，不過，所有的恐怖元素都奠基在某個什麼之上，而這個什麼，隱藏在我們的意識深處──<font color="red">那是什麼？我不知道！</font></p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>無。</p>
-]]></content>
-      <categories>
-        <category>讀後隨想</category>
-      </categories>
-      <tags>
-        <tag>閱讀</tag>
         <tag>文學</tag>
       </tags>
   </entry>
@@ -508,6 +291,332 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
         <tag>政治</tag>
         <tag>文學</tag>
         <tag>哲學</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Welcome to R.S. Random Space!</title>
+    <url>/2025/04/26/hello-world/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="What"><a href="#What" class="headerlink" title="What?"></a>What?</h2><p>&emsp;&emsp;這裡是我的個人網誌，發表和文學、音樂、電影、科學、工程等等相關的各種雜七雜八東西的地方，一個相當「隨機」的發表空間。</p>
+<span id="more"></span>
+
+<h2 id="When"><a href="#When" class="headerlink" title="When?"></a>When?</h2><p>&emsp;&emsp;這個網誌是在2025年，一個晴空萬里、空氣冷冽的三月天下午建立的。那時，我確定要前往南部大學念研究所，正在消極地待在房間裡瀏覽人力銀行網站、尋找一份度過漫長三個月的工作。</p>
+<p>&emsp;&emsp;每天都要進步一點，對於如此放縱的我，也只能這樣要求自己。</p>
+<h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>&emsp;&emsp;建立對話，不論是與自己或是與他人的對話。我記性很差，有想法最好盡快記錄下來，那麼最起碼這個網誌有這樣的功能，作為我那軟爛大腦的外接硬碟。</p>
+<h2 id="Where"><a href="#Where" class="headerlink" title="Where?"></a>Where?</h2><p>&emsp;&emsp;目前(2025&#x2F;03&#x2F;20)部署在Github pages上。不知道網站會存在多久，也許可以用一個隨機模型來描述它…能活多久就是多久吧。</p>
+<h2 id="So"><a href="#So" class="headerlink" title="So?"></a>So?</h2><p>&emsp;&emsp;更多有關我的巴啦巴啦，請看 <a href="/about"><em>關於我</em></a>。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>讀後隨想：「進擊的巨人」</title>
+    <url>/2025/09/05/attack-on-titan-1/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>&emsp;&emsp;這幾天把「進擊的巨人」動畫看完(S1 ~ S4 + 完結篇)，看了不少其他人的感想+解讀，所以我也想要分享我的感想；當然，不能說完全是原創的，因為看過他人評論，必然摻雜他人的見解。這篇文章主要分享看完動畫的想法，我沒有看過原作漫畫。</p>
+<br>
+
+<p>&emsp;&emsp;由於這是一部現象級的作品，網路上的討論非常的多！也不差我這一篇，這篇就當作是純粹抒發感想。(這就是讀後隨想的目的啊~)</p>
+<span id="more"></span>
+
+<br>
+
+<p>&emsp;&emsp;至於為什麼放在「讀後隨想」的分類呢？我認為動漫也是文本的一種，看動漫也可以視作一種閱讀，所以如此分類。那麼電影、繪畫、音樂、戲劇等等的文本呢？也要歸類在「讀後隨想」嗎？好問題，要再想想。</p>
+<h2 id="動畫資訊"><a href="#動畫資訊" class="headerlink" title="動畫資訊"></a>動畫資訊</h2><ul>
+<li>動畫名稱：「進擊的巨人」(Attack on Titan)</li>
+<li>漫畫原作：諫山創</li>
+<li>動畫製作：<ul>
+<li>WIT STUDIO (S1 ~ S3)</li>
+<li>MAPPA (S4 + 完結篇)</li>
+</ul>
+</li>
+<li>哪裡看的：<a href="https://ani.gamer.com.tw/">巴哈姆特動畫瘋</a></li>
+</ul>
+<h2 id="隨想"><a href="#隨想" class="headerlink" title="隨想"></a>隨想</h2><h3 id="我是自由的！戰鬥吧！"><a href="#我是自由的！戰鬥吧！" class="headerlink" title="我是自由的！戰鬥吧！"></a>我是自由的！戰鬥吧！</h3><p>&emsp;&emsp;艾連與阿爾敏最後的對談裡，交代了艾連發動地鳴後、最後的想法。他對阿爾敏說：</p>
+<br>
+
+<blockquote>
+<p>阿爾敏，我就跟你說的一樣，是「自由的奴隸」。</p>
+</blockquote>
+<br>
+
+<p>&emsp;&emsp;確實，艾連一生都在追求著「自由」，而且這份追求是與生俱來的，換句話說，他自出生便被「自由」拘束著。等等，這句話好像有點矛盾？可是正是如此。說到底，「出生」本身就不是自由的。我們無法選擇是否出生在這個世界上，而是只能「被生下」。</p>
+<br>
+
+<p>&emsp;&emsp;伴隨著「出生」而來的，還有其他東西：<strong>個性、身體特質、家庭、族群與國家</strong>，這些都是我們誕生之初強加於我們的。就艾連而言，他耿直、單純的個性，對「壓迫」(或者說對自由的限制)的痛恨與對「自由」的強烈嚮往，當然，還有父親古利夏的巨人繼承與艾爾迪亞人的身分，這些都是加諸在他身上的束縛。<strong>艾連沒有選擇「是否追求自由」的自由，他必然追求自由，這是他的宿命</strong>。在接觸到巨人的記憶後，這個宿命變得更加明確，</p>
+<br>
+
+<p>&emsp;&emsp;與米卡莎和阿爾敏深厚的情感、與夥伴的強烈情誼，則是他在宿命以外，為自己創造的「自由的」命運。為什麼？因為這些家人、夥伴的心，不是他可以操縱的。艾連不能操縱米卡莎，所以米卡莎可以犧牲生命也在所不惜的為艾連戰鬥，也可以為了終結地鳴而結束他的生命，這份情感是自由的；艾連不能操縱阿爾敏，所以阿爾敏可以在艾連幾欲放棄時喚醒他，也可以因為理念不同而選擇和他分道揚鑣，這份情感也是自由的。和104期夥伴與調查兵團的情誼也是如此。這些「自由」到了最後，也成為艾連守護的對象。</p>
+<br>
+
+<img src="/2025/09/05/attack-on-titan-1/attack-on-titan-freedom.png" class="">
+<center><font color="cyan">完結篇-後篇中，阿爾敏和艾連的最後一次對話。<br>圖片來源：截圖自巴哈姆特動畫瘋。</font></center>
+
+<br>
+
+<p>&emsp;&emsp;回到「追求自由」的宿命。艾連對自由的強烈嚮往，可以在許多情景看到。在巨人來襲前，年少的艾連便看不起那些安於城牆內生活的人們，亟欲突破「牢籠」；與瑪雷的戰士對戰時，他視對方為壓迫自由的罪魁禍首，全力出擊；即使在窺見進擊的巨人與始祖巨人的記憶後，艾連也無法忍受任何對自由的壓迫，不管是世界對艾爾迪亞人的敵意，還是始祖尤彌爾被王族禁錮了兩千年的意念。<strong>對自由的追求始終是艾連「進擊」的動力</strong>。</p>
+<br>
+
+<p>&emsp;&emsp;只是，這股動力過於強大，理性與秩序──作為對行動的限制──也是「進擊」的目標之一。因此從艾連第一次巨人化開始，混沌、毀滅一切的衝動便如影隨形，直到後期，這股衝動終於得以釋放──對瑪雷的突襲，以及發動地鳴。艾連選擇發動地鳴的原因，一直都是大家熱烈討論的焦點，<strong>從他的進擊的巨人身分來看，似乎還是為了追求自由。</strong></p>
+<br>
+
+<p>&emsp;&emsp;始祖尤彌爾對王的愛形成執念，奴役著尤彌爾及她的子民，為了解放這些受苦的人類，<strong>巨人之力必須消除</strong>；帕島人被其它人類壓迫，所以<strong>其它人類必須毀滅</strong>；為了保護夥伴不被敵人殺伐，所以<strong>敵人必須消滅</strong>；一直以來嚮往的廣大、自由的世界，原來是個人吃人、充斥著難解仇恨的存在，為什麼自己要被迫接受使夢想粉碎的事實？為什麼要被迫承認牆內人類的犧牲失去了意義，承認自己一直追求的自由根本不存在？因此，<strong>這個世界必須毀滅</strong>(雖然這一項很顯然非常自私)。也許艾連的思路並非如此，但是這樣的解釋，我可以接受。</p>
+<br>
+
+<p>&emsp;&emsp;除了「追求自由」的動力外，也不能忽略始祖巨人的記憶──也就是宿命對他的影響。如果我們能看見未來將發生之事，我們還能無動於衷、憑著自由意志做選擇嗎？</p>
+<br>
+
+<img src="/2025/09/05/attack-on-titan-1/attack-on-titan-1.png" class="">
+<center><font color="cyan">艾連媽媽和時任調查兵團團長基斯。<br>圖片來源：截圖自Muse 木棉花 Youtube，</font><a href="https://www.youtube.com/watch?v=FLuyv76IYSA"><font color="cyan">連結</font></a></center>
+
+<br>
+
+<p>&emsp;&emsp;當艾連說「我是自由的」，意味著什麼？他是「自由」的奴隸，哪裡自由了？艾連一輩子受「追求自由」拘束，後期甚至被巨人的記憶套牢，稱不上自由。不過，看完整篇故事，卻覺得艾連也沒有說錯：由於他是最後一個始祖巨人、最後一個進擊的巨人，他所看見的巨人記憶中的未來，正是他自己創造的，因此他不受歷代巨人的影響，反而回過頭去影響歷代巨人(e.g. 古利夏)。艾連的宿命是自己創造的，可是這些創造也是宿命使然，這是一般人不可能擁有的體驗，而是神的體驗；艾連的自由，是神話裡神的自由。這種自由，我也不知道是不是自由。</p>
+<br>
+
+<p>&emsp;&emsp;飄得太高了，回到人間吧。動畫中，古利夏抱著嬰兒艾連，溫柔的對他說「你是自由的」，這一幕讓我難以忘懷。古利夏的原意應該是，在城牆內組建新家庭後，他不願讓發生在吉克身上的事重演，要讓艾連自由的成長、探索這個世界，和之後的發展形成鮮明對比。還有另一幕讓我印象深刻，就是調查兵團傷亡慘重的回到牆內，時任團長基斯碰到艾連媽媽時，艾連媽媽抱著小艾連說的話：</p>
+<br>
+
+<blockquote>
+<p>我覺得這孩子已經很偉大了，畢竟他可是出生到這世上了啊。</p>
+</blockquote>
+<br>
+
+<p>&emsp;&emsp;「出生」被宿命束縛著，卻蘊藏著各種美好的可能。艾連自始至終肯定自己的出生，和吉克的安樂死計畫形成對比。艾連肯定「出生」，並將「出生」作為追求自由的出發點；吉克否定「出生」，視「出生」為仇恨與痛苦的延續。我覺得，「出生」是這個美麗而殘酷的世界的象徵，它的意義，就像艾連與吉克所做的一樣，是由自己賦予。而艾連賦予「出生」的意義，就是在宿命的道路上戰鬥。</p>
+<h3 id="歷史的重蹈覆轍"><a href="#歷史的重蹈覆轍" class="headerlink" title="歷史的重蹈覆轍"></a>歷史的重蹈覆轍</h3><p>&emsp;&emsp;看「進擊的巨人」動畫時，尤其是第四季開始，畫風突變(<del>也有字面上的意思</del>)，我們得以從萊納、賈碧等「島外人」的視角，再次理解人類與巨人的戰爭。原來，「巨人」根本就不是敵人，而是武器，真正的敵人，還是人類；巨人的歷史，更能追溯自兩千年前，弗利茲王控制始祖尤彌爾作為戰爭兵器的時代。</p>
+<br>
+
+<p>&emsp;&emsp;從艾爾迪亞帝國到瑪雷帝國，壓迫與受壓迫的對象只是對調了，壓迫的本質卻不曾改變；帕拉迪島的王族雖然不願再涉入其中，然而巨人之力彷彿衝突與磨難的「座標」，引導著戰爭在帕拉迪島上爆發。巨人再度成為戰爭兵器，島內與島外的艾爾迪亞人再度受巨人之力擺布。當艾連突襲瑪雷的雷貝利歐收容區，大量居民死傷，其情其景與艾連小時候目睹巨人來襲的畫面，如出一轍。不管突襲的目的為何、對戰的雙方武力如何，<strong>手無寸鐵的人民被巨人殺死，是無法否認的事實</strong>。類似的場景還有，艾連化為進擊的巨人，與女巨人在牆內廝殺時，也導致大量平民的傷亡。<strong>人變成巨人，巨人吞噬平民，軍民死傷慘重</strong>，像這樣的事情，不斷在故事中反覆上演。</p>
+<br>
+
+<p>&emsp;&emsp;於是，當艾連發動地鳴進而消除巨人之力的時候，雖然導致末日，但是受到巨人血統詛咒的艾爾迪亞人，總算自詛咒解放了，對吧？至少，不再有巨人吞噬人，也不再有對巨人的恐懼，對吧？是這樣沒錯，但是這並不意味著，「吞噬」會消失，「恐懼」會斷絕。因為，消失的是巨人之力，而不是驅動巨人力量的人類意圖。</p>
+<br>
+
+<img src="/2025/09/05/attack-on-titan-1/attack-on-titan-rumbling.png" class="">
+<center><font color="cyan">氣勢磅礡、末日降臨的地鳴。圖片來源：截圖自Muse 木棉花 Youtube，</font><a href="https://www.youtube.com/watch?v=PbAYbxybJII"><font color="cyan">連結</font></a></center>
+
+<br>
+
+<p>&emsp;&emsp;完結篇後篇的end credits小格動畫，揭示了帕拉迪島之後的故事：經過幾百年的和平，這座島終究還是迎來了毀滅性的戰爭。難道歷史只能不斷重演一樣的劇碼嗎？當然！畢竟人類這幾千年來的故事已經說得很明白了，不管是戰爭、神話、信仰還是情愛，這些似乎是人類的構成，無法消除。似乎可以這麼說：<strong>這是人類的「本性」，除非你不當人類了，否則是必然的。</strong></p>
+<br>
+
+<p>&emsp;&emsp;但是這番話，<strong>調查兵團絕對不會認同</strong>！是啊，在城牆裡，民眾都質疑調查兵團的出兵是徒勞、沒有意義，因為過去所有的嘗試都以失敗與慘烈的犧牲告終，而且巨人被認定是壓倒性的強大，人類是不可能戰勝巨人的。對牆裡的「家畜」而言，城牆(安穩的過去與現狀)是唯一的依靠，即使它已經岌岌可危；一旦城牆被巨人攻破，只能坐以待斃。<font color="yellow">調查兵團則視城牆為根據地，帶著強烈的求知欲和不屈不撓的前進意志，趨向巨人，因為希望就在那裡，前進的道路就在那裡。</font></p>
+<br>
+
+<p>&emsp;&emsp;<strong>前進</strong>！我們對於自己、對於人類，又了解多少？不想行動，一個理由就夠了，但是做出行動，也是一個理由就夠了。更認識自己、更認識人類與這個世界，就是充分的理由。這也是為什麼，阿爾敏的初衷，得以堅持到最後，甚至在艾連毀滅世界後，依舊不墜。</p>
+<h3 id="身為艾爾迪亞人-瑪雷人-人類"><a href="#身為艾爾迪亞人-瑪雷人-人類" class="headerlink" title="身為艾爾迪亞人&#x2F;瑪雷人&#x2F;人類"></a>身為艾爾迪亞人&#x2F;瑪雷人&#x2F;人類</h3><p>&emsp;&emsp;有些人將帕拉迪島和臺灣島連結起來，並推及歷史與政治背景。的確，島嶼政權對人民曾經的思想控制，以及島嶼與大陸的歷史情結，讓臺灣人感觸頗深。但是這麼做卻相當於採用一方的視角，來觀看另一方。做一個臺灣人之前，首先得是一個人類，從人類的角度看「進擊的巨人」故事，我覺得更有意思。</p>
+<br>
+
+<p>&emsp;&emsp;作為一個人類，當然希望世界和平，沒有戰爭的發生，也沒有戰爭的必要。「進擊的巨人」世界裡，瑪雷帝國卻不斷的對外擴張，也許是覬覦他國資源，也許是忌憚他國侵略(所以先下手為強)，向各國宣戰。受到攻擊的帕拉迪島政權，也捨棄防守姿態，主動出擊瑪雷帝國。在這個階段，兩國的武力(主要是巨人)已經相當接近，因此阿爾敏、韓吉等人不斷尋思如何透過對話與談判來止戰。然而，兩方分別出了吉克和艾連兩個英雄式的人物，最終導致血腥的屠殺。從結果看來，世界確實獲得暫時的和平，代價卻是八成人口的逝去。</p>
+<br>
+
+<p>&emsp;&emsp;<strong>以核武器來比擬地鳴，我認為十分恰當</strong>，不論就能量、威懾程度還是用途而言。若非不得已，誰會想要使用核武器？如果沒有支持吉克的瑪雷義勇兵，以及擁護艾連的葉卡派，地鳴發動的時間會延後，甚至可能不會發動。而促成吉克與艾連順利接觸的瑪雷義勇兵與葉卡派，都是在<strong>沒有相互理解的情況下支持著各自的領袖</strong>。前者中多數人連吉克的想法都不清楚，只知道可以解決艾爾迪亞人的巨人問題，更不用說和帕島人討論吉克的理念(讓艾爾迪亞人絕育)；而後者並沒有與敵國(瑪雷)實質接觸，僅僅是懷抱著激烈的保衛國家的信念，而無條件支持艾連發動地鳴。<strong>地鳴是雙方無知的產物。</strong></p>
+<br>
+
+<p>&emsp;&emsp;於是，Mutual Assured Destruction (M.A.D.)，很不幸的，在「進擊的巨人」世界裡發生了。造成這個結果的，不僅瑪雷義勇兵和葉卡派，還有瑪雷帝國和帕島政權，以及世界上其他國家。不斷擴張的瑪雷帝國以及其他國家，為了島上的天然資源及巨人力量，敵視著帕島；而帕島的人們同樣敵視著世界，要把百年來的屈辱加倍奉還。雙方的敵意不斷疊加，在沒有宣洩出口的情況下，爆發為毀滅性的戰爭。只不過，和M.A.D.不太一樣的是，發起地鳴的帕島政權並沒有因此毀滅。</p>
+<br>
+
+<p>&emsp;&emsp;這讓我不禁想起，<strong>所謂「艾爾迪亞人的罪孽」，不就是艾爾迪亞人憑藉著強大的武力，對世界各國殘忍迫害的過去嗎</strong>？那麼，地鳴難道不能算是「帕拉迪島的罪孽」嗎？地鳴過後，帕拉迪島上的人們，面臨的恐怕不是葉卡派想得那麼簡單。</p>
+<br>
+
+<img src="/2025/09/05/attack-on-titan-1/seashore.jpg" class="">
+<center><font color="cyan">海的另一端是什麼？這個問題的答案，可以用一輩子來尋找。<br>拍攝自新竹十七公里海岸線。</font></center>
+
+<br>
+
+<p>&emsp;&emsp;完結篇後篇，也就是整部動畫的最後，帕島上艾爾迪亞人的女王希斯特莉亞總結道：</p>
+<br>
+
+<blockquote>
+<p>這場紛爭不會因為巨人之力消失而結束。…。我相信這個結果，並非是艾連一個人的選擇造成的，而是我們大家的選擇，最終引導我們來到這樣的世界。</p>
+<p>為了今後能夠不再需要戰鬥，我們現在必須投身於其中，就算必須過上從此與寧靜無緣的生活，…，在剩餘的時間裡，要如何活在這個<strong>沒有巨人的世界</strong>。</p>
+</blockquote>
+<br>
+
+<p>&emsp;&emsp;由希斯特莉亞(Historia)說出這番話，特別有意義，因為那象徵著人類會向歷史學習。然而，End credits動畫說明，數百年後，人類科技進步，戰爭卻依舊發生，只因巨人之力的消失早已成為遙遠的記憶，失去意義。不曉得那數百年之間，人類是否通力合作、努力嘗試互相理解，艾爾迪亞人、瑪雷人以及其他族群，是否有了喘息空間，可以直抒胸臆、對彼此提問，就像調查兵團和瑪雷戰士在森林的營火對話一樣，嘗試著走出森林？</p>
+<br>
+
+<p>&emsp;&emsp;這番話也提起歷史「共業」，歷史並非神話，不是一個人可以創造的，而是人類共同造成的。科學與工程的發展也好，暴行與大屠殺亦然，作為構成歷史一部份的我們，無法逃避那一份責任。什麼責任？就是作為歷史的一部份，延續那份記憶、對此做出回應與行動。歷史是一個巨人，而我們共同擁有著這份巨人記憶，就是如此。</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;「進擊的巨人」是非常好的作品，不管從娛樂性、藝術性還是帶給我們的思考而言。對讀者而言，「進擊的巨人」作品本身像是巨人，破壞了我們觀念上的牆，也給了我們出牆探索的機會。僅僅是機會，要不要出牆，完全取決於我們；出了牆，還要摸索著走出森林，否則，暴力與毀滅將是我們唯一見到的風景。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>&emsp;&emsp;這篇文章是剛看完動畫後寫就，深入的程度、理解的廣度不及其他心得和討論。下面列出一些精采的文章&#x2F;討論，一個作品能帶出這麼多的思考，非常的厲害，而它的偉大，則要以我們這些讀者的行動來證明。</p>
+<br>
+
+<p><a href="https://forum.gamer.com.tw/C.php?bsn=43473&snA=13758">【最終季】致2023年後的你～巨人動畫完結編結局解析和常見問題釋疑</a><br><a href="https://forum.gamer.com.tw/C.php?bsn=43473&snA=13109">【心得】(雷) 有關艾連的「自由」，以及艾連想發動地鳴的理由</a><br><a href="https://forum.gamer.com.tw/Co.php?bsn=60037&sn=1081810">【討論】在這裡呼籲大家，政治就是政治，作品就是作品啊——論關於虛構作品中的政治</a><br><a href="https://filmaholic.tw/series/655ad29bfd89780001ac3845/">釀電影：《進擊的巨人》完結篇──接下來的答案與歷史，將由我們繼續填寫</a></p>
+]]></content>
+      <categories>
+        <category>讀後隨想</category>
+      </categories>
+      <tags>
+        <tag>政治</tag>
+        <tag>動漫</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>讀後隨想：「克蘇魯神話 I 呼喚」</title>
+    <url>/2025/06/23/lovecraft-reading/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><br>
+
+<p><img src="https://m.media-amazon.com/images/M/MV5BZmM5ZGQyNTItZGRhOC00YTk5LThiMzktYTdjZWE4NmJlOGE0XkEyXkFqcGc@._V1_FMjpg_UX1280_.jpg?600x" alt="Netflix愛x死x機器人截圖"></p>
+<center><font color="cyan">Netflix影集「愛x死x機器人」其中一集「In Vaulted Halls Entombed」，嘗試動畫化克蘇魯恐怖。<br>圖片來源：IMDb, </font><a href="https://www.imdb.com/title/tt20239438/?ref_=mv_close"><font color="cyan">連結</font></a></center>
+
+<br>
+
+<p>&emsp;&emsp;H.P. Lovecraft的作品總是那個調調：陰暗寒冷的新英格蘭地區，潮濕的沼澤與濃密的樹林之間，遊蕩著比地球還要古老的、純粹邪惡的存在。十篇裡面，有七篇都是這樣寫的。但是讀著讀著，這些形象便愈來愈鮮明，讀者愈來愈無法置身事外…。然而這也是他獨特的風格。</p>
+<span id="more"></span>
+
+<h2 id="書籍資訊"><a href="#書籍資訊" class="headerlink" title="書籍資訊"></a>書籍資訊</h2><ul>
+<li>書名：「克蘇魯神話 I：呼喚」</li>
+<li>作者：洛夫克拉夫特(L.P. Lovecraft)</li>
+<li>譯者：姚向輝</li>
+<li>出版：奇幻基地出版&#x2F;城邦文化，2021&#x2F;06，<a href="https://www.eslite.com/product/1001131382682018350001?srsltid=AfmBOoqtRGLF6rWDXxEPA7j6a_GoR4kmD3xZYotALXiQLi8w4eqmDQka">網路連結</a></li>
+</ul>
+<h2 id="隨想"><a href="#隨想" class="headerlink" title="隨想"></a>隨想</h2><p>&emsp;&emsp;輯 I 收錄了八篇短篇，這邊只談其中兩篇：「黑暗中的低語」和「敦威治恐怖事件」。</p>
+<h3 id="「黑暗中的低語-The-Whisperer-in-Darkness-」"><a href="#「黑暗中的低語-The-Whisperer-in-Darkness-」" class="headerlink" title="「黑暗中的低語 (The Whisperer in Darkness)」"></a>「黑暗中的低語 (The Whisperer in Darkness)」</h3><p>&emsp;&emsp;「希望我沒有過份的打擾您，也希望您最終會決定聯繫我，而不是將這封信當作瘋子的胡言亂語扔進廢紙簍裡。」小說裡，居住在深山中的埃克利在信裡這麼寫道。讀者以威爾瑪斯的第一人稱視角，一邊審視埃克利寄來的信與物品，一邊結合自己在人類學、民間文化的知識來思考，一步一步踏入可怕的真實。</p>
+<br>
+
+<p>&emsp;&emsp;Lovecraft的作品裡，主角大多受過高等教育，面對異常現象，還是驚恐莫名。這是為了告訴讀者，接下來的恐怖情節，並非憑藉人類的知識就能輕易除魅；這些恐怖已經超越了現有科學的疆界，如果說科學是現代人依靠的最後堡壘，Lovecraft大概會和讀者這麼說：「你終究要走出這個堡壘的吧？看你的眼神，已經被堡壘外頭更廣闊的世界吸引住了不是嗎？」書中的主角，包括這篇作品裡的威爾瑪斯，都是因為強烈的好奇心、以及對知識邊界的探究精神，而步上無法回頭的道路，可謂「不作死不會死」。</p>
+<br>
+
+<p>&emsp;&emsp;話說回來，探索未知、向人類知識的邊界航行，難道不是人類的天性嗎？當然，也不是所有人都富有探險精神，我就沒有。不過，正是因為這些勇於嘗試、勇往直前的探險家，我們對世界的認識才能愈來愈完整。Lovecraft也是其中之一，若沒有這些作品描述克蘇魯神話的巨大與無以名狀，我們對於這些巨大與無以名狀的感受也會感到陌生；就好像「香草」口味之於冰淇淋一般，Lovecraft的創作讓我們對恐懼的口味變得明確，無形中，成為我們面對可怕事物時，可以依憑的堡壘。(<font color="yellow">試想，在神聖而禁忌的城市阿萊耶見到克蘇魯本尊時，心裡喃喃道『啊，我知道，這個就是克蘇魯』XD</font>)</p>
+<br>
+
+<p>&emsp;&emsp;對我來說，這篇作品最可怕之處，要屬威爾瑪斯來到深山裡的埃克利家，兩人促膝長談的那段。闃暗的房間裡，虛弱的埃克利躺在安樂椅上，一動也不動，向威爾瑪斯述說著從宇宙深處前來地球的存在，散發出的怪異氣味、詭異的嘶啞語氣，讓來訪的威爾瑪斯渾身毛骨悚然：</p>
+<br>
+
+<blockquote>
+<p>(埃克利)他的病況應該激起我的憐憫，實際上卻讓我毛骨悚然。他的身體那麼僵硬，毫無生氣，像一具屍體，而那持續不斷的低語聲又那麼可憎，完全不像人類！  </p>
+<p align="right">──摘自「黑暗中的低語」</p></blockquote>
+<br>
+
+<p>&emsp;&emsp;讀到這裡時，我就有預感埃克利異狀下隱藏的真相了，但是作者不打算立刻揭發，而是讓主角威爾瑪斯繼續那個夜晚的可怕經歷，直到最後才揭露那張安樂椅上的驚悚假象。雖然有點老套，但是讀著還是令人不禁心頭一縮，對埃克利的遭遇感到既好奇又畏懼。</p>
+<br>
+
+<p>&emsp;&emsp;我也不得不佩服Lovecraft對於「桶中大腦」的構想，相當的前衛啊！不知道他是第一個描述這樣想法的人，還是受到其他人的影響。不過，作者沒有提及這些外星活物的真正目的，將大腦脫離軀體、放進桶裡後，外星活物會依埃克利所言，帶著人類的意識一窺宇宙的終極真相嗎？還是物盡其用，享用人類的意識能量完，再利用殘餘的軀體誘騙更多人獻身？小說裡沒有交代，讓讀者即使知道了這麼多，還是感覺被蒙在鼓裡，沒有意識到可怕計畫的真正目的。</p>
+<br>
+
+<p><img src="https://upload.wikimedia.org/wikipedia/en/b/bd/Town_of_derry.png" alt="it-derry-main-stephen-king"></p>
+<center><font color="cyan">電影「牠」的背景設定在新英格蘭地區的緬因州。<br>我最喜歡的小說家之一，Stephen King，本人就是來自緬因州。<br>圖片來源：Wikipedia，電影截圖 </font><a href="https://en.wikipedia.org/wiki/Derry_%28Stephen_King%29"><font color="cyan">連結</font></a></center>
+
+<br>
+
+<h3 id="「敦威治恐怖事件-The-Dunwich-Horror-」"><a href="#「敦威治恐怖事件-The-Dunwich-Horror-」" class="headerlink" title="「敦威治恐怖事件 (The Dunwich Horror)」"></a>「敦威治恐怖事件 (The Dunwich Horror)」</h3><p>&emsp;&emsp;又是發生在新英格蘭地區的恐怖事件：山谷中的維特利家住著一對古怪的父女，某天女兒誕下新生，但是這個新生命擁有某些絕非地球上尋常生物會有的特質。維特利家的新成員，威爾伯，生長異常迅速，面容怪異，為了異教儀式的需要，他走訪各地的圖書館，期望找到一本名為「死靈之書」的狂語典籍(這本書屢次在Lovecraft的作品中出現，可以說是克蘇魯神話中的聖經吧)，卻在圖書館遭受攻擊，現出原形，自此山谷裡的敦威治便發生多起慘劇…。</p>
+<br>
+
+<p>&emsp;&emsp;小說裡描述圖書館裡遭受攻擊的活物軀體時，是這樣形容的：</p>
+<br>
+
+<blockquote>
+<p>說人類的筆力無法描述它不但老套，而且也不盡準確，然而任何人，只要他對形狀和輪廓的概念還被這顆星球上的普通生命和僅僅三個已知維度束縛著，就不可能形象而生動地想像它的樣子。  </p>
+<p align="right">──摘自「敦威治恐怖事件」</p></blockquote>
+<br>
+
+<p>&emsp;&emsp;有沒有「牛之首」或「鮫島事件」的感覺呢？其實做法都差不多，不正面描述，反而是旁敲側擊、從其他角度側面形容；此時讀者完全沒有第一手的感受，只能從當事人的反應、常識與認知被破壞的程度，來體驗「二手」的恐懼。這樣的恐懼，反而更為普遍、能觸動到更多人，原因沒有別的，正是因為恐怖的細節完全操之於我們的想像，每個人都可以在腦海裡創造出自己認為最可怕的畫面。另一方面，這一層「不知道」的認知，也是Lovecraft作品一貫的作法：未知的恐怖，最為恐怖。</p>
+<br>
+
+<p>&emsp;&emsp;這讓我想起數學家、律師費馬(Fermat，1601 ~ 1665)著名的那句話：「我發現了一個非常漂亮的證明，但這裡沒有足夠的空間寫下。」沒錯，就是釣胃口嘛！費馬這個未填補的洞，吸引了幾百年來無數數學家躍身而入，直到上世紀才解決。同樣的，Lovecraft也在讀者最渴望細節描述的時候，將讀者的視線撇開，說：「<font color="yellow">眼前就是人類理智無法理解的恐怖了，但是即使看到了也無法以文字形容。</font>」這不是更讓人想要一窺究竟了嗎？正是這份好奇與求知的衝動，提升了恐懼的強度。</p>
+<br>
+
+<p>&emsp;&emsp;話說回來，這篇的風格比較偏向鄉野民俗、黑暗魔法一類，克蘇魯神話的成分(相較於其他篇)較少，算是書裡我認為比較沒有特色的一篇。那為什麼還是講這篇呢？嗯，我也不知道。</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;小時候，我很常做一種夢。這個夢沒有劇情，也沒有任何角色，更準確的說，不是夢，更像是入睡後一種精神上的體驗。意識在睡意中載浮載沉，忽然，一個異常龐大、轟隆運轉的精密機械倏地佔據腦海裡所有空間。機械的全貌無法看清，只能感知到齒輪嵌合、軸承轉動的細節；機械實在過於龐大，導致意識被它的存在壓迫得緊張起來，開始心悸，但是沒多久，腦海就恢復澄清，什麼也沒有。一直以來，我無法說明清楚這個奇怪的體驗到底是什麼，無以名狀。於是，當我認識到Lovecraft的作品，便好像尋覓到知音，碰觸到一個古老卻似曾相識的世界。</p>
+<br>
+
+<p>&emsp;&emsp;書衣的封底引用Lovecraft的一句話：</p>
+<br>
+
+<blockquote>
+<p>The oldest and strongest emotion of mankind is fear; and the oldest and strongest kind of fear is fear of the unknown.</p>
+</blockquote>
+<br>
+
+<p>&emsp;&emsp;也許並不是所有人都能感染到Lovecraft作品裡的可怕氣息，但是Lovecraft的這句話，我認為說出了恐懼的本質。時至今日，各類創作中的恐怖元素之繽紛多元，早已不可同日而語，不過，所有的恐怖元素都奠基在某個什麼之上，而這個什麼，隱藏在我們的意識深處──<font color="red">那是什麼？我不知道！</font></p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>無。</p>
+]]></content>
+      <categories>
+        <category>讀後隨想</category>
+      </categories>
+      <tags>
+        <tag>閱讀</tag>
+        <tag>文學</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>論文閱讀：Log-normal Shadowing</title>
+    <url>/2025/05/29/paper-why-lognormal-shadowing/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;還記得在large-scale fading的通道模型中，將path loss model為一個log-normal的隨機變數(或是以距離$x$為自變數的隨機過程)嗎？但是為什麼用log-normal來model，而不是其他的分布呢？這篇論文嘗試回答這個問題。</p>
+<span id="more"></span>
+
+<h2 id="論文資訊"><a href="#論文資訊" class="headerlink" title="論文資訊"></a>論文資訊</h2><ul>
+<li>論文標題：<strong>Why is Shadow Fading Lognormal?</strong></li>
+<li>作者：J. Salo, L. Vuokko and P. Vainikainen, Radio Laboratory&#x2F;SMARAD, Helsinki University of Technology</li>
+<li>發表：<em>Proc. International Symposium on Wireless Personal Multimedia Communications</em>, Sept. 18-22, 2005, pp. 522-526</li>
+<li>關鍵字：沒有提供</li>
+</ul>
+<h2 id="論文內容"><a href="#論文內容" class="headerlink" title="論文內容"></a>論文內容</h2><p><img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Helsingin_ydinkeskustaa_ja_Mannerheimintien_alkup%C3%A4%C3%A4t%C3%A4_Erottajan_paloaseman_tornista_%28cropped%29.jpg" alt="helsinki-view"></p>
+<center><font color="cyan">赫爾辛基。這篇論文是赫爾辛基理工大學的團隊所寫。<br>圖片來源：Otso Kivekäs, via Wikimedia Commons </font><a href="https://upload.wikimedia.org/wikipedia/commons/3/37/Helsingin_ydinkeskustaa_ja_Mannerheimintien_alkup%C3%A4%C3%A4t%C3%A4_Erottajan_paloaseman_tornista_%28cropped%29.jpg"><font color="cyan">連結</font></a></center>
+
+<br>
+
+<p>&emsp;&emsp;教科書裡通常用<strong>相乘模型</strong>(multiplicative model)來解釋lognormal shadow fading的由來，但是這個解釋有幾個缺點：</p>
+<ol>
+<li><p>過去的論文指出，path loss取對數後若要趨近於常態分佈，則需要大量的attenuation factors，而這很難從實際的傳播環境驗證。</p>
+</li>
+<li><p>過去的論文指出，如果相乘模型是對的，則path loss應該是(與Tx)距離的指數函數。然而實證的資料卻支持path loss是距離的冪函數(power function)。</p>
+</li>
+<li><p>若相乘模型是對的，則隨著距離增加，path loss r.v.的變異數應該要隨之增加，因為random attenuation factors的數量也增加了。但是實證的資料顯示這個變異數幾乎和距離無關。</p>
+</li>
+</ol>
+<p>&emsp;&emsp;於是論文提及幾篇其他論文的想法，比如說[1]這篇論文提出time-variant multiple scattering的理論，佐以森林和郊區的資料為證；還有一篇論文[2]用反射(也就是additive而非multiplicative)來解釋LOS microcell的lognormality，只可惜沒有推廣到其他傳播環境，也沒有理論上的驗證。</p>
+<p>&emsp;&emsp;因此，這篇論文呈現<font color="yellow"><strong>additive cluster-based model</strong></font>，並且提供理論上的驗證。首先區分兩種shadow fading的模型：<strong>path loss dependent</strong>和<strong>path loss independent</strong>。</p>
+<ul>
+<li><p><font color="cyan">Path loss dependent</font>：獲得實證資料(比如說實驗結果)後，假設一個函數模型(比如說linear in dB)，再用fitting的方式確立模型，而residual error則model為隨機變數。因此，這種shadow fading的模型(隨機變數的分布)和假設的函數模型，以及fitting的方法相關，因為同樣的資料，只要假設不同函數、使用不同fitting方法，residual error的分布就會不同。</p>
+</li>
+<li><p><font color="cyan">Path loss independent</font>：主要關注<strong>local mean signal power</strong>，通常是在一個點附近取sliding median。這個local mean rx power的變動也經常被model為lognormal的隨機變數。</p>
+</li>
+</ul>
+<p>&emsp;&emsp;這篇論文關注的是第二種，path loss independent的shadow fading模型，因為這個模型不預設path loss的函數模型。以下是理論及驗證。</p>
+<p>&emsp;&emsp;假設在某一點接收到的訊號是從$N$個cluster而來(透過反射與散射等)，$N$固定為常數。在某點$x$的narrow-band channel impulse response可以表示為</p>
+<p>$$<br>h(x) &#x3D; \frac{1}{\sqrt{\mu_N}} \sum_{n &#x3D; 1}^{N}{w_n(x)g_n(x)}<br>$$</p>
+<p>&emsp;&emsp;$w_n$是大於零的權重，$g_n$是zero mean、unit variance、circularly symmetric的i.i.d complex Gaussian r.v.。這個response是normalized power的，即</p>
+<p>$$<br>E[\sum_{n &#x3D; 1}^{N}{w_n^2}] &#x3D; \mu_N<br>$$</p>
+<p>&emsp;&emsp;一般來說，$w_n$會隨著$x$的變化而變動。不過，在幾個波長內的範圍裡(所謂的local area)，$w_n(x) \approx w_n$。又由於$g_n(x)$是i.i.d r.v.(或random process)，可以得到h(x)的分布：</p>
+<p>$$<br>h(x) \sim \sqrt{\frac{1}{\mu_N}\sum_{n &#x3D; 1}^{N}{w_n^2}} g(x) &#x3D; \sqrt{m} g(x)<br>$$</p>
+<br>
+
+<p><img src="/uploads/images/why-lognormal-local-area.png?450x" alt="local_area.png"></p>
+<center><font color="cyan">local area的概念。圖片來源：此篇論文</font></center>
+
+<br>
+
+<p>&emsp;&emsp;事實上，等號右邊是一個<font color="yellow">spherically invariant random process</font>，也有用在其他模型中。由此，local mean power即為</p>
+<p>$$<br>\begin{align}<br>E[20\log{(|h(x)|)}] &amp;&#x3D; E[10\log{(m)} + 20\log{(|g(x)|)}] \\<br>                    &amp;&#x3D; m_{dB} + 20E[\log{(|g(x)|)}] \\<br>                    &amp;&#x3D; m_{dB} - 2.51<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;上式中第二項是一個log-Rayleigh的隨機變數的期望值，算出來就是$-2.51 dB$。第一項則是local mean power，在local area內為常數。那麼在local area的附近(extended local area)，local power &#x3D; $10\log{(m)}$作為一個隨機變數，其分佈為何？有了下面三項前提，我們可以用常態分佈來近似local power的分佈。</p>
+<br>
+
+<blockquote>
+<p>A1. 當$N \rightarrow \infty$，則$m$的分佈收斂到常態分佈。(中央極限定理)<br>A2. 對於所有$N$，$E[m] &#x3D; 1$。(normalized power)<br>A3. $\lim_{N \rightarrow \infty}{Var[m]} &#x3D; 0$</p>
+</blockquote>
+<blockquote>
+<p><ins><strong>Theorem 1</strong></ins><br>考慮一個連續可微函數，$y &#x3D; f(x)$，若A1 ~ A3的前提為真，則隨機變數$y &#x3D; f(m)$漸進式(asymptotically)的近似於常態分佈，且$E[y] &#x3D; f(1)$，$Var[y] &#x3D; Var[m][f’(1)]^2$。</p>
+</blockquote>
+<br>
+
+<p>&emsp;&emsp;這個定理的證明與推導，論文沒有提供，只是說相關的證明可以從一本time series的書裡找到。之後有空再來嘗試推導。Theorem 1的結論告訴我們，不論cluster power($w_n^2$)的分佈是什麼，最後得到的signal power(dB)都是lognormal分佈的，而且這個lognormal的部分和Tx-Rx距離無關。</p>
+<p>&emsp;&emsp;論文的後半部描述電腦模擬的方法與結果，以及一些實際量測的結果，和理論相當一致。量測結果可能資料量不夠大，pdf的曲線看不出吻合的程度。</p>
+<h2 id="讀後想法"><a href="#讀後想法" class="headerlink" title="讀後想法"></a>讀後想法</h2><p>&emsp;&emsp;這篇論文篇幅很短，只有五頁，我卻寫了這麼多字，看來講重點的功力還不到。精煉短小的一篇論文，數學的部分也不會太複雜，不過需要更大量的資料來佐證。之後可能會用MATLAB來模擬看看。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[1] J.B. Andersen and I.Z. Kov&aacute;cs, “Power distributions revisited,” in <em>Proc. COST273 3rd Management Committee Meeting</em>, Jan. 17-18,2002.</p>
+<p>[2] S.A. Abbas and A.U. Sheikh, “On understanding the nature of slow fading in LOS microcellular channels,” in _Proc. 47th IEEE Veh. Tech. Conf., vol.2, 1997, pp.662–666.</p>
+]]></content>
+      <categories>
+        <category>通訊技術</category>
+      </categories>
+      <tags>
+        <tag>無線通訊</tag>
+        <tag>Modeling</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>test</title>
+    <url>/2025/03/20/test/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>Nothing. Just a test.</p>
+]]></content>
+      <tags>
+        <tag>test</tag>
       </tags>
   </entry>
 </search>
