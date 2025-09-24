@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>在Hexo自由設定圖片的大小</title>
-    <url>/2025/04/27/Hexo-image-resize/</url>
+    <url>/%E7%B6%B2%E9%A0%81%E5%89%8D%E7%AB%AF/Hexo-image-resize/</url>
     <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>&emsp;&emsp;寫文章的時候要貼上圖片，這時候可以使用 Markdown 語法：<code>![&#123;imag name&#125;](&#123;url&#125;)</code>，可惜這樣寫並不能任意調整圖片的尺寸。因此在網路上搜尋一陣，找到<a href="https://bobcn.github.io/2018/03/24/hexo_reset_image_size/">這位的作法</a>。以下簡單說明。</p>
 <span id="more"></span>
 
@@ -24,7 +24,7 @@
   </entry>
   <entry>
     <title>在網誌加上Live2D看板娘</title>
-    <url>/2025/04/22/add-live2d/</url>
+    <url>/%E7%B6%B2%E9%A0%81%E5%89%8D%E7%AB%AF/add-live2d/</url>
     <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>&emsp;&emsp;記得以前有看過別人的網誌加上了一個會動的看板娘，就覺得「哎這什麼啊太有味道了」，瀏覽網誌的時候，碰到無聊的段落或是需要思考的段落，游標就可以去逗弄角落的看板娘，很有趣不是嗎？</p>
 <span id="more"></span>
 
@@ -51,7 +51,7 @@
   </entry>
   <entry>
     <title>讀後隨想：「動物農莊」</title>
-    <url>/2025/06/15/animal-farm-reading/</url>
+    <url>/%E8%AE%80%E5%BE%8C%E9%9A%A8%E6%83%B3/animal-farm-reading/</url>
     <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>&emsp;&emsp;這本書已經借了很久，最近要還了，所以趕快把書看一看。篇幅不長、翻譯的精準、口語且節奏明快，所以很快就看完。畢竟是歐威爾的作品，看完也很有感觸，於是馬上寫下這篇熱騰騰的讀後隨想。這也是我的網誌上第一篇讀後隨想，所以內容之生嫩可期。</p>
 <span id="more"></span>
 
@@ -160,7 +160,7 @@
   </entry>
   <entry>
     <title>讀後隨想：「美麗新世界」</title>
-    <url>/2025/06/16/brave-new-world-reading/</url>
+    <url>/%E8%AE%80%E5%BE%8C%E9%9A%A8%E6%83%B3/brave-new-world-reading/</url>
     <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><br>
 
 <p><img src="https://m.media-amazon.com/images/M/MV5BMjY1ZDI1OTQtZTQ2MS00OTAxLThjMjUtN2FlMjFiMDI3Njk0XkEyXkFqcGc@._V1_FMjpg_UX1280_.jpg?500x" alt="fifteen-million-pts"></p>
@@ -295,7 +295,7 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
   </entry>
   <entry>
     <title>Welcome to R.S. Random Space!</title>
-    <url>/2025/04/26/hello-world/</url>
+    <url>/uncategorized/hello-world/</url>
     <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="What"><a href="#What" class="headerlink" title="What?"></a>What?</h2><p>&emsp;&emsp;這裡是我的個人網誌，發表和文學、音樂、電影、科學、工程等等相關的各種雜七雜八東西的地方，一個相當「隨機」的發表空間。</p>
 <span id="more"></span>
 
@@ -308,7 +308,7 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
   </entry>
   <entry>
     <title>讀後隨想：「進擊的巨人」</title>
-    <url>/2025/09/05/attack-on-titan-1/</url>
+    <url>/%E8%AE%80%E5%BE%8C%E9%9A%A8%E6%83%B3/attack-on-titan-1/</url>
     <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>&emsp;&emsp;這幾天把「進擊的巨人」動畫看完(S1 ~ S4 + 完結篇)，看了不少其他人的感想+解讀，所以我也想要分享我的感想；當然，不能說完全是原創的，因為看過他人評論，必然摻雜他人的見解。這篇文章主要分享看完動畫的想法，我沒有看過原作漫畫。</p>
 <br>
 
@@ -449,7 +449,7 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
   </entry>
   <entry>
     <title>讀後隨想：「克蘇魯神話 I 呼喚」</title>
-    <url>/2025/06/23/lovecraft-reading/</url>
+    <url>/%E8%AE%80%E5%BE%8C%E9%9A%A8%E6%83%B3/lovecraft-reading/</url>
     <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><br>
 
 <p><img src="https://m.media-amazon.com/images/M/MV5BZmM5ZGQyNTItZGRhOC00YTk5LThiMzktYTdjZWE4NmJlOGE0XkEyXkFqcGc@._V1_FMjpg_UX1280_.jpg?600x" alt="Netflix愛x死x機器人截圖"></p>
@@ -537,7 +537,7 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
   </entry>
   <entry>
     <title>論文閱讀：Log-normal Shadowing</title>
-    <url>/2025/05/29/paper-why-lognormal-shadowing/</url>
+    <url>/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-why-lognormal-shadowing/</url>
     <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;還記得在large-scale fading的通道模型中，將path loss model為一個log-normal的隨機變數(或是以距離$x$為自變數的隨機過程)嗎？但是為什麼用log-normal來model，而不是其他的分布呢？這篇論文嘗試回答這個問題。</p>
 <span id="more"></span>
 
@@ -612,7 +612,7 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
   </entry>
   <entry>
     <title>test</title>
-    <url>/2025/03/20/test/</url>
+    <url>/uncategorized/test/</url>
     <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>Nothing. Just a test.</p>
 ]]></content>
       <tags>
