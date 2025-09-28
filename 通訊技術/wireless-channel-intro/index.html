@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://drive.google.com/thumbnail?id=1xfPw463taYDojhSCxbfNacVEOiCzBUy2&sz=w1024">
 <meta property="og:image" content="https://drive.google.com/thumbnail?id=1rnm_DuZDsLbdOcooNlbJDJFipG3gwk_o&sz=w1024">
 <meta property="article:published_time" content="2025-04-28T03:37:14.000Z">
-<meta property="article:modified_time" content="2025-09-28T13:15:57.571Z">
+<meta property="article:modified_time" content="2025-09-28T13:47:24.719Z">
 <meta property="article:author" content="Raymond Su">
 <meta property="article:tag" content="Modeling">
 <meta property="article:tag" content="無線通道">
@@ -252,7 +252,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-09-28 21:15:57" itemprop="dateModified" datetime="2025-09-28T21:15:57+08:00">2025-09-28</time>
+      <time title="修改時間：2025-09-28 21:47:24" itemprop="dateModified" datetime="2025-09-28T21:47:24+08:00">2025-09-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -308,7 +308,7 @@
 <p>&emsp;&emsp;無線通訊系統在終端無須佈線、建置成本降低，同時增加使用者數量，這些是它的優勢。不過無線通訊還有一點是有線通訊無法企及的，就是移動性(mobility)，不論是行動通訊、衛星通訊還是車聯網、IoT，只要通信雙方有相對運動，都要求滿足移動性的通訊方式。因此，無線通訊仍是值得深入研究的主題。(當然有線通訊也有其重要性，尤其是硬體間資料傳輸，如 GPU 和 memory 之間的通訊，便是現在非常重要的研究領域)</p>
 <br>
 
-<p>&emsp;&emsp;無線通訊(wireless)和有線通訊(wireline)的物理傳輸介質──傳輸通道，有著非常不一樣的特性。有線通訊使用傳輸線或光纖作為傳輸通道，傳輸線的話要考慮線路阻抗、符號間干擾(頻率響應)、串擾(cross-talk)等問題；無線通訊使用空氣&#x2F;大氣作為傳輸通道，除了各種反射、散射與繞射等大規模衰減(large-scale fading)效應之外，由於通訊雙方會有相對運動，通道基本上是時變的(time variant)，還要考慮Doppler shift、delay spread和angle spread等問題。無線通訊的通道比起有線通訊，挑戰更巨大。</p>
+<p>&emsp;&emsp;無線通訊(wireless)和有線通訊(wireline)的物理傳輸介質──傳輸通道，有著非常不一樣的特性。有線通訊使用傳輸線或光纖作為傳輸通道，傳輸線的話要考慮線路阻抗、符號間干擾(頻率響應)、串擾(cross-talk)等問題；無線通訊使用空氣&#x2F;大氣作為傳輸通道，除了各種反射、散射與繞射等大規模衰減(large-scale fading)效應之外，由於通訊雙方會有相對運動，通道基本上是時變的(time variant)，還要考慮Doppler shift、delay spread和angle spread等問題，是為小規模衰減(small-scale fading)。無線通訊的通道比起有線通訊，挑戰更巨大。</p>
 <br>
 
 <p>&emsp;&emsp;接著我們就來討論無線通道面臨的兩大挑戰：large-scale fading 及 small-scale fading。</p>
@@ -357,7 +357,7 @@
 <p>$$<br>\Delta \approx \frac{h^2}{2} \frac{(d_1 + d_2)}{d_1 d_2}<br>$$</p>
 <p>&emsp;&emsp;以及相位差 $\phi &#x3D; 2\pi\Delta&#x2F;\lambda$。如果我們定義Fresnel-Kirchoff difraction parameter $\nu$ 為</p>
 <p>$$<br>\nu &#x3D; h\sqrt{\frac{2(d_1 + d_2)}{\lambda d_1 d_2}}<br>$$</p>
-<p>&emsp;&emsp;則相位差可以表示為 $\phi &#x3D; \pi\nu^2&#x2F;2$。當距離差為 $\lambda&#x2F;2$，也就是相位差為 $\pi$ 時，LOS和經過繞射的成分疊加起來，會產生破壞性干涉(接收到的訊號強度為零)；同樣的，當距離差為 $\lambda$ 時，會產生建設性干涉(接收到的訊號強度為兩倍)。由此，我們建立Fresnel zone的概念：Fresnel zone用來表示障礙物位置對繞射訊號強度的影響。第n個Fresnel zone circle的半徑可以表示為(假設 $d_1, d_2 \gg r_n$)：</p>
+<p>&emsp;&emsp;則相位差可以表示為 $\phi &#x3D; \pi\nu^2&#x2F;2$。當距離差為 $\lambda&#x2F;2$，也就是相位差為 $\pi$ 時，LOS和經過繞射的成分疊加起來，會產生破壞性干涉(接收到的訊號振幅為零)；同樣的，當距離差為 $\lambda$ 時，會產生建設性干涉(接收到的訊號振幅為兩倍)。由此，我們建立Fresnel zone的概念：Fresnel zone用來表示障礙物位置對繞射訊號強度的影響。第n個Fresnel zone circle的半徑可以表示為(假設 $d_1, d_2 \gg r_n$)：</p>
 <p>$$<br>r_n \approx \sqrt{\frac{n\lambda d_1 d_2}{d_1 + d_2}}<br>$$</p>
 <br>
 <img src="https://drive.google.com/thumbnail?id=1-e4Z1KV-4bRr8QJoBY4k14EdUPkNJYSF&sz=w1024" width="550">
@@ -373,15 +373,15 @@
 <p>$$<br>\Gamma_{rough} &#x3D; \rho_s \Gamma<br>$$</p>
 <p>&emsp;&emsp;其中 $\rho_s$ 為scattering loss factor。還有一種模型叫做radar cross section model (RCS)，描述的是「對著Rx散射過來的訊號功率密度」和「打在散射物體上的訊號功率密度」的比值，單位為平方公尺，那這個就不多說。</p>
 <h3 id="經典的large-scale-model"><a href="#經典的large-scale-model" class="headerlink" title="經典的large-scale model"></a>經典的large-scale model</h3><p>&emsp;&emsp;最經典的large-scale model要屬log-normal shadowing模型。剛才提到large-scale propagation會碰到反射、繞射與散射等等現象，而這些現象又和Tx、Rx所處環境密切相關，不同環境會有不同的shadowing效果。為了方便分析與模擬，科學家提出更一般的模型──log-normal shadowing model，如下：</p>
-<p>$$<br>PL(d) (dB) &#x3D; \overline{PL}(d_0) + 10\log{\frac{d}{d_0}} + X_{\sigma}<br>$$</p>
-<p>&emsp;&emsp;其中 $X_{\sigma} \sim N(0, \sigma^2)$。可以見得，這個模型不再假設接收訊號的功率和距離平方成反比，而是將exponent設為n；實證資料顯示，在free space n &#x3D; 2，但是在都會區n &#x3D; 2.7 ~ 3.5，換句話說，不同的環境也會指示出不同的n。這個模型有兩個參數，n 和 $\sigma$，因此可以將某環境下量測到的 $PL(d)$ 作為資料，以線性回歸(with least-squares method)的方式得出 n 和 $\sigma$。</p>
+<p>$$<br>PL(d) (dB) &#x3D; \overline{PL}(d_0) + 10n\log{\frac{d}{d_0}} + X_{\sigma}<br>$$</p>
+<p>&emsp;&emsp;其中 $X_{\sigma} \sim N(0, \sigma^2)$。可以見得，這個模型不再假設接收訊號的功率和距離平方成反比，而是將exponent設為n；實證資料顯示，在free space n &#x3D; 2，但是在都會區n &#x3D; 2.7 ~ 3.5，換句話說，不同的環境也會指示出不同的n。這個模型有兩個參數，n 和 $\sigma$，其中 $\sigma$ 代表shadowing的隨機性，因此可以將某環境下量測到的 $PL(d)$ 作為資料，以線性回歸(with least-squares method)的方式得出 n 和 $\sigma$。</p>
 <br>
 
 <p>&emsp;&emsp;不過這個模型也有缺點，就是 n 和 $\sigma$ 是透過data fitting得到，沒有明確的理論依據。關於log-normal shadowing的其他探討，可以參考<a href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-why-lognormal-shadowing/">這篇文章</a>。</p>
 <br>
 
-<p>&emsp;&emsp;也有許多人提出自己的large-scale model，像是有名的Okumura&#x2F;Hata model，[1]的作者說明得相當清楚，請參考[1]。其他像是Walfisch and Bertoni model，以及indoor propagation models，這裡就不介紹。</p>
-<h2 id="Small-Scale-Fading"><a href="#Small-Scale-Fading" class="headerlink" title="Small-Scale Fading"></a>Small-Scale Fading</h2><p>&emsp;&emsp;Small-scale fading，即無線通道小尺度的特性。怎樣算是small-scale？和large-scale的做法差不多，也是依載波頻率決定。比如說，載波頻率2.4 GHz的WiFi訊號，數個波長以內、約一公尺以內的範圍，訊號的變化可以用small-scale fading來解釋。</p>
+<p>&emsp;&emsp;也有許多人提出其他的large-scale model，像是有名的Okumura&#x2F;Hata model，[1]的作者說明得相當清楚，請參考[1]。其他像是Walfisch and Bertoni model，以及indoor propagation models，這裡就不介紹。</p>
+<h2 id="Small-Scale-Fading"><a href="#Small-Scale-Fading" class="headerlink" title="Small-Scale Fading"></a>Small-Scale Fading</h2><p>&emsp;&emsp;Small-scale fading，即無線通道小尺度的特性。怎樣算是small-scale？和large-scale一樣，也是由載波頻率決定。比如說，載波頻率2.4 GHz的WiFi訊號，數個波長以內、約一公尺以內的範圍，訊號的變化可以用small-scale fading來解釋。</p>
 <br>
 
 <p>&emsp;&emsp;無線通訊、尤其是行動通訊中，通道是時變的，因此也要考慮時域(time domain)的尺度，一般而言是在數毫秒至數秒，可以用small-scale fading來分析。Delay spread、Doppler spread、angle spread經常拿來描述通道多路徑(multipath)效應，以及建立模型。下面就來介紹。</p>
@@ -395,9 +395,9 @@
 <center><font color="cyan">離散化的channel impulse response。<br>圖片來源：<i>Wireless Communications: Principles and Practice</i>，T. S. Rapapport，Fig 5.4。</font></center>
 <br>
 
-<p>&emsp;&emsp;用來描述time delay的統計量有很多，包括平均值(mean excess delay)、標準差(rms delay spread)、比峰值小X dB的delay(excess delay spread)。其中<font color="yellow">rms delay spread</font>特別重要，因為它和<font color="yellow">coherence bandwidth</font>有著(相近於)反比的關係。</p>
+<p>&emsp;&emsp;用來描述time delay的統計量有很多，包括平均值(mean excess delay)、標準差(rms delay spread)、比峰值小X dB的delay(excess delay spread)，使用<font color="yellow">power delay profile (PDP)</font>作為機率分布來計算。其中<font color="yellow">rms delay spread</font>特別重要，因為它和<font color="yellow">coherence bandwidth</font>有著(相近於)反比的關係。</p>
 <p>$$<br>B_c \approx \frac{1}{5\sigma_{rms}}<br>$$</p>
-<p>&emsp;&emsp;Coherence bandwidth($B_c$)象徵通道的頻率響應，在頻域的變動率(rate of variation)。如果 $B_c$ 很小，表示通道的頻率響應在很小的頻寬內便有大幅度的變動，這時候如果傳輸訊號的頻寬大於 $B_c$，則訊號會產生失真(distortion)；反之，訊號各頻率成份受到通道的影響是一樣的，就比較不會有失真的問題。此為通道的<font color="yellow">time dispersion</font>特性。</p>
+<p>&emsp;&emsp;Coherence bandwidth ($B_c$)象徵通道的頻率響應，在頻域的變動率(rate of variation)。如果 $B_c$ 很小，表示通道的頻率響應在很小的頻寬內便有大幅度的變動，這時候如果傳輸訊號的頻寬大於 $B_c$，則訊號會產生失真(distortion)；反之，訊號各頻率成份受到通道的影響是一樣的，就比較不會有失真的問題。此為通道的<font color="yellow">time dispersion</font>特性。</p>
 <h3 id="Doppler-Spread"><a href="#Doppler-Spread" class="headerlink" title="Doppler Spread"></a>Doppler Spread</h3><p>&emsp;&emsp;在行動通訊中，當Rx和Tx有相對移動時，會發生都卜勒效應。當Rx以速率 $v$ 經過Tx，並且和Tx夾角為 $\theta$，則瞬間的Doppler shift為</p>
 <p>$$<br>f_d &#x3D; \frac{v}{\lambda}\cos{\theta}<br>$$</p>
 <p>&emsp;&emsp;其中 $\lambda$ 為載波頻率的倒數，即載波波長。這是單一入射弦波的例子，實際上受到多路徑及速率變化的影響，即使傳送的是弦波，接收到的訊號也不會只是頻率位移，而是會在頻譜上散開來──像是在吐司上塗抹果醬一樣，稱為Doppler spread。經典的Doppler spectrum如Clarke’s model，後面會簡單介紹。</p>
@@ -425,7 +425,7 @@
 <p> $$<br> \begin{align}<br> T_i(t) &#x3D; E_0 \sum_{n &#x3D; 1}^{N}{C_n \cos{(2\pi f_n t + \phi_n)}} \\<br> T_q(t) &#x3D; E_0 \sum_{n &#x3D; 1}^{N}{C_n \sin{(2\pi f_n t + \phi_n)}}<br> \end{align}<br> $$</p>
 <p> &emsp;&emsp;(複習lowpass equivalent的概念)。當N非常大，$T_i(t)$ 和 $T_q(t)$ 便會近似於Gaussian random process(參考<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-tw/%E4%B8%AD%E5%BF%83%E6%9E%81%E9%99%90%E5%AE%9A%E7%90%86">中央極限定理</a>)。這個random process的PSD就是那個經典的Doppler spectrum，數學表示式如下。</p>
 <p> $$<br> S_D(f) \propto \frac{1}{f_m\sqrt{1 - (\frac{f - f_c}{f_m})^2}}<br> $$</p>
-<p> &emsp;&emsp;如下圖，可以看到這個頻譜在載波頻率附近「塗抹」散開，並且在 $f_c - f_m$ 和 $f_c + f_m$ 兩處無窮大。時域方面，這個random process的in-phase component和quadrature component為獨立的Gaussian process，因此其envelope為Rayleigh distributed，即<font color="yellow">Rayleigh fading</font>。</p>
+<p> &emsp;&emsp;如下圖，可以看到這個頻譜在載波頻率附近「塗抹」散開，並且在 $f_c - f_m$ 和 $f_c + f_m$ 兩處無窮大。時域方面，這個random process的in-phase component ($T_i(t)$)和quadrature component ($T_q(t)$)為獨立的Gaussian process，因此其envelope為Rayleigh distributed，即<font color="yellow">Rayleigh fading</font>。</p>
  <br>
  <img src="https://drive.google.com/thumbnail?id=1xfPw463taYDojhSCxbfNacVEOiCzBUy2&sz=w1024" width="400">
  <center><font color="cyan">經典的Doppler spectrum，$f_m$ = 50 Hz。圖片來源：自己。</font></center>
