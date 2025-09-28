@@ -20,31 +20,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"yc518suray.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="&emsp;&emsp;還記得在large-scale fading的通道模型中，將path loss model為一個log-normal的隨機變數(或是以距離$x$為自變數的隨機過程)嗎？但是為什麼用log-normal來model，而不是其他的分布呢？這篇論文嘗試回答這個問題。">
+    <meta name="description" content="&emsp;&emsp;此為「智慧型製造系統」學習筆記，內容取自上課講義。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="論文閱讀：Log-normal Shadowing">
-<meta property="og:url" content="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-why-lognormal-shadowing/index.html">
+<meta property="og:title" content="筆記 - 智慧型製造系統">
+<meta property="og:url" content="https://yc518suray.github.io/%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/note-intelligent-manufacture/index.html">
 <meta property="og:site_name" content="R.S. Random Space">
-<meta property="og:description" content="&emsp;&emsp;還記得在large-scale fading的通道模型中，將path loss model為一個log-normal的隨機變數(或是以距離$x$為自變數的隨機過程)嗎？但是為什麼用log-normal來model，而不是其他的分布呢？這篇論文嘗試回答這個問題。">
+<meta property="og:description" content="&emsp;&emsp;此為「智慧型製造系統」學習筆記，內容取自上課講義。">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/3/37/Helsingin_ydinkeskustaa_ja_Mannerheimintien_alkup%C3%A4%C3%A4t%C3%A4_Erottajan_paloaseman_tornista_%28cropped%29.jpg">
-<meta property="og:image" content="https://yc518suray.github.io/uploads/images/why-lognormal-local-area.png?450x">
-<meta property="article:published_time" content="2025-05-29T07:35:10.000Z">
-<meta property="article:modified_time" content="2025-06-22T10:05:35.529Z">
+<meta property="article:published_time" content="2025-09-27T11:02:50.000Z">
+<meta property="article:modified_time" content="2025-09-28T07:13:24.889Z">
 <meta property="article:author" content="Raymond Su">
-<meta property="article:tag" content="無線通訊">
 <meta property="article:tag" content="Modeling">
+<meta property="article:tag" content="數學">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/3/37/Helsingin_ydinkeskustaa_ja_Mannerheimintien_alkup%C3%A4%C3%A4t%C3%A4_Erottajan_paloaseman_tornista_%28cropped%29.jpg">
 
 
-<link rel="canonical" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-why-lognormal-shadowing/">
+<link rel="canonical" href="https://yc518suray.github.io/%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/note-intelligent-manufacture/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-why-lognormal-shadowing/","path":"通訊技術/paper-why-lognormal-shadowing/","title":"論文閱讀：Log-normal Shadowing"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://yc518suray.github.io/%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/note-intelligent-manufacture/","path":"學習筆記/note-intelligent-manufacture/","title":"筆記 - 智慧型製造系統"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>論文閱讀：Log-normal Shadowing | R.S. Random Space</title>
+<title>筆記 - 智慧型製造系統 | R.S. Random Space</title>
   
 
 
@@ -147,7 +144,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AB%96%E6%96%87%E8%B3%87%E8%A8%8A"><span class="nav-number">1.</span> <span class="nav-text">論文資訊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AB%96%E6%96%87%E5%85%A7%E5%AE%B9"><span class="nav-number">2.</span> <span class="nav-text">論文內容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%80%E5%BE%8C%E6%83%B3%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">讀後想法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Capacity-management"><span class="nav-number">1.</span> <span class="nav-text">Capacity management</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Supply-chain-management"><span class="nav-number">2.</span> <span class="nav-text">Supply-chain management</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Summary"><span class="nav-number">3.</span> <span class="nav-text">Summary</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -208,7 +205,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-why-lognormal-shadowing/">
+    <link itemprop="mainEntityOfPage" href="https://yc518suray.github.io/%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/note-intelligent-manufacture/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/images/blog_avatar.png">
@@ -221,12 +218,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="論文閱讀：Log-normal Shadowing | R.S. Random Space">
+      <meta itemprop="name" content="筆記 - 智慧型製造系統 | R.S. Random Space">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          論文閱讀：Log-normal Shadowing
+          筆記 - 智慧型製造系統
         </h1>
 
         <div class="post-meta-container">
@@ -237,14 +234,14 @@
       </span>
       <span class="post-meta-item-text">發表於</span>
 
-      <time title="創建時間：2025-05-29 15:35:10" itemprop="dateCreated datePublished" datetime="2025-05-29T15:35:10+08:00">2025-05-29</time>
+      <time title="創建時間：2025-09-27 19:02:50" itemprop="dateCreated datePublished" datetime="2025-09-27T19:02:50+08:00">2025-09-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-06-22 18:05:35" itemprop="dateModified" datetime="2025-06-22T18:05:35+08:00">2025-06-22</time>
+      <time title="修改時間：2025-09-28 15:13:24" itemprop="dateModified" datetime="2025-09-28T15:13:24+08:00">2025-09-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -252,7 +249,7 @@
       </span>
       <span class="post-meta-item-text">分類於</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/" itemprop="url" rel="index"><span itemprop="name">通訊技術</span></a>
+          <a href="/categories/%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/" itemprop="url" rel="index"><span itemprop="name">學習筆記</span></a>
         </span>
     </span>
 
@@ -265,8 +262,8 @@
       </span>
       <span class="post-meta-item-text">Disqus：</span>
     
-    <a title="disqus" href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-why-lognormal-shadowing/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="通訊技術/paper-why-lognormal-shadowing/" itemprop="commentCount"></span>
+    <a title="disqus" href="/%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/note-intelligent-manufacture/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="學習筆記/note-intelligent-manufacture/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -279,70 +276,41 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;還記得在large-scale fading的通道模型中，將path loss model為一個log-normal的隨機變數(或是以距離$x$為自變數的隨機過程)嗎？但是為什麼用log-normal來model，而不是其他的分布呢？這篇論文嘗試回答這個問題。</p>
+    <div class="post-body" itemprop="articleBody"><link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;此為「智慧型製造系統」學習筆記，內容取自上課講義。</p>
 <span id="more"></span>
 
-<h2 id="論文資訊"><a href="#論文資訊" class="headerlink" title="論文資訊"></a>論文資訊</h2><ul>
-<li>論文標題：<strong>Why is Shadow Fading Lognormal?</strong></li>
-<li>作者：J. Salo, L. Vuokko and P. Vainikainen, Radio Laboratory&#x2F;SMARAD, Helsinki University of Technology</li>
-<li>發表：<em>Proc. International Symposium on Wireless Personal Multimedia Communications</em>, Sept. 18-22, 2005, pp. 522-526</li>
-<li>關鍵字：沒有提供</li>
-</ul>
-<h2 id="論文內容"><a href="#論文內容" class="headerlink" title="論文內容"></a>論文內容</h2><p><img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Helsingin_ydinkeskustaa_ja_Mannerheimintien_alkup%C3%A4%C3%A4t%C3%A4_Erottajan_paloaseman_tornista_%28cropped%29.jpg" alt="helsinki-view"></p>
-<center><font color="cyan">赫爾辛基。這篇論文是赫爾辛基理工大學的團隊所寫。<br>圖片來源：Otso Kivekäs, via Wikimedia Commons </font><a target="_blank" rel="noopener" href="https://upload.wikimedia.org/wikipedia/commons/3/37/Helsingin_ydinkeskustaa_ja_Mannerheimintien_alkup%C3%A4%C3%A4t%C3%A4_Erottajan_paloaseman_tornista_%28cropped%29.jpg"><font color="cyan">連結</font></a></center>
-
-<br>
-
-<p>&emsp;&emsp;教科書裡通常用<strong>相乘模型</strong>(multiplicative model)來解釋lognormal shadow fading的由來，但是這個解釋有幾個缺點：</p>
-<ol>
-<li><p>過去的論文指出，path loss取對數後若要趨近於常態分佈，則需要大量的attenuation factors，而這很難從實際的傳播環境驗證。</p>
-</li>
-<li><p>過去的論文指出，如果相乘模型是對的，則path loss應該是(與Tx)距離的指數函數。然而實證的資料卻支持path loss是距離的冪函數(power function)。</p>
-</li>
-<li><p>若相乘模型是對的，則隨著距離增加，path loss r.v.的變異數應該要隨之增加，因為random attenuation factors的數量也增加了。但是實證的資料顯示這個變異數幾乎和距離無關。</p>
-</li>
-</ol>
-<p>&emsp;&emsp;於是論文提及幾篇其他論文的想法，比如說[1]這篇論文提出time-variant multiple scattering的理論，佐以森林和郊區的資料為證；還有一篇論文[2]用反射(也就是additive而非multiplicative)來解釋LOS microcell的lognormality，只可惜沒有推廣到其他傳播環境，也沒有理論上的驗證。</p>
-<p>&emsp;&emsp;因此，這篇論文呈現<font color="yellow"><strong>additive cluster-based model</strong></font>，並且提供理論上的驗證。首先區分兩種shadow fading的模型：<strong>path loss dependent</strong>和<strong>path loss independent</strong>。</p>
+<h2 id="Capacity-management"><a href="#Capacity-management" class="headerlink" title="Capacity management"></a>Capacity management</h2><p>&emsp;&emsp;一個製造系統除了製造系統本身，還需要自動化與控制系統、物料管控系統、品管系統等等的支援與協助。製造系統由以下組成：</p>
 <ul>
-<li><p><font color="cyan">Path loss dependent</font>：獲得實證資料(比如說實驗結果)後，假設一個函數模型(比如說linear in dB)，再用fitting的方式確立模型，而residual error則model為隨機變數。因此，這種shadow fading的模型(隨機變數的分布)和假設的函數模型，以及fitting的方法相關，因為同樣的資料，只要假設不同函數、使用不同fitting方法，residual error的分布就會不同。</p>
-</li>
-<li><p><font color="cyan">Path loss independent</font>：主要關注<strong>local mean signal power</strong>，通常是在一個點附近取sliding median。這個local mean rx power的變動也經常被model為lognormal的隨機變數。</p>
-</li>
+<li>Production machines</li>
+<li>Material handling system</li>
+<li>Computer system (e.g. coordination)</li>
+<li>Human workers</li>
 </ul>
-<p>&emsp;&emsp;這篇論文關注的是第二種，path loss independent的shadow fading模型，因為這個模型不預設path loss的函數模型。以下是理論及驗證。</p>
-<p>&emsp;&emsp;假設在某一點接收到的訊號是從$N$個cluster而來(透過反射與散射等)，$N$固定為常數。在某點$x$的narrow-band channel impulse response可以表示為</p>
-<p>$$<br>h(x) &#x3D; \frac{1}{\sqrt{\mu_N}} \sum_{n &#x3D; 1}^{N}{w_n(x)g_n(x)}<br>$$</p>
-<p>&emsp;&emsp;$w_n$是大於零的權重，$g_n$是zero mean、unit variance、circularly symmetric的i.i.d complex Gaussian r.v.。這個response是normalized power的，即</p>
-<p>$$<br>E[\sum_{n &#x3D; 1}^{N}{w_n^2}] &#x3D; \mu_N<br>$$</p>
-<p>&emsp;&emsp;一般來說，$w_n$會隨著$x$的變化而變動。不過，在幾個波長內的範圍裡(所謂的local area)，$w_n(x) \approx w_n$。又由於$g_n(x)$是i.i.d r.v.(或random process)，可以得到h(x)的分布：</p>
-<p>$$<br>h(x) \sim \sqrt{\frac{1}{\mu_N}\sum_{n &#x3D; 1}^{N}{w_n^2}} g(x) &#x3D; \sqrt{m} g(x)<br>$$</p>
-<br>
-
-<p><img src="/uploads/images/why-lognormal-local-area.png?450x" alt="local_area.png"></p>
-<center><font color="cyan">local area的概念。圖片來源：此篇論文</font></center>
-
-<br>
-
-<p>&emsp;&emsp;事實上，等號右邊是一個<font color="yellow">spherically invariant random process</font>，也有用在其他模型中。由此，local mean power即為</p>
-<p>$$<br>\begin{align}<br>E[20\log{(|h(x)|)}] &amp;&#x3D; E[10\log{(m)} + 20\log{(|g(x)|)}] \\<br>                    &amp;&#x3D; m_{dB} + 20E[\log{(|g(x)|)}] \\<br>                    &amp;&#x3D; m_{dB} - 2.51<br>\end{align}<br>$$</p>
-<p>&emsp;&emsp;上式中第二項是一個log-Rayleigh的隨機變數的期望值，算出來就是$-2.51 dB$。第一項則是local mean power，在local area內為常數。那麼在local area的附近(extended local area)，local power &#x3D; $10\log{(m)}$作為一個隨機變數，其分佈為何？有了下面三項前提，我們可以用常態分佈來近似local power的分佈。</p>
+<p>&emsp;&emsp;雖然說人類工人的消失是指日可待。製造系統最重要的目的就是生產，因此需要了解產能(capacity)的概念。</p>
 <br>
 
 <blockquote>
-<p>A1. 當$N \rightarrow \infty$，則$m$的分佈收斂到常態分佈。(中央極限定理)<br>A2. 對於所有$N$，$E[m] &#x3D; 1$。(normalized power)<br>A3. $\lim_{N \rightarrow \infty}{Var[m]} &#x3D; 0$</p>
-</blockquote>
-<blockquote>
-<p><ins><strong>Theorem 1</strong></ins><br>考慮一個連續可微函數，$y &#x3D; f(x)$，若A1 ~ A3的前提為真，則隨機變數$y &#x3D; f(m)$漸進式(asymptotically)的近似於常態分佈，且$E[y] &#x3D; f(1)$，$Var[y] &#x3D; Var[m][f’(1)]^2$。</p>
+<p>Capacity -&gt; maximum rate of output per unit time or units of resource availability</p>
 </blockquote>
 <br>
 
-<p>&emsp;&emsp;這個定理的證明與推導，論文沒有提供，只是說相關的證明可以從一本time series的書裡找到。之後有空再來嘗試推導。Theorem 1的結論告訴我們，不論cluster power($w_n^2$)的分佈是什麼，最後得到的signal power(dB)都是lognormal分佈的，而且這個lognormal的部分和Tx-Rx距離無關。</p>
-<p>&emsp;&emsp;論文的後半部描述電腦模擬的方法與結果，以及一些實際量測的結果，和理論相當一致。量測結果可能資料量不夠大，pdf的曲線看不出吻合的程度。</p>
-<h2 id="讀後想法"><a href="#讀後想法" class="headerlink" title="讀後想法"></a>讀後想法</h2><p>&emsp;&emsp;這篇論文篇幅很短，只有五頁，我卻寫了這麼多字，看來講重點的功力還不到。精煉短小的一篇論文，數學的部分也不會太複雜，不過需要更大量的資料來佐證。之後可能會用MATLAB來模擬看看。</p>
-<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[1] J.B. Andersen and I.Z. Kov&aacute;cs, “Power distributions revisited,” in <em>Proc. COST273 3rd Management Committee Meeting</em>, Jan. 17-18,2002.</p>
-<p>[2] S.A. Abbas and A.U. Sheikh, “On understanding the nature of slow fading in LOS microcellular channels,” in _Proc. 47th IEEE Veh. Tech. Conf., vol.2, 1997, pp.662–666.</p>
+<p>&emsp;&emsp;避免需求量突增、原料短缺、設備故障，需要safety capacity。</p>
+<br>
 
+<blockquote>
+<p>Safety capacity (%) &#x3D; 100% - average resource utilization (%)</p>
+</blockquote>
+<br>
+
+<p>&emsp;&emsp;當工廠收到工單(work order)，便需要計算必須的產能。對於某個工單 $i$，需要的產能如下：</p>
+<p>$$<br>C_i &#x3D; S_i + P_i \times Q_i<br>$$</p>
+<p>&emsp;&emsp;其中 $S_i$ 為setup time，是一個固定的overhead(與需求量無關)。$P_i$ 為工單 $i$ 裡每個unit需要的processing time，$Q_i$ 為工單 $i$ 裡的number of units。$C_i$ 在這裡是以時間為單位，指的是完成工單 $i$ 需求所需時間。產能也可以用產率表示，如下式：</p>
+<p>$$<br>\text{Resource used }(C) &#x3D; \text{Utilization }(U)\times[\text{service rate}\times\text{number of servers}]<br>$$</p>
+<p>&emsp;&emsp;式子裡的utilization就是目前產率(實際產率)和最大可能產率的比值，或者</p>
+<p>$$<br>U &#x3D; \text{resource used}&#x2F;\text{resource available}<br>$$</p>
+<p>&emsp;&emsp;這裡的 $C$ 就不是最大產能，而是實際產能或者是需求產能。那麼短期內如何調整capacity呢？可以增加或是共用生產設備、<span class="hint--info hint--rounded hint--top" data-hint="e.g. 將營收下降的事業群賣給其他同行" ontouchstart>售出給其他公司</span>、<span class="hint--info hint--rounded hint--top" data-hint="e.g. 使工人受訓獲得其他技能，投入其他生產線" ontouchstart>從工人技能著手</span>、調整排班等等。或者反其道而行，用促銷或是預訂(reservation)的方式，改變需求量，來調節需求與產能的關係。</p>
+<p>&emsp;&emsp;Some other things：revenue management system (RMS)、theory of constraints(關注影響整體產能的bottleneck)等。</p>
+<h2 id="Supply-chain-management"><a href="#Supply-chain-management" class="headerlink" title="Supply-chain management"></a>Supply-chain management</h2><h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2>
     </div>
 
     
@@ -359,7 +327,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>文章連結：</strong>
-      <a href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-why-lognormal-shadowing/" title="論文閱讀：Log-normal Shadowing">https://yc518suray.github.io/通訊技術/paper-why-lognormal-shadowing/</a>
+      <a href="https://yc518suray.github.io/%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/note-intelligent-manufacture/" title="筆記 - 智慧型製造系統">https://yc518suray.github.io/學習筆記/note-intelligent-manufacture/</a>
   </li>
   <li class="post-copyright-license">
       <strong>版權聲明： </strong>本網誌所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 許可協議。轉載請註明出處！
@@ -368,22 +336,19 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/%E7%84%A1%E7%B7%9A%E9%80%9A%E8%A8%8A/" rel="tag"><i class="fa fa-tag"></i> 無線通訊</a>
               <a href="/tags/Modeling/" rel="tag"><i class="fa fa-tag"></i> Modeling</a>
+              <a href="/tags/%E6%95%B8%E5%AD%B8/" rel="tag"><i class="fa fa-tag"></i> 數學</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/%E7%B6%B2%E9%A0%81%E5%89%8D%E7%AB%AF/Hexo-image-resize/" rel="prev" title="在Hexo自由設定圖片的大小">
-                  <i class="fa fa-angle-left"></i> 在Hexo自由設定圖片的大小
+                <a href="/%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/note-simulation-modeling/" rel="prev" title="筆記 - 網路效能模擬與分析">
+                  <i class="fa fa-angle-left"></i> 筆記 - 網路效能模擬與分析
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/%E8%AE%80%E5%BE%8C%E9%9A%A8%E6%83%B3/animal-farm-reading/" rel="next" title="讀後隨想：「動物農莊」">
-                  讀後隨想：「動物農莊」 <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>

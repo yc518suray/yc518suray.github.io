@@ -711,7 +711,7 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
     <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;此為「網路效能分析與模擬」學習筆記。主要為discrete-event simulation的筆記，參考書目為A. M. Law的<em>Simulation Modeling &amp; Analysis</em>, 4ed。</p>
 <span id="more"></span>
 
-<h2 id="Next-event-time-advance"><a href="#Next-event-time-advance" class="headerlink" title="Next-event time advance"></a>Next-event time advance</h2><p>&emsp;&emsp;Next-event time advance的模擬方法，當有事件發生時simulation clocK才會前進到事件發生的時間點，因此實際模擬時間可以大幅縮短。</p>
+<h2 id="Next-event-time-advance"><a href="#Next-event-time-advance" class="headerlink" title="Next-event time advance"></a>Next-event time advance</h2><p>&emsp;&emsp;Next-event time advance的模擬方法，當有事件發生時simulation clock才會前進到事件發生的時間點，因此實際模擬時間可以大幅縮短。</p>
 <br>
 
 <p>&emsp;&emsp;這裡以single-server queueing system為例，提出模擬需要的變數：</p>
@@ -742,6 +742,52 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
       <tags>
         <tag>Modeling</tag>
         <tag>模擬</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>筆記 - 智慧型製造系統</title>
+    <url>/%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/note-intelligent-manufacture/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;此為「智慧型製造系統」學習筆記，內容取自上課講義。</p>
+<span id="more"></span>
+
+<h2 id="Capacity-management"><a href="#Capacity-management" class="headerlink" title="Capacity management"></a>Capacity management</h2><p>&emsp;&emsp;一個製造系統除了製造系統本身，還需要自動化與控制系統、物料管控系統、品管系統等等的支援與協助。製造系統由以下組成：</p>
+<ul>
+<li>Production machines</li>
+<li>Material handling system</li>
+<li>Computer system (e.g. coordination)</li>
+<li>Human workers</li>
+</ul>
+<p>&emsp;&emsp;雖然說人類工人的消失是指日可待。製造系統最重要的目的就是生產，因此需要了解產能(capacity)的概念。</p>
+<br>
+
+<blockquote>
+<p>Capacity -&gt; maximum rate of output per unit time or units of resource availability</p>
+</blockquote>
+<br>
+
+<p>&emsp;&emsp;避免需求量突增、原料短缺、設備故障，需要safety capacity。</p>
+<br>
+
+<blockquote>
+<p>Safety capacity (%) &#x3D; 100% - average resource utilization (%)</p>
+</blockquote>
+<br>
+
+<p>&emsp;&emsp;當工廠收到工單(work order)，便需要計算必須的產能。對於某個工單 $i$，需要的產能如下：</p>
+<p>$$<br>C_i &#x3D; S_i + P_i \times Q_i<br>$$</p>
+<p>&emsp;&emsp;其中 $S_i$ 為setup time，是一個固定的overhead(與需求量無關)。$P_i$ 為工單 $i$ 裡每個unit需要的processing time，$Q_i$ 為工單 $i$ 裡的number of units。$C_i$ 在這裡是以時間為單位，指的是完成工單 $i$ 需求所需時間。產能也可以用產率表示，如下式：</p>
+<p>$$<br>\text{Resource used }(C) &#x3D; \text{Utilization }(U)\times[\text{service rate}\times\text{number of servers}]<br>$$</p>
+<p>&emsp;&emsp;式子裡的utilization就是目前產率(實際產率)和最大可能產率的比值，或者</p>
+<p>$$<br>U &#x3D; \text{resource used}&#x2F;\text{resource available}<br>$$</p>
+<p>&emsp;&emsp;這裡的 $C$ 就不是最大產能，而是實際產能或者是需求產能。那麼短期內如何調整capacity呢？可以增加或是共用生產設備、<span class="hint--info hint--rounded hint--top" data-hint="e.g. 將營收下降的事業群賣給其他同行" ontouchstart>售出給其他公司</span>、<span class="hint--info hint--rounded hint--top" data-hint="e.g. 使工人受訓獲得其他技能，投入其他生產線" ontouchstart>從工人技能著手</span>、調整排班等等。或者反其道而行，用促銷或是預訂(reservation)的方式，改變需求量，來調節需求與產能的關係。</p>
+<p>&emsp;&emsp;Some other things：revenue management system (RMS)、theory of constraints(關注影響整體產能的bottleneck)等。</p>
+<h2 id="Supply-chain-management"><a href="#Supply-chain-management" class="headerlink" title="Supply-chain management"></a>Supply-chain management</h2><h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2>]]></content>
+      <categories>
+        <category>學習筆記</category>
+      </categories>
+      <tags>
+        <tag>Modeling</tag>
+        <tag>數學</tag>
       </tags>
   </entry>
 </search>
