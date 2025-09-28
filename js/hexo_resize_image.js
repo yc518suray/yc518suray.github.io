@@ -35,7 +35,10 @@ function hexo_resize_image()
                         width = n_width*height/n_height;
                     }
                 }
-                set_image_size(img, width, height);
+				if (!img.hasAttribute("width") && !img.hasAttribute("height")) {
+    				set_image_size(img, width, height);
+				}
+                //set_image_size(img, width, height);
             }
             continue;
         }
@@ -46,7 +49,11 @@ function hexo_resize_image()
             var scale = parseFloat(fields[0].toString());
             var width = scale/100.0*img.naturalWidth;
             var height = scale/100.0*img.naturalHeight;
-            set_image_size(img, width, height);
+
+			if (!img.hasAttribute("width") && !img.hasAttribute("height")) {
+    			set_image_size(img, width, height);
+			}
+            //set_image_size(img, width, height);
         }
     }
 }

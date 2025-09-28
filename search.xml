@@ -705,4 +705,43 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
         <tag>test</tag>
       </tags>
   </entry>
+  <entry>
+    <title>筆記 - 網路效能模擬與分析</title>
+    <url>/%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/note-simulation-modeling/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;此為「網路效能分析與模擬」學習筆記。主要為discrete-event simulation的筆記，參考書目為A. M. Law的<em>Simulation Modeling &amp; Analysis</em>, 4ed。</p>
+<span id="more"></span>
+
+<h2 id="Next-event-time-advance"><a href="#Next-event-time-advance" class="headerlink" title="Next-event time advance"></a>Next-event time advance</h2><p>&emsp;&emsp;Next-event time advance的模擬方法，當有事件發生時simulation clocK才會前進到事件發生的時間點，因此實際模擬時間可以大幅縮短。</p>
+<br>
+
+<p>&emsp;&emsp;這裡以single-server queueing system為例，提出模擬需要的變數：</p>
+<ul>
+<li>$t_i$ &#x3D; time of arrival of ith customer</li>
+<li>$A_i$ &#x3D; $t_i - t_{i -1}$ &#x3D; inter-arrival time</li>
+<li>$S_i$ &#x3D; service time of ith customer</li>
+<li>$D_i$ &#x3D; delay in queue of ith customer</li>
+<li>$c_i$ &#x3D; time of departure of ith customer</li>
+<li>$e_k$ &#x3D; time of occurance of kth event</li>
+</ul>
+<p>&emsp;&emsp;其中event可以是顧客的抵達、顧客的離開(結束服務後)，因此 $e_i$ 就是simulation clock的時間點。這些變數大多是隨機變數，因此模擬時需要使用到random number generator。</p>
+<br>
+
+<p>&emsp;&emsp;下圖說明next-event time-advance模擬方法的流程圖。注意模擬流程中使用event-scheduling。模擬會在滿足某個條件的時候停止，比如說當queue裡的人數超過某個數字，模擬就會停止，或是某個顧客的delay time超過一定值，模擬就停止。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1qfZP4D32nLyVee12oPaDIqkJHIevSh2j&sz=s1024" width="500">
+
+<center><font color="cyan">圖片來源：自己，改自參考書目。</font></center>
+<br>
+
+<p>&emsp;&emsp;系統中的<font color="cyan">entities</font>：servers and customers，server的<font color="cyan">attributes</font>：server status(idle or busy)、queue length；customers的attributes：抵達時間、離開時間、排隊時間等。</p>
+<h2 id="Single-server-queue-model"><a href="#Single-server-queue-model" class="headerlink" title="Single-server queue model"></a>Single-server queue model</h2><p>&emsp;&emsp;假設inter-arrival time $A_i$ 為<font color="yellow">i.i.d.</font>的隨機變數，service time $S_i$ 也是<font color="yellow">i.i.d.</font>隨機變數，且 $A_i$ 和 $S_i$ 互相獨立。如果server正在服務前一位顧客，則抵達的顧客必須排隊，遵循<font color="yellow">FIFO</font>的原則，先來到先服務。</p>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2>]]></content>
+      <categories>
+        <category>學習筆記</category>
+      </categories>
+      <tags>
+        <tag>Modeling</tag>
+        <tag>模擬</tag>
+      </tags>
+  </entry>
 </search>
