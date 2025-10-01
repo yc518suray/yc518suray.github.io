@@ -28,8 +28,9 @@
 <meta property="og:description" content="&emsp;&emsp;此為「網路效能分析與模擬」學習筆記。主要為discrete-event simulation的筆記，參考書目為A. M. Law的Simulation Modeling &amp; Analysis, 4ed。">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://drive.google.com/thumbnail?id=1qfZP4D32nLyVee12oPaDIqkJHIevSh2j&sz=s1024">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1GWD_31jpNMJITjMSOkeEQg3Mz2u2V_rE&sz=s1024">
 <meta property="article:published_time" content="2025-09-27T11:01:47.000Z">
-<meta property="article:modified_time" content="2025-09-28T05:59:33.143Z">
+<meta property="article:modified_time" content="2025-09-30T10:54:14.156Z">
 <meta property="article:author" content="Raymond Su">
 <meta property="article:tag" content="Modeling">
 <meta property="article:tag" content="模擬">
@@ -243,7 +244,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-09-28 13:59:33" itemprop="dateModified" datetime="2025-09-28T13:59:33+08:00">2025-09-28</time>
+      <time title="修改時間：2025-09-30 18:54:14" itemprop="dateModified" datetime="2025-09-30T18:54:14+08:00">2025-09-30</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -299,13 +300,43 @@
 <p>&emsp;&emsp;下圖說明next-event time-advance模擬方法的流程圖。注意模擬流程中使用event-scheduling。模擬會在滿足某個條件的時候停止，比如說當queue裡的人數超過某個數字，模擬就會停止，或是某個顧客的delay time超過一定值，模擬就停止。</p>
 <br>
 <img src="https://drive.google.com/thumbnail?id=1qfZP4D32nLyVee12oPaDIqkJHIevSh2j&sz=s1024" width="500">
-
 <center><font color="cyan">圖片來源：自己，改自參考書目。</font></center>
 <br>
 
 <p>&emsp;&emsp;系統中的<font color="cyan">entities</font>：servers and customers，server的<font color="cyan">attributes</font>：server status(idle or busy)、queue length；customers的attributes：抵達時間、離開時間、排隊時間等。</p>
 <h2 id="Single-server-queue-model"><a href="#Single-server-queue-model" class="headerlink" title="Single-server queue model"></a>Single-server queue model</h2><p>&emsp;&emsp;假設inter-arrival time $A_i$ 為<font color="yellow">i.i.d.</font>的隨機變數，service time $S_i$ 也是<font color="yellow">i.i.d.</font>隨機變數，且 $A_i$ 和 $S_i$ 互相獨立。如果server正在服務前一位顧客，則抵達的顧客必須排隊，遵循<font color="yellow">FIFO</font>的原則，先來到先服務。</p>
-<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2>
+<br>
+
+<p>&emsp;&emsp;這個系統有以下效能指標：</p>
+<ul>
+<li><p><strong>Average delay in queue $d(n)$</strong></p>
+<p>  &emsp;&emsp;基本上是一個隨機變數，因為每次模擬得到的average(over customers)都不一樣。其估計量(estimate)為</p>
+<p>  $$<br>  \hat{d}(n) &#x3D; \frac{\sum_{i &#x3D; 1}^{n}{D_i}}{n}<br>  $$</p>
+</li>
+<li><p><strong>Average number of customers in queue $q(n)$</strong></p>
+<p>  &emsp;&emsp;排隊人數(或者說queue length)的期望值，也是一個隨機變數。其估計量為</p>
+<p>  $$<br>  \begin{align}<br>  \hat{q}(n) &amp;&#x3D; \frac{\sum_{i &#x3D; 0}^{\infty}{i T_i}}{T(n)}\\[10pt]<br>  &amp;&#x3D; \frac{\int_{0}^{T(n)}{Q(t) \rm{d} t}}{T(n)}<br>  \end{align}<br>  $$</p>
+<p>  &emsp;&emsp;其中 $T(n) &#x3D; T_0 + T_1 + \cdots$。$Q(t)$ 為時間t的queue length。</p>
+</li>
+<li><p><strong>Utilization $u(n)$</strong></p>
+<p>  &emsp;&emsp;使用率，指server忙碌的時間佔所有時間($T(n)$)的比例。定義busy function為</p>
+<p>  $$<br>  B(t) &#x3D;<br>  \begin{cases}<br>  1,\quad\text{if server busy at time t}\\<br>  0,\quad\text{if server not busy at time t}<br>  \end{cases}<br>  $$</p>
+<p>  &emsp;&emsp;則使用率的估計量為</p>
+<p>  $$<br>  \hat{u}(n) &#x3D; \frac{\int_{0}^{T(n)}{B(t) \rm{d} t}}{T(n)}<br>  $$</p>
+</li>
+</ul>
+<p>&emsp;&emsp;下圖顯示single-server queue model的模擬模型，為系統初始時的snapshot。其中event list的 <strong>A</strong> 表示arrival，<strong>D</strong> 表示departure；<strong># delayed</strong> 表示離開queue的人數，<strong>A under Q(t)</strong> 表示Q(t)函數下的面積。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1GWD_31jpNMJITjMSOkeEQg3Mz2u2V_rE&sz=s1024" width="550">
+<center><font color="cyan">圖片來源：自己，改自參考書目。</font></center>
+<br>
+
+<p>&emsp;&emsp;要注意 <strong>times of arrival</strong> 記錄的不是所有顧客的arrival time，而是目前在queue的顧客的arrival time。模擬的停止條件可以是，當N個人離開queue──也就是 <strong># delayed &#x3D; N</strong> 時，模擬就停止。</p>
+<br>
+
+<p>&emsp;&emsp;<font color="yellow">Tie-breaking</font>：同時發生departure和arrival，哪一個要先處理？這個現象叫做time ties，需要採取tie-breaking rule來決定哪一個先處理。</p>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>&emsp;&emsp;這一段是修課心得嗎？</p>
+
     </div>
 
     

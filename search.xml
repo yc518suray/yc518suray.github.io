@@ -729,13 +729,43 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 <p>&emsp;&emsp;下圖說明next-event time-advance模擬方法的流程圖。注意模擬流程中使用event-scheduling。模擬會在滿足某個條件的時候停止，比如說當queue裡的人數超過某個數字，模擬就會停止，或是某個顧客的delay time超過一定值，模擬就停止。</p>
 <br>
 <img src="https://drive.google.com/thumbnail?id=1qfZP4D32nLyVee12oPaDIqkJHIevSh2j&sz=s1024" width="500">
-
 <center><font color="cyan">圖片來源：自己，改自參考書目。</font></center>
 <br>
 
 <p>&emsp;&emsp;系統中的<font color="cyan">entities</font>：servers and customers，server的<font color="cyan">attributes</font>：server status(idle or busy)、queue length；customers的attributes：抵達時間、離開時間、排隊時間等。</p>
 <h2 id="Single-server-queue-model"><a href="#Single-server-queue-model" class="headerlink" title="Single-server queue model"></a>Single-server queue model</h2><p>&emsp;&emsp;假設inter-arrival time $A_i$ 為<font color="yellow">i.i.d.</font>的隨機變數，service time $S_i$ 也是<font color="yellow">i.i.d.</font>隨機變數，且 $A_i$ 和 $S_i$ 互相獨立。如果server正在服務前一位顧客，則抵達的顧客必須排隊，遵循<font color="yellow">FIFO</font>的原則，先來到先服務。</p>
-<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2>]]></content>
+<br>
+
+<p>&emsp;&emsp;這個系統有以下效能指標：</p>
+<ul>
+<li><p><strong>Average delay in queue $d(n)$</strong></p>
+<p>  &emsp;&emsp;基本上是一個隨機變數，因為每次模擬得到的average(over customers)都不一樣。其估計量(estimate)為</p>
+<p>  $$<br>  \hat{d}(n) &#x3D; \frac{\sum_{i &#x3D; 1}^{n}{D_i}}{n}<br>  $$</p>
+</li>
+<li><p><strong>Average number of customers in queue $q(n)$</strong></p>
+<p>  &emsp;&emsp;排隊人數(或者說queue length)的期望值，也是一個隨機變數。其估計量為</p>
+<p>  $$<br>  \begin{align}<br>  \hat{q}(n) &amp;&#x3D; \frac{\sum_{i &#x3D; 0}^{\infty}{i T_i}}{T(n)}\\[10pt]<br>  &amp;&#x3D; \frac{\int_{0}^{T(n)}{Q(t) \rm{d} t}}{T(n)}<br>  \end{align}<br>  $$</p>
+<p>  &emsp;&emsp;其中 $T(n) &#x3D; T_0 + T_1 + \cdots$。$Q(t)$ 為時間t的queue length。</p>
+</li>
+<li><p><strong>Utilization $u(n)$</strong></p>
+<p>  &emsp;&emsp;使用率，指server忙碌的時間佔所有時間($T(n)$)的比例。定義busy function為</p>
+<p>  $$<br>  B(t) &#x3D;<br>  \begin{cases}<br>  1,\quad\text{if server busy at time t}\\<br>  0,\quad\text{if server not busy at time t}<br>  \end{cases}<br>  $$</p>
+<p>  &emsp;&emsp;則使用率的估計量為</p>
+<p>  $$<br>  \hat{u}(n) &#x3D; \frac{\int_{0}^{T(n)}{B(t) \rm{d} t}}{T(n)}<br>  $$</p>
+</li>
+</ul>
+<p>&emsp;&emsp;下圖顯示single-server queue model的模擬模型，為系統初始時的snapshot。其中event list的 <strong>A</strong> 表示arrival，<strong>D</strong> 表示departure；<strong># delayed</strong> 表示離開queue的人數，<strong>A under Q(t)</strong> 表示Q(t)函數下的面積。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1GWD_31jpNMJITjMSOkeEQg3Mz2u2V_rE&sz=s1024" width="550">
+<center><font color="cyan">圖片來源：自己，改自參考書目。</font></center>
+<br>
+
+<p>&emsp;&emsp;要注意 <strong>times of arrival</strong> 記錄的不是所有顧客的arrival time，而是目前在queue的顧客的arrival time。模擬的停止條件可以是，當N個人離開queue──也就是 <strong># delayed &#x3D; N</strong> 時，模擬就停止。</p>
+<br>
+
+<p>&emsp;&emsp;<font color="yellow">Tie-breaking</font>：同時發生departure和arrival，哪一個要先處理？這個現象叫做time ties，需要採取tie-breaking rule來決定哪一個先處理。</p>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>&emsp;&emsp;這一段是修課心得嗎？</p>
+]]></content>
       <categories>
         <category>學習筆記</category>
       </categories>
@@ -783,7 +813,32 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 <br>
 
 <p>&emsp;&emsp;Some other things：revenue management system (RMS)、theory of constraints(關注影響整體產能的bottleneck)等。</p>
-<h2 id="Supply-chain-management"><a href="#Supply-chain-management" class="headerlink" title="Supply-chain management"></a>Supply-chain management</h2><h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2>]]></content>
+<h2 id="Inventory-Supply-chain-management"><a href="#Inventory-Supply-chain-management" class="headerlink" title="Inventory &amp; Supply-chain management"></a>Inventory &amp; Supply-chain management</h2><p>&emsp;&emsp;Inventory有以下類別：</p>
+<ul>
+<li>Raw materials, component parts</li>
+<li>Work-In-Progress (WIP) inventory</li>
+<li>Finished-goods inventory</li>
+<li>Safety stock inventory</li>
+</ul>
+<p>&emsp;&emsp;需要考慮以下的成本：</p>
+<ul>
+<li>Ordering cost：訂單成本，包括發貨、運輸、收貨過程的成本。</li>
+<li>Holding cost：持有成本，又稱作carriying cost。</li>
+<li>Stockout cost：缺貨造成的損失。</li>
+<li>Unit cost：生產一單位商品或服務的成本。</li>
+</ul>
+<p>&emsp;&emsp;一些有關inventory的概念：</p>
+<ul>
+<li><p><strong>Lead time</strong></p>
+<p>  下訂單到出貨的時間。</p>
+</li>
+<li><p><strong>Stockouts</strong></p>
+<p>  無法滿足某物品的需求，即缺貨。可能導致預訂(backorder)或是失去訂單(lost sale)。</p>
+</li>
+<li><p><strong>Total dollar usage</strong></p>
+</li>
+</ul>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2>]]></content>
       <categories>
         <category>學習筆記</category>
       </categories>
@@ -863,7 +918,7 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 
 <p>&emsp;&emsp;從這張圖片可以計算LOS和經過繞射的兩條路徑長度差：</p>
 <p>$$<br>\Delta \approx \frac{h^2}{2} \frac{(d_1 + d_2)}{d_1 d_2}<br>$$</p>
-<p>&emsp;&emsp;以及相位差 $\phi &#x3D; 2\pi\Delta&#x2F;\lambda$。如果我們定義Fresnel-Kirchoff difraction parameter $\nu$ 為</p>
+<p>&emsp;&emsp;以及相位差 $\phi &#x3D; 2\pi\Delta&#x2F;\lambda$。如果我們定義Fresnel-Kirchoff diffraction parameter $\nu$ 為</p>
 <p>$$<br>\nu &#x3D; h\sqrt{\frac{2(d_1 + d_2)}{\lambda d_1 d_2}}<br>$$</p>
 <p>&emsp;&emsp;則相位差可以表示為 $\phi &#x3D; \pi\nu^2&#x2F;2$。當距離差為 $\lambda&#x2F;2$，也就是相位差為 $\pi$ 時，LOS和經過繞射的成分疊加起來，會產生破壞性干涉(接收到的訊號振幅為零)；同樣的，當距離差為 $\lambda$ 時，會產生建設性干涉(接收到的訊號振幅為兩倍)。由此，我們建立Fresnel zone的概念：Fresnel zone用來表示障礙物位置對繞射訊號強度的影響。第n個Fresnel zone circle的半徑可以表示為(假設 $d_1, d_2 \gg r_n$)：</p>
 <p>$$<br>r_n \approx \sqrt{\frac{n\lambda d_1 d_2}{d_1 + d_2}}<br>$$</p>
