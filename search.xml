@@ -1016,4 +1016,149 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
         <tag>OFDM</tag>
       </tags>
   </entry>
+  <entry>
+    <title>如何用MATLAB FFT畫出PSD？</title>
+    <url>/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/how-to-scale-fft-psd/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>&emsp;&emsp;在MATLAB裡產生的訊號都是finite length、finite amplitude的，因此嚴格來說都是discrete-time energy signal。但是模擬power signal或是random process時，往往需要計算這些訊號的power spectrum或是power spectral density (PSD)。這篇文章說明用FFT畫出各種spectrum的作法。</p>
+<span id="more"></span>
+
+<h2 id="How"><a href="#How" class="headerlink" title="How?"></a>How?</h2><p>&emsp;&emsp;MATLAB裡的 <code>fft</code> 函數計算某個sequence的DFT，如下：</p>
+<p>$$<br>X[k] &#x3D; \sum_{n &#x3D; 0}^{N_{fft} - 1}{x[n] e^{-j\frac{2\pi}{N_{fft}} kn}},\quad 0 \leq k \leq (N_{fft} - 1)<br>$$</p>
+<p>&emsp;&emsp;其中 $N_{fft}$ 是DFT的點數，可以是sequence length，也可以自行指定，<code>fft</code> 函數會幫你做clipping或zero padding。由於算出來的頻譜，頻率是從 0 到 $2\pi$，也就是從低頻到高頻 ($\pi$) 再到低頻，<code>fft</code> 算出來的結果還要透過 <code>fftshift</code> 函數來把低頻移到中間、高頻移到兩邊。IDFT則是由 <code>IFFT</code> 函數實現：</p>
+<p>$$<br>x[n] &#x3D; \frac{1}{N_{fft}}\sum_{k &#x3D; 0}^{N_{fft} - 1}{X[k] e^{j\frac{2\pi}{N_{fft}} kn}},\quad 0 \leq n \leq (N_{fft} - 1)<br>$$</p>
+<br>
+
+<p>&emsp;&emsp;實際上，sequence做DFT得到的結果，它的物理意義是什麼？我認為DFT大概呈現了sequence的頻譜成份，比如說若高頻的amplitude較高，則訊號的高頻成分較多。但是這個「多」是用什麼來衡量的？要更精確地描述DFT的結果，首先要確定這個sequence用來近似的訊號的類型。</p>
+<ul>
+<li>Energy singal $\longrightarrow$ ESD</li>
+<li>Periodic signal $\longrightarrow$ Power spectrum</li>
+<li>Power signal&#x2F;random process $\longrightarrow$ PSD</li>
+</ul>
+<h3 id="Energy-Spectral-Density-ESD"><a href="#Energy-Spectral-Density-ESD" class="headerlink" title="Energy Spectral Density (ESD)"></a>Energy Spectral Density (ESD)</h3><p>&emsp;&emsp;Energy signal可以是finite length或是infinite length(如sinc函數)，這裡只考慮finite length。假設一finite length、finite amplitude的energy signal $x(t)$，在 $(0, T)$ 的區間非零，其餘時刻皆為零。這個訊號的總能量為：</p>
+<p>$$<br>\begin{align}<br>E_{total} &amp;&#x3D; \int_{0}^{T}{\lvert x(t) \rvert^2 dt}\\<br>&amp;&#x3D; \int_{-\infty}^{\infty}{\lvert X_c(f) \rvert^2 df}\quad\text{(Parseval’s theorem)}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;可知 $\lvert X_c(f) \rvert^2$ 就是能量頻譜密度，ESD。我們將 $x(t)$ 以取樣頻率 $f_s &#x3D; 1&#x2F;T_s$ 取樣，得到sequence $x[n]$：</p>
+<p>$$<br>x[n] &#x3D; x(nT_s),\quad 0 \leq n \leq (T_{tot}&#x2F;T_s)<br>$$</p>
+<p>&emsp;&emsp;其中 $T_{tot}$ 為取樣時間總長度，$N &#x3D; T_{tot}&#x2F;T_s$ 為sequence length。</p>
+<br>
+
+<p>&emsp;&emsp;$x[n]$ 也是energy signal。根據impulse invariance的性質，$X(e^{j\omega}) &#x3D; X_c(j\omega&#x2F;T_s)&#x2F;T_s$，以及 $\lvert X_c(j\Omega)\rvert^2 &#x3D; \lvert X_c(f)\rvert^2,\quad\text{where } \Omega &#x3D; 2\pi f$，得到</p>
+<p>$$<br>\lvert X(e^{j\omega})\rvert^2 &#x3D; \frac{1}{(T_s)^2} \lvert X_c(f)\rvert^2<br>$$</p>
+<p>&emsp;&emsp;不過，我們透過 <code>fft</code> 得到的頻譜不是 $X(e^{j\omega})$，而是對 $X(e^{j\omega})$ 取樣的 $X(e^{j\omega})\rvert_{\omega &#x3D; 2\pi k&#x2F;N} &#x3D; X[k]$，代入剛才的式子：</p>
+<p>$$<br>\begin{align}<br>&amp;\lvert X[k]\rvert^2 &#x3D; \frac{1}{(T_s)^2} \lvert X_c(\frac{kf_s}{N})\rvert^2,\quad 0 \leq k \leq (\frac{N}{2} - 1)\\<br>&amp;\lvert X[k]\rvert^2 &#x3D; \frac{1}{(T_s)^2} \lvert X_c(\frac{(k - N)f_s}{N})\rvert^2,\quad \frac{N}{2} \leq k \leq (N - 1)<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;所以如果我們想要呈現 $\lvert X_c(f)\rvert^2$ (或者 $X_c(f)$，一樣的意思)，就要對每個 $X[k]$ 做以下的scaling：</p>
+<p>$$<br>X’[k] &#x3D; T_s X[k] &#x3D; \frac{1}{f_s} X[k]<br>$$</p>
+<br>
+
+<p>&emsp;&emsp;以 $x(t) &#x3D; \sin{(2\pi t)},\quad 0 \leq t \leq 1$ 為例，可以看做是一個sine函數乘上一個square pulse，所以理論上 $X_c(f)$ 為</p>
+<p>$$<br>\lvert X_c(f) \rvert &#x3D; \frac{1}{2} \lvert sinc(f - 1) - sinc(f + 1)\rvert<br>$$</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1lInDCdNuB3DoCZ__-4ThiQvofGNAQX21&sz=s1024" width="350">
+<center><font color="cyan">Sine乘上方波，增加FFT的長度以增加頻域解析度。</font></center>
+<br>
+
+<p>&emsp;&emsp;MATLAB程式碼如下，取樣頻率為10 kHz。下圖則是 $\lvert X_c(f)\rvert$ 和經過scaling的 <code>fft</code> 結果比較(取絕對值)。</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">fs = <span class="number">10000</span>; <span class="comment">% sampling freq = 10 kHz</span></span><br><span class="line">t1 = (<span class="number">0</span>: fs - <span class="number">1</span>)/fs;</span><br><span class="line">x1 = <span class="built_in">sin</span>(<span class="number">2</span>*<span class="built_in">pi</span>*t1);</span><br><span class="line">x = [<span class="built_in">zeros</span>(<span class="number">1</span>, <span class="built_in">round</span>(<span class="number">4.5</span>*<span class="built_in">length</span>(t1))) x1 <span class="built_in">zeros</span>(<span class="number">1</span>, <span class="built_in">round</span>(<span class="number">4.5</span>*<span class="built_in">length</span>(t1)))];</span><br><span class="line">Nsample = <span class="built_in">length</span>(x); <span class="comment">% number of points of FFT</span></span><br><span class="line">t = (<span class="number">-0.5</span>*Nsample: <span class="number">0.5</span>*Nsample - <span class="number">1</span>)/fs;</span><br><span class="line"></span><br><span class="line"><span class="comment">% time domain</span></span><br><span class="line"><span class="built_in">figure</span>();</span><br><span class="line"><span class="built_in">plot</span>(t, x, <span class="string">&quot;b-&quot;</span>, <span class="string">&quot;LineWidth&quot;</span>, <span class="number">2</span>);</span><br><span class="line">xlabel(<span class="string">&quot;time (sec)&quot;</span>);</span><br><span class="line">ylabel(<span class="string">&quot;x(t)&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% freq domain</span></span><br><span class="line"><span class="built_in">figure</span>();</span><br><span class="line">f = (<span class="number">-0.5</span>*Nsample: <span class="number">0.5</span>*Nsample - <span class="number">1</span>)*fs/Nsample;</span><br><span class="line">X = fftshift(fft(x))/fs;</span><br><span class="line"><span class="built_in">plot</span>(f, <span class="built_in">abs</span>(X), <span class="string">&quot;b-&quot;</span>, <span class="string">&quot;LineWidth&quot;</span>, <span class="number">2</span>);</span><br><span class="line"><span class="built_in">hold</span> on</span><br><span class="line"><span class="built_in">plot</span>(f, <span class="number">0.5</span>*<span class="built_in">abs</span>(sinc(f - <span class="number">1</span>) - sinc(f + <span class="number">1</span>)), <span class="string">&quot;r-&quot;</span>, <span class="string">&quot;LineWidth&quot;</span>, <span class="number">2</span>);</span><br><span class="line"><span class="built_in">hold</span> off</span><br><span class="line"><span class="built_in">legend</span>(<span class="string">&quot;scaled fft&quot;</span>, <span class="string">&quot;theo&quot;</span>);</span><br><span class="line">xlabel(<span class="string">&quot;freq (Hz)&quot;</span>);</span><br><span class="line">ylabel(<span class="string">&quot;X_c(f)&quot;</span>);</span><br><span class="line">xlim([<span class="number">-6</span> <span class="number">6</span>]);</span><br></pre></td></tr></table></figure>
+
+<br>
+<img src="https://drive.google.com/thumbnail?id=1_J2cOnk4DKQ_wiz4p82R-Dif1Ez_mRdS&sz=s1024" width="350">
+<center><font color="cyan">兩條曲線重疊在一起，幾無差異。</font></center>
+<br>
+
+<p>&emsp;&emsp;除了amplitude之外，還要關注頻譜的總能量。理論上，$x(t)$ 的總能量為<font color="yellow">0.5</font>(以剛才的例子來說)。我們可以用MATLAB嘗試計算取樣後訊號的總能量：</p>
+<p>$$<br>\sum_{n &#x3D; 0}^{N - 1}{\lvert x[n]\rvert^2} &#x3D; 5000<br>$$</p>
+<p>&emsp;&emsp;注意到上面的式子，並不是Riemann sum，而這麼做是錯的(所以算出來的結果是錯的)，因為計算總能量應該要用積分，對應到sequence就應該使用Riemann sum。因此正確的總能量應該這樣計算：</p>
+<p>$$<br>\begin{align}<br>E_{total} &amp;&#x3D; \sum_{n &#x3D; 0}^{N - 1}{\lvert x[n]\rvert^2 \frac{T_{tot}}{N}}\\<br>&amp;&#x3D; \sum_{n &#x3D; 0}^{N - 1}{\lvert x[n]\rvert^2 T_s}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;又根據DFT版本的Parseval’s theorem：</p>
+<p>$$<br>\sum_{n &#x3D; 0}^{N - 1}{\lvert x[n]\rvert^2} &#x3D; \frac{1}{N} \sum_{k &#x3D; 0}^{N - 1}{\lvert X[k]\rvert^2}<br>$$</p>
+<p>&emsp;&emsp;可知總能量也可以表示為：</p>
+<p>$$<br>\begin{align}<br>E_{total} &amp;&#x3D; \frac{T_s}{N} \sum_{k &#x3D; 0}^{N - 1}{\lvert X[k]\rvert^2}\\<br>&amp;&#x3D; \sum_{k &#x3D; 0}^{N - 1}{\frac{1}{f_s N} \lvert X[k]\rvert^2}\\<br>&amp;&#x3D; \sum_{k &#x3D; 0}^{N - 1}{\frac{f_s}{N} \lvert \frac{1}{f_s} X[k]\rvert^2}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;最後一行特別有意思，因為它正是頻域的Riemann sum！藉此也驗證了對FFT頻譜的scaling不僅保留amplitude，也保留總能量。</p>
+<h3 id="Power-Spectrum"><a href="#Power-Spectrum" class="headerlink" title="Power Spectrum"></a>Power Spectrum</h3><p>&emsp;&emsp;這裡的power spectrum指的是週期性訊號(因此也是power signal)的功率頻譜，看起來應該會是一根一根的，每一根的單位是Watt，而不是Watt&#x2F;Hz(功率密度單位)。週期性訊號的功率這樣計算：</p>
+<p>$$<br>P_{total} &#x3D; \frac{1}{T} \int_{0}^{T}{\lvert x(t)\rvert^2 dt}<br>$$</p>
+<p>&emsp;&emsp;$T$ 為訊號的週期。我們知道週期性訊號的Fourier series表示為</p>
+<p>$$<br>x(t) &#x3D; \sum_{k &#x3D; -\infty}^{\infty}{C_k e^{j2\pi kf_0 t}}<br>$$</p>
+<p>&emsp;&emsp;因此總功率的計算可以改寫為</p>
+<p>$$<br>\begin{align}<br>P_{total} &amp;&#x3D; \frac{1}{T} \int_{0}^{T}{(\sum_{k &#x3D; -\infty}^{\infty}{C_k e^{j2\pi kf_0 t}})(\sum_{l &#x3D; -\infty}^{\infty}{C_l^{*} e^{-j2\pi lf_0 t}}) dt}\\<br>&amp;&#x3D; \sum_{k &#x3D; -\infty}^{\infty}{\sum_{l &#x3D; -\infty}^{\infty}{C_k C_l^{*} \delta[k - l]}}\\<br>&amp;&#x3D; \sum_{k &#x3D; -\infty}^{\infty}{\lvert C_k\rvert^2}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;因此只要知道 $C_k$ 就可以畫出power spectrum。現在我們要找到FFT頻譜和 $C_k$ 的關係。假設取樣頻率為 $f_s$，取樣週期 $T_s$。用MATLAB來呈現週期性訊號有兩種方式：</p>
+<ol>
+<li><p>取一個週期的訊號做FFT，相當於DFT頻譜即為DTFS的情況，當取樣點數夠多，$X[k]$ 就能夠充分表示 $C_k$ (比如說取樣頻率為基頻的整數倍，且滿足Nyquist sampling criterion，每個 $C_k$ 都會被表示到)。先從時域來計算總功率：</p>
+<p> $$<br> \begin{align}<br> P_{total} &amp;&#x3D; \frac{1}{NT_s} \sum_{n &#x3D; 0}^{N - 1}{\lvert x[n]\rvert^2 T_s}\\<br> &amp;&#x3D; \frac{1}{N} \sum_{n &#x3D; 0}^{N - 1}{\lvert x[n]\rvert^2}<br> \end{align}<br> $$</p>
+<p> 因此</p>
+<p> $$<br> \begin{align}<br> P_{total} &amp;&#x3D; \frac{1}{N^2} \sum_{k &#x3D; 0}^{N - 1}{\lvert X[k]\rvert^2}\\<br> &amp;&#x3D; \sum_{k &#x3D; 0}^{N - 1}{\lvert \frac{1}{N} X[k]\rvert^2} \approx \sum_{k &#x3D; -\infty}^{\infty}{\lvert C_k\rvert^2}<br> \end{align}<br> $$</p>
+<p> 故</p>
+<p> $$<br> X’[k] &#x3D; \frac{1}{N} X[k]<br> $$</p>
+<p> $N$ 為sequence length，也是FFT點數。</p>
+</li>
+<li><p>取數個週期的訊號做FFT，假設取了M個週期。一樣從時域來計算總功率：</p>
+<p> $$<br> \begin{align}<br> P_{total} &amp;&#x3D; \frac{1}{MN_TT_s} \sum_{n &#x3D; 0}^{MN_T - 1}{\lvert x[n]\rvert^2 Ts}\\<br> &amp;&#x3D; \frac{1}{MN_T} \sum_{n &#x3D; 0}^{MN_T - 1}{\lvert x[n]\rvert^2}\\<br> &amp;&#x3D; \frac{1}{N} \sum_{n &#x3D; 0}^{N - 1}{\lvert x[n]\rvert^2}\\<br> \end{align}<br> $$</p>
+<p> 其中 $N_T$ 為一個週期的取樣點數。這個結果和取一個週期計算的結果是一樣的，所以作法也一樣。</p>
+<p> 那麼，如果取樣的時間長度並非週期的整數倍呢？答案是DFT頻譜就無法準確反映週期訊號的power spectrum。如果無法取週期的整數倍，至少取較長的一段時間，如週期的100.3倍等等，可以減少頻譜的誤差。</p>
+</li>
+</ol>
+<br>
+
+<p>&emsp;&emsp;以週期性訊號 $x(t) &#x3D; \sin{(200\pi t) + 2\cos{(600\pi t)}}$ 為例，下面兩張圖，第一張圖拿一個週期的訊號做FFT，呈現完美的power spectrum；第二章圖拿10.5個週期的訊號做FFT，可以看到power spectrum出現一些誤差。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1DeUFr9H5sKGFbJxq4OcwjTSiBe53f1W4&sz=s1024" width="350">
+<center><font color="cyan">取一個週期做FFT。</font></center>
+<br>
+
+<br>
+<img src="https://drive.google.com/thumbnail?id=1wItg1fN3QQIQ0X7nBOglMaiFvzFLUcEV&sz=s1024" width="350">
+<center><font color="cyan">取10.5個週期做FFT。</font></center>
+<br>
+
+<h3 id="Power-Spectral-Density-PSD"><a href="#Power-Spectral-Density-PSD" class="headerlink" title="Power Spectral Density (PSD)"></a>Power Spectral Density (PSD)</h3><p>&emsp;&emsp;PSD大概是最難以呈現的，因為PSD描述的是非週期性的power signal或是random process，但是MATLAB只能寫出deterministic、finite length的訊號。假設一random process $X(t)$，其autocorrelation為 $R_X(\tau)$。則PSD可以對 $R_X(\tau)$ 做Fourier transform得到：</p>
+<p>$$<br>S(f) &#x3D; \int_{-\infty}^{\infty}{R_X(\tau) e^{-j2\pi f\tau} d\tau}<br>$$</p>
+<p>&emsp;&emsp;很遺憾的，我們只能讓MATLAB生成sample function，所以 $R_X(\tau)$ 必須用time-average autocorrelation來估計，再拿來做Fourier transform。不過，我們也可以從PSD的定義找到線索。</p>
+<br>
+
+<p>&emsp;&emsp;根據Ziemer和Tranter的<em>Principles of Communications</em>，PSD可以定義為</p>
+<p>$$<br>S(f) &#x3D; \lim_{T \rightarrow \infty}{\frac{E[\lvert F\{X_{2T}(t)\}\rvert^2]}{2T}}<br>$$</p>
+<p>&emsp;&emsp;其中 $F\{\cdot\}$ 為Fourier transform，$E[\cdot]$ 為ensemble average。由於我們只能生成deterministic signal，因此最外層的 $E[\cdot]$ 拿掉；再來，我們只能生成有限長度的sequence，故 $\lim$ 也拿掉。用 $\hat{S}(f)$ 來表示對 $S(f)$ 的估計：</p>
+<p>$$<br>\begin{align}<br>\hat{S}(f) &amp;&#x3D; \frac{\lvert F\{x_{2T}(t)\}\rvert^2}{2T}\\<br>&amp;&#x3D; \frac{\lvert F\{x(t)\}\rvert^2}{T’}\\<br>&amp;&#x3D; \frac{\lvert X_c(f)\rvert^2}{T’}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;其中 $T’$ 為訊號 $x(t)$ 的長度。以 $\hat{S}(f)$ 估計總功率：</p>
+<p>$$<br>\hat{P} &#x3D; \int_{-\infty}^{\infty}{\hat{S}(f) df} &#x3D; \int_{-\infty}^{\infty}{\frac{\lvert X_c(f)\rvert^2}{T’} df}<br>$$</p>
+<p>&emsp;&emsp;將上式寫成Riemann sum的形式：</p>
+<p>$$<br>\begin{align}<br>\int_{-\infty}^{\infty}{\hat{S}(f) df} &amp;&#x3D; \int_{-\infty}^{\infty}{\frac{\lvert X_c(f)\rvert^2}{T’} df}\\<br>&amp;\approx \sum_{k &#x3D; 0}^{N - 1}{\frac{\lvert \frac{X[k]}{f_s}\rvert^2}{NT_s}\cdot\frac{f_s}{N}}\\<br>&amp;&#x3D; \sum_{k &#x3D; 0}^{N - 1}{\lvert \frac{1}{\sqrt{Nf_s}}X[k]\rvert^2\cdot\frac{f_s}{N}}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;當 $N$ 很大，上式便成立。上式將 $f_s&#x2F;N$ 放在平方項外面，因為平方項的意義為功率「密度」，因此和ESD的情況相同，$f_s&#x2F;N$ 作為頻率軸的微小變化量。最後得到對 $X[k]$ 的scaling constant：</p>
+<p>$$<br>X’[k] &#x3D; \frac{1}{\sqrt{Nf_s}} X[k]<br>$$</p>
+<br>
+
+<p>&emsp;&emsp;以Jake’s model的Doppler spectrum為例，若</p>
+<p>$$<br>\begin{align}<br>E[\lvert X\rvert^2] &amp;&#x3D; E[{X_i}^2 + {X_q}^2] &#x3D; 1\\<br>&amp;&#x3D; R_X(0) &#x3D; \int_{-\infty}^{\infty}{S_D(f) df}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;當中 $X_i$ 為fading coefficient的實部，$X_q$ 則是fading coefficient的虛部，兩者為互相獨立的zero-mean Gaussian process。則理想的Doppler spectrum為</p>
+<p>$$<br>S_D(f) &#x3D; \frac{1}{\pi f_m\sqrt{1 - (\frac{f}{f_m})^2}}<br>$$</p>
+<p>&emsp;&emsp;下圖為理想的Doppler spectrum和Jake’s model的Doppler spectrum比較。可以看到在頻譜U型區域附近，模擬值在理論值上下波動，足以驗證FFT scaling的正確性。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1D5AX2BGj7lPW8jlnc7KQrv-lylijEKeF&sz=s1024" width="450">
+<center><font color="cyan">Jake's model Doppler spectrum。</font></center>
+<br>
+
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>&emsp;&emsp;最後總結一下將FFT轉換為能量&#x2F;功率頻譜的作法，$X[k]$ 表示 <code>fft</code> 函數的輸出：</p>
+<ol>
+<li><p>ESD</p>
+<p> $$<br> X’[k] &#x3D; \frac{1}{f_s} X[k]<br> $$</p>
+</li>
+<li><p>Power spectrum</p>
+<p> $$<br> X’[k] &#x3D; \frac{1}{N} X[k]<br> $$</p>
+<p> 其中 $N$ 為sequence length，也是FFT點數。</p>
+</li>
+<li><p>PSD</p>
+<p> $$<br> X’[k] &#x3D; \frac{1}{\sqrt{Nf_s}} X[k]<br> $$</p>
+<p> $N$ 為sequence length，也是FFT點數。</p>
+</li>
+</ol>
+<p>&emsp;&emsp;另外，這些作法適用於以MATLAB模擬的<font color="yellow">連續時間的訊號</font>。離散時間訊號的頻譜，從「DFT是對DTFT取樣」的概念發想，應該可以得到類似的作法。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>Ziemer和Tranter的<em>Principles of Communications</em>。下面這個網站也蠻有意思的，把傅立葉轉換的數學說明得很清楚的樣子，有時間再來慢慢看。</p>
+<p><a href="https://alan23273850.gitbook.io/signals-and-systems">從傅立葉轉換到數位訊號處理</a></p>
+]]></content>
+      <categories>
+        <category>通訊技術</category>
+      </categories>
+      <tags>
+        <tag>MATLAB</tag>
+        <tag>數值計算</tag>
+      </tags>
+  </entry>
 </search>
