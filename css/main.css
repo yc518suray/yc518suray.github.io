@@ -1384,7 +1384,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #ff7f1d;
+    background: #c7ffdd;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -3034,4 +3034,12 @@ body {
   background-attachment: fixed;
   background-size: cover;
   background-position: 50% 50%;
+}
+/* 讓程式碼區塊內容靠左對齊 */
+.highlight {
+  text-align: left !important;
+}
+pre,
+code {
+  text-align: left !important;
 }
