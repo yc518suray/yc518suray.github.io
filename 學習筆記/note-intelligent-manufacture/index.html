@@ -27,12 +27,14 @@
 <meta property="og:site_name" content="R.S. Random Space">
 <meta property="og:description" content="&emsp;&emsp;此為「智慧型製造系統」學習筆記，內容取自上課講義。">
 <meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1M625jANiHjg-zDISD1Lx4-AQ-5p4rcho&sz=s1024">
 <meta property="article:published_time" content="2025-09-27T11:02:50.000Z">
-<meta property="article:modified_time" content="2025-09-30T16:16:13.254Z">
+<meta property="article:modified_time" content="2025-10-07T13:31:16.583Z">
 <meta property="article:author" content="Raymond Su">
 <meta property="article:tag" content="數學">
 <meta property="article:tag" content="Modeling">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://drive.google.com/thumbnail?id=1M625jANiHjg-zDISD1Lx4-AQ-5p4rcho&sz=s1024">
 
 
 <link rel="canonical" href="https://yc518suray.github.io/%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/note-intelligent-manufacture/">
@@ -241,7 +243,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-10-01 00:16:13" itemprop="dateModified" datetime="2025-10-01T00:16:13+08:00">2025-10-01</time>
+      <time title="修改時間：2025-10-07 21:31:16" itemprop="dateModified" datetime="2025-10-07T21:31:16+08:00">2025-10-07</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -334,9 +336,40 @@
 <li><p><strong>Stockouts</strong></p>
 <p>  無法滿足某物品的需求，即缺貨。可能導致預訂(backorder)或是失去訂單(lost sale)。</p>
 </li>
-<li><p><strong>Total dollar usage</strong></p>
+<li><p><strong>Total dollar usage</strong> </p>
+<p>  Total dollar usage &#x3D; item usage (volume) X item’s dollar value (unit cost)。有些品項的dollar value高但是量少，有些品項則是dollar value低但是量多。</p>
 </li>
 </ul>
+<br>
+
+<p>&emsp;&emsp;討論兩種inventory模型，<strong>Fixed-Quantity System (FQS)</strong> 及 <strong>Economic Order Quantity (EOQ) model</strong>。</p>
+<br>
+
+<p>&emsp;&emsp;<strong>FQS</strong>：每隔一段時間就會訂固定的量。用inventory position (IP)來分析，如下：</p>
+<p>$$<br>\text{IP &#x3D; OH + SR - BO}<br>$$</p>
+<p>&emsp;&emsp;其中OH為On-Hand Quantity，目前存量；SR為scheduled receipts，預計要送來倉儲的量(還沒送來)；BO為backorders，客戶預訂的量。當IP低於reorder point，就要叫貨(place a new order)。Time between orders (TBO)的概念，當demand rate是固定的，TBO也會是定值。</p>
+<br>
+
+<p>&emsp;&emsp;<strong>EOQ</strong>：可以達到最小cost(holding cost + ordering cost)的存量。EOQ模型不允許發生stockout，且demand rate和lead time為常數。</p>
+<br>
+
+<p>&emsp;&emsp;計算最佳存量的方法如下。定義<span class="hint--info hint--rounded hint--top" data-hint="這裡是以年為時間單位" ontouchstart>annual</span> holding cost per unit為$C_h$，則annual inventory-holding cost為 $\frac{1}{2}QC_h$，這裡用到average inventory為$\frac{1}{2}Q$，即最大存量(&#x3D; 最佳存量)的1&#x2F;2。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1M625jANiHjg-zDISD1Lx4-AQ-5p4rcho&sz=s1024" width="450">
+<center><font color="cyan">Cycle inventory的概念。改自講義圖片。</font></center>
+<br>
+
+<p>&emsp;&emsp;又annual ordering cost為 $\frac{D}{Q}C_0$，其中 $D$ 為annual demand，$Q$ 為每張訂單的訂貨量，$C_0$ 為每張訂單的成本。Total annual cost可以表示為</p>
+<p>$$<br>TC &#x3D; \frac{1}{2}QC_h + \frac{D}{Q}C_0<br>$$</p>
+<p>&emsp;&emsp;由此得到最小化 $TC$ 的存量 $Q^{*}$：</p>
+<p>$$<br>Q^{*} &#x3D; \sqrt{\frac{2DC_0}{C_h}}<br>$$</p>
+<p>&emsp;&emsp;至於reorder point $r$ 則以<span class="hint--info hint--rounded hint--top" data-hint="假設為常數，比如說每年要二十四個，
+相當於每個月要兩個" ontouchstart>demand rate</span>和lead time的乘積計算，</p>
+<p>$$<br>r &#x3D; d \times L<br>$$</p>
+<p>&emsp;&emsp;也可以把 $r$ model為隨機變數，$r &#x3D; \mu_L + z\sigma_L$。套用統計學的概念，$z\sigma_L$ 就可以作為safety stock，表示「要達到某信心水準的量」。</p>
+<br>
+
+<p>&emsp;&emsp;上述的inventory模型是隨著存量變化而下訂單，因此是隨時查看存量的。還有另一種模型為fixed-period system (FPS)，固定間隔時間T才查看存量並補貨，那麼這個T的最佳值為何？根據前面EOQ的分析，annual demand為 $D$ 且每次下訂單送來的量為 $Q^{*}$，那當然最好間隔 $T^{*} &#x3D; Q^{*}&#x2F;D$ 檢查IP。這個模型固定的就不是 $Q$，而是review period $T$。</p>
 <h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2>
     </div>
 
