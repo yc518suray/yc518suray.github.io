@@ -20,26 +20,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"yc518suray.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="What?&emsp;&emsp;這裡是我的個人網誌，發表和文學、音樂、電影、科學、工程等等相關的各種雜七雜八東西的地方，一個相當「隨機」的發表空間。">
+    <meta name="description" content="譯者前言&emsp;&emsp;因緣際會知道了這篇文章，作者是那個提出Dijkstra’s algorithm的Dijkstra，讀了以後覺得他的這三個黃金法則相當受用，於是翻譯成中文。不是逐字翻譯，而是意譯。原文來源如下：   The Three Golden Rules for Successful Scientific Research, E. W. Dijkstra. Transcript">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Welcome to R.S. Random Space!">
-<meta property="og:url" content="https://yc518suray.github.io/uncategorized/hello-world/index.html">
+<meta property="og:title" content="Dijkstra有關科學研究的三個黃金法則">
+<meta property="og:url" content="https://yc518suray.github.io/%E6%96%87%E7%AB%A0%E7%BF%BB%E8%AD%AF/dijkstra-golden-rule/index.html">
 <meta property="og:site_name" content="R.S. Random Space">
-<meta property="og:description" content="What?&emsp;&emsp;這裡是我的個人網誌，發表和文學、音樂、電影、科學、工程等等相關的各種雜七雜八東西的地方，一個相當「隨機」的發表空間。">
+<meta property="og:description" content="譯者前言&emsp;&emsp;因緣際會知道了這篇文章，作者是那個提出Dijkstra’s algorithm的Dijkstra，讀了以後覺得他的這三個黃金法則相當受用，於是翻譯成中文。不是逐字翻譯，而是意譯。原文來源如下：   The Three Golden Rules for Successful Scientific Research, E. W. Dijkstra. Transcript">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2025-04-26T02:12:29.575Z">
-<meta property="article:modified_time" content="2025-04-26T02:12:29.576Z">
+<meta property="article:published_time" content="2025-10-09T00:21:31.000Z">
+<meta property="article:modified_time" content="2025-10-09T08:42:29.065Z">
 <meta property="article:author" content="Raymond Su">
+<meta property="article:tag" content="翻譯">
+<meta property="article:tag" content="研究">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://yc518suray.github.io/uncategorized/hello-world/">
+<link rel="canonical" href="https://yc518suray.github.io/%E6%96%87%E7%AB%A0%E7%BF%BB%E8%AD%AF/dijkstra-golden-rule/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://yc518suray.github.io/uncategorized/hello-world/","path":"uncategorized/hello-world/","title":"Welcome to R.S. Random Space!"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://yc518suray.github.io/%E6%96%87%E7%AB%A0%E7%BF%BB%E8%AD%AF/dijkstra-golden-rule/","path":"文章翻譯/dijkstra-golden-rule/","title":"Dijkstra有關科學研究的三個黃金法則"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Welcome to R.S. Random Space! | R.S. Random Space</title>
+<title>Dijkstra有關科學研究的三個黃金法則 | R.S. Random Space</title>
   
 
 
@@ -142,7 +144,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#What"><span class="nav-number">1.</span> <span class="nav-text">What?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#When"><span class="nav-number">2.</span> <span class="nav-text">When?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Why"><span class="nav-number">3.</span> <span class="nav-text">Why?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Where"><span class="nav-number">4.</span> <span class="nav-text">Where?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#So"><span class="nav-number">5.</span> <span class="nav-text">So?</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AD%AF%E8%80%85%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">譯者前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AD%AF%E6%96%87"><span class="nav-number">2.</span> <span class="nav-text">譯文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AD%AF%E8%80%85%E7%B5%90%E8%AA%9E"><span class="nav-number">3.</span> <span class="nav-text">譯者結語</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -203,7 +205,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://yc518suray.github.io/uncategorized/hello-world/">
+    <link itemprop="mainEntityOfPage" href="https://yc518suray.github.io/%E6%96%87%E7%AB%A0%E7%BF%BB%E8%AD%AF/dijkstra-golden-rule/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/images/blog_avatar.png">
@@ -216,12 +218,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Welcome to R.S. Random Space! | R.S. Random Space">
+      <meta itemprop="name" content="Dijkstra有關科學研究的三個黃金法則 | R.S. Random Space">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Welcome to R.S. Random Space!
+          Dijkstra有關科學研究的三個黃金法則
         </h1>
 
         <div class="post-meta-container">
@@ -231,8 +233,18 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
+      
 
-      <time title="創建時間：2025-04-26 10:12:29" itemprop="dateCreated datePublished" datetime="2025-04-26T10:12:29+08:00">2025-04-26</time>
+      <time title="創建時間：2025-10-09 08:21:31 / 修改時間：16:42:29" itemprop="dateCreated datePublished" datetime="2025-10-09T08:21:31+08:00">2025-10-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%96%87%E7%AB%A0%E7%BF%BB%E8%AD%AF/" itemprop="url" rel="index"><span itemprop="name">文章翻譯</span></a>
+        </span>
     </span>
 
   
@@ -244,8 +256,8 @@
       </span>
       <span class="post-meta-item-text">Disqus：</span>
     
-    <a title="disqus" href="/uncategorized/hello-world/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="uncategorized/hello-world/" itemprop="commentCount"></span>
+    <a title="disqus" href="/%E6%96%87%E7%AB%A0%E7%BF%BB%E8%AD%AF/dijkstra-golden-rule/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="文章翻譯/dijkstra-golden-rule/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -258,14 +270,69 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="What"><a href="#What" class="headerlink" title="What?"></a>What?</h2><p>&emsp;&emsp;這裡是我的個人網誌，發表和文學、音樂、電影、科學、工程等等相關的各種雜七雜八東西的地方，一個相當「隨機」的發表空間。</p>
+    <div class="post-body" itemprop="articleBody"><link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="譯者前言"><a href="#譯者前言" class="headerlink" title="譯者前言"></a>譯者前言</h2><p>&emsp;&emsp;因緣際會知道了這篇文章，作者是那個提出Dijkstra’s algorithm的Dijkstra，讀了以後覺得他的這三個黃金法則相當受用，於是翻譯成中文。不是逐字翻譯，而是意譯。原文來源如下：</p>
+<br>
+
+<p><a target="_blank" rel="noopener" href="https://www.cs.utexas.edu/~EWD/transcriptions/EWD06xx/EWD637.html"><em>The Three Golden Rules for Successful Scientific Research</em>, E. W. Dijkstra. Transcription by Hai Zhou. The University of Texas at Austin, CS.</a></p>
 <span id="more"></span>
 
-<h2 id="When"><a href="#When" class="headerlink" title="When?"></a>When?</h2><p>&emsp;&emsp;這個網誌是在2025年，一個晴空萬里、空氣冷冽的三月天下午建立的。那時，我確定要前往南部大學念研究所，正在消極地待在房間裡瀏覽人力銀行網站、尋找一份度過漫長三個月的工作。</p>
-<p>&emsp;&emsp;每天都要進步一點，對於如此放縱的我，也只能這樣要求自己。</p>
-<h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>&emsp;&emsp;建立對話，不論是與自己或是與他人的對話。我記性很差，有想法最好盡快記錄下來，那麼最起碼這個網誌有這樣的功能，作為我那軟爛大腦的外接硬碟。</p>
-<h2 id="Where"><a href="#Where" class="headerlink" title="Where?"></a>Where?</h2><p>&emsp;&emsp;目前(2025&#x2F;03&#x2F;20)部署在Github pages上。不知道網站會存在多久，也許可以用一個隨機模型來描述它…能活多久就是多久吧。</p>
-<h2 id="So"><a href="#So" class="headerlink" title="So?"></a>So?</h2><p>&emsp;&emsp;更多有關我的巴啦巴啦，請看 <a href="/about"><em>關於我</em></a>。</p>
+<h2 id="譯文"><a href="#譯文" class="headerlink" title="譯文"></a>譯文</h2><center><font size="5"><b>做好科學研究的三個黃金法則</b></font></center>
+
+<br>
+
+<p>&emsp;&emsp;這份筆記主要說明三項原則，如果你想要做出成功的科學研究，就應該要遵守這些原則。(如果你盡力嘗試遵守，也很足夠了，這個暫且不提。)這三項原則是給那些想要做出成功的科學研究、但是沒有做到的人──之所以沒做到，是因為他們沒有意識到這些原則，因而違反了它們。為了避免誤會，我想要在文章第一段就先強調，這份筆記是講求實際效用：不涉及道德判斷，要不要以成功的研究作為崇高的人生目標，完全取決於你自己。</p>
+<br>
+
+<p>&emsp;&emsp;第一項原則是「內省」的：跟你和其他人的關係無關，只跟你自己有關。第一項原則如下：</p>
+<br>
+
+<blockquote>
+<p>把你的標準拉高到你能承受的極致，不要浪費時間碰那些重複性的問題，並且盡可能做到自己能力邊界所及。只有這樣做，才能了解這個「邊界」能如何推進。</p>
+</blockquote>
+<br>
+
+<p>&emsp;&emsp;這項原則告訴我們，<span class="hint--info hint--rounded hint--top" data-hint="譯者：原文為obviously possible和obviously impossible" ontouchstart>易如反掌和難如登天</span>的事不要去碰；前者學不到東西，後者會使你絕望，兩者都不會促成什麼成果。</p>
+<br>
+
+<p>&emsp;&emsp;第二項原則是「外界」的：與「科學世界」和「現實世界」的關係有關。第二項原則如下：</p>
+<br>
+
+<blockquote>
+<p>大家都希望研究成果既和社會有所連結，又能在科學方面站得住腳。如果能找到一個滿足這兩點的研究主題，那你很幸運；如果這兩點彼此衝突，你應該力求科學方面的根據要扎實。</p>
+</blockquote>
+<br>
+
+<p>&emsp;&emsp;理由很簡單，如果你做出的成果很「<span class="hint--info hint--rounded hint--top" data-hint="譯者：指科學根基很扎實" ontouchstart>完美</span>」但是沒有人感興趣，那也不會造成什麼損失，而且至少有某個「完美」的東西──即便沒什麼用處──成為<span class="hint--info hint--rounded hint--top" data-hint="譯者：指的也許是科學社群的文化，或是
+科學方面的思想" ontouchstart>文化</span>的一部份。然而，如果你對一個迫切重要的問題提出一個搖搖欲墜、似是而非的解答，那麼你確實危害社會，因為對解答的需求急迫，大家很樂意採用你的<span class="hint--info hint--rounded hint--top" data-hint="譯者：原文為ineffective remedy" ontouchstart>爛方法</span>。難怪詐欺話術總是與不治之症牽連。(我們的第二個原則<span class="hint--info hint--rounded hint--top" data-hint="譯者：原文為traditionally" ontouchstart>一直以來</span>都為社會科學違反，以至於有人懷疑它究竟能不能稱之為「科學」。)</p>
+<br>
+
+<p>&emsp;&emsp;第三項原則介於「內省」和「外界」之間：它與你和你的同事有關。第三項原則如下：</p>
+<br>
+
+<blockquote>
+<p>如果你很確定一個問題，現在或在不遠的將來，會被其他和你一樣有能力、一樣對問題有足夠了解的人解決，你就不要去處理這個問題。</p>
+</blockquote>
+<br>
+
+<p>&emsp;&emsp;理由也很簡單。如果其他人想到的解答跟你能想到的一樣好，就算你不碰那個問題，<span class="hint--info hint--rounded hint--top" data-hint="譯者：因為其他人會去解決它，但是真是這樣嗎？請看結語" ontouchstart>這個世界也沒有什麼損失</span>。從第三項原則還可以推論：不要和你的同事競爭。如果你很確定在某個領域，你可以做得比任何人都還要好，那麼請全心投入其中；如果不確定，<span class="hint--info hint--rounded hint--top" data-hint="譯者：原文為abstain" ontouchstart>請果斷放棄</span>。第三項原則確保你的貢獻──如果有的話──是獨一無二的。</p>
+<br>
+
+<p>&emsp;&emsp;我和來自世界各地、生活和工作都大不相同的同事們檢驗了這三項原則。他們對此看法一致，也不感到驚訝。你可能覺得這些原則有些殘酷…要是如此，那也是應該的，因為你愈早發現科學界不是一個安逸享受的地方──應該說和<span class="hint--info hint--rounded hint--top" data-hint="譯者：比如說體育界、文學界、工業界" ontouchstart>其他世界</span>一樣──而是殘酷無情的，對你愈好。祝一切順利。</p>
+<h2 id="譯者結語"><a href="#譯者結語" class="headerlink" title="譯者結語"></a>譯者結語</h2><p>&emsp;&emsp;我大致認同Dijkstra的三項原則，不過有一些不認同。第三項原則說，只做你最擅長的，如果在某個領域、某個問題有人可以跟你做的一樣好、甚至更好，就轉換方向。但是這有兩點問題：</p>
+<br>
+
+<ol>
+<li><p><font color="yellow">我擅長的可能只有那個領域！</font>若轉換跑道失敗，等於是放棄研究生涯。不過，也許這就是Dijkstra的意思，在這個情況下，就是<font color="red">不適合作研究</font>。</p>
+</li>
+<li><p>確實有跟我一樣夠格的人，但是他可能也意識到我的存在，結果兩邊、甚至其他人都迴避了這個問題，搞到最後沒有人解決問題。這等於是公共財困境的翻版，沒有人認為自己要為那個問題負責，造成問題懸而未解的結果。我想，要化解這個困境，比較好的做法是科學社群裡的密切溝通，如同在其他群體理的做法。</p>
+</li>
+</ol>
+<br>
+
+<p>&emsp;&emsp;Dijkstra也碰觸到「社會科學算不算是科學」的爭論，我不予置評，不過我認為確實值得討論。不知道為什麼網路上沒有中文翻譯，也許是因為它帶些主觀意見、用詞犀利。反正我就是翻譯，如Dijkstra所言，測試自己翻譯能力的邊界。</p>
+<br>
+
+<p>&emsp;&emsp;最後，我覺得Dijkstra這番話的對象是頗有能力、也頗有自知的科學家。要善用這些原則，首先要有一定的高度，我想這才是我現在能做的，不要半瓶水(可能連半瓶水都沒有)響叮噹還沾沾自喜。</p>
 
     </div>
 
@@ -283,7 +350,7 @@
   </li>
   <li class="post-copyright-link">
       <strong>文章連結：</strong>
-      <a href="https://yc518suray.github.io/uncategorized/hello-world/" title="Welcome to R.S. Random Space!">https://yc518suray.github.io/uncategorized/hello-world/</a>
+      <a href="https://yc518suray.github.io/%E6%96%87%E7%AB%A0%E7%BF%BB%E8%AD%AF/dijkstra-golden-rule/" title="Dijkstra有關科學研究的三個黃金法則">https://yc518suray.github.io/文章翻譯/dijkstra-golden-rule/</a>
   </li>
   <li class="post-copyright-license">
       <strong>版權聲明： </strong>本網誌所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 許可協議。轉載請註明出處！
@@ -291,19 +358,20 @@
 </ul>
 </div>
 
+          <div class="post-tags">
+              <a href="/tags/%E7%BF%BB%E8%AD%AF/" rel="tag"><i class="fa fa-tag"></i> 翻譯</a>
+              <a href="/tags/%E7%A0%94%E7%A9%B6/" rel="tag"><i class="fa fa-tag"></i> 研究</a>
+          </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/%E7%B6%B2%E9%A0%81%E5%89%8D%E7%AB%AF/add-live2d/" rel="prev" title="在網誌加上Live2D看板娘">
-                  <i class="fa fa-angle-left"></i> 在網誌加上Live2D看板娘
+                <a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/how-to-scale-fft-psd/" rel="prev" title="如何用MATLAB FFT畫出PSD？">
+                  <i class="fa fa-angle-left"></i> 如何用MATLAB FFT畫出PSD？
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/%E7%B6%B2%E9%A0%81%E5%89%8D%E7%AB%AF/Hexo-image-resize/" rel="next" title="在Hexo自由設定圖片的大小">
-                  在Hexo自由設定圖片的大小 <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
