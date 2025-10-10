@@ -1,3 +1,4 @@
+https://yc518suray.github.io/uncategorized/hello-world/
 https://yc518suray.github.io/links/index.html
 https://yc518suray.github.io/%E6%96%87%E7%AB%A0%E7%BF%BB%E8%AD%AF/dijkstra-golden-rule/
 https://yc518suray.github.io/about/index.html
@@ -15,7 +16,6 @@ https://yc518suray.github.io/%E8%AE%80%E5%BE%8C%E9%9A%A8%E6%83%B3/animal-farm-re
 https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-why-lognormal-shadowing/
 https://yc518suray.github.io/%E7%B6%B2%E9%A0%81%E5%89%8D%E7%AB%AF/Hexo-image-resize/
 https://yc518suray.github.io/%E7%B6%B2%E9%A0%81%E5%89%8D%E7%AB%AF/add-live2d/
-https://yc518suray.github.io/uncategorized/hello-world/
 https://yc518suray.github.io/categories/index.html
 https://yc518suray.github.io/google677e898f89526b76.html
 https://yc518suray.github.io/tags/index.html
