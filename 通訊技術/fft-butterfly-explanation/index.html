@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yc518suray.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="What?&emsp;&emsp;FFT是非常重要的數值運算技術，讓OFDM技術得以實現。在吳炳飛教授的數位訊號處理講義裡，提到FFT的butterfly運算結構，並且畫了下圖(圖A)，來說明butterfly結構可以如何化簡。   圖A，兩個stage之間的運算結構。改自講義。   &emsp;&emsp;化簡後就會長成如圖B的樣子。當中只出現了一個complex exponential( $W">
+<meta property="og:type" content="article">
+<meta property="og:title" content="有關FFT的一些問題釐清">
+<meta property="og:url" content="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/fft-butterfly-explanation/index.html">
+<meta property="og:site_name" content="R.S. Random Space">
+<meta property="og:description" content="What?&emsp;&emsp;FFT是非常重要的數值運算技術，讓OFDM技術得以實現。在吳炳飛教授的數位訊號處理講義裡，提到FFT的butterfly運算結構，並且畫了下圖(圖A)，來說明butterfly結構可以如何化簡。   圖A，兩個stage之間的運算結構。改自講義。   &emsp;&emsp;化簡後就會長成如圖B的樣子。當中只出現了一個complex exponential( $W">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/fft-butterfly-explanation/fft_butterfly-1.jpg">
+<meta property="og:image" content="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/fft-butterfly-explanation/fft_butterfly-2.jpg">
+<meta property="og:image" content="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/fft-butterfly-explanation/fft_butterfly-3.jpg">
+<meta property="og:image" content="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/fft-butterfly-explanation/fft_butterfly-4.jpg">
+<meta property="article:published_time" content="2025-10-11T02:11:03.000Z">
+<meta property="article:modified_time" content="2025-10-11T08:51:06.883Z">
+<meta property="article:author" content="Raymond Su">
+<meta property="article:tag" content="數值計算">
+<meta property="article:tag" content="數學">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/fft-butterfly-explanation/fft_butterfly-1.jpg">
+
+
+<link rel="canonical" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/fft-butterfly-explanation/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/fft-butterfly-explanation/","path":"通訊技術/fft-butterfly-explanation/","title":"有關FFT的一些問題釐清"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>有關FFT的一些問題釐清 | R.S. Random Space</title>
+  
+
+
+
+
+
+
+
+<script src="/live2d-widget/dist/autoload.js"></script>
+<script src="/js/hexo_resize_image.js"></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">R.S. Random Space</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Raymond Su的個人網站</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa-solid fa-house fa-fw"></i>首頁</a></li><li class="menu-item menu-item-archives"><a href="/archives" rel="section"><i class="fa-solid fa-folder-open fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-categories"><a href="/categories" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-tags"><a href="/tags" rel="section"><i class="fa-solid fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-音樂"><a href="/music" rel="section"><i class="fa fa-music fa-fw"></i>音樂</a></li><li class="menu-item menu-item-連結"><a href="/links" rel="section"><i class="fa fa-link fa-fw"></i>連結</a></li><li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa-solid fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#What"><span class="nav-number">1.</span> <span class="nav-text">What?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Explanation"><span class="nav-number">2.</span> <span class="nav-text">Explanation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Complexity"><span class="nav-number">3.</span> <span class="nav-text">Complexity</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Raymond Su"
+      src="/uploads/images/blog_avatar.png">
+  <p class="site-author-name" itemprop="name">Raymond Su</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives">
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yc518suray" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yc518suray" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:raymondsu0110@gmail.com" title="E-mail → mailto:raymondsu0110@gmail.com" rel="noopener me" target="_blank"><i class="fa-solid fa-envelope fa-fw"></i>E-mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/fft-butterfly-explanation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/images/blog_avatar.png">
+      <meta itemprop="name" content="Raymond Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R.S. Random Space">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="有關FFT的一些問題釐清 | R.S. Random Space">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          有關FFT的一些問題釐清
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2025-10-11 10:11:03 / 修改時間：16:51:06" itemprop="dateCreated datePublished" datetime="2025-10-11T10:11:03+08:00">2025-10-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/" itemprop="url" rel="index"><span itemprop="name">通訊技術</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/fft-butterfly-explanation/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="通訊技術/fft-butterfly-explanation/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="What"><a href="#What" class="headerlink" title="What?"></a>What?</h2><p>&emsp;&emsp;FFT是非常重要的數值運算技術，讓OFDM技術得以實現。在吳炳飛教授的數位訊號處理講義裡，提到FFT的butterfly運算結構，並且畫了下圖(圖A)，來說明butterfly結構可以如何化簡。</p>
+<br>
+<img src="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/fft-butterfly-explanation/fft_butterfly-1.jpg" class="">
+<center><font color="cyan">圖A，兩個stage之間的運算結構。改自講義。</font></center>
+<br>
+
+<p>&emsp;&emsp;化簡後就會長成如圖B的樣子。當中只出現了一個complex exponential( $W_{N}^{r}$ )，因此也可以減少硬體(如暫存器)的使用。</p>
+<br>
+<img src="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/fft-butterfly-explanation/fft_butterfly-2.jpg" class="">
+<center><font color="cyan">圖B，再化簡後的運算結構。改自講義。</font></center>
+<br>
+
+<span id="more"></span>
+
+<p>&emsp;&emsp;但是圖A和圖B是怎麼來的？講義裡以N &#x3D; 8(N為FFT點數)作為例子，可不可以用更一般化的方式來理解？這篇文章就要來釐清這個問題。</p>
+<h2 id="Explanation"><a href="#Explanation" class="headerlink" title="Explanation"></a>Explanation</h2><p>&emsp;&emsp;開始碰數學吧。假設有一個長度為 $N$ 的訊號(samples)，我們對它做 $N$-point DFT來了解頻譜資訊。</p>
+<p>$$<br>X[k] &#x3D; \sum_{n &#x3D; 0}^{N - 1}{x[n]W_N^{kn}},\quad 0 \leq k \leq N - 1<br>$$</p>
+<p>&emsp;&emsp;其中 $W_N^{k} &#x3D; e^{-j\frac{2\pi}{N}k}$。假設 $N$ 為2的冪次，即 <font color="yellow">$N &#x3D; 2^{\nu}$</font>，因此 $N$ 也是偶數。則剛才的式子可以拆成兩項：n為偶數的samlpes和n為奇數的samples：</p>
+<p>$$<br>\begin{align}<br>X[k] &amp;&#x3D; \sum_{n\ even}{x[n]W_N^{kn}} + \sum_{n\ odd}{x[n]W_N^{kn}}\\[10pt]<br>&amp;&#x3D; \sum_{l &#x3D; 0}^{\frac{N}{2} - 1}{x[2l]W_N^{2lk}} + \sum_{l &#x3D; 0}^{\frac{N}{2} - 1}{x[2l + 1]W_N^{(2l + 1)k}}\\[10pt]<br>&amp;&#x3D; \sum_{l &#x3D; 0}^{\frac{N}{2} - 1}{x[2l]W_{\frac{N}{2}}^{lk}} + W_N^k \sum_{l &#x3D; 0}^{\frac{N}{2} - 1}{x[2l + 1]W_{\frac{N}{2}}^{lk}}\\[10pt]<br>&amp;&#x3D; X_{0}[k] + W_N^{k}X_{1}[k]<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;$X_{0}[k]$ 為<font color="yellow">n為偶數的samples做出來的 $N&#x2F;2$-point DFT</font>，$X_{1}[k]$ 為<font color="yellow">n為奇數的samples做出來的 $N&#x2F;2$-point DFT</font>。下標0表示偶數，1表示奇數，之後會發現這相當的好用。從上面的式子還可以發現一件事：</p>
+<p>$$<br>\begin{align}<br>X[k + \frac{N}{2}] &amp;&#x3D; X_{0}[k + \frac{N}{2}] + W_N^{k + \frac{N}{2}}X_{1}[k + \frac{N}{2}]\\[10pt]<br>&amp;&#x3D; X_{0}[k] - W_N^{k}X_{1}[k],\quad 0 \leq k \leq \frac{N}{2} - 1<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;也就是說 $X[k]$ 和 $X[k + \frac{N}{2}]$ 用到的是前一個stage的同一組結果，只不過係數稍有不同(就差一個負號)。以此類推，就可以把DFT運算簡化為butterfly的結構，運算複雜度從原本的 $O(N^2)$ 變為 $O(N\lg{N})$，此即FFT的強大之處。(這裡使用的是Decimation in Time, DIT的方法。)</p>
+<br>
+
+<p>&emsp;&emsp;剛才我們將DFT增加一階來化簡，還可不可以<font color="yellow">再化簡</font>？當然可以！怎麼做？把偶數index的部分再分為偶數和奇數就行了，如下：</p>
+<p>$$<br>\begin{align}<br>X_0[k] &amp;&#x3D; \sum_{l &#x3D; 0}^{\frac{N}{2} - 1}{x[2l]W_{\frac{N}{2}}^{kl}}\\[10pt]<br>&amp;&#x3D; \sum_{l\ even}{x[2l]W_{\frac{N}{2}}^{kl}} + \sum_{l\ odd}{x[2l]W_{\frac{N}{2}}^{kl}}\\[10pt]<br>&amp;&#x3D; \sum_{r &#x3D; 0}^{\frac{N}{4} - 1}{x[4r]W_{\frac{N}{2}}^{2rk}} + \sum_{r &#x3D; 0}^{\frac{N}{4} - 1}{x[4r + 2]W_{\frac{N}{2}}^{(2r + 1)k}}\\[10pt]<br>&amp;&#x3D; X_{(0,0)}[k] + W_N^{2k}X_{(1,0)}[k]<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;下標的部分，$(0,0)$ 表示偶數index中再取偶數index，$(1,0)$ 表示偶數index中再取奇數index，要從右往左看。對於 $X_1[k]$，如法炮製(過程就省略了)：</p>
+<p>$$<br>X_1[k] &#x3D; X_{(0,1)}[k] + W_N^{2k}X_{(1,1)}[k]<br>$$</p>
+<p>&emsp;&emsp;所以 $X[k]$ 可以表示為</p>
+<p>$$<br>\begin{align}<br>X[k] &amp;&#x3D; X_{(0,0)}[k] + W_N^{2k}X_{(1,0)}[k] + W_N^k(X_{(0,1)}[k] + W_N^{2k}X_{(1,1)}[k])\\[10pt]<br>&amp;&#x3D; X_0[k] + W_N^{2k}X_2[k] + W_N^kX_1[k] + W_N^{3k}X_3[k]<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;上面的式子裡，把下標從二進位改為十進位表示，比如說 $(1,0) \rightarrow 2$。好像有點複雜？確實，不過從上面的式子可以看出兩點：</p>
+<ol>
+<li><p>繼續化簡下去的話，就是DFT原本的表示式，因為化簡到最後的 $X_{(\cdots)}[k]$ 就是time-domain samples本身。所以化簡動作本身並沒有讓我們計算更方便，而是化簡過程中，發現<font color="yellow">使用到重複的項</font>(比如說剛才的 $X[k]$ 和 $X[k + \frac{N}{2}]$)，才使得運算複雜度降低。(有點動態規劃的Fu？)</p>
+</li>
+<li><p>假設在某個stage m我有一個node $X_{d}[k]$，這個node一定可以再分為前一個stage的兩個node(除非已經是time-domain samples了)。沒有什麼理論依據，<font color="yellow">就是做得到</font>。</p>
+</li>
+</ol>
+<br>
+
+<p>&emsp;&emsp;接著我們就把它一般化為mth stage和(m - 1)th stage的關係，以證實圖A和圖B的正確性。首先我們要定義stage，如下圖，time-domain samples定義為0th stage，而最後的DFT結果($X[k]$)定義為$\nu$th stage。</p>
+<br>
+<img src="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/fft-butterfly-explanation/fft_butterfly-3.jpg" class="">
+<center><font color="cyan">圖C，FFT butterfly結構的stage定義。</font></center>
+<br>
+
+<p>&emsp;&emsp;現在，來看看mth stage的某個node，$X_d[k]$。這裡的 $d$ 是一個 $(\nu - m)$ bits的數字，也就是說 $d$ 介於 $0 \sim (2^{\nu - m} - 1)$ 之間。由於是在mth stage，已經經過 $(\nu - m)$ 次簡化，因此它是一個 $N&#x2F;2^{\nu - m} &#x3D; 2^m$-point DFT的結果，可以寫成下面這個樣子($N’ &#x3D; 2^m$)：</p>
+<p>$$<br>X_d[k] &#x3D; \sum_{i &#x3D; 0}^{N’ -1}{g[i]W_{N’}^{ki}}<br>$$</p>
+<p>&emsp;&emsp;$g[i]$ 是根據<span class="hint--info hint--rounded hint--top" data-hint="其實也就是奇數偶數分類" ontouchstart>某個規則</span>從x[n]挑出來的samples。和剛才的作法一樣，分為偶數index和奇數index：</p>
+<p>$$<br>\begin{align}<br>X_d[k] &amp;&#x3D; \sum_{i\ even}{g[i]W_{N’}^{ki}} + \sum_{i\ odd}{g[i]W_{N’}^{ki}}\\[10pt]<br>&amp;&#x3D; \sum_{j &#x3D; 0}^{\frac{N’}{2} - 1}{g[2j]W_{N’}^{2kj}} + \sum_{j &#x3D; 0}^{\frac{N’}{2} - 1}{g[2j + 1]W_{N’}^{(2j + 1)k}}\\[10pt]<br>&amp;&#x3D; \sum_{j &#x3D; 0}^{\frac{N’}{2} - 1}{g[2j]W_{\frac{N’}{2}}^{kj}} + W_{N’}^k\sum_{j &#x3D; 0}^{\frac{N’}{2} - 1}{g[2j + 1]W_{\frac{N’}{2}}^{kj}}\\[10pt]<br>&amp;&#x3D; X_{d’}[k] + W_{N’}^kX_{d’’}[k] \tag{1}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;當中，$d’$ 和 $d’’$ 為 $(\nu - m + 1)$ bits的數字。$d’$ 的數值和 $d$ 相同，只不過多一個digit，MSB為0；$d’’ &#x3D; d + 2^{\nu - m}$，MSB為1。因為 $X_{d’}[k]$ 和 $X_{d’’}[k]$ 都是 $\frac{N’}{2}$ - periodic，可以得知</p>
+<p>$$<br>\begin{align}<br>X_d[k + \frac{N’}{2}] &amp;&#x3D; X_{d’}[k + \frac{N’}{2}] + W_{N’}^{k + \frac{N’}{2}}X_{d’’}[k + \frac{N’}{2}]\\[10pt]<br>&amp;&#x3D; X_{d’}[k] - W_{N’}^kX_{d’’}[k] \tag{2}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;式(1)和式(2)是不是有些似曾相識？畫成圖如下，原來它就是圖B。這證實圖A和圖B的正確性，也說明mth stage和(m - 1)th stage之間的關係。</p>
+<br>
+<img src="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/fft-butterfly-explanation/fft_butterfly-4.jpg" class="">
+<center><font color="cyan">圖D，兩個stage之間的關係。</font></center>
+<br>
+
+<p>&emsp;&emsp;從式(1)也可以看得出來，在1st stage，也就是time-domain samples做2-point DFT的階段，若上方的sample為 $x[d’] &#x3D; x[d]$，則同一組下方的sample為 $x[d’’] &#x3D; x[d + 2^{\nu - 1}] &#x3D; x[d + \frac{N}{2}]$。</p>
+<h2 id="Complexity"><a href="#Complexity" class="headerlink" title="Complexity"></a>Complexity</h2><p>&emsp;&emsp;雖然這不是我原本的問題，不過也把思考的過程記錄下來。沒有使用DIT FFT演算法前，$N$-point DFT的複數乘法量($m$)為$N^2$，複數加法量($a$)為$N^2 - N$。以 $S$ 表示化簡成幾個stage，如下(係數為-1也算乘法)：</p>
+<ul>
+<li>$S &#x3D; 1$，就是沒有化簡，$m &#x3D; N^2$，$a &#x3D; N^2 - N$。</li>
+<li>$S &#x3D; 2$，$m &#x3D; 2\times(\frac{N}{2})^2 + N$，$a &#x3D; 2\times\frac{N}{2}(\frac{N}{2} - 1) + N$。</li>
+<li>$S &#x3D; 3$，$m &#x3D; 2\times(2\times(\frac{N}{4})^2 + \frac{N}{2}) + N$，$a &#x3D; 2\times(2\times\frac{N}{4}(\frac{N}{4} - 1) + \frac{N}{2}) + N$。</li>
+</ul>
+<p>&emsp;&emsp;看起來可以表達成遞迴式。令 $m(i)$ 表示計算i-point DIT FFT所需的複數乘法量，$a(i)$ 表示所需的複數加法量，則：</p>
+<p>$$<br>\begin{align}<br>m(i) &amp;&#x3D; 2\cdot m(\frac{i}{2}) + i\\[10pt]<br>a(i) &amp;&#x3D; 2\cdot a(\frac{i}{2}) + i<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;因為 $m(4) &#x3D; 12$，$a(4) &#x3D; 8$，可以推得($N &#x3D; 2^{\nu}$)：</p>
+<p>$$<br>\begin{align}<br>m(2^\nu) &amp;&#x3D; 2^{\nu - 2}\cdot 12 + (\nu - 2)2^{\nu}\\[10pt]<br>&amp;&#x3D; (\nu + 1)2^{\nu},\quad \nu \geq 3\\[10pt]<br>&amp;&#x3D; N(\lg{N} + 1)\\[10pt]<br>a(2^\nu) &amp;&#x3D; 2^{\nu - 2}\cdot 8 + (\nu - 2)2^{\nu}\\[10pt]<br>&amp;&#x3D; \nu2^{\nu},\quad \nu \geq 3\\[10pt]<br>&amp;&#x3D; N\lg{N}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;上面的式子假設係數為-1也算是乘法；如果不算的話，複數乘法量還可以再減少，不過只是相乘的常數減少，複雜度還是 $O(N\lg{N})$。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>&emsp;&emsp;本文參考吳炳飛教授的數位訊號處理講義。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Raymond Su
+  </li>
+  <li class="post-copyright-link">
+      <strong>文章連結：</strong>
+      <a href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/fft-butterfly-explanation/" title="有關FFT的一些問題釐清">https://yc518suray.github.io/通訊技術/fft-butterfly-explanation/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版權聲明： </strong>本網誌所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 許可協議。轉載請註明出處！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B8%E5%80%BC%E8%A8%88%E7%AE%97/" rel="tag"><i class="fa fa-tag"></i> 數值計算</a>
+              <a href="/tags/%E6%95%B8%E5%AD%B8/" rel="tag"><i class="fa fa-tag"></i> 數學</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/uncategorized/hello-world/" rel="prev" title="Welcome to R.S. Random Space!">
+                  <i class="fa fa-angle-left"></i> Welcome to R.S. Random Space!
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Raymond Su</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"oscarsu-disqus","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
