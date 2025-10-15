@@ -1038,6 +1038,28 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 <br>
 
 <p>&emsp;&emsp;上述的inventory模型是隨著存量變化而下訂單，因此是隨時查看存量的。還有另一種模型為fixed-period system (FPS)，固定間隔時間T才查看存量並補貨，那麼這個T的最佳值為何？根據前面EOQ的分析，annual demand為 $D$ 且每次下訂單送來的量為 $Q^{*}$，那當然最好間隔 $T^{*} &#x3D; Q^{*}&#x2F;D$ 檢查IP。這個模型固定的就不是 $Q$，而是review period $T$。</p>
+<h3 id="Supply-chain"><a href="#Supply-chain" class="headerlink" title="Supply chain"></a>Supply chain</h3><h2 id="Scheduling"><a href="#Scheduling" class="headerlink" title="Scheduling"></a>Scheduling</h2><p>&emsp;&emsp;排程的目標：最小化<strong>last completion time (makespan)</strong>。例：機場的登機口分配。一個排程的program由三個部分組成：<font color="yellow">machine environments</font>，<font color="cyan">constraints</font>，以及<font color="magenta">objectives</font>。</p>
+<br>
+
+<p>&emsp;&emsp;三種特別重要的machine environments：</p>
+<ul>
+<li>Job shop，固定工序，每一階段(不同位置)有許多機台，完成某階段再前往下一階段。</li>
+<li>Flow shop，固定工序，每一站(同位置)有許多機台，完成某一站再前往下一站。</li>
+<li>Open shop，順序(工序)不重要，把每一關完成就好。</li>
+</ul>
+<p>&emsp;&emsp;其他machine environments(job $j$ on machine $i$)：加工時間 $p_{ij}$，到達時間 $r_j$，交期 $d_j$，權重 $w_j$。</p>
+<br>
+
+<p>&emsp;&emsp;常見的constraints如下：</p>
+<ul>
+<li>Release dates $r_j$，到達時間。</li>
+<li></li>
+</ul>
+<p>&emsp;&emsp;常見的objectives如下：</p>
+<ul>
+<li>Makespan $C_max$，總完工時間。</li>
+<li></li>
+</ul>
 <h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2>]]></content>
       <categories>
         <category>學習筆記</category>
@@ -1454,6 +1476,85 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
       <tags>
         <tag>數值計算</tag>
         <tag>數學</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>讀後隨想：「直到夜色溫柔」</title>
+    <url>/%E8%AE%80%E5%BE%8C%E9%9A%A8%E6%83%B3/until-night-tender-comic-reading/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>&emsp;&emsp;偶然在圖書館碰到這本書&#x2F;漫畫，原著是劇本，改編為漫畫。說到劇本，許多巨著都是劇作，但是我還是不喜歡讀劇本，因為不像小說或是漫畫，劇作將故事的背景、人物、對話和動作分解，讀的時候要自己拼湊起來，對我而言相當費力。</p>
+<span id="more"></span>
+
+<br>
+
+<p>&emsp;&emsp;所以有這本改編漫畫真是太好了！因為這本書的題材相當有意思，敘說遠離「社群主流」的人們的性，並且充滿真實感。(雖然我沒什麼資格談論這類真實XD)</p>
+<h2 id="書籍資訊"><a href="#書籍資訊" class="headerlink" title="書籍資訊"></a>書籍資訊</h2><ul>
+<li>書名：「直到夜色溫柔」</li>
+<li>作者：簡莉穎(原作)&#x2F;廢廢子(漫畫)</li>
+<li>出版：臉譜出版，初版三刷，2023&#x2F;02，<a href="https://www.openbook.org.tw/article/p-67195">網路連結</a></li>
+</ul>
+<h2 id="隨想"><a href="#隨想" class="headerlink" title="隨想"></a>隨想</h2><p>&emsp;&emsp;「直到夜色溫柔」由九篇獨立的故事以及一篇的總結(?)組成，不過有些角色穿梭在不同的故事間，一開始我沒有注意到，讀到最後一篇才發現，帶給我不少驚喜。以下挑選三篇來分享。</p>
+<h3 id="你是誰"><a href="#你是誰" class="headerlink" title="你是誰"></a>你是誰</h3><p>&emsp;&emsp;一對女同約砲做完，準備退房。<span class="hint--info hint--rounded hint--top" data-hint="書裡沒有任何名字，我只好這樣稱呼" ontouchstart>甲女</span>佯稱耳環掉了，要乙女幫忙找。在找的過程中，甲透露自己其實是為了抓「小三」才找上乙，懷疑自己的女友和乙跑了。為什麼跑了？甲坦承，身上的疤痕像是死亡預告一般壓迫著自己，對此的不安與焦慮化作對女友無盡的情感索求，所以女友才會受不了而離開自己。明知如此，甲的內心還是充滿焦慮，當乙沒好氣的要離開時，硬是要對方留下。</p>
+<br>
+
+<p>&emsp;&emsp;對死亡的深刻不安，迫使人直視自己的存在。雖然嘴上頻繁嚷著「破病的身體隨時可能死去」、「她(女友)一定恨不得我死吧」，甲想要的，其實是可以與無底洞般的死亡相抗衡的「無止盡的愛」，唯有無論何時都能強烈回應、給予無限信心的情感，能讓自己勉強像沒事一般活下去。可惜這種情感並不存在，即使真的有人願意接住她的不安，到最後也會<span class="hint--info hint--rounded hint--top" data-hint="關於刻意避開將死之人的呼救，
+請參考「伊凡‧伊里奇之死」" ontouchstart>反過頭來侵蝕自己的日常生活</span>。看到乙對疤痕毫不在乎、甚至享受兩人的交歡，甲像是看見另一個拯救自己的希望。</p>
+<br>
+
+<p>&emsp;&emsp;看到這裡，劇情似乎難以收拾？畢竟退房的時間到了，乙就要離去，甲則是死命纏著、求她留下來。<strong>但是</strong>，就在最後一頁，甲向旅館櫃檯打了電話要求延後退房，要乙證明自己是健康的，<strong>然後直接撲上強吻</strong>！是啊，行動是最好的證明，安慰、加油打氣都沒有意義，如果如妳所說我是健康的，就像剛才一樣再來做吧！性是對自身存在的肯定──此刻、當下的性，可以戰勝死亡。雖然，若是轉變為對性愛的索求，仍然會墜入無底洞。</p>
+<br>
+
+<p>&emsp;&emsp;(勝者的早餐.jpg)</p>
+<h3 id="聽見愛"><a href="#聽見愛" class="headerlink" title="聽見愛"></a>聽見愛</h3><p>&emsp;&emsp;兩女一男相約混戰，由一位雙性戀女A主導，A的男友B和另一個女生C參與。讀者從C的視角，看見A一下子對聽障的男友B百般嫌棄、貶低辱罵，一下子又和他緊密纏綿、熱情如火，一開始讀者和C都搞不清楚狀況，不知道A到底是什麼意思？</p>
+<br>
+
+<p>&emsp;&emsp;在C和B溝通、了解B的想法後，看著A和B在床上相好，C和讀者才真正認識這一對情侶。B雖然有聽力障礙，卻可以讀唇語，因此當A將他的助聽器取下、對他毫無保留痛快的罵，B都看在眼裡；即使如此，B仍然愛著A，因為他知道A的極端行徑是心理疾病導致，而這樣的A他也依舊深愛。表面上看來，兩人的戀情相當甜蜜可口，好像是包容著彼此的缺陷，但是我覺得不只是這樣：可口的巧克力總是以苦來襯托甜。</p>
+<br>
+
+<p>&emsp;&emsp;在和C前戲時，A就坦承自己和其他人有親密關係，甚至趁著B上班不在家時和別人偷來。總歸來說，是對B的背叛；但是A仍然愛著B，而拒絕了鉅額的包養邀請。這到底是什麼心態？看到A在他人的注視下做愛能獲得強烈快感，我覺得對B的背叛、辱罵與嫌棄<span class="hint--info hint--rounded hint--top" data-hint="不過也有點人格障礙的跡象？" ontouchstart>應該是A的性癖</span>，與B的性愛也由於補償心理而更加濃烈，不過這不是一般人能夠接受的。B能夠接受，我想和他的聽力障礙脫不了關係：溝通困難與社會歧視的眼光，使得聽力障礙者尋覓伴侶的阻礙重重，能遇到愛著自己的A可以說是難得的機會，他怎麼能夠放棄呢？反過來說，A不願意離開B，也是因為B是少數願意接納她的對象吧？</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1Bl6R0tL2wFYUj_jgpyNhtPQHcNw2EPV_&sz=w1024" width="450">
+<center><font color="cyan">還是紙本漫畫好，看久了眼睛也不會痠。</font></center>
+<br>
+
+<p>&emsp;&emsp;於是遇見彼此的兩人像是在汪洋大海中攀上浮木，誰也不願離開誰，甚至，愛意就在其中萌芽。只不過，說這是互相包容的愛情，不到位；這對情侶契合的程度、依附對方之深，豈是溫柔的「包容」可以道盡。這篇故事，是這個殘酷而美麗的世界深刻的寫照。</p>
+<h3 id="假陽具，真心人"><a href="#假陽具，真心人" class="headerlink" title="假陽具，真心人"></a>假陽具，真心人</h3><p>&emsp;&emsp;又是男女混戰(就哈這味嗎？)而且也是兩女一男、女性主導，由女D主導，D的女友E和另一個男生F參與。有趣的是，<span class="hint--info hint--rounded hint--top" data-hint="你搞得我好亂啊！" ontouchstart>E其實就是「你是誰」這一篇裡的乙女</span>。強勢的D總是主導著三人的性愛，要求E和F做，也要求和E做愛時，<span class="hint--info hint--rounded hint--top" data-hint="用道具做的話應該可以分為「攻」和「受」吧？" ontouchstart>E必須是「受」的一方</span>。E為了滿足女友的期待，總是盡量配合。</p>
+<br>
+   
+<p>&emsp;&emsp;當然，E也有想要「攻」的時候，但是D稱E技巧不好、對幹人沒興趣，拒絕她的提議。當D和F開啟主戰場，E只能迴避，到客廳去看電視，把電視音量轉到最大…螢幕的亮光映照在E的臉上，神情落寞。</p>
+<br>
+
+<blockquote>
+<p>「是因為我不能滿足你嗎？」<br>「不是這樣的，我不想要你去做不是你的本性的事情。」</p>
+</blockquote>
+<br>
+
+<p>&emsp;&emsp;可是我的本性又是如何呢？<b>妳看見了我的全部本性嗎？</b>只有兩個人的時候，我們能盡情探索彼此的身體、嘗試各種互動關係；但是現在有其他人加入，突然變得分工明確，妳是攻，我是受，他是「假陽具」…沒有空間看見彼此不同的一面，雖然我們還是相愛，但是好像不能再更接近妳。雖然我沒有實際經驗作為依據，我覺得E應該是這麼想的。有些諷刺的是，三人的關係理應是相當創新的，然而從某個角度看來，反倒比兩人關係還要侷限。當性不再專屬於兩人、開放更多人加入的時候，會不會反而少了什麼？</p>
+<h3 id="總結篇"><a href="#總結篇" class="headerlink" title="總結篇"></a>總結篇</h3><p>&emsp;&emsp;最後一篇我稱之為總結篇，因為它把前面九篇的內容串在一起，並且訴說故事的核心思想：性不若逢場作戲，更像是兩顆(或兩顆以上)帶著慾念的心牽上線的因緣。追根究柢，每一篇故事裡的主角，誰不是想要<span class="hint--info hint--rounded hint--top" data-hint="性與愛不該混為一談，無奈中文語彙如此" ontouchstart>做愛</span>？想做愛的心，大家都一樣，沒有任何差別，這樣看來，性是很純粹的東西呢！</p>
+<br>
+
+<p>&emsp;&emsp;即使有些摩擦、產生衝突，感到落寞、神傷，初衷還是沒有變。你可以說它很原始，那麼愛也是原始的，所以才充滿能量、賦予人們不斷前進的動力。知道自己的<span class="hint--info hint--rounded hint--top" data-hint="醜話說在前頭，單純的事物也可以是暴力的" ontouchstart>內心深處藏著這份單純</span>，和其他人一樣，即便燈關了是一片黑暗，夜色也逐漸溫柔起來。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1OaqZWuB12wprb-fXGKz4LcVq5m0ig4Id&sz=w1024" width="450">
+<center><font color="cyan">漸漸熟悉夜晚的黑暗與獨特的情調，夜色才逐漸溫柔。</font></center>
+
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;我認為現在的酷兒文化相當主動：主動表達自身，而不是以受攻擊、受壓迫的姿態呈現。這本漫畫就是很好的例子。除了酷兒，書裡還有其他的「少數」──身材、社會地位、心理狀態、生理障礙等等，正因為性是人類諸多面向的其中之一，在性方面也會有優勢與弱勢之分；也如同人類的其他面向，性既是溫暖、明亮的，也是殘忍、暴力的。</p>
+<br>
+
+<p>&emsp;&emsp;性的正義是什麼？如果一個人可以因為能力不足而被應徵的公司拒絕，那麼一個人也可能因為性吸引力不足而被邀請的對象拒絕；如果一個人能力卓越，可以被許多公司人資青睞而招聘，那麼一個人也可能因為性方面的條件優良，而獲得更多(與其他對象)上床的機會。所以性的正義就是強大與否？某方面來說確實如此，因為性的根源是繁殖，繁衍的目的驅動著擇偶行為，此即<strong>性擇</strong>。</p>
+<br>
+
+<p>&emsp;&emsp;但是和動物不一樣，人類掌握著一項秘密武器──<font color="yellow"><b>色情</b></font>！看看人們展現的各種性癖，五花八門、目不暇給，開闊了性的道路，讓更多人、特別是被性擇遺棄的人有機會參與、體驗。色情讓性跳脫繁衍的本質，讓它成為互動、對話與理解的媒介。</p>
+<br>
+
+<p>&emsp;&emsp;「直到夜色溫柔」的調性較溫和，雖然提起各樣的性癖，並沒有觸及色情。但是我認為<span class="hint--info hint--rounded hint--top" data-hint="大概除了那些見不得別人幸福的人" ontouchstart>對所有人來說</span>，色情都是救贖。當然任何事物過了限度都會招致毀滅。這番話<strong>太離譜</strong>了嗎？或許吧，之後重讀Bataille，再來討論這個部分。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>&emsp;&emsp;無。</p>
+]]></content>
+      <categories>
+        <category>讀後隨想</category>
+      </categories>
+      <tags>
+        <tag>閱讀</tag>
+        <tag>漫畫</tag>
       </tags>
   </entry>
 </search>

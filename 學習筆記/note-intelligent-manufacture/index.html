@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://drive.google.com/thumbnail?id=1M625jANiHjg-zDISD1Lx4-AQ-5p4rcho&sz=s1024">
 <meta property="article:published_time" content="2025-09-27T11:02:50.000Z">
-<meta property="article:modified_time" content="2025-10-07T13:57:40.976Z">
+<meta property="article:modified_time" content="2025-10-14T03:03:54.887Z">
 <meta property="article:author" content="Raymond Su">
 <meta property="article:tag" content="數學">
 <meta property="article:tag" content="Modeling">
@@ -146,7 +146,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Capacity-management"><span class="nav-number">1.</span> <span class="nav-text">Capacity management</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Inventory-Supply-chain-management"><span class="nav-number">2.</span> <span class="nav-text">Inventory &amp; Supply-chain management</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Summary"><span class="nav-number">3.</span> <span class="nav-text">Summary</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Capacity-management"><span class="nav-number">1.</span> <span class="nav-text">Capacity management</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Inventory-Supply-chain-management"><span class="nav-number">2.</span> <span class="nav-text">Inventory &amp; Supply-chain management</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Supply-chain"><span class="nav-number">2.1.</span> <span class="nav-text">Supply chain</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scheduling"><span class="nav-number">3.</span> <span class="nav-text">Scheduling</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Summary"><span class="nav-number">4.</span> <span class="nav-text">Summary</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -161,7 +161,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives">
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -172,7 +172,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -243,7 +243,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-10-07 21:57:40" itemprop="dateModified" datetime="2025-10-07T21:57:40+08:00">2025-10-07</time>
+      <time title="修改時間：2025-10-14 11:03:54" itemprop="dateModified" datetime="2025-10-14T11:03:54+08:00">2025-10-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -370,6 +370,28 @@
 <br>
 
 <p>&emsp;&emsp;上述的inventory模型是隨著存量變化而下訂單，因此是隨時查看存量的。還有另一種模型為fixed-period system (FPS)，固定間隔時間T才查看存量並補貨，那麼這個T的最佳值為何？根據前面EOQ的分析，annual demand為 $D$ 且每次下訂單送來的量為 $Q^{*}$，那當然最好間隔 $T^{*} &#x3D; Q^{*}&#x2F;D$ 檢查IP。這個模型固定的就不是 $Q$，而是review period $T$。</p>
+<h3 id="Supply-chain"><a href="#Supply-chain" class="headerlink" title="Supply chain"></a>Supply chain</h3><h2 id="Scheduling"><a href="#Scheduling" class="headerlink" title="Scheduling"></a>Scheduling</h2><p>&emsp;&emsp;排程的目標：最小化<strong>last completion time (makespan)</strong>。例：機場的登機口分配。一個排程的program由三個部分組成：<font color="yellow">machine environments</font>，<font color="cyan">constraints</font>，以及<font color="magenta">objectives</font>。</p>
+<br>
+
+<p>&emsp;&emsp;三種特別重要的machine environments：</p>
+<ul>
+<li>Job shop，固定工序，每一階段(不同位置)有許多機台，完成某階段再前往下一階段。</li>
+<li>Flow shop，固定工序，每一站(同位置)有許多機台，完成某一站再前往下一站。</li>
+<li>Open shop，順序(工序)不重要，把每一關完成就好。</li>
+</ul>
+<p>&emsp;&emsp;其他machine environments(job $j$ on machine $i$)：加工時間 $p_{ij}$，到達時間 $r_j$，交期 $d_j$，權重 $w_j$。</p>
+<br>
+
+<p>&emsp;&emsp;常見的constraints如下：</p>
+<ul>
+<li>Release dates $r_j$，到達時間。</li>
+<li></li>
+</ul>
+<p>&emsp;&emsp;常見的objectives如下：</p>
+<ul>
+<li>Makespan $C_max$，總完工時間。</li>
+<li></li>
+</ul>
 <h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2>
     </div>
 
