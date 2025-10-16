@@ -1557,4 +1557,108 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
         <tag>漫畫</tag>
       </tags>
   </entry>
+  <entry>
+    <title>通訊序列大亂鬥</title>
+    <url>/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/comm-sequence-intro/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="What"><a href="#What" class="headerlink" title="What?"></a>What?</h2><p>&emsp;&emsp;作為「通訊序列設計」的修課筆記，也希望能將通訊序列有趣之處呈現出來。</p>
+<span id="more"></span>
+
+<h2 id="Basics"><a href="#Basics" class="headerlink" title="Basics"></a>Basics</h2><h2 id="Sequence-sets"><a href="#Sequence-sets" class="headerlink" title="Sequence sets"></a>Sequence sets</h2><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2>]]></content>
+      <categories>
+        <category>通訊技術</category>
+      </categories>
+      <tags>
+        <tag>數學</tag>
+        <tag>OFDM</tag>
+        <tag>通訊序列</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>論文閱讀：Eliminating Event Cancellation</title>
+    <url>/%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/paper-event-cancellation-simulation/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;在simulation modeling的領域，有時會使用event cancellation的技巧──取消已經排程好的事件──來建立simulation model。本篇論文提出一個消除event cancellation的方法，並且以兩個simulation model：<strong>preemptive priority queue</strong> 和 <strong>queue with a state dependent service rate</strong>，作為示範。</p>
+<span id="more"></span>
+
+<h2 id="論文資訊"><a href="#論文資訊" class="headerlink" title="論文資訊"></a>論文資訊</h2><p>E. L. Savage and L. W. Schruben, “Eliminating Event Cancellation In Discrete Event Simulation,” in <em>Proceedings of the 1995 Winter Simulation Conference</em>, 1995.</p>
+<h2 id="論文內容"><a href="#論文內容" class="headerlink" title="論文內容"></a>論文內容</h2><p>&emsp;&emsp;Event cancellation是建立模擬模型時相當好用的一個技巧，但是這會使得<a id="infinitesimal_back"></a><a href="#infinitesimal"><strong>infinitesimal pertubation analysis</strong></a>和<a href="#model_equiv"><strong>structural model equivalence</strong></a>兩種分析方法變得無效。這兩種分析方法建立在<a href="#gen_markov"><strong>Generalized Semi-Markov Process</strong></a>的模型表示，而這個模型通常不允許使用event cancellation。</p>
+<br>
+
+<p>&emsp;&emsp;這篇論文用event graph來說明：一個event發生時，會根據條件來排程另一個event。一個event graph model (EGM)由edges和vertices表示，$G &#x3D; \{E, V\}$，以及對應的狀態空間 $S$(state space)。$v$ 表示某個事件，$e &#x3D; (v_o, v_d)$ 表示某條edge，據此可以定義以下的集合：</p>
+<ul>
+<li>$F &#x3D; \{f_v: \forall v \in V\}$，和事件相關的state change。</li>
+<li>$P &#x3D; \{p_e: \forall e \in E\}$，execution priority expressions，用來打破time-ties的困境。</li>
+<li>$T &#x3D; \{t_e: \forall e \in E\}$，inter-event delay。</li>
+<li>$C &#x3D; \{c_e: S \rightarrow {\cal{R}},\ \forall e \in E\}$，排程條件，0表示false。</li>
+</ul>
+<p>&emsp;&emsp;排程條件不為0的edges稱作<font color="yellow">active edges</font>。具體的模擬模型則是以indices來建立。和FSM、Petri nets等模型不同，EGM的vertices不是用來表示狀態的值，而是用來指示狀態的改變，作者認為這和微分方程構成的系統模型相當相似。</p>
+<br>
+
+<p>&emsp;&emsp;作者提及有些人會在EGM增加其他特性：<font color="yellow">可以取消事件的edge</font>、在edge增加屬性以儲存事件清單(event list)的值或是vertices的參數。不過，作者說圖靈機的模型已經證明這些功能並非必要，因此接著探討<font color="yellow">取消事件(event cancellation)</font>這個動作，因為event cancellation在本質上和其他附加的特性不太一樣。接下來用兩個例子來說明如何消除event cancellation。</p>
+<h3 id="EX1-Preemptive-priority-queue-搶先優先佇列"><a href="#EX1-Preemptive-priority-queue-搶先優先佇列" class="headerlink" title="EX1. Preemptive priority queue 搶先優先佇列"></a>EX1. Preemptive priority queue 搶先優先佇列</h3><p>&emsp;&emsp;在這個例子裡，有一個server，兩種顧客，type 1的顧客擁有優先權：如果type 2的顧客正在接受服務，而來了type 1的顧客，則server會中斷type 2顧客的服務、優先服務type 1的顧客，直到queue裡沒有任何type 1顧客時，才會繼續完成type 2顧客的服務。圖A為使用到cancelling edge的EGM。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1ANR5lzRwvjxsR6-EXvpBBWEpg1z3Te50&sz=s1024" width="550">
+<center><font color="cyan">圖A，改自論文的Figure 1。</font></center>
+<br>
+
+<p>&emsp;&emsp;各個edge上的排程條件如下，其中 $S &#x3D; 1$ 表示server idle，$S &#x3D; 0$ 表示server busy(紅字為發生preemption的條件，黃字表示經過修改)：</p>
+<ul>
+<li>條件(i)，$S &#x3D; 1$。</li>
+<li><font color="red">條件(ii)，$S &#x3D; 0$ 且 $\text{PR} &#x3D; 0$。</font></li>
+<li>條件(iii)，$Q(1) &gt; 0$ 且 <font color="yellow">$\text{RTIME} &#x3D; 0$</font> (刪除 $S &#x3D; 1$ 因為必然符合)。</li>
+<li>條件(iv)，$Q(1) &#x3D; 0$ 且 $Q(2) &gt; 0$ 且 <font color="yellow">$\text{RTIME} &#x3D; 0$</font> (刪除 $S &#x3D; 1$ 因為必然符合)。</li>
+<li><font color="red">條件(v)，$Q(1) &gt; 0$ 且</font> <font color="yellow">$\text{RTIME} \neq 0$。</font></li>
+</ul>
+<p>&emsp;&emsp;先前也說過，每一個vertex&#x2F;event意味著狀態變化，所以也把state change條列如下，黃字表示經過修改(其中 $x &#x3D; 1\ \text{or}\ 2$，表示顧客的type；$\text{PR} &#x3D; 0$ 表示目前服務的顧客無優先權，$\text{PR} &#x3D; 1$ 表示目前服務的顧客有優先權)：</p>
+<ul>
+<li>$\text{Enter}(x) \rightarrow Q(x) &#x3D; Q(x) + 1$</li>
+<li>$\text{Start}(x) \rightarrow Q(x) &#x3D; Q(x) - 1,\ S &#x3D; 0,\ \text{PR} &#x3D; 2 - x,\ \text{FTIME} &#x3D; \text{CLK} + t_s(x)$</li>
+<li>$\text{Leave}(x) \rightarrow S &#x3D; 1,\ \text{PR} &#x3D; 0,\ \textcolor{yellow}{\text{RTIME} &#x3D; 0\ \text{if }x &#x3D; 2}$</li>
+<li>$\text{Preemp} \rightarrow Q(1) &#x3D; Q(1) - 1,\ S &#x3D; 0,\ \text{PR} &#x3D; 1,\ \textcolor{yellow}{\text{RTIME} &#x3D; \text{RTIME} + \text{FTIME} - \text{CLK} + t_s(1),\ \text{FTIME} &#x3D; \text{CLK} + t_s(1)}$</li>
+</ul>
+<p>&emsp;&emsp;<a id="sidenote-1_back"></a>當中 $\text{RTIME}$ 為服務到一半的type 2顧客被type 1顧客搶先後，等待結束服務的時間(<a href="#sidenote-1">註1</a>)。$\text{FTIME}$ 為目前顧客結束服務的時間點(<a href="#sidenote-2">註2</a>)。圖A裡紅色的edge表示搶先(preemption)，發生在<font color="red">條件(ii)</font>和<font color="red">條件(v)</font>；發生preemption時，原本已經排程(e.g. 放到event list)的Leave2會被取消，即圖A中的藍色虛線。</p>
+<br>
+
+<p>&emsp;&emsp;圖B為不使用cancelling edge的EGM。作法為：排程Leave2之前，先檢查有沒有preemption的情形($\text{RTIME} \neq 0$)，有的話(<font color="cyan">條件(vi)</font>)就排程下一次檢查；沒有preemption的話(<font color="cyan">條件(vii)</font>)，就可以結束對type 2顧客的服務。新增的條件如下：</p>
+<ul>
+<li><font color="cyan">條件(vi)，$\text{RTIME} \neq 0$。</font></li>
+<li><font color="cyan">條件(vii)，$\text{RTIME} &#x3D; 0$。</font></li>
+</ul>
+<p>&emsp;&emsp;新增與修改的state change如下：</p>
+<ul>
+<li>$\text{Start}(x) \rightarrow Q(x) &#x3D; Q(x) - 1,\ S &#x3D; 0,\ \text{PR} &#x3D; 2 - x,\ \text{FTIME} &#x3D; \text{CLK} + t_s(x),\ \textcolor{yellow}{t_{sl}(1) &#x3D; t_s(1)\ \text{if }x &#x3D; 1}$</li>
+<li>$\text{Leave}(x) \rightarrow S &#x3D; 1,\ \text{PR} &#x3D; 0,\ \textcolor{yellow}{t_{sl}(1) &#x3D; 0\ \text{if }x &#x3D; 1}$</li>
+<li>$\text{Preemp} \rightarrow Q(1) &#x3D; Q(1) - 1,\ S &#x3D; 0,\ \text{PR} &#x3D; 1,\ \text{FTIME} &#x3D; \text{CLK} + t_s(1),\ \textcolor{yellow}{t_{sl}(1) &#x3D; t_s(1)}$</li>
+<li><font color="yellow">$\text{Check} \rightarrow \text{RTIME} &#x3D; t_{sl}(1)$</font></li>
+</ul>
+<p>&emsp;&emsp;注意 $\text{RTIME}$ 其實就是 $t_{sl}(1)$ (參考圖C)，即目前接受服務的type 1顧客的service time，是我新增的state variable。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1VHOLorSnQ14y7V6cdAWtuGtNCNV2n5EI&sz=s1024" width="550">
+<center><font color="cyan">圖B，改自論文的Figure 2。</font></center>
+<br>
+
+<br>
+<img src="https://drive.google.com/thumbnail?id=1RXldxo7leSzPqsGV4JJqEtyj_AkMgw8q&sz=s1024" width="500">
+<center><font color="cyan">圖C，說明 $\text{RTIME}$ 與 $t_{sl}(1)$ 的關係。</font></center>
+<br>
+
+<h3 id="EX-2-Single-server-queue-with-state-dependent-service-rate"><a href="#EX-2-Single-server-queue-with-state-dependent-service-rate" class="headerlink" title="EX.2 Single server queue with state-dependent service rate"></a>EX.2 Single server queue with state-dependent service rate</h3><p>&emsp;&emsp;嗯。</p>
+<h2 id="讀後想法"><a href="#讀後想法" class="headerlink" title="讀後想法"></a>讀後想法</h2><p>&emsp;&emsp;本身不是研究這個領域的，但是作為課堂報告還是要仔細讀完。老師說這篇論文的EGM有許多地方要修正，確實如此。那篇論文到底是怎麼通過審核的？</p>
+<h2 id="註"><a href="#註" class="headerlink" title="註"></a>註</h2><ol>
+<li><p><a id="sidenote-1"></a>原本論文裡Preemp的狀態變化，$\text{RTIME}$ 的部分是這樣寫的：$\text{RTIME} &#x3D; \text{FTIME} - \text{CLK}$。這裡改寫 $\text{RTIME}$ 的算法。<a href="#sidenote-1_back">點擊以返回論文</a>。</p>
+</li>
+<li><p><a id="sidenote-2"></a>原本論文裡 $\text{FTIME}$ 是這樣寫的：$\text{FTIME} &#x3D; \text{FTIME} + t_s(1)$。這裡修改了 $\text{FTIME}$ 的定義，所以算法也改寫。<a href="#sidenote-1_back">點擊以返回論文</a>。</p>
+</li>
+</ol>
+<h2 id="附錄"><a href="#附錄" class="headerlink" title="附錄"></a>附錄</h2><h3 id="Infinitesimal-pertubation-analysis"><a href="#Infinitesimal-pertubation-analysis" class="headerlink" title="Infinitesimal pertubation analysis"></a>Infinitesimal pertubation analysis<a id="infinitesimal"></a></h3><p>&emsp;&emsp;<a href="#infinitesimal_back">點擊以返回論文</a>。</p>
+<h3 id="Structural-model-equivalence"><a href="#Structural-model-equivalence" class="headerlink" title="Structural model equivalence"></a>Structural model equivalence<a id="model_equiv"></a></h3><p>&emsp;&emsp;<a href="#infinitesimal_back">點擊以返回論文</a>。</p>
+<h3 id="Generalized-Semi-Markov-Process"><a href="#Generalized-Semi-Markov-Process" class="headerlink" title="Generalized Semi-Markov Process"></a>Generalized Semi-Markov Process<a id="gen_markov"></a></h3><p>&emsp;&emsp;<a href="#infinitesimal_back">點擊以返回論文</a>。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2>]]></content>
+      <categories>
+        <category>學習筆記</category>
+      </categories>
+      <tags>
+        <tag>Modeling</tag>
+        <tag>模擬</tag>
+      </tags>
+  </entry>
 </search>
