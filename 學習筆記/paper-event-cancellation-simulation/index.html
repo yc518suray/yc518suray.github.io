@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://drive.google.com/thumbnail?id=1R3CXqS8iEok-sE4cb33s5DTSslTUJrh9&sz=s1024">
 <meta property="og:image" content="https://drive.google.com/thumbnail?id=1PWbXw-szkesnGiEcdv8rdvKtSviCmfEL&sz=s1024">
 <meta property="article:published_time" content="2025-10-07T13:45:43.000Z">
-<meta property="article:modified_time" content="2025-10-17T13:41:58.242Z">
+<meta property="article:modified_time" content="2025-10-17T13:55:17.284Z">
 <meta property="article:author" content="Raymond Su">
 <meta property="article:tag" content="Modeling">
 <meta property="article:tag" content="模擬">
@@ -248,7 +248,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-10-17 21:41:58" itemprop="dateModified" datetime="2025-10-17T21:41:58+08:00">2025-10-17</time>
+      <time title="修改時間：2025-10-17 21:55:17" itemprop="dateModified" datetime="2025-10-17T21:55:17+08:00">2025-10-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -365,7 +365,7 @@
 <p>&emsp;&emsp;要解決圖D的問題，可以給每次事件V的排程加上編號，來表示排程的先後順序。比如說用index $i$ 作為排程編號，$\text{VSTime}(i)$ (陣列)表示第 $i$ 個排程排定的事件發生時間點，$\text{VCancel}(i)$ (陣列)記錄第 $i$ 個排程是否取消，$\text{VOrder}$ (陣列)將排程編號依據 $\text{VSTime}(i)$ 從小排到大。使用這些陣列，就可以按照正確的順序取消排程。</p>
 <h3 id="EX-2-Single-server-queue-with-state-dependent-service-rate"><a href="#EX-2-Single-server-queue-with-state-dependent-service-rate" class="headerlink" title="EX.2 Single server queue with state-dependent service rate"></a>EX.2 Single server queue with state-dependent service rate</h3><p>&emsp;&emsp;論文提出第二個例子。在這個例子裡，有一個server，它的service rate是queue length $Q$ 的函數，service rate &#x3D; $r(Q)$，並且 $r(0) &#x3D; 1$。這裡定義service units $\text{SU}$ 為服務的基本單位，和service rate $r(Q)$ 的關係如下：</p>
 <p>$$<br>\frac{\text{SU}}{r(Q)} &#x3D; t_s<br>$$</p>
-<p>&emsp;&emsp;每一個顧客接受服務時，都會隨機生成 $\text{SU}$，再根據當下的service rate，決定service time $t_s$。當顧客服務到一半，有新的顧客排隊、queue length改變時，原本排程好的Leave就要取消，並重新排程，因為service rate改變、剩餘的service time也改變了。請見圖E，圖中的藍色虛線為cancelling edge。</p>
+<p>&emsp;&emsp;每一個顧客接受服務時，都會隨機生成service time $t_s$，再根據當下的service rate，決定 $\text{SU}$。當顧客服務到一半，有新的顧客排隊、queue length改變時，原本排程好的Leave就要取消，並重新排程，因為service rate改變、剩餘的service time也改變了。請見圖E，圖中的藍色虛線為cancelling edge。</p>
 <br>
 
 <p>&emsp;&emsp;條件條列如下，$S &#x3D; 0$ 表示server busy，$S &#x3D; 1$ 表示server idle：</p>
