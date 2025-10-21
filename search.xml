@@ -982,7 +982,7 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 <br>
 
 <p>&emsp;&emsp;Some other things：revenue management system (RMS)、theory of constraints(關注影響整體產能的bottleneck)等。</p>
-<h2 id="Inventory-Supply-chain-management"><a href="#Inventory-Supply-chain-management" class="headerlink" title="Inventory &amp; Supply-chain management"></a>Inventory &amp; Supply-chain management</h2><p>&emsp;&emsp;Inventory有以下類別：</p>
+<h2 id="Inventory-management"><a href="#Inventory-management" class="headerlink" title="Inventory management"></a>Inventory management</h2><p>&emsp;&emsp;Inventory有以下類別：</p>
 <ul>
 <li>Raw materials, component parts</li>
 <li>Work-In-Progress (WIP) inventory</li>
@@ -1038,7 +1038,7 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 <br>
 
 <p>&emsp;&emsp;上述的inventory模型是隨著存量變化而下訂單，因此是隨時查看存量的。還有另一種模型為fixed-period system (FPS)，固定間隔時間T才查看存量並補貨，那麼這個T的最佳值為何？根據前面EOQ的分析，annual demand為 $D$ 且每次下訂單送來的量為 $Q^{*}$，那當然最好間隔 $T^{*} &#x3D; Q^{*}&#x2F;D$ 檢查IP。這個模型固定的就不是 $Q$，而是review period $T$。</p>
-<h3 id="Supply-chain"><a href="#Supply-chain" class="headerlink" title="Supply chain"></a>Supply chain</h3><h2 id="Scheduling"><a href="#Scheduling" class="headerlink" title="Scheduling"></a>Scheduling</h2><p>&emsp;&emsp;排程的目標：最小化<strong>last completion time (makespan)</strong>。例：機場的登機口分配。一個排程的program由三個部分組成：<font color="yellow">machine environments</font>，<font color="cyan">constraints</font>，以及<font color="magenta">objectives</font>。</p>
+<h2 id="Scheduling"><a href="#Scheduling" class="headerlink" title="Scheduling"></a>Scheduling</h2><p>&emsp;&emsp;排程的目標：最小化<strong>last completion time (makespan)</strong>。例：機場的登機口分配。一個排程的program由三個部分組成：<font color="yellow">machine environments</font>，<font color="cyan">constraints</font>，以及<font color="magenta">objectives</font>。</p>
 <br>
 
 <p>&emsp;&emsp;三種特別重要的machine environments：</p>
@@ -1053,13 +1053,62 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 <p>&emsp;&emsp;常見的constraints如下：</p>
 <ul>
 <li>Release dates $r_j$，到達時間。</li>
-<li></li>
+<li>Preemptions，中斷。</li>
+<li>Precedence，工作優先序。</li>
+<li>Sequence-dependent setup time (比如說換一號板子機台就要重新設定一遍)</li>
+<li>Breakdowns，機台當機。</li>
+<li>Blocking (如buffer有容量限制)</li>
+<li>No-wait (比如說兩工序之間不得間斷)</li>
 </ul>
 <p>&emsp;&emsp;常見的objectives如下：</p>
 <ul>
-<li>Makespan $C_max$，總完工時間。</li>
-<li></li>
+<li>Makespan $C_{max}$，總完工時間。</li>
+<li>Maximum Lateness $L_{max}$，最大總延遲。</li>
+<li>Total weighted tardness $\sum{\omega_j T_j}$，加權總延遲時間。</li>
+<li>Weighted number of tardy jobs $\sum{\omega_j U_j}$，加權總延遲數量。</li>
 </ul>
+<h3 id="例1-total-weighted-completion-time"><a href="#例1-total-weighted-completion-time" class="headerlink" title="例1. total weighted completion time"></a>例1. total weighted completion time</h3><p>&emsp;&emsp;Environments &#x3D; $1 \lvert \cdots \rvert \sum{\omega_j C_j}$。最佳解為 Weighted Shortest Processing Time (WSPT) rule。($w_j&#x2F;p_j$ 愈大愈優先。)</p>
+<br>
+
+<p>&emsp;&emsp;當存在 chains (比如說 J1、J2、J4 一定要依照1 -&gt; 2 -&gt; 3的先後順序)時，用 $\rho$-fractor 的做法；$\rho$ 愈大愈優先。</p>
+<p>$$<br>\rho &#x3D; \max_{k}{\frac{\sum{w_j}}{\sum{p_j}}}<br>$$</p>
+<h3 id="例2-maximum-lateness"><a href="#例2-maximum-lateness" class="headerlink" title="例2. maximum lateness"></a>例2. maximum lateness</h3><p>&emsp;&emsp;Environments &#x3D; $1 \lvert r_j \rvert L_{max}$，給你 $r_j$、$p_j$、$d_j$，排程使得 $L_{max}$ 最小。其最佳解為 branch-and-bound method，使用到 decision tree。假設總共 n 個 jobs，則決策樹會有 n + 1 層，如下圖所示。第零層為 root node，第一層共有 n nodes，表示第一個位置要安排的工作，第二層會有 n(n - 1) nodes，表示前兩個位置要安排的工作，以此類推。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1pOScKLyB1rR1R33oihI3KPcVr41Qf-el&sz=s1024" width="500">
+<center><font color="cyan">Branch and bound method。改自講義圖片。</font></center>
+<br>
+
+<p>&emsp;&emsp;這裡有一個條件，在第 k 層若 $r_{j_k} \geq \min_{j_i \in J}{(\max{(t, r_{j_i})}) + p_{j_i}}$。$J$ 為上一層(第 k - 1 層)節點還沒排程的工作，$t$ 為上一層節點的完工時間，則 $j_k$ 就不在第 k 層的排程考慮中。(因為使右式最小化的 $j_i$ 完成的時候，$j_k$ 甚至還沒 released。)</p>
+<br>
+
+<p>&emsp;&emsp;可以用 earliest due date (EDD) first rule 來決定 lower bound，再用 branch-and-bound method 來刪掉分支。</p>
+<h2 id="Genetic-algorithm"><a href="#Genetic-algorithm" class="headerlink" title="Genetic algorithm"></a>Genetic algorithm</h2><p>&emsp;&emsp;首先介紹基因演算法的使用背景。Dispatching (派工)和 scheduling (排程)的差異：</p>
+<ul>
+<li>派工：實時規劃，適用於 processing time 無法確定的情況，通常不可得最佳解。</li>
+<li>排程：預先規劃，適用於 processing time 可以精確得知的情況，可得最佳解。</li>
+</ul>
+<p>&emsp;&emsp;對排程而言，garbage in，garbage out，加工時間不定的話，用最佳化找到的 solution 也沒用。</p>
+<br>
+
+<p>&emsp;&emsp;Some common dispatching rules，用來指定工作的優先序：</p>
+<ul>
+<li>Static<ul>
+<li>FIFO，SPT，WSPT，LPT，EDD。</li>
+</ul>
+</li>
+<li>Dynamic<ul>
+<li>Minimum slack $\max{(d_j - p_j - t, 0)}$，slack 為寬裕時間 (float time)。</li>
+</ul>
+</li>
+<li>Compound dispatching rule：一次考慮複數個目標。</li>
+</ul>
+<br>
+
+<p>&emsp;&emsp;Assignment problems 的 formulation：</p>
+<p>$$<br>\text{minimize}\quad Z &#x3D; \sum_{i &#x3D; 1}^{n}{\sum_{j &#x3D; 1}^{n}{c_{ij}x_{ij}}}<br>$$</p>
+<p>&emsp;&emsp;其中 $x_{ij} &#x3D; 1$ 表示第 i 個工作指派給第 j 個機台來處理，又因為每個工作只能指派給一個機台、每個機台只能處理一個工作，所以有以下的限制：</p>
+<p>$$<br>\begin{align}<br>&amp;\sum_{j &#x3D; 1}^{n}{x_{ij}}\quad \text{for } i &#x3D; 1, 2, \cdots, n\\[10pt]<br>&amp;\sum_{i &#x3D; 1}^{n}{x_{ij}}\quad \text{for } j &#x3D; 1, 2, \cdots, n<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;這類問題如果用線性規劃來得到最佳解，需要花費大量運算時間。這時候基因演算法就可以派上用場。</p>
 <h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2>]]></content>
       <categories>
         <category>學習筆記</category>
@@ -1208,8 +1257,19 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 <center><font color="cyan">使用event graph的例子。</font></center>
 <br>
 
-<h2 id="Inventory-system"><a href="#Inventory-system" class="headerlink" title="Inventory system"></a>Inventory system</h2><h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>&emsp;&emsp;這一段是修課心得嗎？</p>
-]]></content>
+<h2 id="Inventory-system"><a href="#Inventory-system" class="headerlink" title="Inventory system"></a>Inventory system</h2><h2 id="Modeling-more-complex-systems"><a href="#Modeling-more-complex-systems" class="headerlink" title="Modeling (more) complex systems"></a>Modeling (more) complex systems</h2><p>&emsp;&emsp;基本的做法是：把系統切幾個子系統，再來model子系統間的互動。</p>
+<br>
+
+<p>&emsp;&emsp;以tandem queue為例：當後一級的buffer size滿了，前一級的departure就無法排程，此為<strong>blocking</strong>。除了原本的 $M&#x2F;M&#x2F;1$ model外，還要新增event、狀態變數來處理blocking。</p>
+<br>
+
+<p>&emsp;&emsp;再一例，network example，如下圖。圖中的路徑(route) $L_i$ 可以視為 $M&#x2F;M&#x2F;1$ 裡的server，N2這個節點可以視為end-service的event。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1_hFDlqfm5v1UWilFiYBwtgQLJiKohdjK&sz=s1024" width="350">
+<center><font color="cyan">Open network model。圖片取自上課講義。</font></center>
+<br>
+
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2>]]></content>
       <categories>
         <category>學習筆記</category>
       </categories>
@@ -1689,7 +1749,7 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 </ul>
 <p>&emsp;&emsp;修改過的state change如下(沒有新增事件)：</p>
 <ul>
-<li>$\text{Enter} \rightarrow Q &#x3D; Q + 1,\ \text{TF} &#x3D; (\text{FTIME} - \text{CLK})*\frac{r(Q - 1)}{r(Q)},\ \text{FTIME} &#x3D; \text{CLK} + \text{TF},\ \textcolor{yellow}{\text{TA} &#x3D; t_a,\ \text{TNA} &#x3D; \text{CLK} + \text{TA}}$</li>
+<li>$\text{Enter} \rightarrow Q &#x3D; Q + 1,\ \text{TF} &#x3D; (\text{FTIME} - \text{CLK})*\frac{r(Q - 1)}{r(Q)},\ \text{FTIME} &#x3D; \text{CLK} + \text{TF},\ \text{TA} &#x3D; t_a,\ \text{TNA} &#x3D; \text{CLK} + \text{TA}$</li>
 </ul>
 <br>
 
@@ -1720,6 +1780,109 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
       <tags>
         <tag>Modeling</tag>
         <tag>模擬</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>讀後隨想：「便利店人間」</title>
+    <url>/%E8%AE%80%E5%BE%8C%E9%9A%A8%E6%83%B3/konbini-reading/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>&emsp;&emsp;不知道大家有沒有想過，我們是怎麼知道要把<font color="yellow">人生</font>活成現在這個樣子的？古代的社會有著相對固定的職業與道路──承襲職業、成立家庭──事實上一直到上世紀都還是如此。在自由的現代，人生似乎沒有那麼絕對，不同生活文化逐漸受到重視；可是問題還是沒有得到解答，我們是怎麼知道如何踏出下一步？<span id="more"></span>每個人的答案都一樣嗎？話又說回來，難道古代人就從來沒有這個困擾嗎？</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1H9Vsyw886SJLb8-cG6FCWXzadzF5s7oM&sz=w1024" width="500">
+<center><font color="cyan">有沒有人上班工作，是為了讓自己看起來更像個「正常人」？<br>有的話，那應該是有錢人吧？拍攝於桃園後火車站。</br></font></center>
+<br>
+
+<p>&emsp;&emsp;我的回答是：作為有著強烈群體性的動物，人們的想法大致相似，在生活中潛移默化、將群體的思想內化為自己的思想，人們就獲得了答案。這也揭示了另一個面向：有些人的答案會不一樣，活著和群體不一樣的人生，因為他們的思考──或者說對世界的認知──和群體不一樣。而且從古代到現在，一直存在著這些人。「便利店人間」這本小說，讓多數從屬於群體的讀者，體驗這些人的感覺。</p>
+<br>
+
+<p>&emsp;&emsp;老實說，原本我預期小說會著重描寫便利店的日常與人際之間的磨合，翻完書才知道<span class="hint--info hint--rounded hint--top" data-hint="應該說小說重點不在於此" ontouchstart><b>完全不是這麼一回事</b></span>。讀完小說，我感覺像是碰到了知己：那種可以抓到你的癢點或痛點，好好撫慰(或折磨)一番的作品。翻譯得也很好，文字樸實而平易近人。據說還得了芥川賞，相當厲害。</p>
+<h2 id="書籍資訊"><a href="#書籍資訊" class="headerlink" title="書籍資訊"></a>書籍資訊</h2><ul>
+<li>書名：「便利店人間」(コンビニ人間)</li>
+<li>作者：村田沙耶香</li>
+<li>譯者：王華懋</li>
+<li>出版：悅知文化，初版三刷，2017&#x2F;08，<a href="https://www.eslite.com/product/1001183842612186?srsltid=AfmBOopKWb_RorElc-lwfCassrmcbhMZXH-6G_iAatuvGn1xQd1Ykt8S">網路連結</a></li>
+</ul>
+<h2 id="隨想"><a href="#隨想" class="headerlink" title="隨想"></a>隨想</h2><p>&emsp;&emsp;這篇小說以第一人稱敘述，而且從字裡行間可以感受到「我」的情緒與世界觀，因此很像是「私小說」的創作手法。這種創作手法的目的，就是要讓讀者「扮演」小說中的敘事者，而由於我們的主角不是「正常人」，<span class="hint--info hint--rounded hint--top" data-hint="主角扮演著「正常人」，而讀者則扮演著「不正常的人」" ontouchstart>這樣的安排特別好玩</span>。</p>
+<br>
+
+<p>&emsp;&emsp;主角古倉惠子從小就有著異於常人的認知，情感淡漠、無法理解情境中的暗示。比如說，班上的男同學打成一團的時候，古倉為了制止他們，直接拿鏟子K男同學的頭；她沒有多想，單純認為這樣可以讓他們安靜下來。考慮到在學校的情境，像其他同學一樣把老師找來是比較合理的。從古倉對過往的回憶，我們知道：她無法判斷什麼是「合理的」，特別是「大家認為合理的」，因為她自己的「合理」是如此與眾不同。</p>
+<br>
+
+<p>&emsp;&emsp;為了讓家人放心，古倉開始隱藏自己的本性，非必要時不開口說話，雖然因此省去不少麻煩，卻也失去結交朋友的機會。沒有什麼人生目標的古倉在讀大學時，偶然遇上一間「像水族箱一般透明閃亮」的新開幕便利店，正在招募店員。好奇的應徵了兼職店員，就這樣做了<strong>十八年</strong>。起初身邊的所有人都為此感到開心，畢竟「打工」是出社會的初嘗試──要步上正軌了吧？找到正職、結婚、組成家庭，古倉終於變得「正常」啦──大家這樣想著。可是打工的工作做了十八年，又變得「不正常」了。</p>
+<br>
+
+<p>&emsp;&emsp;即使在臺灣，打工族也經常被認為沒有人生規劃──沒有足夠的收入，就沒有能力結婚、生育──更何況是在重視社會規範的日本。看著主角不時發覺家人與朋友對她感到奇怪的反應，讓我心頭一緊，皮膚底下的那個「異物」也蠢蠢欲動，像是感知到相似的存在。</p>
+<br>
+
+<blockquote>
+<p>待我一回神，就像小學那時候一樣，眾人都有些疏遠我，把身子轉開，眼睛卻帶著好奇，就像觀察某種可怕生物似的望著這裡。<br><strong>啊，我變成異物了</strong>。我茫然地想。<br>…<br>正常的世界極度高壓，異物會靜靜地被剔除，不正常的人會被逐一處理掉。<br><b>這樣啊，所以才非得修好不可；如果修不好，就會被正常的人給剔除。</b></p>
+</blockquote>
+<br>
+
+<p>&emsp;&emsp;即使在如魚得水的便利店，古倉也對這類情境相當敏感。讀到下面這段文字時，我心跳都漏了一拍，因為古倉內心冒出的念頭過於現實：</p>
+<br>
+
+<blockquote>
+<p>「那種年紀還被便利店開除，真的沒救了。希望他就那樣死在路邊算了。」<br>眾人大笑，我也點頭附和。「就是說啊！」<br>同時心想，等我變成異物的時候，也會像這樣遭到排除。</p>
+</blockquote>
+<br>
+
+<p>&emsp;&emsp;就算有這樣的認知，古倉也不知道要怎麼改變，直到與被便利店當作「異物」排除的前同事白羽重逢。白羽和古倉簡直是完全相反的兩人：<font color="Lime">白羽對<span class="hint--info hint--rounded hint--top" data-hint="姑且說是日本吧" ontouchstart>世界</span>的認知深刻而極端，強調現代與繩文時代都被社會規範強力主導，卻逃避這些規範，連工作養活自己都做不來</font>；<font color="red">古倉無法掌握社會規範，只能照著幾條規則行事，卻受便利店工作的明確規則吸引，努力扮演著「正常人」</font>。同為「異物」，一個人大聲喊道「我就爛」，另一個人則是高呼「我很有用」，因為互補的需求而開始同居：白羽依賴別人養活自己，古倉則嘗試變得更「正常」。</p>
+<br>
+
+<p>&emsp;&emsp;所以明明「開始同居」應該是件好事，古倉的妹妹在得知真相後，崩潰得大哭。身為姊姊最親近的人，看著姊姊長期以怪物的姿態存在、<span class="hint--info hint--rounded hint--top" data-hint="其實古倉沒有這麼強烈的感受" ontouchstart>深陷於異常的痛苦中</span>自己卻無能為力，會有這樣的情緒和反應也是理所當然吧？</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1zpoApOExA6H1NXCkEOHW4XqDaS6z4iB5&sz=w1024" width="450">
+<center><font color="cyan">夜裡散發光亮的店家，特別彰顯其功能，也因此讓人感覺奇異，<br>意義的簡化帶來超現實的感受。</font></center>
+<br>
+
+<p>&emsp;&emsp;不過，也多虧了與白羽同居的這段經歷，古倉才明白自己的人生不為了別的，就為了便利店：</p>
+<br>
+
+<blockquote>
+<p>「我醒悟了。我不僅僅是個人，更是個便利店店員。即便我是一個扭曲的人，即便養不活自己而路倒街頭，我還是無法逃離這個事實。我所有的細胞都是為了便利店而存在的。」</p>
+</blockquote>
+<br>
+
+<p>&emsp;&emsp;沒有其他的慾望、追求，只要能做為便利店店員度過每一天，活著就是有意義的。所有意義都在於便利店。老實說，這還能算是人嗎？其實古倉也很清楚，不算。</p>
+<br>
+
+<blockquote>
+<p>「我不會跟你(白羽)去的。我是動物，便利店店員這種動物。我無法違背我的本能。」<br>「沒有人會容許的！」<br>「不，即使沒有人容許，我依然是便利店店員。身為人的我，或許有你這個人比較方便，家人和朋友才能放心接納；但身為便利店店員這種動物的我，完全不需要你。」</p>
+</blockquote>
+<br>
+
+<p>&emsp;&emsp;在這裡把小說標題回收了。日文的<strong>人間</strong>是「人類」的意思，所以「便利店人間」就是「便利店人」，和「派對動物」是一樣的用法。對古倉來說，她先是一個「便利店人」，然後才是「人類」，那個她感到生疏、異樣的形式。這是多大的肯定，就像我們在與愛人依偎、與家人相處的時刻感受到生而為人的美好、感動，古倉在便利店補貨、清潔、結帳的同時感受到身為便利店店員的美好──以電腦來比喻，古倉的「人生作業系統」是由便利店安裝的，我們的則是pre-installed──從這個角度來看，像怪物一般的古倉惠子，確實和我們一樣是人類啊！</p>
+<br>
+
+<p>&emsp;&emsp;也許人從出生起就在追求的，不是活出群體理想的人生，而是<span class="hint--info hint--rounded hint--top" data-hint="關於對意義的追求，可以參考Viktor Frankl" ontouchstart>成為一個有意義的存在</span>。</p>
+<br>
+<img src="https://www.planmyjapan.com/wp-content/uploads/2024/08/konbini.jpg" width="450">
+<center><font color="cyan">臺灣人也很熟悉的便利(商)店。圖片來源：planmyjapan.com，</font><a href="https://www.planmyjapan.com/japan-konbini-convenience-store-guide/"><font color="cyan">連結</font></a></center>
+<br>
+
+<p>&emsp;&emsp;書末附上作者「寫給便利店的情書」，十分動容。愛就是愛，管它對象是人還是便利店呢？這般純粹而熾烈的愛情，也要教「正常人」羨慕不已吧？</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;有時候，我覺得自己一直在過著一種「可怕的」生活。想著「這樣的生活什麼時候會結束？還是應該做出一些改變吧」然後繼續原本的生活方式，如果是與他人相仿的生活那也罷了，偏偏不是，所以才顯得可怕。</p>
+<br>
+
+<p>&emsp;&emsp;就像書中的主角一樣，我一直沒有改變的原因，大概是因為內心並不覺得需要改變。也像書中主角一樣，想要單純地為了某些東西活下去，而不考慮所謂「人生的進程」。不過我還有美食慾、性慾等等慾望，大概比書中主角更像「人」一點吧？</p>
+<br>
+
+<p>&emsp;&emsp;寫出這本書的作者相當厲害。能夠寫出這種心理，要有豐富的觀察力──對外與對內──以及同理心。沒錯，我並不認為作者和小說主角有著一樣的人格特徵；事實上，我認為寫小說要具備<span class="hint--info hint--rounded hint--top" data-hint="科幻小說除外？" ontouchstart>高度的同理心與社會常識</span>，這對擁有特殊人格的人來說非常困難。即便如此，作者還是寫出了這些心理，而且我覺得相當貼近某些人的真實，這是怎麼辦到的？</p>
+<br>
+
+<p>&emsp;&emsp;也許是觀察身邊的人、參考新聞報導或相關書籍，然而我覺得最關鍵的是「內省」，觀察自己在工作時的心理、分析自己對工作場所的特殊感受、乃至於嘗試從「<span class="hint--info hint--rounded hint--top" data-hint="Za Warudo!!(誤" ontouchstart>世界</span>」的角度來檢視群體裡的自己。每個人的心裡都藏著一些極端私人的感受──那是身為人類，以自主意識對抗這個世界的殘跡，也是與「不正常的人」之間的一絲連結，因為他們自始至終都在對抗著。</p>
+<br>
+
+<p>&emsp;&emsp;否則，描寫精神異常以及特殊人格的作品這麼多，總不能推論每一位作者都不是正常人吧。(可以嗎？)</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>&emsp;&emsp;無。</p>
+]]></content>
+      <categories>
+        <category>讀後隨想</category>
+      </categories>
+      <tags>
+        <tag>閱讀</tag>
+        <tag>文學</tag>
+        <tag>哲學</tag>
       </tags>
   </entry>
 </search>
