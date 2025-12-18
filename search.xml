@@ -1108,8 +1108,10 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 <p>$$<br>\text{minimize}\quad Z &#x3D; \sum_{i &#x3D; 1}^{n}{\sum_{j &#x3D; 1}^{n}{c_{ij}x_{ij}}}<br>$$</p>
 <p>&emsp;&emsp;其中 $x_{ij} &#x3D; 1$ 表示第 i 個工作指派給第 j 個機台來處理，又因為每個工作只能指派給一個機台、每個機台只能處理一個工作，所以有以下的限制：</p>
 <p>$$<br>\begin{align}<br>&amp;\sum_{j &#x3D; 1}^{n}{x_{ij}}\quad \text{for } i &#x3D; 1, 2, \cdots, n\\[10pt]<br>&amp;\sum_{i &#x3D; 1}^{n}{x_{ij}}\quad \text{for } j &#x3D; 1, 2, \cdots, n<br>\end{align}<br>$$</p>
-<p>&emsp;&emsp;這類問題如果用線性規劃來得到最佳解，需要花費大量運算時間。這時候基因演算法就可以派上用場。</p>
-<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2>]]></content>
+<p>&emsp;&emsp;這類問題如果用線性規劃來得到最佳解，需要花費大量運算時間；若是非線性的問題，則無法透過線性規劃求解。這時候基因演算法就可以派上用場。</p>
+<h3 id="所以什麼是基因演算法？"><a href="#所以什麼是基因演算法？" class="headerlink" title="所以什麼是基因演算法？"></a>所以什麼是基因演算法？</h3><p>&emsp;&emsp;如下圖。</p>
+<h2 id="Heuristic-algorithms"><a href="#Heuristic-algorithms" class="headerlink" title="Heuristic algorithms"></a>Heuristic algorithms</h2><p>&emsp;&emsp;前述的基因演算法是一種啟發式演算法，並不保證找到最佳解，但是可以在一定的時間限制下找到best solution。</p>
+<h2 id="Game-theory"><a href="#Game-theory" class="headerlink" title="Game theory"></a>Game theory</h2><h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2>]]></content>
       <categories>
         <category>學習筆記</category>
       </categories>
@@ -1257,7 +1259,17 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 <center><font color="cyan">使用event graph的例子。</font></center>
 <br>
 
-<h2 id="Inventory-system"><a href="#Inventory-system" class="headerlink" title="Inventory system"></a>Inventory system</h2><h2 id="Modeling-more-complex-systems"><a href="#Modeling-more-complex-systems" class="headerlink" title="Modeling (more) complex systems"></a>Modeling (more) complex systems</h2><p>&emsp;&emsp;基本的做法是：把系統切幾個子系統，再來model子系統間的互動。</p>
+<h2 id="Inventory-system"><a href="#Inventory-system" class="headerlink" title="Inventory system"></a>Inventory system</h2><p>&emsp;&emsp;要解決的問題為：決定接下來 $n$ 個月每個月要訂多少貨。Time between demand (TBD) 為i.i.d.指數隨機變數，每次的需求量也是一個離散隨機變數。用 $\text{K} + i\text{Z}$ 表示訂貨成本，$\text{K}$ 為overhead，$Z$ 為訂貨量，$i$ 即為單位訂貨量成本。Lead time也model為一個隨機變數。而最關鍵的訂貨策略為一stationary policy $(s, S)$，表示如下：</p>
+<p>$$<br>Z &#x3D;<br>\begin{cases}<br>\begin{align}<br>\text{S} - I,\quad &amp;\text{if}\ I &lt; s\\[10pt]<br>0,\quad &amp;\text{if}\ I \geq s<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;如果inventory level小於到來的demand，就會有backlog(積欠)，inventory level必須減去積欠的量，所以會是負值。之後訂貨到貨時，先扣掉backlog的量，剩餘的量才會加入inventory level。</p>
+<br>
+
+<p>&emsp;&emsp;此外，用 $I^{+}(t) &#x3D; \max{\{I(t), 0\}}$ 表示inventory裡實際存有的量，$I^{-}(t) &#x3D; \max{\{-I(t), 0\}}$ 表示backlog的量。假設每個月的holding cost為每單位貨量 $h$ 元，則每個月的平均holding cost為 $h\overline{I^{+}}$，其中</p>
+<p>$$<br>\overline{I^{+}} &#x3D; \frac{\int_{0}^{n}{I^{+}(t) dt}}{n}<br>$$</p>
+<p>&emsp;&emsp;為inventory的每月平均實際存量。同樣的，也可以計算每月平均積欠量：</p>
+<p>$$<br>\overline{I^{-}} &#x3D; \frac{\int_{0}^{n}{I^{-}(t) dt}}{n}<br>$$</p>
+<p>&emsp;&emsp;然後得到每月平均backlog cost (shortage cost)為 $\pi\overline{I^{-}}$。Event graph、狀態變數的部分，請從C程式來推敲、對照。</p>
+<h2 id="Modeling-more-complex-systems"><a href="#Modeling-more-complex-systems" class="headerlink" title="Modeling (more) complex systems"></a>Modeling (more) complex systems</h2><p>&emsp;&emsp;基本的做法是：把系統分割成幾個子系統，再來model子系統間的互動。</p>
 <br>
 
 <p>&emsp;&emsp;以tandem queue為例：當後一級的buffer size滿了，前一級的departure就無法排程，此為<strong>blocking</strong>。除了原本的 $M&#x2F;M&#x2F;1$ model外，還要新增event、狀態變數來處理blocking。</p>
@@ -1269,7 +1281,10 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 <center><font color="cyan">Open network model。圖片取自上課講義。</font></center>
 <br>
 
-<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2>]]></content>
+<p>&emsp;&emsp;本學期project主題，簡化的video capture server模型就是使用到tandem queue的例子，只不過因為後一級的server buffer容量為無限大，所以不需要模擬blocking的情形。</p>
+<h2 id="Internet-of-Things-IoT"><a href="#Internet-of-Things-IoT" class="headerlink" title="Internet of Things (IoT)"></a>Internet of Things (IoT)</h2><p>&emsp;&emsp;<span class="spoilerblur">老師說他想講IoT，雖然和網路效能分析好像沒什麼關係…還是作個筆記。</span></p>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>&emsp;&emsp;修課心得：老師人好，也學到一些離散事件模擬的概念。</p>
+]]></content>
       <categories>
         <category>學習筆記</category>
       </categories>
@@ -1883,6 +1898,218 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
         <tag>閱讀</tag>
         <tag>文學</tag>
         <tag>哲學</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OFDM筆記-1: OFDM簡介</title>
+    <url>/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-1/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><style>
+    .highlight {
+        overflow-y: auto !important;
+        max-height: 400px !important;
+    }
+</style>
+
+<h2 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h2><p>分享有關OFDM的筆記。以下是OFDM筆記全系列的文章：</p>
+<span id="more"></span>
+
+<ul>
+<li><a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-1/" title="OFDM筆記-1: OFDM簡介">OFDM筆記-1: OFDM簡介</a></li>
+</ul>
+<h2 id="OFDM是什麼，能吃嗎？"><a href="#OFDM是什麼，能吃嗎？" class="headerlink" title="OFDM是什麼，能吃嗎？"></a>OFDM是什麼，能吃嗎？</h2><br>
+<img src="https://drive.google.com/thumbnail?id=1SlwUS-B-aj6sf3ZRz7733-IvIVpPNQW9&sz=s1024" width="300">
+<br>
+
+<p>&emsp;&emsp;OFDM是一種基頻調變技術。像是QAM、QPSK、FSK等等，都是基頻調變技術之一。OFDM全名為「正交分頻多工」，顧名思義，就是在不同的頻率調變上訊息，而這些頻率彼此為正交。</p>
+<h3 id="正交-Orthogonality"><a href="#正交-Orthogonality" class="headerlink" title="正交 (Orthogonality)"></a>正交 (Orthogonality)</h3><p>&emsp;&emsp;<font color="yellow">正交</font>是什麼？正交就是內積為零。在一個函數空間，我們可以定義兩函數的內積，$ \langle f_1(x), f_2(x) \rangle $，為</p>
+<p>$$<br>\langle f_1(x), f_2(x)\rangle &#x3D; \int_I {f_1(x)f_2(x)} {\rm d}x<br>$$</p>
+<p>&emsp;&emsp;其中$ I $為定義的區間。類推到time domain的函數(波形)，我們可以定義兩個波形的內積為</p>
+<p>$$<br>\langle F_1(t), F_2(t)\rangle &#x3D; \int_{0}^{T} {F_1(t)F_2(t)} {\rm d}t<br>$$</p>
+<p>&emsp;&emsp;其中$ T $為symbol period。可以發現這就是一個correlator的數學式。現在，假設$ F_1(t) &#x3D; \cos{2\pi f_1 t} $，$ F_2(t) &#x3D; \cos{2\pi f_2 t} $，並假設$f_1 &#x3D; \frac{n}{T}$，$f_2 &#x3D; \frac{m}{T}$，$n$和$m$為正整數(之所以要這樣假設，是為了讓$F_1(t)$和自己的內積為$\frac{1}{2}$，$F_2(t)$亦同)。則內積$\langle F_1(t), F_2(t) \rangle$可以如下計算：</p>
+<p>$$<br>\langle F_1(t), F_2(t) \rangle &#x3D; \int_{0}^{T}{\cos{2\pi f_1 t}\cos{2\pi f_2 t}}{\rm d}t<br>$$</p>
+<p>&emsp;&emsp;使用積化合差公式得</p>
+<p>$$<br>&#x3D; \int_{0}^{T}{\frac{1}{2}\cos{2\pi (f_1+f_2) t}+\frac{1}{2}\cos{2\pi (f_1-f_2) t}}{\rm d}t<br>$$</p>
+<p>&emsp;&emsp;兩項分別積分得</p>
+<p>$$<br>&#x3D; \frac{1}{2}\frac{\sin{2\pi (f_1+f_2) t}}{2\pi (f_1+f_2)}\bigg{|}_{0}^{T} + \frac{1}{2}\frac{\sin{2\pi (f_1-f_2) t}}{2\pi (f_1-f_2)}\bigg{|}_{0}^{T}<br>$$</p>
+<p>&emsp;&emsp;繼續算你會發現第一項為零。第二項除非$f_1-f_2 &#x3D; \frac{n}{2T}$，否則不為零。因此，當兩弦波滿足$f_1-f_2 &#x3D; \frac{n}{2T}$，$n$為整數時，它們才會正交，而$\frac{1}{2T}$也就是這個內積下，達成正交的minimum frequency spacing。</p>
+<br>
+
+<p>&emsp;&emsp;正交的兩個波形可以傳遞兩路的資料。因為兩者正交，在訊號空間(signal space)裡在彼此的投影量皆為零，資料的錯誤率可以降低。舉例來說，正交的M個FSK波形可以傳遞M路的資料。M-ary FSK的缺點是接收機架構比較複雜，畢竟有M個頻率的LO需要產生。</p>
+<hr>
+<p>&emsp;&emsp;剛才討論的是continuous time，那麼discrete time呢？當然也有正交的概念。我們可以定義discrete time domain的內積為</p>
+<p>$$<br>\langle x_1[n], x_2[n]\rangle &#x3D; \sum_{n&#x3D;0}^{N-1} x_1[n]x_2^*[n]<br>$$</p>
+<p>&emsp;&emsp;其中$*$是複數共軛。現在，假設$x_1[n] &#x3D; {\rm e}^{j\omega_1 n}$，$x_2[n] &#x3D; {\rm e}^{j\omega_2 n}$，我們可以計算其內積：</p>
+<p>$$<br>\langle x_1[n], x_2[n]\rangle &#x3D; \sum_{n&#x3D;0}^{N-1} {\rm e}^{j(\omega_1-\omega_2) n}<br>$$</p>
+<p>&emsp;&emsp;用級數和的公式得到</p>
+<p>$$<br>&#x3D; \frac{1-{\rm e}^{j(\omega_1-\omega_2) N}}{1-{\rm e}^{j(\omega_1-\omega_2)}}<br>$$</p>
+<p>&emsp;&emsp;此式等於零的情況發生於$\omega_1-\omega_2 &#x3D; \frac{2\pi m}{N}$，其中$m$為整數。換句話說，在discrete time的case，符合正交特性的minimum frequency spacing為$\frac{2\pi}{N}$。</p>
+<br>
+
+<p>&emsp;&emsp;<font color="yellow">其實這個結果可以從continuous time的結果推得。</font>假設我們將continuous time的波形以$\frac{N}{T}$的取樣頻率取樣，則在$T$的週期可以取得$N$個samples，正好就是我們discrete time的訊號。由取樣定裡得知，$\frac{1}{2T}$經取樣變成discrete time的頻率，$2\pi\cdot\frac{1&#x2F;2T}{f_s} &#x3D; \frac{\pi}{N}$。</p>
+<br>
+
+<p>&emsp;&emsp;怎麼算出來不一樣？事實上在continuous time的case中，如果用complex sinusoid來算，就會算出一樣的結果(minimum spacing &#x3D; $\frac{1}{T}\rightarrow\frac{2\pi}{N}$)。之所以會發生這種事，是因為當我們只考慮real function(也就是餘弦波$\cos(x)$)，求出來反導函數$\sin(x)$有兩個零點<font color="red">$x &#x3D; \{0,-\pi\}, x\in[-\pi, \pi)$</font>，而當我們考慮complex sinusoid，求出來的反導函數$1 - {\rm e}^{jx}$只有一個零點<font color="red">$x &#x3D; 0, x\in[-\pi, \pi)$</font>。</p>
+<h3 id="分頻多工-Frequency-Division-Multiplexing"><a href="#分頻多工-Frequency-Division-Multiplexing" class="headerlink" title="分頻多工 (Frequency-Division Multiplexing)"></a>分頻多工 (Frequency-Division Multiplexing)</h3><p>&emsp;&emsp;不同的頻率可以拿來傳輸不同的資料，這就是分頻多工。其實分頻多工不只在OFDM，在其他通訊技術也有相當的應用，如第三代無線通訊系統WCDMA使用的FDD，就是透過<span class="hint--info hint--rounded hint--top" data-hint="uplink使用一個頻率，downlink使用另一個頻率" ontouchstart>分頻來實現雙工</span>。</p>
+<br>
+
+<p>&emsp;&emsp;那麼OFDM的頻率分工有什麼特別的呢？OFDM在彼此<font color="yellow">正交</font>的子載波上進行分工，而且相鄰subchannel重疊，因此和一般頻率分工相比，OFDM的頻寬使用效率(bandwidth efficiency)較高。下面這個影片說明的很清楚，OFDM將symbol duration拉長，減少ISI的影響，更透過子載波間正交的特性，消除ICI。</p>
+<br>
+
+<iframe src="https://www.youtube.com/embed/yGrrZtGiufU" width="500" height="300" frameborder="0" loading="lazy" allowfullscreen></iframe>
+
+<h2 id="OFDM的運作方式？"><a href="#OFDM的運作方式？" class="headerlink" title="OFDM的運作方式？"></a>OFDM的運作方式？</h2><p>&emsp;&emsp;OFDM的運作簡單來說就是：</p>
+<ul>
+<li>將bits map到星座圖，以串列資料的方式送到運算單元。</li>
+<li>將串列資料轉為並列資料。</li>
+<li>將並列資料做IFFT轉換，N個並列資料使用N-point IFFT。</li>
+<li>N-point IFFT的並列輸出改為串列輸出。</li>
+<li>加上cyclic prefix，形成一個OFDM symbol。</li>
+<li>samples經過濾波、DAC後便送到射頻前端，準備傳送！</li>
+</ul>
+<br>
+
+<p>&emsp;&emsp;下面這張圖簡單呈現這個流程。</p>
+<br>
+<img src="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-1/OFDM-block-diagram.png" class="" width="600">
+<center><font color="cyan">OFDM block diagram. Source: Fig. 12.7, 12.4.3 in [1].</font></center>
+<br>
+
+<p>&emsp;&emsp;由於OFDM是以數位調變的方式運作，受惠於VLSI技術的發展，IFFT、FFT、串列轉並列、並列轉串列可以使用數位IC來實現，降低生產成本，因此被廣泛使用。接著便詳細介紹OFDM的訊號處理、收發機架構。</p>
+<h3 id="訊號處理"><a href="#訊號處理" class="headerlink" title="訊號處理"></a>訊號處理</h3><p>&emsp;&emsp;以下就來介紹OFDM的訊號處理方法。前面提到過，第一步是將bits map到<span class="hint--info hint--rounded hint--top" data-hint="constellation diagram" ontouchstart>星座圖</span>上，比如說QPSK就是兩個bits對應到星座圖上的一個點，64QAM就是六個bits對應到一個點。下表整理出OFDM在不同通訊技術中使用到的星座圖(參考自[3]，[4]，[5]，[6])。</p>
+<br>
+
+<table style="width:600px; margin-left:110px;">
+  <tr>
+    <th style="width:20%;">技術</th>
+    <th>星座圖</th> 
+    <th>說明</th>
+  </tr>
+  <tr>
+    <td>DVB-T</td>
+    <td>QPSK, 16QAM, 64QAM</td>
+    <td>配合high-priority bits的使用，還有non-uniform的16QAM和64QAM</td>
+  </tr>
+  <tr>
+    <td>DVB-T2</td>
+    <td>同上，加上256QAM</td>
+    <td>不再使用DVB-T的two hierarchy levels</td>
+  </tr>
+  <tr>
+    <td>LTE-advanced</td>
+    <td>QPSK, 16QAM, 64QAM, 256QAM</td>
+    <td>即所謂的4G行動通訊技術</td>
+  </tr>
+  <tr>
+    <td>5G NR</td>
+    <td>BPSK, QPSK, 64QAM, 256QAM</td>
+    <td>5G NR也採用NOMA等非正交的技術</td>
+  </tr>
+  <tr>
+    <td>802.11n</td>
+    <td>BPSK, QPSK, 16QAM, 64QAM</td>
+    <td>Wi-Fi 4，引用MIMO技術</td>
+  </tr>
+  <tr>
+    <td>802.11ax</td>
+    <td>同上，加上256QAM，1024QAM</td>
+    <td>Wi-Fi 6，1024QAM也太龐大</td>
+  </tr>
+</table>
+
+<br>
+
+<p>&emsp;&emsp;轉換為星座圖上的點後，要將每個點調變到子載波(subcarrier)上。怎麼做呢？使用Discrete Fourier Transform (DFT)。下面複習一下DFT的基本性質：</p>
+<p>$$<br>\begin{align}<br>&amp;X[k] &#x3D; \sum_{n &#x3D; 0}^{N - 1}{x[n] W_{N}^{kn}} \\[10pt]<br>&amp;x[n] &#x3D; \frac{1}{N} \sum_{k &#x3D; 0}^{N - 1}{X[k] W_{N}^{-kn}} \\[10pt]<br>&amp;x[(n - m)\text{ mod }N] \longleftrightarrow W_{N}^{km} X[k]\quad\text{(circular shift)} \\[10pt]<br>&amp;X[n] \longleftrightarrow Nx[(-k)\text{ mod }N]\quad\text{(duality)}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;還有與circular convolution相關的性質：</p>
+<p>$$<br>\begin{align}<br>&amp;x_1[n]\ \enclose{circle}{N}\ x_2[n] &#x3D; \sum_{m &#x3D; 0}^{N - 1}{x_1[m] x_2[(n - m)\text{ mod }N]},\quad 0 \leq n \leq (N - 1)\\[10pt]<br>&amp;x_1[n]\ \enclose{circle}{N}\ x_2[n] &#x3D; x_2[n]\ \enclose{circle}{N}\ x_1[n]\quad\text{(commutative)}\\[10pt]<br>&amp;x_1[n]\ \enclose{circle}{N}\ x_2[n] \longleftrightarrow X_1[k] X_2[k]\\[10pt]<br>&amp;x_1[n] x_2[n] \longleftrightarrow \frac{1}{N} X_1[k]\ \enclose{circle}{N}\ X_2[k]\quad\text{(from duality)}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;其中 $W_{N} &#x3D; e^{-j\frac{2\pi}{N}}$。</p>
+<br>
+
+<p>&emsp;&emsp;假設N個星座點 $a_k$ (複數)，分別調變到<span class="hint--info hint--rounded hint--top" data-hint="根據前面的討論，這些子載波彼此為正交" ontouchstart>N個子載波</span> $\phi_k[n] &#x3D; \rm e^{j\frac{2\pi}{N} kn},\quad 0 \leq n \leq (N - 1)$，則第k個子載波的訊號為 $a_k\phi_k[n]$ (其實只是相乘)，全部子載波訊號加起來為</p>
+<p>$$<br>\begin{align}<br>x[n] &amp;&#x3D; \sum_{k &#x3D; 0}^{N - 1}{a_k\phi_k[n]}\\[10pt]<br>&amp;&#x3D; \sum_{k &#x3D; 0}^{N - 1}{a_k W_{N}^{-kn}}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;上面的式子就是IDFT，不過少了 $1&#x2F;N$ 的常數。也就是說，將並列送來的N個星座點作IDFT運算，得到的就是時域的訊號波形。到這裡為止都是discrete time的訊號，因此之後還要經過濾波器(或是windowing)、<span class="hint--info hint--rounded hint--top" data-hint="取樣頻率要注意！" ontouchstart>DAC轉換為類比波形</span>，才是可以傳送的訊號。典型的OFDM頻譜如下圖。</p>
+<br>
+<img src="https://i0.wp.com/yatebts.com/wp-content/uploads/2015/05/ortho_ofdm1.png" width="360">
+<center><font color="cyan">OFDM頻譜示意圖。圖片來源：yatebts.com，</font><a href="https://yatebts.com/ofdm-the-science-behind-lte/"><font color="cyan">連結</font></a></center>
+<br>
+
+<p>&emsp;&emsp;為什麼每個子載波的頻譜是sinc函數呢？原因是我們剛才假設將星座點調變到子載波的方式為相乘：</p>
+<p>$$<br>\begin{align}<br>&amp;a_k\phi_k[n] &#x3D; a_k\Pi[n]\phi_k[n]\\[10pt]<br>&amp;\Pi[n] &#x3D;<br>\begin{cases}<br>1,\quad 0 \leq n \leq (N - 1)\\<br>0,\quad \text{otherwise}<br>\end{cases}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;可以知道調變過程中，我們採取的pulse function為方波，因此在頻域會呈現sinc函數。若經過濾波器則調變波形不再是方波，頻域也不會是sinc函數。</p>
+<br>
+
+<p>&emsp;&emsp;實務上，OFDM會使用IFFT來實現IDFT、FFT實現DFT，不過FFT只是實現DFT的演算法，和DFT的性質沒有太大關係，所以這裡就不介紹。</p>
+<hr>
+<p>&emsp;&emsp;話不多說，直接跑模擬看看吧！生成資料、轉換為星座點(這裡以BPSK為例)，再轉換為時域波形。這裡使用zero-padding的技巧，來逼近連續的波形。</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">% --- parameter settings --- %</span></span><br><span class="line">Nb = <span class="number">64</span>; <span class="comment">% number of bits</span></span><br><span class="line">fs = <span class="number">1000</span>; <span class="comment">% sampling frequency</span></span><br><span class="line">oversampling = <span class="number">100</span>; <span class="comment">% zero-padding factor</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% --- Tx --- %</span></span><br><span class="line">b = <span class="number">2</span> * <span class="built_in">round</span>(<span class="built_in">rand</span>(<span class="number">1</span>, Nb)) - <span class="number">1</span>; <span class="comment">% generate transmit information bits</span></span><br><span class="line">s = ifft((Nb * oversampling) * b, Nb * oversampling); <span class="comment">% IDFT</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% --- presentation --- %</span></span><br><span class="line">t = (<span class="number">0</span>: Nb * oversampling - <span class="number">1</span>) / fs / oversampling;</span><br><span class="line"><span class="built_in">plot</span>(t, <span class="built_in">real</span>(s), <span class="string">&quot;-b&quot;</span>, <span class="string">&quot;LineWidth&quot;</span>, <span class="number">2</span>);</span><br><span class="line">xlim([<span class="number">0.003</span> t(<span class="number">0.6</span> * Nb * oversampling)]);</span><br><span class="line">xlabel(<span class="string">&quot;time (seconds)&quot;</span>, <span class="string">&quot;FontName&quot;</span>, <span class="string">&quot;Times New Roman&quot;</span>);</span><br><span class="line">ylabel(<span class="string">&quot;&#123;\bf&#123;Re&#125;&#125;\&#123;s(t)\&#125;&quot;</span>, <span class="string">&quot;FontName&quot;</span>, <span class="string">&quot;Times New Roman&quot;</span>, <span class="string">&quot;interpreter&quot;</span>, <span class="string">&quot;latex&quot;</span>);</span><br><span class="line"></span><br><span class="line">clear</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;下圖是模擬出來的時域波形，可以看到OFDM的主要問題之一，就是瞬時功率變化劇烈，相較於其他調變方式，有較高的PAPR(Peak-to-Average Power Ratio)。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1RhZvXfRpl5BQLhESAMBbBRWO6EXWgLVL&sz=s1024" width="420">
+<center><font color="cyan">MATLAB模擬OFDM波形。</font></center>
+<br>
+
+<h3 id="收發機架構"><a href="#收發機架構" class="headerlink" title="收發機架構"></a>收發機架構</h3><p>&emsp;&emsp;OFDM經典的收發機架構如下圖所示。</p>
+<br>
+<img src="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-1/OFDM-architecture.png" class="" width="600">
+<center><font color="cyan">OFDM transceiver architecture. Source: Fig. 2.16, 2.2.3 of [2].</font></center>
+<br>
+
+<p>&emsp;&emsp;和剛才的block diagram很像，不過多了CP (cyclic prefix)，後面會簡單介紹CP的作用。</p>
+<hr>
+<p>&emsp;&emsp;也來跑模擬試試看吧！此程式中，模擬了從產生symbol、IFFT、CP、channel一直到Rx的過程，也計算出SER以驗證模擬的正確性。</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">% ----- parameters setting ----- %</span></span><br><span class="line">Nb = <span class="number">6e7</span>; <span class="comment">% number of transmitted bits</span></span><br><span class="line">Nsubc = <span class="number">64</span>; <span class="comment">% number of OFDM subcarriers</span></span><br><span class="line">Pcp = <span class="number">1</span> / <span class="number">8</span>; <span class="comment">% proportion of CP length to OFDM sym duration</span></span><br><span class="line">SNR = <span class="number">10</span> .^ (<span class="number">0.1</span> * (<span class="number">0</span>: <span class="number">12</span>)); <span class="comment">% SNR = Es/N0 (linear scale)</span></span><br><span class="line">N0  = <span class="number">1</span>;<span class="comment">% single-sided psd of AWGN</span></span><br><span class="line">channel_length = <span class="number">9</span>;</span><br><span class="line">Mod = <span class="number">1</span>;<span class="comment">% modulation type</span></span><br><span class="line">        <span class="comment">% 1 -&gt; BPSK</span></span><br><span class="line">        <span class="comment">% 2 -&gt; QPSK</span></span><br><span class="line">        <span class="comment">% 3 -&gt; 16QAM</span></span><br><span class="line">        <span class="comment">% 4 -&gt; 64QAM</span></span><br><span class="line">mod_types = [<span class="string">&quot;BPSK&quot;</span>, <span class="string">&quot;QPSK&quot;</span>, <span class="string">&quot;16QAM&quot;</span>, <span class="string">&quot;64QAM&quot;</span>]; <span class="comment">% modulation types</span></span><br><span class="line"></span><br><span class="line">rng();</span><br><span class="line">bits = <span class="built_in">round</span>(<span class="built_in">rand</span>(<span class="number">1</span>, Nb)); <span class="comment">% transmitted information</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% ----- channel setting ----- %</span></span><br><span class="line">PDP = [<span class="number">0.0</span> <span class="number">-1.1</span> <span class="number">-2.2</span> <span class="number">-3.3</span> <span class="number">-4.3</span> <span class="number">-5.4</span> <span class="number">-6.5</span> <span class="number">-7.6</span> <span class="number">-8.7</span> <span class="number">-9.8</span> ...</span><br><span class="line">       <span class="number">-10.9</span> <span class="number">-11.9</span> <span class="number">-13.0</span> <span class="number">-14.1</span> <span class="number">-15.2</span> <span class="number">-16.3</span> <span class="number">-17.4</span> <span class="number">-18.5</span> <span class="number">-19.5</span>]; <span class="comment">% Power Delay Profile (dB)</span></span><br><span class="line">h = <span class="built_in">sqrt</span>(<span class="number">0.5</span> * <span class="number">10</span> .^ (<span class="number">0.1</span> * PDP(<span class="number">1</span>: channel_length))) .* (<span class="built_in">randn</span>(<span class="number">1</span>, channel_length) + <span class="number">1</span><span class="built_in">j</span> * <span class="built_in">randn</span>(<span class="number">1</span>, channel_length)); <span class="comment">% TGac CIR</span></span><br><span class="line">H = fft(h, Nsubc); <span class="comment">% channel gain for each subcarrier</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% ----- run simulation ----- %</span></span><br><span class="line">BER = <span class="built_in">zeros</span>(<span class="number">1</span>, <span class="built_in">length</span>(SNR));</span><br><span class="line">BER_theo = <span class="built_in">zeros</span>(<span class="number">1</span>, <span class="built_in">length</span>(SNR));</span><br><span class="line"><span class="keyword">for</span> snr = SNR</span><br><span class="line">    </span><br><span class="line">    <span class="comment">% ----- Transmitter ----- %</span></span><br><span class="line">    X = bit2sym(bits, Mod, snr * N0);</span><br><span class="line">    Nsym = <span class="built_in">round</span>(<span class="built_in">length</span>(X) / Nsubc); <span class="comment">% number of OFDM symbols</span></span><br><span class="line">    X = <span class="built_in">reshape</span>(X, [Nsubc, Nsym]);</span><br><span class="line">    x = ifft(X, [], <span class="number">1</span>); <span class="comment">% ifft along each row</span></span><br><span class="line">    xc = [x(<span class="keyword">end</span> - <span class="built_in">round</span>(Pcp * Nsubc) + <span class="number">1</span>: <span class="keyword">end</span>, :); x]; <span class="comment">% adding CP</span></span><br><span class="line">    xc = <span class="built_in">reshape</span>(xc, [<span class="number">1</span>, Nsym * <span class="built_in">round</span>((<span class="number">1</span> + Pcp) * Nsubc)]);</span><br><span class="line"></span><br><span class="line">    <span class="comment">% ----- Channel ----- %</span></span><br><span class="line">    xr = conv(xc, h);</span><br><span class="line">    xr = xr + <span class="built_in">sqrt</span>(N0 / <span class="number">2</span> / Nsubc) * (<span class="built_in">randn</span>(<span class="number">1</span>, <span class="built_in">length</span>(xr)) + <span class="number">1</span><span class="built_in">j</span> * <span class="built_in">randn</span>(<span class="number">1</span>, <span class="built_in">length</span>(xr)));</span><br><span class="line"></span><br><span class="line">    <span class="comment">% ----- Receiver ----- %</span></span><br><span class="line">    xr = xr(<span class="number">1</span>, <span class="number">1</span>: <span class="keyword">end</span> - <span class="built_in">length</span>(h) + <span class="number">1</span>); <span class="comment">% remove the (useless) tail</span></span><br><span class="line">    xr = <span class="built_in">reshape</span>(xr, [<span class="built_in">round</span>((<span class="number">1</span> + Pcp) * Nsubc), Nsym]);</span><br><span class="line">    y = xr(<span class="built_in">round</span>(Pcp * Nsubc) + <span class="number">1</span>: <span class="keyword">end</span>, :); <span class="comment">% removing CP</span></span><br><span class="line">    Y = fft(y, [], <span class="number">1</span>); <span class="comment">% fft along each row</span></span><br><span class="line">    Y = Y .* (<span class="number">1</span> ./ H).&#x27;; <span class="comment">% one-tap equalization</span></span><br><span class="line">    Y = <span class="built_in">reshape</span>(Y, [<span class="number">1</span>, Nsym * Nsubc]);</span><br><span class="line">    bits_r = sym2bit(Y, Mod, snr * N0); <span class="comment">% recovered (decoded) bits</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">% ----- BER calculation ----- %</span></span><br><span class="line">    BER(SNR == snr) = <span class="number">1</span> - sum(bits_r == bits) / Nb;</span><br><span class="line">    BER_theo(SNR == snr) = theoBER(snr * <span class="built_in">abs</span>(H) .^ <span class="number">2</span>, Mod);</span><br><span class="line"></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% ----- plot BER ----- %</span></span><br><span class="line">fig = <span class="built_in">figure</span>();</span><br><span class="line">semilogy(<span class="number">10</span> * <span class="built_in">log10</span>(SNR), BER_theo, <span class="string">&quot;-rdiamond&quot;</span>, <span class="string">&quot;LineWidth&quot;</span>, <span class="number">2.5</span>);</span><br><span class="line">grid on; <span class="built_in">hold</span> on</span><br><span class="line">semilogy(<span class="number">10</span> * <span class="built_in">log10</span>(SNR), BER, <span class="string">&quot;-bdiamond&quot;</span>, <span class="string">&quot;LineWidth&quot;</span>, <span class="number">2.5</span>);</span><br><span class="line"><span class="built_in">legend</span>(<span class="string">&quot;theo&quot;</span>, <span class="string">&quot;sim&quot;</span>);</span><br><span class="line">scale_control = <span class="number">10</span> ^ <span class="built_in">floor</span>(<span class="built_in">log10</span>(BER_theo(<span class="keyword">end</span>)));</span><br><span class="line">xlim([<span class="number">0</span> <span class="number">12</span>]); ylim([scale_control <span class="number">1</span>]);</span><br><span class="line">title(sprintf(<span class="string">&quot;BER of OFDM, static channel, mod = %s&quot;</span>, mod_types(Mod)));</span><br><span class="line">xlabel(<span class="string">&quot;SNR (E_b/N_0) (dB)&quot;</span>); ylabel(<span class="string">&quot;Bit Error Rate (BER)&quot;</span>);</span><br><span class="line">fontname(<span class="string">&quot;Times New Roman&quot;</span>); fontsize(fig, <span class="number">14</span>, <span class="string">&quot;points&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% ----- plot channel chain ----- %</span></span><br><span class="line">fig = <span class="built_in">figure</span>();</span><br><span class="line">stem(-Nsubc / <span class="number">2</span>: Nsubc / <span class="number">2</span> - <span class="number">1</span>, <span class="built_in">abs</span>(fftshift(H)), <span class="string">&quot;^&quot;</span>, <span class="string">&quot;MarkerFaceColor&quot;</span>, <span class="string">&quot;cyan&quot;</span>);</span><br><span class="line">title(<span class="string">&quot;channel gain for each subcarrier&quot;</span>);</span><br><span class="line">xlabel(<span class="string">&quot;index (k)&quot;</span>); ylabel(<span class="string">&quot;$\vert H_k\vert$&quot;</span>, <span class="string">&quot;Interpreter&quot;</span>, <span class="string">&quot;latex&quot;</span>);</span><br><span class="line">fontname(<span class="string">&quot;Times New Roman&quot;</span>); fontsize(fig, <span class="number">14</span>, <span class="string">&quot;points&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% ----- plot channel impulse response ----- %</span></span><br><span class="line">fig = <span class="built_in">figure</span>();</span><br><span class="line">stem(<span class="number">0</span>: <span class="built_in">length</span>(h) - <span class="number">1</span>, <span class="built_in">abs</span>(h), <span class="string">&quot;MarkerFaceColor&quot;</span>, <span class="string">&quot;b&quot;</span>);</span><br><span class="line">title(<span class="string">&quot;channel impulse response&quot;</span>);</span><br><span class="line">xlabel(<span class="string">&quot;index (n)&quot;</span>); ylabel(<span class="string">&quot;$\vert h[n]\vert$&quot;</span>, <span class="string">&quot;Interpreter&quot;</span>, <span class="string">&quot;latex&quot;</span>);</span><br><span class="line">fontname(<span class="string">&quot;Times New Roman&quot;</span>); fontsize(fig, <span class="number">14</span>, <span class="string">&quot;points&quot;</span>);</span><br><span class="line"></span><br><span class="line">clear</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;其中用到的函數定義如下(MATLAB的話應該是可以善用toolbox的，這裡我只用到Communications Toolbox的 <code>qammod</code> 和 <code>qamdemod</code>，因為64QAM的bit mapping實在是太龐雜)：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">S</span> = <span class="title">bit2sym</span><span class="params">(b, opt, Eb)</span></span></span><br><span class="line"><span class="comment">% map bits to freq-domain symbols</span></span><br><span class="line"><span class="comment">% b   -&gt; input bits</span></span><br><span class="line"><span class="comment">% Eb  -&gt; average bit energy</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> opt == <span class="number">1</span></span><br><span class="line">        <span class="comment">% --- BPSK --- %</span></span><br><span class="line">        S = <span class="built_in">sqrt</span>(Eb) * (<span class="number">2</span> * b - <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">elseif</span> opt == <span class="number">2</span></span><br><span class="line">        <span class="comment">% --- QPSK --- %</span></span><br><span class="line">        b = <span class="built_in">reshape</span>(b, [<span class="number">2</span>, <span class="built_in">round</span>(<span class="built_in">length</span>(b) / <span class="number">2</span>)]);</span><br><span class="line">        S = <span class="built_in">sqrt</span>(Eb) * (<span class="number">2</span> * b(<span class="number">1</span>, :) - <span class="number">1</span> + <span class="number">2</span><span class="built_in">j</span> * b(<span class="number">2</span>, :) - <span class="number">1</span><span class="built_in">j</span>);</span><br><span class="line">    <span class="keyword">elseif</span> opt == <span class="number">3</span></span><br><span class="line">        <span class="comment">% --- 16QAM --- %</span></span><br><span class="line">        <span class="comment">% --- using Gray code --- %</span></span><br><span class="line">        b = <span class="built_in">reshape</span>(b, [<span class="number">4</span>, <span class="built_in">round</span>(<span class="built_in">length</span>(b) / <span class="number">4</span>)]);</span><br><span class="line">        S = <span class="built_in">sqrt</span>(<span class="number">4</span> * Eb / <span class="number">10</span>) * ((<span class="number">1</span> - <span class="number">2</span> * b(<span class="number">2</span>, :)) .* (<span class="number">1</span> + <span class="number">2</span> * b(<span class="number">4</span>, :)) + ...</span><br><span class="line">                        <span class="number">1</span><span class="built_in">j</span> * ((<span class="number">1</span> - <span class="number">2</span> * b(<span class="number">1</span>, :)) .* (<span class="number">1</span> + <span class="number">2</span> * b(<span class="number">3</span>, :))));</span><br><span class="line">    <span class="keyword">elseif</span> opt == <span class="number">4</span></span><br><span class="line">        <span class="comment">% --- 64QAM --- %</span></span><br><span class="line">        <span class="comment">% --- using qammod from Communications Toolbox --- %</span></span><br><span class="line">        b = <span class="built_in">reshape</span>(b, [<span class="number">6</span>, <span class="built_in">round</span>(<span class="built_in">length</span>(b) / <span class="number">6</span>)]);</span><br><span class="line">        S = bits2dec(b, <span class="number">6</span>);</span><br><span class="line">        S = <span class="built_in">sqrt</span>(<span class="number">6</span> * Eb / <span class="number">42</span>) * qammod(S, <span class="number">64</span>, <span class="string">&quot;gray&quot;</span>);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">b</span> = <span class="title">sym2bit</span><span class="params">(S, opt, Eb)</span></span></span><br><span class="line"><span class="comment">% map freq-domain symbols to bits (detection at Rx)</span></span><br><span class="line"><span class="comment">% S   -&gt; input symbols</span></span><br><span class="line"><span class="comment">% Eb  -&gt; average bit energy</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> opt == <span class="number">1</span></span><br><span class="line">        <span class="comment">% --- BPSK --- %</span></span><br><span class="line">        b = <span class="built_in">real</span>(S) &gt; <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">elseif</span> opt == <span class="number">2</span></span><br><span class="line">        <span class="comment">% --- QPSK --- %</span></span><br><span class="line">        b = [<span class="built_in">real</span>(S) &gt; <span class="number">0</span>; <span class="built_in">imag</span>(S) &gt; <span class="number">0</span>];</span><br><span class="line">        b = <span class="built_in">reshape</span>(b, [<span class="number">1</span>, <span class="number">2</span> * <span class="built_in">length</span>(S)]);</span><br><span class="line">    <span class="keyword">elseif</span> opt == <span class="number">3</span></span><br><span class="line">        <span class="comment">% --- 16QAM --- %</span></span><br><span class="line">        b = [<span class="built_in">imag</span>(S) &lt; <span class="number">0</span>; <span class="built_in">real</span>(S) &lt; <span class="number">0</span>; <span class="built_in">abs</span>(<span class="built_in">imag</span>(S)) &gt; <span class="number">2</span> * <span class="built_in">sqrt</span>(<span class="number">4</span> * Eb / <span class="number">10</span>); <span class="built_in">abs</span>(<span class="built_in">real</span>(S)) &gt; <span class="number">2</span> * <span class="built_in">sqrt</span>(<span class="number">4</span> * Eb / <span class="number">10</span>)];</span><br><span class="line">        b = <span class="built_in">reshape</span>(b, [<span class="number">1</span>, <span class="number">4</span> * <span class="built_in">length</span>(S)]);</span><br><span class="line">    <span class="keyword">elseif</span> opt == <span class="number">4</span></span><br><span class="line">        <span class="comment">% --- 64QAM --- %</span></span><br><span class="line">        <span class="comment">% --- using qamdemod from Communications Toolbox --- %</span></span><br><span class="line">        S = qamdemod(S / <span class="built_in">sqrt</span>(<span class="number">6</span> * Eb / <span class="number">42</span>), <span class="number">64</span>, <span class="string">&quot;gray&quot;</span>);</span><br><span class="line">        b = dec2bits(S, <span class="number">6</span>);</span><br><span class="line">        b = <span class="built_in">reshape</span>(b, [<span class="number">1</span>, <span class="number">6</span> * <span class="built_in">length</span>(S)]);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ber</span> = <span class="title">theoBER</span><span class="params">(snr, opt)</span></span></span><br><span class="line"><span class="comment">% calculate theoretical BER</span></span><br><span class="line"><span class="comment">% snr -&gt; Eb/N0, Eb is the average bit energy</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> opt == <span class="number">1</span></span><br><span class="line">        <span class="comment">% --- BPSK --- %</span></span><br><span class="line">        ber = <span class="built_in">mean</span>(<span class="number">0.5</span> * <span class="built_in">erfc</span>(<span class="built_in">sqrt</span>(snr)));</span><br><span class="line">    <span class="keyword">elseif</span> opt == <span class="number">2</span></span><br><span class="line">        <span class="comment">% --- QPSK --- %</span></span><br><span class="line">        ber = <span class="number">0.5</span> * <span class="built_in">mean</span>(<span class="number">1</span> - (<span class="number">1</span> - <span class="number">0.5</span> * <span class="built_in">erfc</span>(<span class="built_in">sqrt</span>(snr))) .^<span class="number">2</span>);</span><br><span class="line">    <span class="keyword">elseif</span> opt == <span class="number">3</span></span><br><span class="line">        <span class="comment">% --- 16QAM --- %</span></span><br><span class="line">        <span class="comment">% --- union bound --- %</span></span><br><span class="line">        ber = <span class="number">3</span> * <span class="built_in">mean</span>(<span class="number">0.5</span> * <span class="built_in">erfc</span>(<span class="built_in">sqrt</span>(<span class="number">4</span> * snr / <span class="number">10</span>))) / <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">elseif</span> opt == <span class="number">4</span></span><br><span class="line">        <span class="comment">% --- 64QAM --- %</span></span><br><span class="line">        <span class="comment">% --- union bound --- %</span></span><br><span class="line">        ber =  (<span class="number">224</span> / <span class="number">64</span>) * <span class="built_in">mean</span>(<span class="number">0.5</span> * <span class="built_in">erfc</span>(<span class="built_in">sqrt</span>(<span class="number">6</span> * snr / <span class="number">42</span>))) / <span class="number">6</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">d</span> = <span class="title">bits2dec</span><span class="params">(b, N)</span></span></span><br><span class="line"><span class="comment">% convert bit vectors to corresponding decimal values</span></span><br><span class="line"><span class="comment">% N -&gt; number of bits</span></span><br><span class="line">    </span><br><span class="line">    d = <span class="built_in">zeros</span>(<span class="number">1</span>, <span class="built_in">length</span>(b));</span><br><span class="line">    <span class="keyword">for</span> k = <span class="number">0</span>: N - <span class="number">1</span></span><br><span class="line">        d = d + <span class="number">2</span> ^ (N - k - <span class="number">1</span>) * b(k + <span class="number">1</span>, :);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">b</span> = <span class="title">dec2bits</span><span class="params">(d, N)</span></span></span><br><span class="line"><span class="comment">% convert decimal vector to binary ones</span></span><br><span class="line"><span class="comment">% N -&gt; number of bits</span></span><br><span class="line">    </span><br><span class="line">    b = <span class="built_in">zeros</span>(N, <span class="built_in">length</span>(d));</span><br><span class="line">    <span class="keyword">for</span> k = N - <span class="number">1</span>: <span class="number">-1</span>: <span class="number">0</span></span><br><span class="line">        b(N - k, :) = <span class="built_in">floor</span>(d / <span class="number">2</span> ^ k);</span><br><span class="line">        <span class="comment">%b(N - k, :) = bitshift(d, -k);</span></span><br><span class="line">        d = d - <span class="number">2</span> ^ k * <span class="built_in">floor</span>(d / <span class="number">2</span> ^ k);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;下圖是OFDM BPSK的SER (&#x3D; BER)，比一般的BPSK錯誤率還要高，這是因為每個子載波遭遇的通道增益(channel gain，即 $H[k]$)不一樣，較小的通道增益會導致較高的錯誤率。圖中的SER即是將各個子載波的SER平均而得。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1Hjkw4ruEOU-adbw_UHXgO3g4XYUrCkHh&sz=s1024" width="400">
+<center><font color="cyan">OFDM BPSK錯誤率，使用上列程式裡的通道。</font></center>
+
+<h3 id="Cyclic-Prefix"><a href="#Cyclic-Prefix" class="headerlink" title="Cyclic Prefix"></a>Cyclic Prefix</h3><p>&emsp;&emsp;剛才的模擬中，我們在time-domain samples加入了cyclic prefix (CP)，它有什麼作用呢？首先，要知道在多路徑通道(multipath channel)中，相鄰的OFDM symbol會因為延遲而互相干擾，稱為ISI (inter-symbol inteference)，相鄰OFDM symbol不同子載波間也會形成干擾，稱為ICI (inter-carrier inteference)。CP可以作為相鄰OFDM symbol之間的guard interval，避免ISI和ICI的產生。</p>
+<p>&emsp;&emsp;除此之外，CP還可以用來對抗多路徑通道。假設一個static channel (LTI系統)，通道脈衝響應為 $h[n]$，長度為 $L$，並且假設CP長度為 $N_{CP} &lt; L$。則OFDM symbol (useful part) + CP和 $h[n]$ 做linear convolution，等同於OFDM symbol (useful part)和 $h[n]$ 做<strong>circular convolution</strong>！這有什麼了不起嗎？有的，前面提過下面的關係式：</p>
+<p>$$<br>x_1[n]\ \enclose{circle}{N}\ x_2[n] \longleftrightarrow X_1[k] X_2[k]<br>$$</p>
+<p>&emsp;&emsp;故</p>
+<p>$$<br>x[n]\ \enclose{circle}{N}\ h[n] \longleftrightarrow X[k] H[k]<br>$$</p>
+<p>&emsp;&emsp;其中 $H[k]$ 為 $h[n]$ 的N-point DFT。這表示我們將接收到的time domain sample做DFT後，對每一個subcarrier的投影量 $Y[k] &#x3D; X[k] H[k]$ 乘上 $1&#x2F;H[k]$，便可以還原回原本的符號，此即one-tap equalization。</p>
+<p>&emsp;&emsp;CP還可以拿來處理STO、CFO的問題。之後再寫一篇來更詳細的介紹CP。(這就是我嗑的CP！)</p>
+<h2 id="哪裡會用到OFDM？"><a href="#哪裡會用到OFDM？" class="headerlink" title="哪裡會用到OFDM？"></a>哪裡會用到OFDM？</h2><p>&emsp;&emsp;OFDM最早是使用filter bank來實現，並且用於voiceband communication。由於filter bank的成本高、設計困難，一開始OFDM並不受重視。後來OFDM使用在DSL&#x2F;ADSL (Digital Subscriber Loop)，即貝爾實驗室的Cioffi和Amanti設計的DMT (Digital Multi-Tone)。[7]這篇文章介紹了OFDM的歷史，作者是當年和其他人共同提出使用FFT來實現OFDM的貝爾實驗室工程師，可以說是OFDM廣泛應用的推手。</p>
+<br>
+
+<p>&emsp;&emsp;現在使用到OFDM的技術有：<span color="yellow">WiFi、WiMAX、LTV advanced、5G NR</span>等等，在光纖通訊也有應用。不過隨著5G開始採用NOMA等非正交的調變方式，可以預期傳統的OFDM必然迎來改變，或是衍生其他的技術。</p>
+<h2 id="OFDM的變體？"><a href="#OFDM的變體？" class="headerlink" title="OFDM的變體？"></a>OFDM的變體？</h2><h3 id="DMT"><a href="#DMT" class="headerlink" title="DMT"></a>DMT</h3><p>&emsp;&emsp;一直以為大學時數位通訊模擬的是OFDM，最近瀏覽過去寫的程式，才發現原來當初是模擬DMT(至少講義裡是寫DMT)。<a href="https://www.rfwireless-world.com/articles/ofdm-vs-dmt-similarities-and-differences">這篇文章</a>簡單說明了DMT和OFDM的異同之處。簡單來說：</p>
+<center><b>DMT就是一種OFDM！</b></center>
+
+<br>
+
+<p>&emsp;&emsp;在前一節也提到，DMT是最早以FFT實現OFDM的調變方式之一，主要用於ADSL。所以OFDM比較像是一個概念，DMT則是實現OFDM的實體層調變方式。</p>
+<h3 id="OFDMA"><a href="#OFDMA" class="headerlink" title="OFDMA"></a>OFDMA</h3><p>&emsp;&emsp;參考[8]，OFDMA和OFDM的差異主要在於，傳統的OFDM系統多重存取(multiple access)資源的方式為分時存取，也就是不同時槽可以提供不同使用者使用；而OFDMA則是在頻域也劃分出好幾個RE (resource element)，在時域和頻域的劃分便形成好幾個RB (resource block)，分配給不同使用者使用。</p>
+<h3 id="SC-FDMA"><a href="#SC-FDMA" class="headerlink" title="SC-FDMA"></a>SC-FDMA</h3><p>&emsp;&emsp;參考[9]，全名為Single-Carrier FDMA，也就是單載波的「頻率多重存取」，好像有些矛盾？單載波要怎麼做到多重存取？參考下圖，SC-FDMA的系統方塊圖和OFDM相當相似，只差在SC-FDMA裡，符號其實是在時域表示。時域的符號N個為一組，經過DFT轉換到頻域後，再把這N點分配給M個子載波裡的N個一組；接著，下一組時域符號再依此處裡。</p>
+<br>
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/SC-FDMA.svg/2560px-SC-FDMA.svg.png" style="background-color: #FFFFFF;" width="500">
+<center><font color="cyan">SC-FDMA的系統方塊圖。</font></center>
+</br>
+
+<p>&emsp;&emsp;也就是說，每一組時域符號可以提供給一個使用者，而且同時間M個子載波只會承載一個使用者的資料(儘管有些子載波承載的是零)；因此，SC-FDMA不是在頻率多重存取，而是在時間上多重存取。那為什麼還可以稱作FDMA？因為一個使用者使用的子載波頻率不一定相同，有點像是跳頻的概念，雖然這也不算是multiple access…。</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;<span class="spoilerblur">結果這篇文章竟然花了<strong>六個月 aka 半年</strong>才寫好？原本是打算進實驗室前就把OFDM的東西看完，結果拖延症如常發作，竟然拖到現在…。</span>OFDM是前幾個世代行動通訊(e.g. 4G)和WLAN (e.g. Wifi)的重要基礎，雖然自5G開始出現了其他候選技術，OFDM作為經典的調變方式，依然值得通訊領域的研究生學習、分析。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[1] A. Goldsmith, <em>Wireless Communications</em>. Cambridge University Press, 2005.</p>
+<p>[2] T.D. Chiueh, et al, <em>Baseband Receiver Design for Wireless MIMO-OFDM Communications</em>. John Wiley &amp; Sons Singapore Pte. Ltd, 2012.</p>
+<p>[3] ETSI EN 300 744 v1.6.1. <em>Digital Video Broadcasting (DVB): Framing structure, channel coding and modulation for digital terrestrial televisio</em>, 2009.01. Available: <a href="https://www.etsi.org/deliver/etsi_en/300700_300799/300744/01.06.01_60/en_300744v010601p.pdf">https://www.etsi.org/deliver/etsi_en&#x2F;300700_300799&#x2F;300744&#x2F;01.06.01_60&#x2F;en_300744v010601p.pdf</a></p>
+<p>[4] 交通部電信總局(NCC前身)委託的計畫報告。李學智等，<br><em>數位無線地面電視單頻網建置技術之分析與研究期末報告</em>，2004.10。Available: <a href="https://www.ncc.gov.tw/chinese/files/07051/474_963_070517_1.pdf">https://www.ncc.gov.tw/chinese/files/07051/474_963_070517_1.pdf</a></p>
+<p>[5] ETSI TS 138 211 V16.2.0. <em>5G NR: Physical channels and modulation</em>, 2020.07. Available: <a href="https://www.etsi.org/deliver/etsi_ts/138200_138299/138211/16.02.00_60/ts_138211v160200p.pdf">https://www.etsi.org/deliver/etsi_ts&#x2F;138200_138299&#x2F;138211&#x2F;16.02.00_60&#x2F;ts_138211v160200p.pdf</a></p>
+<p>[6] <em>Wi-Fi 6</em>, Wikipedia. Available: <a href="https://en.wikipedia.org/wiki/Wi-Fi_6">https://en.wikipedia.org/wiki/Wi-Fi_6</a></p>
+<p>[7] S. B. Weinstein, “The history of orthogonal frequency-division multiplexing [History of Communications],” in <em>IEEE Communications Magazine</em>, vol. 47, no. 11, pp. 26-35, November 2009. Available: <a href="https://ieeexplore.ieee.org/document/5307460/similar#similar">https://ieeexplore.ieee.org/document/5307460/similar#similar</a></p>
+<p>[8] 網站 <a href="https://note-on-clouds.blogspot.com/2017/12/lte-sc-fdma-vs-ofdma-1.html">LTE筆記: SC-FDMA vs. OFDMA (1)</a></p>
+<p>[9] 網站 <a href="https://note-on-clouds.blogspot.com/2017/12/lte-sc-fdma-vs-ofdma-2.html">LTE筆記: SC-FDMA vs. OFDMA (2)</a></p>
+]]></content>
+      <categories>
+        <category>通訊技術</category>
+      </categories>
+      <tags>
+        <tag>OFDM</tag>
+        <tag>SC-FDMA</tag>
+        <tag>DSP</tag>
       </tags>
   </entry>
 </search>
