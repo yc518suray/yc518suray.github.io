@@ -1110,8 +1110,10 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 <p>$$<br>\begin{align}<br>&amp;\sum_{j &#x3D; 1}^{n}{x_{ij}}\quad \text{for } i &#x3D; 1, 2, \cdots, n\\[10pt]<br>&amp;\sum_{i &#x3D; 1}^{n}{x_{ij}}\quad \text{for } j &#x3D; 1, 2, \cdots, n<br>\end{align}<br>$$</p>
 <p>&emsp;&emsp;這類問題如果用線性規劃來得到最佳解，需要花費大量運算時間；若是非線性的問題，則無法透過線性規劃求解。這時候基因演算法就可以派上用場。</p>
 <h3 id="所以什麼是基因演算法？"><a href="#所以什麼是基因演算法？" class="headerlink" title="所以什麼是基因演算法？"></a>所以什麼是基因演算法？</h3><p>&emsp;&emsp;如下圖。</p>
-<h2 id="Heuristic-algorithms"><a href="#Heuristic-algorithms" class="headerlink" title="Heuristic algorithms"></a>Heuristic algorithms</h2><p>&emsp;&emsp;前述的基因演算法是一種啟發式演算法，並不保證找到最佳解，但是可以在一定的時間限制下找到best solution。</p>
-<h2 id="Game-theory"><a href="#Game-theory" class="headerlink" title="Game theory"></a>Game theory</h2><h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2>]]></content>
+<h2 id="Heuristic-algorithms"><a href="#Heuristic-algorithms" class="headerlink" title="Heuristic algorithms"></a>Heuristic algorithms</h2><p>&emsp;&emsp;前述的基因演算法是一種啟發式演算法，並不保證找到最佳解，但是可以在一定的時間限制下找到best solution。模擬退火(SA)、粒子群演算法(PSO)、蟻群演算法(ACO)等皆為啟發式演算法，請參閱講義，這裡就不介紹。</p>
+<h2 id="Game-theory"><a href="#Game-theory" class="headerlink" title="Game theory"></a>Game theory</h2><p>&emsp;&emsp;介紹基本的non-cooperative zero sum game。這部分之後再做詳細的筆記(114-2電通所有開賽局理論的課呢)。</p>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>&emsp;&emsp;當初選這堂課有兩個原因：1. 對啟發式演算法的興趣，以及2. 剛離開伺服器大廠派遣作業員的工作，對於製造系統有一些親身經驗，所以想要從工程的角度來認識這個系統。回顧這學期，確實學到一些製造系統的概念，也在期末專題實作啟發式演算法(GA)在最佳化公車派遣的應用，還是有一些takeaway的。</p>
+]]></content>
       <categories>
         <category>學習筆記</category>
       </categories>
@@ -1282,8 +1284,61 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 <br>
 
 <p>&emsp;&emsp;本學期project主題，簡化的video capture server模型就是使用到tandem queue的例子，只不過因為後一級的server buffer容量為無限大，所以不需要模擬blocking的情形。</p>
-<h2 id="Internet-of-Things-IoT"><a href="#Internet-of-Things-IoT" class="headerlink" title="Internet of Things (IoT)"></a>Internet of Things (IoT)</h2><p>&emsp;&emsp;<span class="spoilerblur">老師說他想講IoT，雖然和網路效能分析好像沒什麼關係…還是作個筆記。</span></p>
-<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>&emsp;&emsp;修課心得：老師人好，也學到一些離散事件模擬的概念。</p>
+<h2 id="補充：模擬常用到的隨機分布"><a href="#補充：模擬常用到的隨機分布" class="headerlink" title="補充：模擬常用到的隨機分布"></a>補充：模擬常用到的隨機分布</h2><p>&emsp;&emsp;首先是連續隨機變數。</p>
+<ul>
+<li><strong>Exponential</strong>：應該很熟悉了，可以用來描述interarrival time和time to failure。</li>
+<li><strong>Gamma</strong>：如果有 $m$ 個i.i.d.的exponential隨機變數 $X_i$，則 $X_1 + X_2 + \cdots + X_m$ 是一個gamma($m$, $\beta$)隨機變數。可以用來描述machine repair time或task completion time。</li>
+<li><strong>Weibull</strong>：Rayleigh分布為其特例，可以用來描述task completion time、time to failure。</li>
+<li><strong>Normal</strong>：用來描述許多隨機事件的總和(CLT)。</li>
+<li><strong>Log-normal</strong>：用來描述許多隨機變數的乘機(CLT)。</li>
+<li><strong>Beta</strong>；常用來描述隨機的比例，比如說半成品中瑕疵品的比例，或是用在計畫完成時間的modeling，如PERT network的應用。</li>
+</ul>
+<p>&emsp;&emsp;接著是離散隨機變數。</p>
+<ul>
+<li><strong>Bernoulli</strong>：用來描述「成功或失敗」的隨機實驗結果(Bernoulli trial)。</li>
+<li><strong>Binomial</strong>：用來描述 $N$ 個獨立的Bernoulli trial中成功的次數。</li>
+<li><strong>Geometric</strong>：用來描述連續 $N$ 個獨立Bernoulli trial結果為失敗。</li>
+<li><strong>Poisson</strong>：用來描述固定一段時間內某事件的發生次數，如inventory的需求物件數。</li>
+</ul>
+<p>&emsp;&emsp;最後談談<strong>empirical distribution</strong>。如果data無法擬合到任何理論上的機率分布(e.g. 資料量太少)，可能就要用empirical distribution來描述。假設我有 $N$ 筆資料，且為遞增排序，$X_1 \leq X_2 \leq \cdots \leq X_N$，則累積分布函數(cdf)可以近似為</p>
+<p>$$<br>F(x) &#x3D;<br>\begin{cases}<br>\begin{align}<br>&amp;0 &amp;{\rm if}\ x &lt; X_1\\[10pt]<br>\frac{i - 1}{N - 1} + &amp;\frac{x - X_i}{(N - 1)(X_{i + 1} - X_i)} &amp;{\rm if}\ X_i \leq x &lt; X_{i + 1}\\[10pt]<br>&amp;1 &amp;{\rm if}\ X_N \leq x<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;如果各個資料點的數值不得而知、只有整理好的histogram，也可以用類似的方法(interpolating)來建立empirical distribution。假設我有 $N$ 筆資料，分類到 $[a_0, a_1),\ [a_1, a_2),\ \cdots,\ [a_{k - 1}, a_k)$ 共 $k$ 個bins (intervals)，每一個bin包含 $N_i$ 個資料點。定義 $G(a_j) &#x3D; (N_1 + N_2 + \cdots + N_j)&#x2F;N$，則cdf可以近似為</p>
+<p>$$<br>G(x) &#x3D;<br>\begin{cases}<br>\begin{align}<br>&amp;0 &amp;{\rm if}\ x &lt; a_0\\[10pt]<br>G(a_{j - 1}) + &amp;\frac{x - a_{j - 1}}{a_j - a_{j - 1}}[G(a_j) - G(a_{j - 1})] &amp;{\rm if}\ a_{j - 1} \leq x &lt; a_j\\[10pt]<br>&amp;1 &amp;{\rm if}\ a_k \leq x<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;有了cdf，就可以透過uniform distribution來生成empirical distribution的隨機變數值(inverse transform)。</p>
+<h2 id="補充：如何生成隨機變數值"><a href="#補充：如何生成隨機變數值" class="headerlink" title="補充：如何生成隨機變數值"></a>補充：如何生成隨機變數值</h2><p>&emsp;&emsp;通常我們可以生成uniform分布的隨機變數值，但是要如何生成任一機率分布的隨機變數值？這節就要來回答這個問題。</p>
+<br>
+
+<p>&emsp;&emsp;舉例來說，標準常態分布 $N(\mu, \sigma^2)$ 的隨機變數值怎麼產生？最早的Box-Muller方法，假設 $U_1$ 和 $U_2$ 為 $U(0, 1)$ 分布，則</p>
+<p>$$<br>\begin{align}<br>&amp;X_1 &#x3D; \sqrt{-2 \ln{U_1}}\cos{2\pi U_2}\\[10pt]<br>&amp;X_2 &#x3D; \sqrt{-2 \ln{U_1}}\sin{2\pi U_2}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;不過，這種方法要求 $U_1$ 和 $U_2$ 必須為 i.i.d.，而且三角函數的計算也使得這種方法運算速度較慢。下面介紹兩種較常使用的方法。</p>
+<h3 id="Inverse-Transform"><a href="#Inverse-Transform" class="headerlink" title="Inverse Transform"></a>Inverse Transform</h3><p>&emsp;&emsp;假設一個機率分布其cdf $F(x)$ 為strictly increasing (因此有反函數)，則可以透過uniform distribution來生成 $X$ 的隨機變數值：</p>
+<ol>
+<li>生成 $U \sim U(0, 1)$ 的隨機變數值 $u$</li>
+<li>$x &#x3D; F^{-1}(u)$ 即為所求</li>
+</ol>
+<p>&emsp;&emsp;我們可以驗證得到的 $X$ 確實為目標機率分布：</p>
+<p>$$<br>P[X \leq x] &#x3D; P[F^{-1}(U) \leq x] &#x3D; P[U \leq F(x)] &#x3D; F(x)<br>$$</p>
+<p>&emsp;&emsp;離散隨機變數值也可以用這個方法來生成，只不過inverse mapping的部分就比較麻煩。更一般性的作法為：</p>
+<p>$$<br>X &#x3D; \min{\{x:\ F(x) \geq U \}}<br>$$</p>
+<p>&emsp;&emsp;Inverse transform的缺點是必須知道目標機率分布的cdf。</p>
+<h3 id="Acceptance-Rejection-Method"><a href="#Acceptance-Rejection-Method" class="headerlink" title="Acceptance-Rejection Method"></a>Acceptance-Rejection Method</h3><p>&emsp;&emsp;假設所求的機率分布pdf為 $f(x)$。令 $t(x)$ 為majorizing function，$t(x) \geq f(x)\ \forall x$。定義 $r(x) &#x3D; t(x)&#x2F;c$，其中 $c &#x3D; \int_{-\infty}^{\infty}{t(x) dx}$，因此 $r(x)$ 是一個合法的pdf。則生成 $X$ 隨機變數值的方法為：</p>
+<ol>
+<li>生成 $Y \sim r$ 的隨機變數值 $y$</li>
+<li>生成 $U \sim U(0, 1)$ 的隨機變數值 $u$，$U$ 獨立於 $Y$</li>
+<li>若 $u \leq f(y)&#x2F;t(y)$，則 $x &#x3D; y$；否則，回到第一步再試一次。</li>
+</ol>
+<p>&emsp;&emsp;這應該是一種蒙地卡羅的方法。接著我們來驗證得到的 $X$ 確實為目標機率分布。定義 $A$ 為「接受生成的 $Y$ 值」的事件，$A$ 發生時 $X &#x3D; Y$，因此</p>
+<p>$$<br>P[X \leq x] &#x3D; P[Y \leq x\ |\ A] &#x3D; \frac{P[Y \leq x, A]}{P[A]}<br>$$</p>
+<p>&emsp;&emsp;不過</p>
+<p>$$<br>P[A\ |\ Y &#x3D; y] &#x3D; P[U \leq \frac{f(y)}{t(y)}] &#x3D; \frac{f(y)}{t(y)}<br>$$</p>
+<p>&emsp;&emsp;因此 $P[Y \leq x\ |\ A]$ 的分子部分為</p>
+<p>$$<br>\begin{align}<br>P[Y \leq x, A] &amp;&#x3D; \int_{-\infty}^{x}{P[Y \leq x, A\ |\ Y &#x3D; y]r(y) dy}\\[10pt]<br>&amp;&#x3D; \int_{-\infty}^{x}{P[A\ |\ Y &#x3D; y]\frac{t(y)}{c} dy}\\[10pt]<br>&amp;&#x3D; \frac{1}{c}\int_{-\infty}^{x}{f(y) dy}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;分母的部分則是 $P[A] &#x3D; 1&#x2F;c$。因此</p>
+<p>$$<br>P[X \leq x] &#x3D; \frac{P[Y \leq x, A]}{P[A]} &#x3D; \frac{\frac{1}{c}\int_{-\infty}^{x}{f(y) dy}}{1&#x2F;c} &#x3D; \int_{-\infty}^{x}{f(y) dy}<br>$$</p>
+<p>&emsp;&emsp;也就是 $X$ 的cdf，故得證。</p>
+<h2 id="Internet-of-Things-IoT"><a href="#Internet-of-Things-IoT" class="headerlink" title="Internet of Things (IoT)"></a>Internet of Things (IoT)</h2><p>&emsp;&emsp;<span class="spoilerblur">老師說他想講IoT，雖然和網路效能分析好像沒什麼關係。</span>這部分請參考review paper [1]。</p>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>&emsp;&emsp;修課心得：老師人好，也學到一些離散事件模擬的概念。至於隨機亂數產生器和IoT的部分，我沒有太認真聽，就不寫這部分的筆記。總之還是有學到東西的。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p>[1] C. Milarokostas et. al, “A Comprehensive Study on LPWANs With a Focus on the Potential of LoRa&#x2F;LoRaWAN Systems,” in <em>IEEE Communications Surveys &amp; Tutorials</em>, vol. 25, no. 1, pp. 825-867, Firstquarter 2023.</p>
 ]]></content>
       <categories>
         <category>學習筆記</category>
@@ -1635,10 +1690,187 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
   <entry>
     <title>通訊序列大亂鬥</title>
     <url>/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/comm-sequence-intro/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="What"><a href="#What" class="headerlink" title="What?"></a>What?</h2><p>&emsp;&emsp;作為「通訊序列設計」的修課筆記，也希望能將通訊序列有趣之處呈現出來。</p>
-<span id="more"></span>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><style>
+    summary {
+        cursor: pointer;
+        padding: 5px;
+        transition: background-color 0.2s ease;
+    }
+    summary:hover {
+        background-color: rgba(255, 255, 0, 0.1);
+    }
+    details {
+        border: 2px solid;
+        border-radius: 5px;
+        border-color: rgba(0, 255, 0, 0.2);
+    }
+</style>
 
-<h2 id="Basics"><a href="#Basics" class="headerlink" title="Basics"></a>Basics</h2><h2 id="Sequence-sets"><a href="#Sequence-sets" class="headerlink" title="Sequence sets"></a>Sequence sets</h2><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2>]]></content>
+<h2 id="What"><a href="#What" class="headerlink" title="What?"></a>What?</h2><p>&emsp;&emsp;作為「<strong>通訊序列設計</strong>」的修課(回顧)筆記，也希望能將通訊序列有趣之處呈現出來。</p>
+<span id="more"></span>
+<br>
+
+<p>&emsp;&emsp;「序列設計」和「波型設計」的概念很像，就是根據時域、頻域與ISI或ICI的條件，找出&#x2F;設計滿足這些條件的序列。雖然，老師也強調未來工作上可能不需要自己設計序列(規格已經寫好)，但是一些數學概念、方法還是很有用的。</p>
+<h2 id="Basics"><a href="#Basics" class="headerlink" title="Basics"></a>Basics</h2><p>&emsp;&emsp;序列最重要的特性即為correlation，可以分為週期性或是非週期性。</p>
+<ul>
+<li>Periodic Cross-Correlation Function (PCCF)</li>
+</ul>
+<p>$$<br>\rho({\bf c}, {\bf d};\ u) &#x3D;<br>\begin{cases}<br>\begin{align}<br>&amp;\sum_{i &#x3D; 0}^{L - 1}{C_{(i + u){\rm mod}\ L} D_i^{*}},\ \ &amp;0 \leq u \leq L - 1\\[10pt]<br>&amp;\sum_{i &#x3D; 0}^{L - 1}{C_i D_{(i - u){\rm mod}\ L}^{*}},\ \ &amp;-L + 1 \leq u &lt; 0<br>\end{align}<br>\end{cases}<br>$$</p>
+<ul>
+<li>Aperiodic Cross-Correlation Function (ACCF)</li>
+</ul>
+<p>$$<br>\hat{\rho}({\bf c}, {\bf d};\ u) &#x3D;<br>\begin{cases}<br>\begin{align}<br>&amp;\sum_{i &#x3D; 0}^{L - u - 1}{C_{i + u} D_i^{*}},\ \ &amp;0 \leq u \leq L - 1\\[10pt]<br>&amp;\sum_{i &#x3D; 0}^{L + u - 1}{C_i D_{i - u}^{*}},\ \ &amp;-L + 1 \leq u &lt; 0<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;Autocorrelation的形式是一樣的，只要把序列換掉即可。一般來說，${\bf C}$ 會是一個polyphase sequence，即 $C_i &#x3D; \xi^{c_i}$，其中 $\xi &#x3D; e^{j2\pi&#x2F;L}$，$c_i \in {\Bbb Z}_L$。此外，correlation還有以下的性質：</p>
+<p>- </p>
+<p>&emsp;&emsp;在檢驗不同序列(集合)的時候會經常用到這些關係式。序列的分類一般而言就是用correlation的性質來劃分，比如說若滿足 $\rho({\bf c};\ u) &#x3D; 0\ \forall u \neq 0$，則這個序列為一個<strong>perfect sequence</strong>，目前唯一已知的binary perfect sequence為</p>
+<p>$$<br>{\bf c} &#x3D; (0, 0, 0, 1)<br>$$</p>
+<p>&emsp;&emsp;可說是非常稀有。若滿足 $\lvert\hat{\rho}({\bf c};\ u)\rvert \leq 1\ \forall u \neq 0$，則這個序列為一個<strong>Barker sequence</strong>，數量也不是很多。一些用來衡量序列correlation的指標，包括peak sidelobe level (PSL)，</p>
+<p>$$<br>{\rm PSL}({\bf c}) &#x3D; \frac{\max_{1 \leq u \leq L - 1}{\lvert \rho({\bf c};\ u)\rvert}}{\lvert \rho({\bf c};\ 0)\rvert}<br>$$</p>
+<p>&emsp;&emsp;以及著名的<strong>PAPR</strong>，</p>
+<p>$$<br>{\rm PAPR}({\bf c}) &#x3D; \max_{0 \leq t \leq 1}{\frac{P_{\bf c}(t)}{P_{ave}}}<br>$$</p>
+<p>&emsp;&emsp;其中 $P_{\bf c}(t) &#x3D; {\lvert S_{\bf c}(t)\rvert}^2 &#x3D; {\lvert \sum_{i &#x3D; 0}^{L - 1}{C_i e^{j2\pi it}}\rvert}^2$。可以看得出來，絕對值裡的函數其實就是序列 $\bf C$ 經過IDFT、DAC後的波型(也就是OFDM波型啦)。因此，透過IFFT + oversampling (zero-padding)便可以算出序列的瞬時功率，再計算得到PAPR。</p>
+<h2 id="Sequence-Sets"><a href="#Sequence-Sets" class="headerlink" title="Sequence Sets"></a>Sequence Sets</h2><p>&emsp;&emsp;來看一些經典的序列集合，這些集合裡的序列共享著特殊的correlation性質，因此被湊在一塊。首先是最基礎的Golay complementary sets (<font color="yellow"><strong>GCS</strong></font>)，</p>
+<p>$$<br>\sum_{i &#x3D; 0}^{N - 1}{\hat{\rho}({\bf c_i};\ u)} &#x3D;<br>\begin{cases}<br>\begin{align}<br>0,\ &amp;u \neq 0\\[10pt]<br>NL,\ &amp;u &#x3D; 0<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;這樣的特性可以怎麼善用？根據這個特性，可以得到 $\sum_{i &#x3D; 0}^{N - 1}{P_{\bf c_i}(t)} &#x3D; NL$，表示 $P_{\bf c_i}(t) \leq NL$，即 ${\rm PAPR}(C) &#x3D; \max_{ {\bf c} \in C}{ {\rm PAPR}{(\bf c)} } \leq N$，也就是控制了PAPR的上限。能夠得知PAPR上限是很重要的一件事，因為RF前端的功率放大器(PA)通常是運作在線性區(linear region)，如果PAPR過大，PA的平均輸出功率就必須降低，稱為output back-off (OBO)；並且運作在降低的工作點上，PA的功率使用效率也下降。(參考自Chieuh [2])</p>
+<details>
+<summary>
+    <font color="yellow">實驗A：用GCS建立一個可控PAPR的OFDM系統</font>
+</summary>
+
+<p>&emsp;&emsp;未完成…。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;hello world&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;圖A-1是不使用GCS codeword的OFDM波型，圖A-2是使用GCS codeword的OFDM波型。未完成…。</p>
+</details>
+<br>
+
+<p>&emsp;&emsp;接著是GCS的延伸，complete complementary code (<font color="yellow"><strong>CCC</strong></font>)。兩個GCS $C^0$、$C^1$ 為<strong>正交</strong>，若且惟若</p>
+<p>$$<br>\sum_{i &#x3D; 0}^{N - 1}{\hat{\rho}({\bf c_i^0}, {\bf c_i^1};\ u)} &#x3D; 0,\ {\rm for\ any}\ u<br>$$</p>
+<p>&emsp;&emsp;此「正交性」也是定義在correlation sum之上的，和GCS的定義相仿。CCC即為 $M$ 組互相正交的GCS的集合，關係式如下：</p>
+<p>$$<br>\sum_{i &#x3D; 0}^{N - 1}{\hat{\rho}({\bf c_i^{k_1}}, {\bf c_i^{k_2}};\ u)} &#x3D;<br>\begin{cases}<br>\begin{align}<br>&amp;NL,\ &amp;u &#x3D; 0,\ k_1 &#x3D; k_2\\[10pt]<br>&amp;0,\ &amp;u \neq 0,\ k_1 &#x3D; k_2\\[10pt]<br>&amp;0,\ &amp;\forall u,\ k_1 \neq k_2<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;CCC裡相異GCS正交的特性，非常適合用在多載波的分碼多工系統(MC-CDMA)，每個使用者使用一組GCS，接收端做correlation時其他使用者的投影量為零，意即不受多重存取干擾(multiple-access interference，MAI)。</p>
+<details>
+<summary>
+    <font color="yellow">實驗B：用CCC模擬一個MC-CDMA系統</font>
+</summary>
+
+<p>&emsp;&emsp;未完成…。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;hello world&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+</details>
+<br>
+
+<p>&emsp;&emsp;Z-complementary sequence sets (<font color="yellow"><strong>ZCS</strong></font>)則是更大的一個序列集合，而且和GCS、CCC不同，correlation為零的位移 $u$ 僅限於特定區域，稱為 zero-correlation zone。ZCS的特性如下：</p>
+<p>$$<br>\sum_{i &#x3D; 0}^{N - 1}{\hat{\rho}({\bf c_i^{k_1}}, {\bf c_i^{k_2}};\ u)} &#x3D;<br>\begin{cases}<br>\begin{align}<br>&amp;NL,\ &amp;u &#x3D; 0,\ k_1 &#x3D; k_2\\[10pt]<br>&amp;0,\ &amp;0 &lt; \lvert u\rvert &lt; Z,\ k_1 &#x3D; k_2\\[10pt]<br>&amp;0,\ &amp;\lvert u\rvert &lt; Z,\ k_1 \neq k_2<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;和CCC的特性相似，只不過有ZCZ的限制。這邊提一下「optimal」的意思，當一個序列集合裡的序列數&#x2F;集合數達到理論上限時，就稱它為optimal的序列集合。不同序列集合的序列數&#x2F;集合數上限都不一樣。</p>
+<details>
+<summary>
+    <font color="yellow">實驗C：用ZCS模擬一個MC-CDMA系統，並和CCC比較</font>
+</summary>
+
+<p>&emsp;&emsp;未完成…。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;hello world&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+</details>
+<br>
+
+<p>&emsp;&emsp;最後介紹zero-correlation zone sets (<font color="yellow"><strong>ZCZ set</strong></font>)。ZCZ sets的特性如下：</p>
+<p>$$<br>\begin{cases}<br>\begin{align}<br>&amp;\rho({\bf c_k};\ u) &#x3D; 0,\ {\rm for}\ \leq \lvert u\rvert \leq Z\\[10pt]<br>&amp;\rho({\bf c_k, c_l};\ u) &#x3D; 0,\ {\rm for}\ \lvert u\rvert \leq Z<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;當中 $k \neq l$ 表示集合中的兩相異序列，注意ZCZ sets是定義在週期性自相關函數，而前面介紹的GCS、CCC、ZCS都是定義在非週期性自相關函數。ZCZ sets可以用在cell之間的載波頻率偵測。</p>
+<br>
+
+<p>&emsp;&emsp;這一節介紹了很多序列集合，其實它們彼此之間有所關連，一些集合是另一個集合的子集合。圖2呈現這些序列集合的關係。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1kU-_1B0xCvSlL7FaPGWnE3_99pg5GQ78&sz=s1024" width="500">
+<center><font color="cyan">圖2，各種序列集合的關係，改自上課講義。</font></center>
+
+<h2 id="Periodic-Pairs"><a href="#Periodic-Pairs" class="headerlink" title="Periodic Pairs"></a>Periodic Pairs</h2><p>&emsp;&emsp;許多序列對有週期自相關函數的良好特性，通常是兩個序列的週期自相關函數的「和」滿足某些條件，如前述的ZCZ sets。Periodic complementary sets (PCS)就是一例，其特性如下：</p>
+<p>$$<br>\sum_{i &#x3D; 0}^{N - 1}{\rho({\bf c_i};\ u)} &#x3D;<br>\begin{cases}<br>\begin{align}<br>0,\ &amp;u \neq 0\\[10pt]<br>NL,\ &amp;u &#x3D; 0<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;其實也就是periodic GCS。如果集合裡只有一對序列，則稱為periodic complementary pair (<font color="yellow"><strong>PCP</strong></font>)。根據correlation的性質，一對GCP一定是PCP，但是一對PCP卻未必是GCP。因此，PCP的數量是多於GCP的。</p>
+<br>
+
+<p>&emsp;&emsp;期中project便是要尋找長度為74，82，90，106以及130的PCP。同學們的做法大概分為兩類：</p>
+<ol>
+<li>參考論文A [3]，建立index set、尋找SDS，再將SDS轉換為序列。</li>
+<li>參考論文B [4]，尋找符合條件的壓縮序列，再解壓縮、尋找PCP。</li>
+</ol>
+<p>&emsp;&emsp;多數同學參考論文A，而我們這組參考論文B (因為它有附程式碼)。結果就我們這組沒找到半個序列對，因為</p>
+<ol>
+<li>論文A使用orbit來建造index set，將搜尋空間大幅縮減，搜尋時間也相應減少；而論文B則是近乎exhaustive的搜尋，只有透過字典排序取最小、刪去等價序列的方式，來縮減搜尋空間，縮減程度小於論文A。</li>
+<li>論文B壓縮-解壓縮的方法適用於長度 $L$ 有許多因數的情況，所以長度為74、82的序列並不適合這樣尋找。</li>
+<li>論文A提供了長度74、82的生成orbit，只要確實實現論文的做法，是保證可以找到的。</li>
+</ol>
+<p>&emsp;&emsp;好吧，講了這麼多都是失敗的藉口。那麼就來介紹一下<strong>index set</strong>和<strong>SDS</strong>的關係。所謂index set指的是，集合元素為序列中「-1」的位置，所以任一個序列都可以唯一對應到一個index set。如果序列對應到index set $X$，那麼correlation可以對應到什麼呢？答案是插值表(difference table)，數學表示為</p>
+<p>$$<br>\delta_X(u) &#x3D; \lvert (u + X) \cap X\rvert<br>$$</p>
+<p>&emsp;&emsp;其中「$+$」為模 $L$ 加法。$\delta_X(u)$ 表示序列向右循環位移 $u$ 後，「-1」對應到「-1」的個數。假設 $\lvert X\rvert &#x3D; r$，即序列共有 $r$ 個「-1」，我們可以整理出以下表格：</p>
+<table style="width:350px; margin-left:210px;">
+  <tr>
+    <th style="width:45%;">case</th>
+    <th>value</th> 
+  </tr>
+  <tr>
+    <td>1 對應到 1</td>
+    <td>$L - 2(r - \delta_X(u)) - \delta_X(u)$</td>
+  </tr>
+  <tr>
+    <td>1 對應到 -1</td>
+    <td>$2(r - \delta_X(u))$</td>
+  </tr>
+  <tr>
+    <td>-1 對應到 -1</td>
+    <td>$\delta_X(u)$</td>
+  </tr>
+</table>
+
+<p>&emsp;&emsp;因此週期自相關函數可以寫為</p>
+<p>$$<br>\rho({\bf a};\ u) &#x3D; L - 4(r - \delta_X(u))<br>$$</p>
+<p>&emsp;&emsp;而序列對的週期自相關函數「和」可以寫為</p>
+<p>$$<br>\rho({\bf a};\ u) + \rho({\bf b};\ u) &#x3D; 2L - 4[r + s - (\delta_X(u) + \delta_Y(u))]<br>$$</p>
+<p>&emsp;&emsp;因此，只要找到符合條件的index set pair，就等於找到對應的序列對。要符合什麼條件呢？就PCP而言，我們想要找到一組參數為 $(L;\ r,\ s;\ \lambda &#x3D; \delta_X + \delta_Y)$ 的supplementary difference set (SDS)，滿足</p>
+<p>$$<br>L &#x3D; 2(r + s - (\delta_X(u) + \delta_Y(u)))\ \forall\ u \neq 0<br>$$</p>
+<p>&emsp;&emsp;論文A就是透過尋找SDS來尋找PCP。期末project也有一些同學是用類似的方法尋找序列對，包括我(但我沒找到)。</p>
+<br>
+
+<p>&emsp;&emsp;接著來看optimal periodic almost-complementary pair (<font color="yellow"><strong>PACP</strong></font>)，$L$ 為偶數時特性如下：</p>
+<p>$$<br>\lvert \rho({\bf c};\ u) + \rho({\bf d};\ u)\rvert &#x3D;<br>\begin{cases}<br>\begin{align}<br>0,\ &amp;1 \leq \lvert u\rvert &lt; L&#x2F;2\\[10pt]<br>4,\ &amp;\lvert u\rvert &#x3D; L&#x2F;2\\[10pt]<br>2L,\ &amp;u &#x3D; 0<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;而 $L$ 為奇數時的optimal PACP特性如下：</p>
+<p>$$<br>\lvert \rho({\bf c};\ u) + \rho({\bf d};\ u)\rvert &#x3D;<br>\begin{cases}<br>\begin{align}<br>2,\ &amp;1 \leq \lvert u\rvert \leq L&#x2F;2\\[10pt]<br>2L,\ &amp;u &#x3D; 0<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;PACP是PZCP的optimal型態，當長度 $L$ 為偶數時，PACP correlation sum只在 $u &#x3D; L&#x2F;2$ 處為非零，其大小為4；當長度 $L$ 為奇數時，PACP correlation sum在非零的 $u$ 大小皆為2。期末project要找的就是PACP和PQCP，這部分就略過不提了。</p>
+<br>
+
+<p>&emsp;&emsp;最後是periodic quasi-complementary pair (<font color="yellow"><strong>PQCP</strong></font>)，特性如下：</p>
+<p>$$<br>\lvert \rho({\bf c};\ u) + \rho({\bf d};\ u)\rvert \leq \epsilon,\ 1 \leq u \leq L - 1<br>$$</p>
+<p>&emsp;&emsp;條件相當的寬鬆，PACP也是PQCP的子集。期末project要找的PQCP則是只有兩個非零位移的correlation sum為非零，條件比較嚴格。</p>
+<h2 id="Aperiodic-Pairs"><a href="#Aperiodic-Pairs" class="headerlink" title="Aperiodic Pairs"></a>Aperiodic Pairs</h2><p>&emsp;&emsp;這一節介紹一些擁有非週期性特性的序列對。首先是<font color="yellow"><strong>ZCP</strong></font>，也就是ZCS裡只有一個集合，這個集合裡只有兩個序列的例子。不同於GCP的長度受限，任何長度的binary ZCP都存在。那麼要怎麼建構ZCP呢？如果我們有ZCP的kernel，就可以根據這些kernel來建構相同長度or更長的ZCP。</p>
+<br>
+
+<p>&emsp;&emsp;</p>
+<h2 id="Boolean-Functions"><a href="#Boolean-Functions" class="headerlink" title="Boolean Functions"></a>Boolean Functions</h2><p>&emsp;&emsp;布林函數可以用來建構序列集合，如 $f(x_1, x_2, x_3) &#x3D; x_1 x_2 + x_3$，「$+$」為模2加法。每一個布林函數都可以對應到一個長度為 $2^m$ 的序列，</p>
+<p>$$<br>{\bf F} &#x3D; (f_1, f_2, f_3, \cdots, f_{2^m - 1})<br>$$</p>
+<p>&emsp;&emsp;當中 $f_i &#x3D; f(i_1, i_2, \cdots, i_m)$ 為這個布林函數對數字 $i$ 的mapping，${(i)}_{10} &#x3D; {(i_1, i_2, \cdots, i_m)}_2$。序列 ${\bf F}$ 也可以寫為</p>
+<p>$$<br>{\bf F} &#x3D; f({\bf x_1}, {\bf x_2}, \cdots, {\bf x_m})<br>$$</p>
+<p>&emsp;&emsp;其中 ${\bf x_k}$ 為 $0 \sim 2^m - 1$ 每個二進位數字的第 $k$ 個bit所組成的向量。這樣的表示方法在MATLAB用點乘是比較方便的。Generalized Boolean function則把對應域擴展到 ${\Bbb Z}_q$，所以形如</p>
+<p>$$<br>f(x_1, x_2, x_3) &#x3D; 3x_1 x_2 + 4x_3\ \ ({\rm mod}\ 5)<br>$$</p>
+<p>&emsp;&emsp;的布林函數存在(變成模 $q$ 加法)。</p>
+<details>
+<summary>
+    <font color="yellow">實驗D：用布林函數建立一組GCS</font>
+</summary>
+
+<p>&emsp;&emsp;未完成…。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;hello world&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h3 id="Generalized-Reed-Muller-Codes"><a href="#Generalized-Reed-Muller-Codes" class="headerlink" title="Generalized Reed-Muller Codes"></a>Generalized Reed-Muller Codes</h3><h3 id="Golay-Davis-Jedwab-Complementary-Pair-GDJ-pair"><a href="#Golay-Davis-Jedwab-Complementary-Pair-GDJ-pair" class="headerlink" title="Golay-Davis-Jedwab Complementary Pair (GDJ pair)"></a>Golay-Davis-Jedwab Complementary Pair (GDJ pair)</h3><h2 id="Concluding-words"><a href="#Concluding-words" class="headerlink" title="Concluding words"></a>Concluding words</h2><p>&emsp;&emsp;這門課的兩次project，我(個人)都沒有找到任何序列。第一次project要尋找PCP，第二次project要尋找PACP和PQCP，幸好第二次project我的組員有一些成果，原來是我在雷啊！</p>
+<br>
+
+<p>&emsp;&emsp;由於時間不夠，課程沒有講完GDJ pair和後面的部分。不過有了這些基礎，之後再閱讀通訊序列相關的論文，應該是遊刃有餘。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p>[1] 上課講義。</p>
+<p>[2] T.D. Chiueh, et al, <em>Baseband Receiver Design for Wireless MIMO-OFDM Communications</em>. John Wiley &amp; Sons Singapore Pte. Ltd, 2012.</p>
+<p>[3] D. Ž. Dokovi&cacute; and I. S. Kotsireas, “Some new periodic Golay pairs,” <em>Numer. Algorithms</em>, vol. 69, no. 3, pp. 523–530, Sep. 2015.</p>
+<p>[4] T. Lumsden, I. Kotsireas, and C. Bright, “New results on periodic Golay pairs,” <em>Math. Comput.</em>, Apr. 2025.</p>
+]]></content>
       <categories>
         <category>通訊技術</category>
       </categories>
@@ -2064,6 +2296,9 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 
 <p>&emsp;&emsp;下圖是OFDM BPSK的SER (&#x3D; BER)，比一般的BPSK錯誤率還要高，這是因為每個子載波遭遇的通道增益(channel gain，即 $H[k]$)不一樣，較小的通道增益會導致較高的錯誤率。圖中的SER即是將各個子載波的SER平均而得。</p>
 <br>
+
+<p>&emsp;&emsp;(2025&#x2F;12&#x2F;30編按：上述的程式沒有對channel的impulse response做normalization，這會使得接收機接收到的平均SNR<strong>異於</strong>AWGN only的SNR，因此下圖的錯誤率對照到的SNR是錯誤的。)</p>
+<br>
 <img src="https://drive.google.com/thumbnail?id=1Hjkw4ruEOU-adbw_UHXgO3g4XYUrCkHh&sz=s1024" width="400">
 <center><font color="cyan">OFDM BPSK錯誤率，使用上列程式裡的通道。</font></center>
 
@@ -2110,6 +2345,134 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
         <tag>OFDM</tag>
         <tag>SC-FDMA</tag>
         <tag>DSP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Comm Jam 整體概念</title>
+    <url>/%E7%B6%B2%E9%A0%81%E5%89%8D%E7%AB%AF/comm-jam-project-concept/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><style>
+    .table-pic {
+        height: 250px;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 !important;
+    }
+
+    .table-pic img {
+        vertical-align: middle !important;
+        display: block !important;
+        margin: 0 auto !important;
+    }
+</style>
+
+<img src="https://drive.google.com/thumbnail?id=1EwHZqm2gdXwcv6GxT9OjL7GFM8q4tAIm&sz=s1024" width="400">
+<br>
+
+<p>&emsp;&emsp;<strong>Comm Jam</strong> 是一個編程遊戲 (coding game)，在瀏覽器上遊玩。玩家必須寫程式來解決各個關卡的挑戰(大部分會是通訊實體層的問題，畢竟這是我的研究領域)，有點像是 online judge (事實上就是基於開源的 <strong>Judge0</strong> 來改造的)。</p>
+<span id="more"></span>
+<br>
+
+<p>&emsp;&emsp;這個頁面介紹 <strong>Comm Jam</strong> 的整體構想，隨時會更新。要是能真的完成這個構想就好了 (2026&#x2F;1&#x2F;18)。</p>
+<h2 id="遊戲架構"><a href="#遊戲架構" class="headerlink" title="遊戲架構"></a>遊戲架構</h2><p>&emsp;&emsp;如下表，目前的構想很簡單，之後可能還會增加特殊關卡、限時競賽或是小組賽的遊戲機制。</p>
+<table style="width:600px; margin-left:80px;">
+  <tr>
+    <th style="width:65%;">版面概念圖</th>
+    <th>說明</th> 
+  </tr>
+  <tr>
+    <td class="table-pic">
+    <img src="https://drive.google.com/thumbnail?id=1k9WAtP7aPyaMuWsUnjWGfCaVaM1Be-Nu&sz=s1024" width="340">
+    </td>
+    <td><b>首頁</b>，可以選擇登入或是註冊帳號。註冊需要提供電子郵件，忘記密碼時才能發送信件來重設密碼。<br>captcha應該是可有可無。</td>
+  </tr>
+  <tr>
+    <td class="table-pic">
+    <img src="https://drive.google.com/thumbnail?id=1yCxsOmBB3cDs6pIruk6Peg-4ArTruY-5&sz=s1024" width="340">
+    </td>
+    <td><b>個人頁面</b>及<b>排行榜</b>，各佔一半畫面，大概就如圖所示。</td>
+  </tr>
+  <tr>
+    <td class="table-pic">
+    <img src="https://drive.google.com/thumbnail?id=1s3u5vRyMduKhWuNiEOQs9w18ph33oqg3&sz=s1024" width="340">
+    </td>
+    <td><b>轉場</b>，如圖所示，進度條下方會顯示一些和通訊有關的知識，或是關卡提示(但好像也沒什麼好提示的)。也可以顯示一些幹話之類。</td>
+  </tr>
+  <tr>
+    <td class="table-pic">
+    <img src="https://drive.google.com/thumbnail?id=11lETaPsAIq06fSN-oLy_eMOUKuAmOY1E&sz=s1024" width="340">
+    </td>
+    <td><b>遊戲畫面</b>，中間為程式碼編輯器，左右為描述任務情境的動畫/圖案，上方有關卡名稱、關卡內容與提示，可以點擊展開。最上方有一 Youtube 音樂列，顯示目前播放的音樂名稱。</td>
+  </tr>
+  <tr>
+    <td class="table-pic">
+    <img src="https://drive.google.com/thumbnail?id=1wjhJaqjXQiYNafYFabwZPOBzEiWv2S8e&sz=s1024" width="340">
+    </td>
+    <td><b>遊戲畫面</b>，關卡說明與提示視窗展開後。</td>
+  </tr>
+  <tr>
+    <td class="table-pic">
+    <img src="https://drive.google.com/thumbnail?id=179Ljv1p9q4rDsutnMT9fZutU66lI5Fjx&sz=s1024" width="340">
+    </td>
+    <td><b>結果頁面</b>，上方為程式結果，會即時顯示相關的圖表(如錯誤率、瞬時功率之類的)，以及資源使用情況(如記憶體、執行時間等等)；下方為個人遊戲結果，等於是個人目前分數的 summary。</td>
+  </tr>
+</table>
+
+<h2 id="遊戲玩法"><a href="#遊戲玩法" class="headerlink" title="遊戲玩法"></a>遊戲玩法</h2><p>&emsp;&emsp;玩家身為一位通訊系統工程師，被派遣到各個地方來設計通訊系統，每個地方的要求、資源與環境都不同，玩家要在這些條件的限制下，達成指定的任務；<strong>成功的話有獎勵，失敗的話也會有懲罰</strong>。具體來說，玩家會有三個分數指標；</p>
+<ul>
+<li><p><font color="yellow"><strong>生命</strong></font>：玩家一開始共有三顆命，每過五關可以增加一命，若某關失敗三次便會扣一命，上限為五顆命。一顆命都沒有的話，玩家會被停止遊戲兩個禮拜，之後補回三顆生命繼續遊戲。<strong>若程式碼造成系統危害、資源佔用，生命值直接歸零</strong>。</p>
+</li>
+<li><p><font color="yellow"><strong>技術能力</strong></font>：玩家每通過一關，技術能力值都會增加，上限為 1600；相反的，某一關失敗兩次便會開始扣技術能力值。達到特定技術能力，關卡就會解鎖；如果技術能力不夠，可以</p>
+<ol>
+<li>再次挑戰先前關卡，嘗試得到更高的關卡分數，可以增加技術能力值。</li>
+<li>用生命換，一顆生命可以換 100 技術能力。</li>
+<li>用溝通能力換，30 溝通能力可以換 100 技術能力。</li>
+</ol>
+  <br>
+</li>
+<li><p><font color="yellow"><strong>溝通能力</strong></font>：玩家若某一關一次過，溝通能力值就會增加，無上限，也不會扣除。溝通能力對於遊戲沒有太大影響，但是可以解鎖特殊關卡(暫時還沒有想法)。</p>
+</li>
+</ul>
+<br>
+
+<p>&emsp;&emsp;每一關也會有<strong>關卡分數</strong>，根據以下表現來評分：</p>
+<ul>
+<li><p><font color="yellow"><strong>正確性</strong></font>：程式建造的通訊系統能夠正確運作。這部分包含正確訊號呈現、符合規定的錯誤率、符合規定的瞬時功率等等，因關卡而異。需要完全正確才能拿到這部分分數。</p>
+</li>
+<li><p><font color="yellow"><strong>時間</strong></font>：程式執行時間，也可以說是程式複雜度、計算複雜度。執行時間愈長，這部分的分數愈低。</p>
+</li>
+<li><p><font color="yellow"><strong>資源使用</strong></font>：如記憶體、CPU、硬碟I&#x2F;O等的資源使用，但是這部分實現比較困難，目前還沒有想法。</p>
+</li>
+<li><p><font color="yellow"><strong>行數</strong></font>：程式碼行數愈少，這部分分數愈高。行數計算會扣除空白行、註解行。</p>
+</li>
+</ul>
+<br>
+
+<p>&emsp;&emsp;任務內容對應到的領域包含但不限於：</p>
+<ul>
+<li>類比調變 (AM、DSB、SSB、FM 等)</li>
+<li>基礎數位通訊 (BPSK、QPSK、16QAM 等)</li>
+<li>OFDM 及相關技術 (Wifi、5G 等)</li>
+<li>通道編碼 (錯誤更正碼、通訊序列等)</li>
+<li>展頻通訊 (DSSS、FHSS 等)</li>
+<li>等化器設計、通道估測</li>
+<li>…</li>
+</ul>
+<h2 id="系統架構"><a href="#系統架構" class="headerlink" title="系統架構"></a>系統架構</h2><p>&emsp;&emsp;這一節介紹整個系統(程式)的架構，如下圖。</p>
+<h2 id="美術"><a href="#美術" class="headerlink" title="美術"></a>美術</h2><p>&emsp;&emsp;由 Raymond Su 繪製草圖，<strong>Gemini</strong> 的 <strong>Nano Banana</strong> 修飾。草圖由紙和筆繪製，再經由漫畫轉檔程式處理、小畫家著色，最後送給 Nano Banana 調整。</p>
+<h2 id="音樂"><a href="#音樂" class="headerlink" title="音樂"></a>音樂</h2><p>&emsp;&emsp;遊戲過程(即寫程式時)的音樂應該會使用 Youtube 上的音樂，並標示作者與作品名稱。首頁、個人頁面以及結果頁面的音樂，由 Raymond Su 製作，目標是做出和 Toby Fox 的作品一樣、和遊戲超級搭配的音樂。</p>
+<h2 id="開發人員"><a href="#開發人員" class="headerlink" title="開發人員"></a>開發人員</h2><ul>
+<li>Raymond Su：本網誌作者。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>網頁前端</category>
+      </categories>
+      <tags>
+        <tag>無線通訊</tag>
+        <tag>無線通道</tag>
+        <tag>遊戲</tag>
+        <tag>網站設計</tag>
       </tags>
   </entry>
 </search>

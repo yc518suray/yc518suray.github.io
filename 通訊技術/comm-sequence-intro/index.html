@@ -20,20 +20,22 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"yc518suray.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="What?&emsp;&emsp;作為「通訊序列設計」的修課筆記，也希望能將通訊序列有趣之處呈現出來。">
+    <meta name="description" content="summary {         cursor: pointer;         padding: 5px;         transition: background-color 0.2s ease;     }     summary:hover {         background-color: rgba(255, 255, 0, 0.1);     }     deta">
 <meta property="og:type" content="article">
 <meta property="og:title" content="通訊序列大亂鬥">
 <meta property="og:url" content="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/comm-sequence-intro/index.html">
 <meta property="og:site_name" content="R.S. Random Space">
-<meta property="og:description" content="What?&emsp;&emsp;作為「通訊序列設計」的修課筆記，也希望能將通訊序列有趣之處呈現出來。">
+<meta property="og:description" content="summary {         cursor: pointer;         padding: 5px;         transition: background-color 0.2s ease;     }     summary:hover {         background-color: rgba(255, 255, 0, 0.1);     }     deta">
 <meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1kU-_1B0xCvSlL7FaPGWnE3_99pg5GQ78&sz=s1024">
 <meta property="article:published_time" content="2025-10-14T03:04:35.000Z">
-<meta property="article:modified_time" content="2025-10-16T02:47:05.322Z">
+<meta property="article:modified_time" content="2026-01-12T01:13:51.358Z">
 <meta property="article:author" content="Raymond Su">
 <meta property="article:tag" content="數學">
 <meta property="article:tag" content="OFDM">
 <meta property="article:tag" content="通訊序列">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://drive.google.com/thumbnail?id=1kU-_1B0xCvSlL7FaPGWnE3_99pg5GQ78&sz=s1024">
 
 
 <link rel="canonical" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/comm-sequence-intro/">
@@ -146,7 +148,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#What"><span class="nav-number">1.</span> <span class="nav-text">What?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Basics"><span class="nav-number">2.</span> <span class="nav-text">Basics</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sequence-sets"><span class="nav-number">3.</span> <span class="nav-text">Sequence sets</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#What"><span class="nav-number">1.</span> <span class="nav-text">What?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Basics"><span class="nav-number">2.</span> <span class="nav-text">Basics</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sequence-Sets"><span class="nav-number">3.</span> <span class="nav-text">Sequence Sets</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Periodic-Pairs"><span class="nav-number">4.</span> <span class="nav-text">Periodic Pairs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Aperiodic-Pairs"><span class="nav-number">5.</span> <span class="nav-text">Aperiodic Pairs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Boolean-Functions"><span class="nav-number">6.</span> <span class="nav-text">Boolean Functions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Generalized-Reed-Muller-Codes"><span class="nav-number">6.1.</span> <span class="nav-text">Generalized Reed-Muller Codes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Golay-Davis-Jedwab-Complementary-Pair-GDJ-pair"><span class="nav-number">6.2.</span> <span class="nav-text">Golay-Davis-Jedwab Complementary Pair (GDJ pair)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Concluding-words"><span class="nav-number">7.</span> <span class="nav-text">Concluding words</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">8.</span> <span class="nav-text">Reference</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -161,7 +163,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives">
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -172,7 +174,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags">
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">27</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -243,7 +245,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2025-10-16 10:47:05" itemprop="dateModified" datetime="2025-10-16T10:47:05+08:00">2025-10-16</time>
+      <time title="修改時間：2026-01-12 09:13:51" itemprop="dateModified" datetime="2026-01-12T09:13:51+08:00">2026-01-12</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -278,10 +280,187 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="What"><a href="#What" class="headerlink" title="What?"></a>What?</h2><p>&emsp;&emsp;作為「通訊序列設計」的修課筆記，也希望能將通訊序列有趣之處呈現出來。</p>
-<span id="more"></span>
+    <div class="post-body" itemprop="articleBody"><link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><style>
+    summary {
+        cursor: pointer;
+        padding: 5px;
+        transition: background-color 0.2s ease;
+    }
+    summary:hover {
+        background-color: rgba(255, 255, 0, 0.1);
+    }
+    details {
+        border: 2px solid;
+        border-radius: 5px;
+        border-color: rgba(0, 255, 0, 0.2);
+    }
+</style>
 
-<h2 id="Basics"><a href="#Basics" class="headerlink" title="Basics"></a>Basics</h2><h2 id="Sequence-sets"><a href="#Sequence-sets" class="headerlink" title="Sequence sets"></a>Sequence sets</h2><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2>
+<h2 id="What"><a href="#What" class="headerlink" title="What?"></a>What?</h2><p>&emsp;&emsp;作為「<strong>通訊序列設計</strong>」的修課(回顧)筆記，也希望能將通訊序列有趣之處呈現出來。</p>
+<span id="more"></span>
+<br>
+
+<p>&emsp;&emsp;「序列設計」和「波型設計」的概念很像，就是根據時域、頻域與ISI或ICI的條件，找出&#x2F;設計滿足這些條件的序列。雖然，老師也強調未來工作上可能不需要自己設計序列(規格已經寫好)，但是一些數學概念、方法還是很有用的。</p>
+<h2 id="Basics"><a href="#Basics" class="headerlink" title="Basics"></a>Basics</h2><p>&emsp;&emsp;序列最重要的特性即為correlation，可以分為週期性或是非週期性。</p>
+<ul>
+<li>Periodic Cross-Correlation Function (PCCF)</li>
+</ul>
+<p>$$<br>\rho({\bf c}, {\bf d};\ u) &#x3D;<br>\begin{cases}<br>\begin{align}<br>&amp;\sum_{i &#x3D; 0}^{L - 1}{C_{(i + u){\rm mod}\ L} D_i^{*}},\ \ &amp;0 \leq u \leq L - 1\\[10pt]<br>&amp;\sum_{i &#x3D; 0}^{L - 1}{C_i D_{(i - u){\rm mod}\ L}^{*}},\ \ &amp;-L + 1 \leq u &lt; 0<br>\end{align}<br>\end{cases}<br>$$</p>
+<ul>
+<li>Aperiodic Cross-Correlation Function (ACCF)</li>
+</ul>
+<p>$$<br>\hat{\rho}({\bf c}, {\bf d};\ u) &#x3D;<br>\begin{cases}<br>\begin{align}<br>&amp;\sum_{i &#x3D; 0}^{L - u - 1}{C_{i + u} D_i^{*}},\ \ &amp;0 \leq u \leq L - 1\\[10pt]<br>&amp;\sum_{i &#x3D; 0}^{L + u - 1}{C_i D_{i - u}^{*}},\ \ &amp;-L + 1 \leq u &lt; 0<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;Autocorrelation的形式是一樣的，只要把序列換掉即可。一般來說，${\bf C}$ 會是一個polyphase sequence，即 $C_i &#x3D; \xi^{c_i}$，其中 $\xi &#x3D; e^{j2\pi&#x2F;L}$，$c_i \in {\Bbb Z}_L$。此外，correlation還有以下的性質：</p>
+<p>- </p>
+<p>&emsp;&emsp;在檢驗不同序列(集合)的時候會經常用到這些關係式。序列的分類一般而言就是用correlation的性質來劃分，比如說若滿足 $\rho({\bf c};\ u) &#x3D; 0\ \forall u \neq 0$，則這個序列為一個<strong>perfect sequence</strong>，目前唯一已知的binary perfect sequence為</p>
+<p>$$<br>{\bf c} &#x3D; (0, 0, 0, 1)<br>$$</p>
+<p>&emsp;&emsp;可說是非常稀有。若滿足 $\lvert\hat{\rho}({\bf c};\ u)\rvert \leq 1\ \forall u \neq 0$，則這個序列為一個<strong>Barker sequence</strong>，數量也不是很多。一些用來衡量序列correlation的指標，包括peak sidelobe level (PSL)，</p>
+<p>$$<br>{\rm PSL}({\bf c}) &#x3D; \frac{\max_{1 \leq u \leq L - 1}{\lvert \rho({\bf c};\ u)\rvert}}{\lvert \rho({\bf c};\ 0)\rvert}<br>$$</p>
+<p>&emsp;&emsp;以及著名的<strong>PAPR</strong>，</p>
+<p>$$<br>{\rm PAPR}({\bf c}) &#x3D; \max_{0 \leq t \leq 1}{\frac{P_{\bf c}(t)}{P_{ave}}}<br>$$</p>
+<p>&emsp;&emsp;其中 $P_{\bf c}(t) &#x3D; {\lvert S_{\bf c}(t)\rvert}^2 &#x3D; {\lvert \sum_{i &#x3D; 0}^{L - 1}{C_i e^{j2\pi it}}\rvert}^2$。可以看得出來，絕對值裡的函數其實就是序列 $\bf C$ 經過IDFT、DAC後的波型(也就是OFDM波型啦)。因此，透過IFFT + oversampling (zero-padding)便可以算出序列的瞬時功率，再計算得到PAPR。</p>
+<h2 id="Sequence-Sets"><a href="#Sequence-Sets" class="headerlink" title="Sequence Sets"></a>Sequence Sets</h2><p>&emsp;&emsp;來看一些經典的序列集合，這些集合裡的序列共享著特殊的correlation性質，因此被湊在一塊。首先是最基礎的Golay complementary sets (<font color="yellow"><strong>GCS</strong></font>)，</p>
+<p>$$<br>\sum_{i &#x3D; 0}^{N - 1}{\hat{\rho}({\bf c_i};\ u)} &#x3D;<br>\begin{cases}<br>\begin{align}<br>0,\ &amp;u \neq 0\\[10pt]<br>NL,\ &amp;u &#x3D; 0<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;這樣的特性可以怎麼善用？根據這個特性，可以得到 $\sum_{i &#x3D; 0}^{N - 1}{P_{\bf c_i}(t)} &#x3D; NL$，表示 $P_{\bf c_i}(t) \leq NL$，即 ${\rm PAPR}(C) &#x3D; \max_{ {\bf c} \in C}{ {\rm PAPR}{(\bf c)} } \leq N$，也就是控制了PAPR的上限。能夠得知PAPR上限是很重要的一件事，因為RF前端的功率放大器(PA)通常是運作在線性區(linear region)，如果PAPR過大，PA的平均輸出功率就必須降低，稱為output back-off (OBO)；並且運作在降低的工作點上，PA的功率使用效率也下降。(參考自Chieuh [2])</p>
+<details>
+<summary>
+    <font color="yellow">實驗A：用GCS建立一個可控PAPR的OFDM系統</font>
+</summary>
+
+<p>&emsp;&emsp;未完成…。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;hello world&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;圖A-1是不使用GCS codeword的OFDM波型，圖A-2是使用GCS codeword的OFDM波型。未完成…。</p>
+</details>
+<br>
+
+<p>&emsp;&emsp;接著是GCS的延伸，complete complementary code (<font color="yellow"><strong>CCC</strong></font>)。兩個GCS $C^0$、$C^1$ 為<strong>正交</strong>，若且惟若</p>
+<p>$$<br>\sum_{i &#x3D; 0}^{N - 1}{\hat{\rho}({\bf c_i^0}, {\bf c_i^1};\ u)} &#x3D; 0,\ {\rm for\ any}\ u<br>$$</p>
+<p>&emsp;&emsp;此「正交性」也是定義在correlation sum之上的，和GCS的定義相仿。CCC即為 $M$ 組互相正交的GCS的集合，關係式如下：</p>
+<p>$$<br>\sum_{i &#x3D; 0}^{N - 1}{\hat{\rho}({\bf c_i^{k_1}}, {\bf c_i^{k_2}};\ u)} &#x3D;<br>\begin{cases}<br>\begin{align}<br>&amp;NL,\ &amp;u &#x3D; 0,\ k_1 &#x3D; k_2\\[10pt]<br>&amp;0,\ &amp;u \neq 0,\ k_1 &#x3D; k_2\\[10pt]<br>&amp;0,\ &amp;\forall u,\ k_1 \neq k_2<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;CCC裡相異GCS正交的特性，非常適合用在多載波的分碼多工系統(MC-CDMA)，每個使用者使用一組GCS，接收端做correlation時其他使用者的投影量為零，意即不受多重存取干擾(multiple-access interference，MAI)。</p>
+<details>
+<summary>
+    <font color="yellow">實驗B：用CCC模擬一個MC-CDMA系統</font>
+</summary>
+
+<p>&emsp;&emsp;未完成…。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;hello world&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+</details>
+<br>
+
+<p>&emsp;&emsp;Z-complementary sequence sets (<font color="yellow"><strong>ZCS</strong></font>)則是更大的一個序列集合，而且和GCS、CCC不同，correlation為零的位移 $u$ 僅限於特定區域，稱為 zero-correlation zone。ZCS的特性如下：</p>
+<p>$$<br>\sum_{i &#x3D; 0}^{N - 1}{\hat{\rho}({\bf c_i^{k_1}}, {\bf c_i^{k_2}};\ u)} &#x3D;<br>\begin{cases}<br>\begin{align}<br>&amp;NL,\ &amp;u &#x3D; 0,\ k_1 &#x3D; k_2\\[10pt]<br>&amp;0,\ &amp;0 &lt; \lvert u\rvert &lt; Z,\ k_1 &#x3D; k_2\\[10pt]<br>&amp;0,\ &amp;\lvert u\rvert &lt; Z,\ k_1 \neq k_2<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;和CCC的特性相似，只不過有ZCZ的限制。這邊提一下「optimal」的意思，當一個序列集合裡的序列數&#x2F;集合數達到理論上限時，就稱它為optimal的序列集合。不同序列集合的序列數&#x2F;集合數上限都不一樣。</p>
+<details>
+<summary>
+    <font color="yellow">實驗C：用ZCS模擬一個MC-CDMA系統，並和CCC比較</font>
+</summary>
+
+<p>&emsp;&emsp;未完成…。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;hello world&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+</details>
+<br>
+
+<p>&emsp;&emsp;最後介紹zero-correlation zone sets (<font color="yellow"><strong>ZCZ set</strong></font>)。ZCZ sets的特性如下：</p>
+<p>$$<br>\begin{cases}<br>\begin{align}<br>&amp;\rho({\bf c_k};\ u) &#x3D; 0,\ {\rm for}\ \leq \lvert u\rvert \leq Z\\[10pt]<br>&amp;\rho({\bf c_k, c_l};\ u) &#x3D; 0,\ {\rm for}\ \lvert u\rvert \leq Z<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;當中 $k \neq l$ 表示集合中的兩相異序列，注意ZCZ sets是定義在週期性自相關函數，而前面介紹的GCS、CCC、ZCS都是定義在非週期性自相關函數。ZCZ sets可以用在cell之間的載波頻率偵測。</p>
+<br>
+
+<p>&emsp;&emsp;這一節介紹了很多序列集合，其實它們彼此之間有所關連，一些集合是另一個集合的子集合。圖2呈現這些序列集合的關係。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1kU-_1B0xCvSlL7FaPGWnE3_99pg5GQ78&sz=s1024" width="500">
+<center><font color="cyan">圖2，各種序列集合的關係，改自上課講義。</font></center>
+
+<h2 id="Periodic-Pairs"><a href="#Periodic-Pairs" class="headerlink" title="Periodic Pairs"></a>Periodic Pairs</h2><p>&emsp;&emsp;許多序列對有週期自相關函數的良好特性，通常是兩個序列的週期自相關函數的「和」滿足某些條件，如前述的ZCZ sets。Periodic complementary sets (PCS)就是一例，其特性如下：</p>
+<p>$$<br>\sum_{i &#x3D; 0}^{N - 1}{\rho({\bf c_i};\ u)} &#x3D;<br>\begin{cases}<br>\begin{align}<br>0,\ &amp;u \neq 0\\[10pt]<br>NL,\ &amp;u &#x3D; 0<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;其實也就是periodic GCS。如果集合裡只有一對序列，則稱為periodic complementary pair (<font color="yellow"><strong>PCP</strong></font>)。根據correlation的性質，一對GCP一定是PCP，但是一對PCP卻未必是GCP。因此，PCP的數量是多於GCP的。</p>
+<br>
+
+<p>&emsp;&emsp;期中project便是要尋找長度為74，82，90，106以及130的PCP。同學們的做法大概分為兩類：</p>
+<ol>
+<li>參考論文A [3]，建立index set、尋找SDS，再將SDS轉換為序列。</li>
+<li>參考論文B [4]，尋找符合條件的壓縮序列，再解壓縮、尋找PCP。</li>
+</ol>
+<p>&emsp;&emsp;多數同學參考論文A，而我們這組參考論文B (因為它有附程式碼)。結果就我們這組沒找到半個序列對，因為</p>
+<ol>
+<li>論文A使用orbit來建造index set，將搜尋空間大幅縮減，搜尋時間也相應減少；而論文B則是近乎exhaustive的搜尋，只有透過字典排序取最小、刪去等價序列的方式，來縮減搜尋空間，縮減程度小於論文A。</li>
+<li>論文B壓縮-解壓縮的方法適用於長度 $L$ 有許多因數的情況，所以長度為74、82的序列並不適合這樣尋找。</li>
+<li>論文A提供了長度74、82的生成orbit，只要確實實現論文的做法，是保證可以找到的。</li>
+</ol>
+<p>&emsp;&emsp;好吧，講了這麼多都是失敗的藉口。那麼就來介紹一下<strong>index set</strong>和<strong>SDS</strong>的關係。所謂index set指的是，集合元素為序列中「-1」的位置，所以任一個序列都可以唯一對應到一個index set。如果序列對應到index set $X$，那麼correlation可以對應到什麼呢？答案是插值表(difference table)，數學表示為</p>
+<p>$$<br>\delta_X(u) &#x3D; \lvert (u + X) \cap X\rvert<br>$$</p>
+<p>&emsp;&emsp;其中「$+$」為模 $L$ 加法。$\delta_X(u)$ 表示序列向右循環位移 $u$ 後，「-1」對應到「-1」的個數。假設 $\lvert X\rvert &#x3D; r$，即序列共有 $r$ 個「-1」，我們可以整理出以下表格：</p>
+<table style="width:350px; margin-left:210px;">
+  <tr>
+    <th style="width:45%;">case</th>
+    <th>value</th> 
+  </tr>
+  <tr>
+    <td>1 對應到 1</td>
+    <td>$L - 2(r - \delta_X(u)) - \delta_X(u)$</td>
+  </tr>
+  <tr>
+    <td>1 對應到 -1</td>
+    <td>$2(r - \delta_X(u))$</td>
+  </tr>
+  <tr>
+    <td>-1 對應到 -1</td>
+    <td>$\delta_X(u)$</td>
+  </tr>
+</table>
+
+<p>&emsp;&emsp;因此週期自相關函數可以寫為</p>
+<p>$$<br>\rho({\bf a};\ u) &#x3D; L - 4(r - \delta_X(u))<br>$$</p>
+<p>&emsp;&emsp;而序列對的週期自相關函數「和」可以寫為</p>
+<p>$$<br>\rho({\bf a};\ u) + \rho({\bf b};\ u) &#x3D; 2L - 4[r + s - (\delta_X(u) + \delta_Y(u))]<br>$$</p>
+<p>&emsp;&emsp;因此，只要找到符合條件的index set pair，就等於找到對應的序列對。要符合什麼條件呢？就PCP而言，我們想要找到一組參數為 $(L;\ r,\ s;\ \lambda &#x3D; \delta_X + \delta_Y)$ 的supplementary difference set (SDS)，滿足</p>
+<p>$$<br>L &#x3D; 2(r + s - (\delta_X(u) + \delta_Y(u)))\ \forall\ u \neq 0<br>$$</p>
+<p>&emsp;&emsp;論文A就是透過尋找SDS來尋找PCP。期末project也有一些同學是用類似的方法尋找序列對，包括我(但我沒找到)。</p>
+<br>
+
+<p>&emsp;&emsp;接著來看optimal periodic almost-complementary pair (<font color="yellow"><strong>PACP</strong></font>)，$L$ 為偶數時特性如下：</p>
+<p>$$<br>\lvert \rho({\bf c};\ u) + \rho({\bf d};\ u)\rvert &#x3D;<br>\begin{cases}<br>\begin{align}<br>0,\ &amp;1 \leq \lvert u\rvert &lt; L&#x2F;2\\[10pt]<br>4,\ &amp;\lvert u\rvert &#x3D; L&#x2F;2\\[10pt]<br>2L,\ &amp;u &#x3D; 0<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;而 $L$ 為奇數時的optimal PACP特性如下：</p>
+<p>$$<br>\lvert \rho({\bf c};\ u) + \rho({\bf d};\ u)\rvert &#x3D;<br>\begin{cases}<br>\begin{align}<br>2,\ &amp;1 \leq \lvert u\rvert \leq L&#x2F;2\\[10pt]<br>2L,\ &amp;u &#x3D; 0<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;PACP是PZCP的optimal型態，當長度 $L$ 為偶數時，PACP correlation sum只在 $u &#x3D; L&#x2F;2$ 處為非零，其大小為4；當長度 $L$ 為奇數時，PACP correlation sum在非零的 $u$ 大小皆為2。期末project要找的就是PACP和PQCP，這部分就略過不提了。</p>
+<br>
+
+<p>&emsp;&emsp;最後是periodic quasi-complementary pair (<font color="yellow"><strong>PQCP</strong></font>)，特性如下：</p>
+<p>$$<br>\lvert \rho({\bf c};\ u) + \rho({\bf d};\ u)\rvert \leq \epsilon,\ 1 \leq u \leq L - 1<br>$$</p>
+<p>&emsp;&emsp;條件相當的寬鬆，PACP也是PQCP的子集。期末project要找的PQCP則是只有兩個非零位移的correlation sum為非零，條件比較嚴格。</p>
+<h2 id="Aperiodic-Pairs"><a href="#Aperiodic-Pairs" class="headerlink" title="Aperiodic Pairs"></a>Aperiodic Pairs</h2><p>&emsp;&emsp;這一節介紹一些擁有非週期性特性的序列對。首先是<font color="yellow"><strong>ZCP</strong></font>，也就是ZCS裡只有一個集合，這個集合裡只有兩個序列的例子。不同於GCP的長度受限，任何長度的binary ZCP都存在。那麼要怎麼建構ZCP呢？如果我們有ZCP的kernel，就可以根據這些kernel來建構相同長度or更長的ZCP。</p>
+<br>
+
+<p>&emsp;&emsp;</p>
+<h2 id="Boolean-Functions"><a href="#Boolean-Functions" class="headerlink" title="Boolean Functions"></a>Boolean Functions</h2><p>&emsp;&emsp;布林函數可以用來建構序列集合，如 $f(x_1, x_2, x_3) &#x3D; x_1 x_2 + x_3$，「$+$」為模2加法。每一個布林函數都可以對應到一個長度為 $2^m$ 的序列，</p>
+<p>$$<br>{\bf F} &#x3D; (f_1, f_2, f_3, \cdots, f_{2^m - 1})<br>$$</p>
+<p>&emsp;&emsp;當中 $f_i &#x3D; f(i_1, i_2, \cdots, i_m)$ 為這個布林函數對數字 $i$ 的mapping，${(i)}_{10} &#x3D; {(i_1, i_2, \cdots, i_m)}_2$。序列 ${\bf F}$ 也可以寫為</p>
+<p>$$<br>{\bf F} &#x3D; f({\bf x_1}, {\bf x_2}, \cdots, {\bf x_m})<br>$$</p>
+<p>&emsp;&emsp;其中 ${\bf x_k}$ 為 $0 \sim 2^m - 1$ 每個二進位數字的第 $k$ 個bit所組成的向量。這樣的表示方法在MATLAB用點乘是比較方便的。Generalized Boolean function則把對應域擴展到 ${\Bbb Z}_q$，所以形如</p>
+<p>$$<br>f(x_1, x_2, x_3) &#x3D; 3x_1 x_2 + 4x_3\ \ ({\rm mod}\ 5)<br>$$</p>
+<p>&emsp;&emsp;的布林函數存在(變成模 $q$ 加法)。</p>
+<details>
+<summary>
+    <font color="yellow">實驗D：用布林函數建立一組GCS</font>
+</summary>
+
+<p>&emsp;&emsp;未完成…。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;hello world&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h3 id="Generalized-Reed-Muller-Codes"><a href="#Generalized-Reed-Muller-Codes" class="headerlink" title="Generalized Reed-Muller Codes"></a>Generalized Reed-Muller Codes</h3><h3 id="Golay-Davis-Jedwab-Complementary-Pair-GDJ-pair"><a href="#Golay-Davis-Jedwab-Complementary-Pair-GDJ-pair" class="headerlink" title="Golay-Davis-Jedwab Complementary Pair (GDJ pair)"></a>Golay-Davis-Jedwab Complementary Pair (GDJ pair)</h3><h2 id="Concluding-words"><a href="#Concluding-words" class="headerlink" title="Concluding words"></a>Concluding words</h2><p>&emsp;&emsp;這門課的兩次project，我(個人)都沒有找到任何序列。第一次project要尋找PCP，第二次project要尋找PACP和PQCP，幸好第二次project我的組員有一些成果，原來是我在雷啊！</p>
+<br>
+
+<p>&emsp;&emsp;由於時間不夠，課程沒有講完GDJ pair和後面的部分。不過有了這些基礎，之後再閱讀通訊序列相關的論文，應該是遊刃有餘。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p>[1] 上課講義。</p>
+<p>[2] T.D. Chiueh, et al, <em>Baseband Receiver Design for Wireless MIMO-OFDM Communications</em>. John Wiley &amp; Sons Singapore Pte. Ltd, 2012.</p>
+<p>[3] D. Ž. Dokovi&cacute; and I. S. Kotsireas, “Some new periodic Golay pairs,” <em>Numer. Algorithms</em>, vol. 69, no. 3, pp. 523–530, Sep. 2015.</p>
+<p>[4] T. Lumsden, I. Kotsireas, and C. Bright, “New results on periodic Golay pairs,” <em>Math. Comput.</em>, Apr. 2025.</p>
+
     </div>
 
     
@@ -321,6 +500,9 @@
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/%E7%B6%B2%E9%A0%81%E5%89%8D%E7%AB%AF/comm-jam-project-concept/" rel="next" title="Comm Jam 整體概念">
+                  Comm Jam 整體概念 <i class="fa fa-angle-right"></i>
+                </a>
             </div>
           </div>
     </footer>
@@ -345,7 +527,7 @@
 
   <div class="copyright">
     &copy; 
-    <span itemprop="copyrightYear">2025</span>
+    <span itemprop="copyrightYear">2026</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
@@ -394,7 +576,7 @@
 
   
 
-  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
 <script src="/js/third-party/math/mathjax.js"></script>
 
 
