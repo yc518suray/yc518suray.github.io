@@ -1721,7 +1721,21 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 </ul>
 <p>$$<br>\hat{\rho}({\bf c}, {\bf d};\ u) &#x3D;<br>\begin{cases}<br>\begin{align}<br>&amp;\sum_{i &#x3D; 0}^{L - u - 1}{C_{i + u} D_i^{*}},\ \ &amp;0 \leq u \leq L - 1\\[10pt]<br>&amp;\sum_{i &#x3D; 0}^{L + u - 1}{C_i D_{i - u}^{*}},\ \ &amp;-L + 1 \leq u &lt; 0<br>\end{align}<br>\end{cases}<br>$$</p>
 <p>&emsp;&emsp;Autocorrelation的形式是一樣的，只要把序列換掉即可。一般來說，${\bf C}$ 會是一個polyphase sequence，即 $C_i &#x3D; \xi^{c_i}$，其中 $\xi &#x3D; e^{j2\pi&#x2F;L}$，$c_i \in {\Bbb Z}_L$。此外，correlation還有以下的性質：</p>
-<p>- </p>
+<ul>
+<li><p>$\hat{\rho}({\bf c};\ -u) &#x3D; \hat{\rho}^{*}({\bf c};\ u)$</p>
+</li>
+<li><p>$\rho({\bf c};\ -u) &#x3D; {\rho}^{*}({\bf c};\ u)$</p>
+</li>
+<li><p>PACF和AACF的關係，</p>
+<p>  $$<br>  \rho({\bf c};\ u) &#x3D;<br>  \begin{cases}<br>  \begin{align}<br>  &amp;\hat{\rho}({\bf c};\ u) + \hat{\rho}^{*}({\bf c};\ L - u),\ \ &amp;u \geq 0\\[10pt]<br>  &amp;\hat{\rho}({\bf c};\ u) + \hat{\rho}({\bf c};\ L + u),\ \ &amp;u &lt; 0<br>  \end{align}<br>  \end{cases}<br>  $$</p>
+</li>
+<li><p>PCCF和ACCF的關係，</p>
+<p>  $$<br>  \rho({\bf c}, {\bf d};\ u) &#x3D;<br>  \begin{cases}<br>  \begin{align}<br>  &amp;\hat{\rho}({\bf c}, {\bf d};\ u) + \hat{\rho}^{*}({\bf d}, {\bf c};\ L - u),\ \ &amp;u \geq 0\\[10pt]<br>  &amp;\hat{\rho}({\bf c}, {\bf d};\ u) + \hat{\rho}({\bf c}, {\bf d};\ L + u),\ \ &amp;u &lt; 0<br>  \end{align}<br>  \end{cases}<br>  $$</p>
+</li>
+</ul>
+<p>&emsp;&emsp;當序列為binary，complex conjugate的符號 $*$ 可以省略，式子會更簡化。</p>
+<br>
+
 <p>&emsp;&emsp;在檢驗不同序列(集合)的時候會經常用到這些關係式。序列的分類一般而言就是用correlation的性質來劃分，比如說若滿足 $\rho({\bf c};\ u) &#x3D; 0\ \forall u \neq 0$，則這個序列為一個<strong>perfect sequence</strong>，目前唯一已知的binary perfect sequence為</p>
 <p>$$<br>{\bf c} &#x3D; (0, 0, 0, 1)<br>$$</p>
 <p>&emsp;&emsp;可說是非常稀有。若滿足 $\lvert\hat{\rho}({\bf c};\ u)\rvert \leq 1\ \forall u \neq 0$，則這個序列為一個<strong>Barker sequence</strong>，數量也不是很多。一些用來衡量序列correlation的指標，包括peak sidelobe level (PSL)，</p>
@@ -1841,10 +1855,41 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 <p>&emsp;&emsp;最後是periodic quasi-complementary pair (<font color="yellow"><strong>PQCP</strong></font>)，特性如下：</p>
 <p>$$<br>\lvert \rho({\bf c};\ u) + \rho({\bf d};\ u)\rvert \leq \epsilon,\ 1 \leq u \leq L - 1<br>$$</p>
 <p>&emsp;&emsp;條件相當的寬鬆，PACP也是PQCP的子集。期末project要找的PQCP則是只有兩個非零位移的correlation sum為非零，條件比較嚴格。</p>
-<h2 id="Aperiodic-Pairs"><a href="#Aperiodic-Pairs" class="headerlink" title="Aperiodic Pairs"></a>Aperiodic Pairs</h2><p>&emsp;&emsp;這一節介紹一些擁有非週期性特性的序列對。首先是<font color="yellow"><strong>ZCP</strong></font>，也就是ZCS裡只有一個集合，這個集合裡只有兩個序列的例子。不同於GCP的長度受限，任何長度的binary ZCP都存在。那麼要怎麼建構ZCP呢？如果我們有ZCP的kernel，就可以根據這些kernel來建構相同長度or更長的ZCP。</p>
+<h2 id="Aperiodic-Pairs"><a href="#Aperiodic-Pairs" class="headerlink" title="Aperiodic Pairs"></a>Aperiodic Pairs</h2><p>&emsp;&emsp;這一節介紹一些擁有非週期性特性的序列對。首先是<font color="yellow"><strong>ZCP</strong></font>，也就是ZCS裡只有一個集合，這個集合裡只有兩個序列的例子。不同於GCP的長度受限，任何長度的binary ZCP都存在。Z的區間大小則有上限：</p>
+<p>$$<br>\begin{cases}<br>\begin{align}<br>&amp;Z \leq \frac{L + 1}{2},\ &amp;\text{L is even}\\[10pt]<br>&amp;Z \leq L - 2,\ &amp;\text{L is odd}<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;那麼要怎麼建構ZCP呢？如果我們有ZCP的kernel，就可以根據這些kernel來建構相同長度or更長的ZCP。Kernel不能從較短長度的序列得到，也不能對相同長度的序列做基本操作(如negation、negating alternatively)得到，要找到就比較困難，不過找到之後可以衍生出相同長度或較長長度的ZCP，一些基本的做法如</p>
+<ul>
+<li><p>以特定方式串接 (concatenation) 兩序列。</p>
+</li>
+<li><p>交錯 (interleaving) 兩序列。假設 $({\bf A}^0,\ {\bf B}^0)$ 為一 $(L,\ Z)\text{-ZCP}$，則</p>
+<p>  $$<br>  ({\bf A}^n,\ {\bf B}^n) &#x3D; ({\bf A}^{n - 1}\star {\bf B}^{n - 1},\ {\bf A}^{n - 1}\star ({\bf -B}^{n - 1}))<br>  $$</p>
+<p>  為一 $(2^nL,\ 2^nZ)\text{-ZCP}$。</p>
+</li>
+<li><p>使用Kronecker product，詳參講義。</p>
+</li>
+</ul>
 <br>
 
-<p>&emsp;&emsp;</p>
+<p>&emsp;&emsp;接著是擁有兩端ZCZ的<font color="yellow"><strong>SZCP</strong></font>，S是symmetric的意思，特性如下：</p>
+<p>$$<br>\hat{\rho}({\bf c};\ u) + \hat{\rho}({\bf d};\ u) &#x3D;<br>\begin{cases}<br>\begin{align}<br>2L,\ &amp;u &#x3D; 0\\[10pt]<br>0,\ &amp;0 &lt; \lvert u\rvert &lt; Z\\[10pt]<br>0,\ &amp;L - Z &lt; \lvert u\rvert \leq L - 1<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;當 $L$ 為偶數且 $Z &#x3D; L&#x2F;2$，則這個SZCP為optimal，此時 $\lvert AACS({\bf c}, {\bf d};\ u)\rvert &#x3D; 2$。看起來和偶數長度的optimal PACP相似，不過PACP是定義在週期性特性，而SZCP定義在非週期性特性。</p>
+<br>
+
+<p>&emsp;&emsp;最後來看cross Z-complementary pair (<font color="yellow"><strong>CZCP</strong></font>)，顧名思義它是定義在cross-correlation的，和ZCS有些相似。CZCP使用兩個ZCZ區間，${\it T_1}$ 和 ${\it T_2}$，</p>
+<p>$$<br>\begin{align}<br>{\it T_1}&amp;\equiv \{1, 2, \cdots, Z\}\\[10pt]<br>{\it T_2}&amp;\equiv \{L - Z, L - Z + 1, \cdots, L - 1\}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;CZCP必須滿足兩個條件，</p>
+<p>$$<br>\begin{align}<br>&amp;(C_1)\ \ \hat{\rho}({\bf c};\ u) + \hat{\rho}({\bf d};\ u) &#x3D; 0,\ \ &amp;\lvert u\rvert \in {\it T_1}\cup{\it T_2}\\[10pt]<br>&amp;(C_2)\ \ \hat{\rho}({\bf c}, {\bf d};\ u) + \hat{\rho}({\bf d}, {\bf c};\ u) &#x3D; 0,\ \ &amp;\lvert u\rvert \in {\it T_2}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;等於說AACS有前後兩塊ZCZ，而ACCS只有後面那塊ZCZ。這種特別的性質，正好可以用在single-carrier spatial modulation (<font color="yellow"><strong>SC-SM</strong></font>)系統，可以消除ISI和ICI。</p>
+<details>
+<summary>
+    <font color="yellow">實驗D：CZCP及其他序列對在SC-SM系統的應用</font>
+</summary>
+
+<p>&emsp;&emsp;未完成…。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;hello world&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+</details>
+
 <h2 id="Boolean-Functions"><a href="#Boolean-Functions" class="headerlink" title="Boolean Functions"></a>Boolean Functions</h2><p>&emsp;&emsp;布林函數可以用來建構序列集合，如 $f(x_1, x_2, x_3) &#x3D; x_1 x_2 + x_3$，「$+$」為模2加法。每一個布林函數都可以對應到一個長度為 $2^m$ 的序列，</p>
 <p>$$<br>{\bf F} &#x3D; (f_1, f_2, f_3, \cdots, f_{2^m - 1})<br>$$</p>
 <p>&emsp;&emsp;當中 $f_i &#x3D; f(i_1, i_2, \cdots, i_m)$ 為這個布林函數對數字 $i$ 的mapping，${(i)}_{10} &#x3D; {(i_1, i_2, \cdots, i_m)}_2$。序列 ${\bf F}$ 也可以寫為</p>
@@ -1854,7 +1899,7 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 <p>&emsp;&emsp;的布林函數存在(變成模 $q$ 加法)。</p>
 <details>
 <summary>
-    <font color="yellow">實驗D：用布林函數建立一組GCS</font>
+    <font color="yellow">實驗E：用布林函數建立一組GCS</font>
 </summary>
 
 <p>&emsp;&emsp;未完成…。</p>
@@ -2458,7 +2503,11 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 <li>等化器設計、通道估測</li>
 <li>…</li>
 </ul>
-<h2 id="系統架構"><a href="#系統架構" class="headerlink" title="系統架構"></a>系統架構</h2><p>&emsp;&emsp;這一節介紹整個系統(程式)的架構，如下圖。</p>
+<h2 id="系統架構"><a href="#系統架構" class="headerlink" title="系統架構"></a>系統架構</h2><p>&emsp;&emsp;這一節介紹整個系統(程式)的架構，如下圖。目前只是把專案的環境大概建置好，所以這張圖只是非常初期的構想。</p>
+<br>
+
+<img src="https://drive.google.com/thumbnail?id=1pF4ZP7tFZfUdnBuPcjp5MpbOchcXMbj5&sz=s1024" width="450">
+
 <h2 id="美術"><a href="#美術" class="headerlink" title="美術"></a>美術</h2><p>&emsp;&emsp;由 Raymond Su 繪製草圖，<strong>Gemini</strong> 的 <strong>Nano Banana</strong> 修飾。草圖由紙和筆繪製，再經由漫畫轉檔程式處理、小畫家著色，最後送給 Nano Banana 調整。</p>
 <h2 id="音樂"><a href="#音樂" class="headerlink" title="音樂"></a>音樂</h2><p>&emsp;&emsp;遊戲過程(即寫程式時)的音樂應該會使用 Youtube 上的音樂，並標示作者與作品名稱。首頁、個人頁面以及結果頁面的音樂，由 Raymond Su 製作，目標是做出和 Toby Fox 的作品一樣、和遊戲超級搭配的音樂。</p>
 <h2 id="開發人員"><a href="#開發人員" class="headerlink" title="開發人員"></a>開發人員</h2><ul>
