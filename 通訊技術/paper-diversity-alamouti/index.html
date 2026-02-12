@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yc518suray.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="&emsp;&emsp;這篇是 Alamouti code 的原始論文，於1998年出版。Alamouti code 是一種 space-time block code (STBC)，在 MIMO-OFDM 等多天線系統廣泛應用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="論文閱讀：Alamouti code">
+<meta property="og:url" content="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-diversity-alamouti/index.html">
+<meta property="og:site_name" content="R.S. Random Space">
+<meta property="og:description" content="&emsp;&emsp;這篇是 Alamouti code 的原始論文，於1998年出版。Alamouti code 是一種 space-time block code (STBC)，在 MIMO-OFDM 等多天線系統廣泛應用。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=120KH6Q7AfZpPmwEiJnVWgGY-rxDCdoHC&sz=w1024">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=14wTHp7B9zHcZNs35FnL7yBhGYmNWNd_p&sz=w1024">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1BJEvHTtsirg6_14oPbha9womw_55AbuN&sz=w1024">
+<meta property="article:published_time" content="2026-02-10T08:24:31.000Z">
+<meta property="article:modified_time" content="2026-02-12T16:35:58.786Z">
+<meta property="article:author" content="Raymond Su">
+<meta property="article:tag" content="無線通訊">
+<meta property="article:tag" content="無線通道">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://drive.google.com/thumbnail?id=120KH6Q7AfZpPmwEiJnVWgGY-rxDCdoHC&sz=w1024">
+
+
+<link rel="canonical" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-diversity-alamouti/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-diversity-alamouti/","path":"通訊技術/paper-diversity-alamouti/","title":"論文閱讀：Alamouti code"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>論文閱讀：Alamouti code | R.S. Random Space</title>
+  
+
+
+
+
+
+
+
+<script src="/live2d-widget/dist/autoload.js"></script>
+<script src="/js/hexo_resize_image.js"></script>
+<link rel="stylesheet" href="/css/SpoilerBlur.css">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">R.S. Random Space</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Raymond Su的個人網站</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa-solid fa-house fa-fw"></i>首頁</a></li><li class="menu-item menu-item-archives"><a href="/archives" rel="section"><i class="fa-solid fa-folder-open fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-categories"><a href="/categories" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-tags"><a href="/tags" rel="section"><i class="fa-solid fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-音樂"><a href="/music" rel="section"><i class="fa fa-music fa-fw"></i>音樂</a></li><li class="menu-item menu-item-連結"><a href="/links" rel="section"><i class="fa fa-link fa-fw"></i>連結</a></li><li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa-solid fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AB%96%E6%96%87%E8%B3%87%E8%A8%8A"><span class="nav-number">1.</span> <span class="nav-text">論文資訊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AB%96%E6%96%87%E5%85%A7%E5%AE%B9"><span class="nav-number">2.</span> <span class="nav-text">論文內容</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E4%BB%8B%E7%B4%B9"><span class="nav-number">2.1.</span> <span class="nav-text">背景介紹</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MRRC-scheme"><span class="nav-number">2.2.</span> <span class="nav-text">MRRC scheme</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alamouti-%E7%9A%84%E6%96%B0%E6%96%B9%E6%B3%95"><span class="nav-number">2.3.</span> <span class="nav-text">Alamouti 的新方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Case-1-2-Tx-1-Rx"><span class="nav-number">2.3.1.</span> <span class="nav-text">Case 1, 2 Tx 1 Rx</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Case-2-2-Tx-M-Rx"><span class="nav-number">2.3.2.</span> <span class="nav-text">Case 2, 2 Tx M Rx</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%8C%AF%E8%AA%A4%E7%8E%87%E6%A8%A1%E6%93%AC"><span class="nav-number">2.4.</span> <span class="nav-text">錯誤率模擬</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C%E4%B8%8A%E7%9A%84%E8%80%83%E9%87%8F"><span class="nav-number">2.5.</span> <span class="nav-text">實作上的考量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B5%90%E8%AB%96"><span class="nav-number">2.6.</span> <span class="nav-text">結論</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%80%E5%BE%8C%E6%83%B3%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">讀後想法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E9%8C%84"><span class="nav-number">4.</span> <span class="nav-text">附錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Raymond Su"
+      src="/uploads/images/blog_avatar.png">
+  <p class="site-author-name" itemprop="name">Raymond Su</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives">
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags">
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yc518suray" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yc518suray" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:raymondsu0110@gmail.com" title="E-mail → mailto:raymondsu0110@gmail.com" rel="noopener me" target="_blank"><i class="fa-solid fa-envelope fa-fw"></i>E-mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-diversity-alamouti/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/images/blog_avatar.png">
+      <meta itemprop="name" content="Raymond Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R.S. Random Space">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="論文閱讀：Alamouti code | R.S. Random Space">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          論文閱讀：Alamouti code
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2026-02-10 16:24:31" itemprop="dateCreated datePublished" datetime="2026-02-10T16:24:31+08:00">2026-02-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-02-13 00:35:58" itemprop="dateModified" datetime="2026-02-13T00:35:58+08:00">2026-02-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/" itemprop="url" rel="index"><span itemprop="name">通訊技術</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-diversity-alamouti/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="通訊技術/paper-diversity-alamouti/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;這篇是 Alamouti code 的原始論文，於1998年出版。Alamouti code 是一種 space-time block code (STBC)，在 MIMO-OFDM 等多天線系統廣泛應用。</p>
+<span id="more"></span>
+
+<h2 id="論文資訊"><a href="#論文資訊" class="headerlink" title="論文資訊"></a>論文資訊</h2><p>Siavash M. Alamouti, “A Simple Transmit Diversity Technique for Wireless Communications”, <em>IEEE Journal On Select Areas in Communications</em>, Vol. 16, No. 8, Oct. 1998.</p>
+<h2 id="論文內容"><a href="#論文內容" class="headerlink" title="論文內容"></a>論文內容</h2><p>&emsp;&emsp;在本篇論文，作者提出一種新的 diversity 方法，並且將它與傳統的 MRRC 比較。因此論文首先介紹 MRRC，再闡明提出的新方法，並比較兩種方法的錯誤率表現。</p>
+<h3 id="背景介紹"><a href="#背景介紹" class="headerlink" title="背景介紹"></a>背景介紹</h3><p>&emsp;&emsp;下世代通訊要求在多變的環境也能順利通訊，提高資料傳輸速率與通訊品質的同時，成本也必須維持住。因此，基地台的複雜度應該比行動裝置的複雜度更高。</p>
+<br>
+
+<p>&emsp;&emsp;面對多路徑衰減，不考慮增加傳輸功率或是頻寬的話，diversity 是一個選項。Time diversity 在 slow fading 的情況效果不佳，frequency diversity 在 flat fading 的情況效果不好；<span class="hint--info hint--rounded hint--top" data-hint="或稱 space diversity" ontouchstart>antenna diversity</span> 適用的範圍較廣，但是要應用在基地台而不是行動裝置，才符合經濟效益。其中一個例子是 <a href="">space-time trellis coding</a>，但是它的複雜度較高。</p>
+<br>
+
+<p>&emsp;&emsp;這篇論文提出的方法在 Tx 有兩支天線，Rx 有一支天線，其 diversity order 與經典的 MRRC (Tx 一支天線，Rx 兩支天線)相同，複雜度低。這個方法可以有效對抗多路徑衰減，增加通訊系統的效能。</p>
+<h3 id="MRRC-scheme"><a href="#MRRC-scheme" class="headerlink" title="MRRC scheme"></a>MRRC scheme</h3><p>Maximal-Ratio Receive Combining (MRRC) 的基頻架構圖如圖A所示。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=120KH6Q7AfZpPmwEiJnVWgGY-rxDCdoHC&sz=w1024" width="500">
+<center><font color="cyan">圖A，two-branch MRRC 架構圖，改自論文 Fig. 1。</font></center>
+<br>
+
+<p>&emsp;&emsp;MRRC 的作法為 ${\bf \tilde{s_0}} &#x3D; {\bf h_0^* r_0} + {\bf h_1^* r_1} &#x3D; (\alpha_0^2 + \alpha_1^2){\bf s_0} + {\bf h_0^* n_0} + {\bf h_1^* n_1}$，和<a href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-linear-diversity-brennan/">之前論文</a>看到的不太一樣，所以在附錄推導一次。Combining 的結果送去 ML detector，decision rule 為</p>
+<p>$$<br>(\alpha_0^2 + \alpha_1^2 - 1)\lvert {\bf s_i}\rvert^2 + \lvert {\bf \tilde{s_0} - s_i}\rvert^2 \leq (\alpha_0^2 + \alpha_1^2 - 1)\lvert {\bf s_k}\rvert^2 + \lvert {\bf \tilde{s_0} - s_k}\rvert^2<br>$$</p>
+<p>&emsp;&emsp;則判斷為 $\bf s_i$。訊號為 PSK 的話，上式可以簡化為</p>
+<p>$$<br>\lvert{\bf \tilde{s_0} - s_i}\rvert^2 \leq \lvert{\bf \tilde{s_0} - s_k}\rvert^2<br>$$</p>
+<h3 id="Alamouti-的新方法"><a href="#Alamouti-的新方法" class="headerlink" title="Alamouti 的新方法"></a>Alamouti 的新方法</h3><h4 id="Case-1-2-Tx-1-Rx"><a href="#Case-1-2-Tx-1-Rx" class="headerlink" title="Case 1, 2 Tx 1 Rx"></a>Case 1, 2 Tx 1 Rx</h4><p>&emsp;&emsp;作者提出的新方法，架構圖如圖B所示。這個架構可以分為三個部分：</p>
+<ul>
+<li>Encoding &amp; transmit sequence</li>
+<li>Combing scheme</li>
+<li>ML detection，這部分和 MRRC 是一樣的</li>
+</ul>
+<br>
+<img src="https://drive.google.com/thumbnail?id=14wTHp7B9zHcZNs35FnL7yBhGYmNWNd_p&sz=w1024" width="500">
+<center><font color="cyan">圖B，two-branch Alamouti's technique 架構圖，改自論文 Fig. 2。</font></center>
+<br>
+
+<p>&emsp;&emsp;從圖B可知，transmit sequence 是一種 space-time coding，因為符號被安排在不同天線(空間)與不同區間(時間)。實際上也可以用 space-frequency coding。假設 Tx 0 傳送到 Rx 的 channel gain 為 ${\bf h_0} &#x3D; \alpha_0 e^{j\theta_0}$，Tx 1 傳送到 Rx 的 channel gain 為 ${\bf h_1} &#x3D; \alpha_1 e^{j\theta_1}$ (假設連續兩 symbol 期間通道不變)，則 Rx 收到的連續兩個 symbol 為</p>
+<p>$$<br>\begin{align}<br>{\bf r_0} &amp;&#x3D; {\bf h_0 s_0} + {\bf h_1 s_1} + {\bf n_0}\\[10pt]<br>{\bf r_1} &amp;&#x3D; -{\bf h_0 s_1^{*}} + {\bf h_1 s_0^{*}} + {\bf n_1}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;Combiner 的輸出為</p>
+<p>$$<br>\begin{align}<br>{\bf \tilde{s_0}} &amp;&#x3D; {\bf h_0^{*} r_0} + {\bf h_1 r_1^{*}} &#x3D; (\alpha_0^2 + \alpha_1^2){\bf s_0} + {\bf h_0^{*} n_0} + {\bf h_1 n_1^{*}}\\[10pt]<br>{\bf \tilde{s_1}} &amp;&#x3D; {\bf h_1^{*} r_0} - {\bf h_0 r_1^{*}} &#x3D; (\alpha_0^2 + \alpha_1^2){\bf s_1} - {\bf h_0 n_1^{*}} + {\bf h_1^{*} n_0}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;注意 combiner 的輸出和 MRRC combiner 輸出是一樣的，除了雜訊成分的相位，因此理論上效能也會和 MRRC 一樣(推導見附錄)。</p>
+<h4 id="Case-2-2-Tx-M-Rx"><a href="#Case-2-2-Tx-M-Rx" class="headerlink" title="Case 2, 2 Tx M Rx"></a>Case 2, 2 Tx M Rx</h4><p>&emsp;&emsp;論文裡給出 M &#x3D; 2 的例子。令 Tx 0 到 Rx 0 的 channel gain 為 $\bf h_0$，Tx 0 到 Rx 1 為 $\bf h_2$，Tx 1 到 Rx 0 為 $\bf h_1$，Tx 1 到 Rx 1 為 $\bf h_3$。Rx 0 和 Rx 1 第一組收到的 symbol 為 $({\bf r_0, r_2})$，第二組收到 $({\bf r_1, r_3})$。收到的 symbol 可以表示為</p>
+<p>$$<br>\begin{align}<br>{\bf r_0} &amp;&#x3D; {\bf h_0 s_0} + {\bf h_1 s_1} + {\bf n_0}\\[10pt]<br>{\bf r_1} &amp;&#x3D; -{\bf h_0 s_1^{*}} + {\bf h_1 s_0^{*}} + {\bf n_1}\\[10pt]<br>{\bf r_2} &amp;&#x3D; {\bf h_2 s_0} + {\bf h_3 s_1} + {\bf n_2}\\[10pt]<br>{\bf r_3} &amp;&#x3D; -{\bf h_2 s_1^{*}} + {\bf h_3 s_0^{*}} + {\bf n_3}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;而 combiner 的輸出為 (ML detector 的輸入)</p>
+<p>$$<br>\begin{align}<br>{\bf \tilde{s_0}} &amp;&#x3D; {\color{yellow} {\bf h_0^{*} r_0} + {\bf h_1 r_1^{*}} } + {\color{magenta} {\bf h_2^{*} r_2} + {\bf h_3 r_3^{*}} }\\[10pt]<br>{\bf \tilde{s_1}} &amp;&#x3D; {\color{yellow} {\bf h_1^{*} r_0} - {\bf h_0 r_1^{*}} } + {\color{magenta} {\bf h_3^{*} r_2} - {\bf h_2 r_3^{*}} }<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;經過整理可以得知它的 diversity order 和 4-branch MRRC scheme 是一樣的。仔細觀察，可以發現 combiner 的輸出其實是兩支天線各自 combiner 輸出的和(式子裡以顏色區分)。</p>
+<h3 id="錯誤率模擬"><a href="#錯誤率模擬" class="headerlink" title="錯誤率模擬"></a>錯誤率模擬</h3><p>&emsp;&emsp;錯誤率如下圖C，調變方式為 coherent BPSK，通道為 uncorrelared Rayleigh fading，並且假設通道對於接收端為已知 (perfect knowledge)。由於發射端多了一個天線，但是總發射功率不變，因此每一支發射天線的功率減半。從圖C也看得出來，Alamouti code 和 MRRC 有著 3 dB 的差距，就是由於天線平均功率的減少。(不過實際上每個符號的傳送能量應該不變？)</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1BJEvHTtsirg6_14oPbha9womw_55AbuN&sz=w1024" width="400">
+<center><font color="cyan">圖C，MRRC 和 Alamouti code 的錯誤率比較。</font></center>
+
+<h3 id="實作上的考量"><a href="#實作上的考量" class="headerlink" title="實作上的考量"></a>實作上的考量</h3><p>&emsp;&emsp;前面提過單支天線傳輸功率減半，這其實有好處：可以用更輕巧便宜的功率放大器。關於天線的設置，主要的要求就是天線之間互不相關 (correlation 小於0.7)，跟天線之間的距離相關，發射與接收天線的設置基本上會是一樣的。</p>
+<br>
+
+<p>&emsp;&emsp;訊號處理的部分，這篇論文假設通道對於接收端是已知的，可能是透過 <strong>pilot symbol</strong> 來估計。通道變化太快的話 (e.g. fast fading)，估計就會失準，所以 pilot symbol 的出現頻率至少要等於對通道的取樣率。此外，因為主要是發射端的天線數量增加，為了估計不同通道，pilot symbols 的數量也會增加。(相較之下，若是接收端天線數量增加、發射端維持一支天線，只需要一個 pilot symbol 就可以估計全部通道。)</p>
+<br>
+
+<p>&emsp;&emsp;最後討論 <strong>soft failure</strong>。當接收端有好幾個天線，其中一個不能 work，接收端仍可以 decode 傳送的符號，只是效能降低，這就是 soft failure 的意思。那麼 Alamouti code 其實也是有這項特性的，以 two-branch 為例子，當一個發射端天線不能 work，系統就退化為 single-channel，還是可以運作。</p>
+<h3 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h3><p>&emsp;&emsp;這篇論文提出的方法不僅可以提供和 MRRC 一樣的 diversity order，且讓基地台而不是行動裝置來負擔硬體的複雜度(i.e. 天線數)。這個方法不需要 Rx 回傳 CSI 給 Tx，且運算複雜度和 MRRC 相仿。</p>
+<h2 id="讀後想法"><a href="#讀後想法" class="headerlink" title="讀後想法"></a>讀後想法</h2><p>&emsp;&emsp;這篇論文相當簡潔有力，論述清楚，而且實用價值相當高，因為行動裝置(如手機)的硬體複雜度降低，有助於當時行動通訊和數據傳輸的發展。論文提出的方法，其數學描述也很簡單，應用於 massive MIMO 的話應該可以用矩陣描述，所以還是要好好複習線性代數。</p>
+<h2 id="附錄"><a href="#附錄" class="headerlink" title="附錄"></a>附錄</h2><p>&emsp;&emsp;MRRC 的係數 $a_1$，$a_2$ 推導如下。</p>
+<br>
+
+<p>&emsp;&emsp;Two-branch Alamouti code 的 ML detection 判斷如下。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>&emsp;&emsp;無。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Raymond Su
+  </li>
+  <li class="post-copyright-link">
+      <strong>文章連結：</strong>
+      <a href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-diversity-alamouti/" title="論文閱讀：Alamouti code">https://yc518suray.github.io/通訊技術/paper-diversity-alamouti/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版權聲明： </strong>本網誌所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 許可協議。轉載請註明出處！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%84%A1%E7%B7%9A%E9%80%9A%E8%A8%8A/" rel="tag"><i class="fa fa-tag"></i> 無線通訊</a>
+              <a href="/tags/%E7%84%A1%E7%B7%9A%E9%80%9A%E9%81%93/" rel="tag"><i class="fa fa-tag"></i> 無線通道</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-linear-diversity-brennan/" rel="prev" title="論文閱讀：Linear Diversity Combining Techniques">
+                  <i class="fa fa-angle-left"></i> 論文閱讀：Linear Diversity Combining Techniques
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Raymond Su</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"oscarsu-disqus","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

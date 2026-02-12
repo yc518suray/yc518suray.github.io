@@ -2746,4 +2746,78 @@ $$
         <tag>無線通道</tag>
       </tags>
   </entry>
+  <entry>
+    <title>論文閱讀：Alamouti code</title>
+    <url>/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-diversity-alamouti/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;這篇是 Alamouti code 的原始論文，於1998年出版。Alamouti code 是一種 space-time block code (STBC)，在 MIMO-OFDM 等多天線系統廣泛應用。</p>
+<span id="more"></span>
+
+<h2 id="論文資訊"><a href="#論文資訊" class="headerlink" title="論文資訊"></a>論文資訊</h2><p>Siavash M. Alamouti, “A Simple Transmit Diversity Technique for Wireless Communications”, <em>IEEE Journal On Select Areas in Communications</em>, Vol. 16, No. 8, Oct. 1998.</p>
+<h2 id="論文內容"><a href="#論文內容" class="headerlink" title="論文內容"></a>論文內容</h2><p>&emsp;&emsp;在本篇論文，作者提出一種新的 diversity 方法，並且將它與傳統的 MRRC 比較。因此論文首先介紹 MRRC，再闡明提出的新方法，並比較兩種方法的錯誤率表現。</p>
+<h3 id="背景介紹"><a href="#背景介紹" class="headerlink" title="背景介紹"></a>背景介紹</h3><p>&emsp;&emsp;下世代通訊要求在多變的環境也能順利通訊，提高資料傳輸速率與通訊品質的同時，成本也必須維持住。因此，基地台的複雜度應該比行動裝置的複雜度更高。</p>
+<br>
+
+<p>&emsp;&emsp;面對多路徑衰減，不考慮增加傳輸功率或是頻寬的話，diversity 是一個選項。Time diversity 在 slow fading 的情況效果不佳，frequency diversity 在 flat fading 的情況效果不好；<span class="hint--info hint--rounded hint--top" data-hint="或稱 space diversity" ontouchstart>antenna diversity</span> 適用的範圍較廣，但是要應用在基地台而不是行動裝置，才符合經濟效益。其中一個例子是 <a href="">space-time trellis coding</a>，但是它的複雜度較高。</p>
+<br>
+
+<p>&emsp;&emsp;這篇論文提出的方法在 Tx 有兩支天線，Rx 有一支天線，其 diversity order 與經典的 MRRC (Tx 一支天線，Rx 兩支天線)相同，複雜度低。這個方法可以有效對抗多路徑衰減，增加通訊系統的效能。</p>
+<h3 id="MRRC-scheme"><a href="#MRRC-scheme" class="headerlink" title="MRRC scheme"></a>MRRC scheme</h3><p>Maximal-Ratio Receive Combining (MRRC) 的基頻架構圖如圖A所示。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=120KH6Q7AfZpPmwEiJnVWgGY-rxDCdoHC&sz=w1024" width="500">
+<center><font color="cyan">圖A，two-branch MRRC 架構圖，改自論文 Fig. 1。</font></center>
+<br>
+
+<p>&emsp;&emsp;MRRC 的作法為 ${\bf \tilde{s_0}} &#x3D; {\bf h_0^* r_0} + {\bf h_1^* r_1} &#x3D; (\alpha_0^2 + \alpha_1^2){\bf s_0} + {\bf h_0^* n_0} + {\bf h_1^* n_1}$，和<a href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-linear-diversity-brennan/">之前論文</a>看到的不太一樣，所以在附錄推導一次。Combining 的結果送去 ML detector，decision rule 為</p>
+<p>$$<br>(\alpha_0^2 + \alpha_1^2 - 1)\lvert {\bf s_i}\rvert^2 + \lvert {\bf \tilde{s_0} - s_i}\rvert^2 \leq (\alpha_0^2 + \alpha_1^2 - 1)\lvert {\bf s_k}\rvert^2 + \lvert {\bf \tilde{s_0} - s_k}\rvert^2<br>$$</p>
+<p>&emsp;&emsp;則判斷為 $\bf s_i$。訊號為 PSK 的話，上式可以簡化為</p>
+<p>$$<br>\lvert{\bf \tilde{s_0} - s_i}\rvert^2 \leq \lvert{\bf \tilde{s_0} - s_k}\rvert^2<br>$$</p>
+<h3 id="Alamouti-的新方法"><a href="#Alamouti-的新方法" class="headerlink" title="Alamouti 的新方法"></a>Alamouti 的新方法</h3><h4 id="Case-1-2-Tx-1-Rx"><a href="#Case-1-2-Tx-1-Rx" class="headerlink" title="Case 1, 2 Tx 1 Rx"></a>Case 1, 2 Tx 1 Rx</h4><p>&emsp;&emsp;作者提出的新方法，架構圖如圖B所示。這個架構可以分為三個部分：</p>
+<ul>
+<li>Encoding &amp; transmit sequence</li>
+<li>Combing scheme</li>
+<li>ML detection，這部分和 MRRC 是一樣的</li>
+</ul>
+<br>
+<img src="https://drive.google.com/thumbnail?id=14wTHp7B9zHcZNs35FnL7yBhGYmNWNd_p&sz=w1024" width="500">
+<center><font color="cyan">圖B，two-branch Alamouti's technique 架構圖，改自論文 Fig. 2。</font></center>
+<br>
+
+<p>&emsp;&emsp;從圖B可知，transmit sequence 是一種 space-time coding，因為符號被安排在不同天線(空間)與不同區間(時間)。實際上也可以用 space-frequency coding。假設 Tx 0 傳送到 Rx 的 channel gain 為 ${\bf h_0} &#x3D; \alpha_0 e^{j\theta_0}$，Tx 1 傳送到 Rx 的 channel gain 為 ${\bf h_1} &#x3D; \alpha_1 e^{j\theta_1}$ (假設連續兩 symbol 期間通道不變)，則 Rx 收到的連續兩個 symbol 為</p>
+<p>$$<br>\begin{align}<br>{\bf r_0} &amp;&#x3D; {\bf h_0 s_0} + {\bf h_1 s_1} + {\bf n_0}\\[10pt]<br>{\bf r_1} &amp;&#x3D; -{\bf h_0 s_1^{*}} + {\bf h_1 s_0^{*}} + {\bf n_1}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;Combiner 的輸出為</p>
+<p>$$<br>\begin{align}<br>{\bf \tilde{s_0}} &amp;&#x3D; {\bf h_0^{*} r_0} + {\bf h_1 r_1^{*}} &#x3D; (\alpha_0^2 + \alpha_1^2){\bf s_0} + {\bf h_0^{*} n_0} + {\bf h_1 n_1^{*}}\\[10pt]<br>{\bf \tilde{s_1}} &amp;&#x3D; {\bf h_1^{*} r_0} - {\bf h_0 r_1^{*}} &#x3D; (\alpha_0^2 + \alpha_1^2){\bf s_1} - {\bf h_0 n_1^{*}} + {\bf h_1^{*} n_0}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;注意 combiner 的輸出和 MRRC combiner 輸出是一樣的，除了雜訊成分的相位，因此理論上效能也會和 MRRC 一樣(推導見附錄)。</p>
+<h4 id="Case-2-2-Tx-M-Rx"><a href="#Case-2-2-Tx-M-Rx" class="headerlink" title="Case 2, 2 Tx M Rx"></a>Case 2, 2 Tx M Rx</h4><p>&emsp;&emsp;論文裡給出 M &#x3D; 2 的例子。令 Tx 0 到 Rx 0 的 channel gain 為 $\bf h_0$，Tx 0 到 Rx 1 為 $\bf h_2$，Tx 1 到 Rx 0 為 $\bf h_1$，Tx 1 到 Rx 1 為 $\bf h_3$。Rx 0 和 Rx 1 第一組收到的 symbol 為 $({\bf r_0, r_2})$，第二組收到 $({\bf r_1, r_3})$。收到的 symbol 可以表示為</p>
+<p>$$<br>\begin{align}<br>{\bf r_0} &amp;&#x3D; {\bf h_0 s_0} + {\bf h_1 s_1} + {\bf n_0}\\[10pt]<br>{\bf r_1} &amp;&#x3D; -{\bf h_0 s_1^{*}} + {\bf h_1 s_0^{*}} + {\bf n_1}\\[10pt]<br>{\bf r_2} &amp;&#x3D; {\bf h_2 s_0} + {\bf h_3 s_1} + {\bf n_2}\\[10pt]<br>{\bf r_3} &amp;&#x3D; -{\bf h_2 s_1^{*}} + {\bf h_3 s_0^{*}} + {\bf n_3}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;而 combiner 的輸出為 (ML detector 的輸入)</p>
+<p>$$<br>\begin{align}<br>{\bf \tilde{s_0}} &amp;&#x3D; {\color{yellow} {\bf h_0^{*} r_0} + {\bf h_1 r_1^{*}} } + {\color{magenta} {\bf h_2^{*} r_2} + {\bf h_3 r_3^{*}} }\\[10pt]<br>{\bf \tilde{s_1}} &amp;&#x3D; {\color{yellow} {\bf h_1^{*} r_0} - {\bf h_0 r_1^{*}} } + {\color{magenta} {\bf h_3^{*} r_2} - {\bf h_2 r_3^{*}} }<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;經過整理可以得知它的 diversity order 和 4-branch MRRC scheme 是一樣的。仔細觀察，可以發現 combiner 的輸出其實是兩支天線各自 combiner 輸出的和(式子裡以顏色區分)。</p>
+<h3 id="錯誤率模擬"><a href="#錯誤率模擬" class="headerlink" title="錯誤率模擬"></a>錯誤率模擬</h3><p>&emsp;&emsp;錯誤率如下圖C，調變方式為 coherent BPSK，通道為 uncorrelared Rayleigh fading，並且假設通道對於接收端為已知 (perfect knowledge)。由於發射端多了一個天線，但是總發射功率不變，因此每一支發射天線的功率減半。從圖C也看得出來，Alamouti code 和 MRRC 有著 3 dB 的差距，就是由於天線平均功率的減少。(不過實際上每個符號的傳送能量應該不變？)</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1BJEvHTtsirg6_14oPbha9womw_55AbuN&sz=w1024" width="400">
+<center><font color="cyan">圖C，MRRC 和 Alamouti code 的錯誤率比較。</font></center>
+
+<h3 id="實作上的考量"><a href="#實作上的考量" class="headerlink" title="實作上的考量"></a>實作上的考量</h3><p>&emsp;&emsp;前面提過單支天線傳輸功率減半，這其實有好處：可以用更輕巧便宜的功率放大器。關於天線的設置，主要的要求就是天線之間互不相關 (correlation 小於0.7)，跟天線之間的距離相關，發射與接收天線的設置基本上會是一樣的。</p>
+<br>
+
+<p>&emsp;&emsp;訊號處理的部分，這篇論文假設通道對於接收端是已知的，可能是透過 <strong>pilot symbol</strong> 來估計。通道變化太快的話 (e.g. fast fading)，估計就會失準，所以 pilot symbol 的出現頻率至少要等於對通道的取樣率。此外，因為主要是發射端的天線數量增加，為了估計不同通道，pilot symbols 的數量也會增加。(相較之下，若是接收端天線數量增加、發射端維持一支天線，只需要一個 pilot symbol 就可以估計全部通道。)</p>
+<br>
+
+<p>&emsp;&emsp;最後討論 <strong>soft failure</strong>。當接收端有好幾個天線，其中一個不能 work，接收端仍可以 decode 傳送的符號，只是效能降低，這就是 soft failure 的意思。那麼 Alamouti code 其實也是有這項特性的，以 two-branch 為例子，當一個發射端天線不能 work，系統就退化為 single-channel，還是可以運作。</p>
+<h3 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h3><p>&emsp;&emsp;這篇論文提出的方法不僅可以提供和 MRRC 一樣的 diversity order，且讓基地台而不是行動裝置來負擔硬體的複雜度(i.e. 天線數)。這個方法不需要 Rx 回傳 CSI 給 Tx，且運算複雜度和 MRRC 相仿。</p>
+<h2 id="讀後想法"><a href="#讀後想法" class="headerlink" title="讀後想法"></a>讀後想法</h2><p>&emsp;&emsp;這篇論文相當簡潔有力，論述清楚，而且實用價值相當高，因為行動裝置(如手機)的硬體複雜度降低，有助於當時行動通訊和數據傳輸的發展。論文提出的方法，其數學描述也很簡單，應用於 massive MIMO 的話應該可以用矩陣描述，所以還是要好好複習線性代數。</p>
+<h2 id="附錄"><a href="#附錄" class="headerlink" title="附錄"></a>附錄</h2><p>&emsp;&emsp;MRRC 的係數 $a_1$，$a_2$ 推導如下。</p>
+<br>
+
+<p>&emsp;&emsp;Two-branch Alamouti code 的 ML detection 判斷如下。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>&emsp;&emsp;無。</p>
+]]></content>
+      <categories>
+        <category>通訊技術</category>
+      </categories>
+      <tags>
+        <tag>無線通訊</tag>
+        <tag>無線通道</tag>
+      </tags>
+  </entry>
 </search>
