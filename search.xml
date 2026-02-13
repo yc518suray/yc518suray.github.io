@@ -2786,7 +2786,7 @@ $$
 <p>$$<br>\begin{align}<br>{\bf r_0} &amp;&#x3D; {\bf h_0 s_0} + {\bf h_1 s_1} + {\bf n_0}\\[10pt]<br>{\bf r_1} &amp;&#x3D; -{\bf h_0 s_1^{*}} + {\bf h_1 s_0^{*}} + {\bf n_1}<br>\end{align}<br>$$</p>
 <p>&emsp;&emsp;Combiner 的輸出為</p>
 <p>$$<br>\begin{align}<br>{\bf \tilde{s_0}} &amp;&#x3D; {\bf h_0^{*} r_0} + {\bf h_1 r_1^{*}} &#x3D; (\alpha_0^2 + \alpha_1^2){\bf s_0} + {\bf h_0^{*} n_0} + {\bf h_1 n_1^{*}}\\[10pt]<br>{\bf \tilde{s_1}} &amp;&#x3D; {\bf h_1^{*} r_0} - {\bf h_0 r_1^{*}} &#x3D; (\alpha_0^2 + \alpha_1^2){\bf s_1} - {\bf h_0 n_1^{*}} + {\bf h_1^{*} n_0}<br>\end{align}<br>$$</p>
-<p>&emsp;&emsp;注意 combiner 的輸出和 MRRC combiner 輸出是一樣的，除了雜訊成分的相位，因此理論上效能也會和 MRRC 一樣(推導見附錄)。</p>
+<p>&emsp;&emsp;注意 combiner 的輸出和 MRRC combiner 輸出是一樣的，除了雜訊成分的相位，因此理論上效能也會和 MRRC 一樣。</p>
 <h4 id="Case-2-2-Tx-M-Rx"><a href="#Case-2-2-Tx-M-Rx" class="headerlink" title="Case 2, 2 Tx M Rx"></a>Case 2, 2 Tx M Rx</h4><p>&emsp;&emsp;論文裡給出 M &#x3D; 2 的例子。令 Tx 0 到 Rx 0 的 channel gain 為 $\bf h_0$，Tx 0 到 Rx 1 為 $\bf h_2$，Tx 1 到 Rx 0 為 $\bf h_1$，Tx 1 到 Rx 1 為 $\bf h_3$。Rx 0 和 Rx 1 第一組收到的 symbol 為 $({\bf r_0, r_2})$，第二組收到 $({\bf r_1, r_3})$。收到的 symbol 可以表示為</p>
 <p>$$<br>\begin{align}<br>{\bf r_0} &amp;&#x3D; {\bf h_0 s_0} + {\bf h_1 s_1} + {\bf n_0}\\[10pt]<br>{\bf r_1} &amp;&#x3D; -{\bf h_0 s_1^{*}} + {\bf h_1 s_0^{*}} + {\bf n_1}\\[10pt]<br>{\bf r_2} &amp;&#x3D; {\bf h_2 s_0} + {\bf h_3 s_1} + {\bf n_2}\\[10pt]<br>{\bf r_3} &amp;&#x3D; -{\bf h_2 s_1^{*}} + {\bf h_3 s_0^{*}} + {\bf n_3}<br>\end{align}<br>$$</p>
 <p>&emsp;&emsp;而 combiner 的輸出為 (ML detector 的輸入)</p>
@@ -2806,10 +2806,13 @@ $$
 <p>&emsp;&emsp;最後討論 <strong>soft failure</strong>。當接收端有好幾個天線，其中一個不能 work，接收端仍可以 decode 傳送的符號，只是效能降低，這就是 soft failure 的意思。那麼 Alamouti code 其實也是有這項特性的，以 two-branch 為例子，當一個發射端天線不能 work，系統就退化為 single-channel，還是可以運作。</p>
 <h3 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h3><p>&emsp;&emsp;這篇論文提出的方法不僅可以提供和 MRRC 一樣的 diversity order，且讓基地台而不是行動裝置來負擔硬體的複雜度(i.e. 天線數)。這個方法不需要 Rx 回傳 CSI 給 Tx，且運算複雜度和 MRRC 相仿。</p>
 <h2 id="讀後想法"><a href="#讀後想法" class="headerlink" title="讀後想法"></a>讀後想法</h2><p>&emsp;&emsp;這篇論文相當簡潔有力，論述清楚，而且實用價值相當高，因為行動裝置(如手機)的硬體複雜度降低，有助於當時行動通訊和數據傳輸的發展。論文提出的方法，其數學描述也很簡單，應用於 massive MIMO 的話應該可以用矩陣描述，所以還是要好好複習線性代數。</p>
-<h2 id="附錄"><a href="#附錄" class="headerlink" title="附錄"></a>附錄</h2><p>&emsp;&emsp;MRRC 的係數 $a_1$，$a_2$ 推導如下。</p>
-<br>
-
-<p>&emsp;&emsp;Two-branch Alamouti code 的 ML detection 判斷如下。</p>
+<h2 id="附錄"><a href="#附錄" class="headerlink" title="附錄"></a>附錄</h2><p>&emsp;&emsp;MRRC 的係數 $a$，$b$ 推導如下。假設 combiner 輸出為 ${\bf \tilde{s_0}} &#x3D; a r_0 + b r_1$，則</p>
+<p>$$<br>\begin{align}<br>{\bf \tilde{s_0}} &amp;&#x3D; a(h_0 s_0 + n_0) + b(h_1 s_0 + n_1)\\[10pt]<br>&amp;&#x3D; (a h_0 + b h_1)s_0 + a n_0 + b n_1<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;平均的 SNR 為</p>
+<p>$$<br>\frac{\text{E}[\lvert(a h_0 + b h_1)s_0\rvert^2]}{\text{E}[\lvert a n_0 + b n_1\rvert^2]} &#x3D; \frac{\lvert a h_0 + b h_1\rvert^2}{\lvert a\rvert^2 + \lvert b\rvert^2} \frac{\text{E}[\lvert s_0\rvert^2]}{\text{E}[\lvert n_0\rvert^2]}<br>$$</p>
+<p>&emsp;&emsp;由柯西不等式 $\lvert a h_0 + b h_1\rvert^2 \leq (\lvert a\rvert^2 + \lvert b\rvert^2) (\lvert h_0\rvert^2 + \lvert h_1\rvert^2)$，可知等號成立時的平均 SNR 會達到最大值，即</p>
+<p>$$<br>[a\ \ b] &#x3D; k [h_0^{*}\ \ h_1^{*}]<br>$$</p>
+<p>&emsp;&emsp;其中 $k$ 為大於零的實數常數。</p>
 <h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>&emsp;&emsp;無。</p>
 ]]></content>
       <categories>
