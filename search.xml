@@ -2724,10 +2724,14 @@ $$
 <p>&emsp;&emsp;這裡只呈現 correlated fading，以及 pre-detection 和 post-detection 的討論。其他部分請參考論文。</p>
 <br>
 
-<p>&emsp;&emsp;首先是 <strong>correlated fading</strong>。</p>
+<p>&emsp;&emsp;首先是 <strong>correlated fading</strong>。論文呈現 $N &#x3D; 2$，selection diversity 方法的 local power 分布情況(呈現方式如圖D)，當相關係數 $\rho$ 愈趨近於1，分布函數就愈往低功率的方向移動(i.e. 指定發生機率，對應到的 power level 愈小)。至於 mean local power，maximal-ratio 的方法<font color="yellow">不受到 correlated fading 的影響</font> ($P &#x3D; \sum_{j &#x3D; 1}^{N}{P_j}$)；equal-gain 方法則會隨著相關係數愈趨近於1，其效果愈趨近於 maximal-ratio scheme。還記得 equal-gain scheme 的 mean local power (correlated fading 的情況)：</p>
+<p>$$<br>\begin{align}<br>E[P] &amp;&#x3D; 1 + \frac{1}{N}\sum_{j &#x3D; 1}^{N}{\sum_{i \neq j}{E[x_i x_j]}}\\[10pt]<br>&amp;&#x3D; 1 + \frac{1}{N}\sum_{j &#x3D; 1}^{N}{\sum_{i \neq j}{\left(\sigma_x^2 \rho_{ij} + E[x_i] E[x_j]\right)}}\\[10pt]<br>&amp;&#x3D; 1 + \frac{1}{N}\sum_{j &#x3D; 1}^{N}{\sum_{i \neq j}{\left((1 - E[x_i]^2) \rho_{ij} + E[x_i] E[x_j]\right)}}\\[10pt]<br>&amp;&#x3D; 1 + \frac{1}{N}\sum_{j &#x3D; 1}^{N}{\sum_{i \neq j}{\left(\rho_{ij} (1 - r^2) + r^2\right)}}<br>\end{align}<br>$$</p>
+<p>當 $\rho_{ij} \rightarrow 1$，</p>
+<p>$$<br>\begin{align}<br>\lim_{\rho_{ij} \rightarrow 1}E[P] &amp;&#x3D; 1 + \frac{1}{N}\sum_{j &#x3D; 1}^{N}{\sum_{i \neq j}{\left(1 - r^2 + r^2\right)}}\\[10pt]<br>&amp;&#x3D; 1 + (N - 1) &#x3D; N<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;而 selection diversity 方法則是相反，相關係數愈趨近於1，mean local power 愈小。這個論文沒有仔細說明，不過可以直覺的想：任兩個通道高度相關的話，不管選擇哪一個通道差別都不大，因此會趨近於單通道的表現，i.e. 失去 diversity 的優勢。</p>
 <br>
 
-<p>&emsp;&emsp;接著來討論 <strong>pre-detection 和 post-detection 的差異</strong>。</p>
+<p>&emsp;&emsp;接著來討論 <strong>pre-detection 和 post-detection 的差異</strong>。Pre-detection 需要加上調整相位的電路，才能保證滿足前述的條件 (B)。對於 FM 系統，由於 threshold effect 導致 detector 輸出的變動，不適合使用 post-detection (特別是 equal-gain combiner)。這是比較實務上的考量。</p>
 <h3 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h3><p>&emsp;&emsp;並沒有所謂「最佳的 diversity 系統」，應該要根據不同的條件來選用不同的 combining 技巧。不過考慮到複雜度和效能，equal-gain combining 應該會成為主流。(按：1959年的結論。)</p>
 <h2 id="讀後想法"><a href="#讀後想法" class="headerlink" title="讀後想法"></a>讀後想法</h2><p>&emsp;&emsp;這篇論文的年代久遠，是類比通訊的時代，所以幾乎沒有對數位通訊的討論。不過基本的概念還是可以套用在數位通訊，比如說把 local rms value 改為 discrete statistic、SNR 轉換為 BER，應該可以從數位通訊的角度來檢視 diversity combining techniques。</p>
 <h2 id="附錄"><a href="#附錄" class="headerlink" title="附錄"></a>附錄</h2><p>&emsp;&emsp;AGC (<strong>A</strong>utomatic <strong>G</strong>ain <strong>C</strong>ontrol) 是一種 closed-loop feedback 電路，常見於收音機的接收機電路(例如接收 AM 訊號)。AGC 在訊號強度小時增加增益、訊號強度大時減少增益，確保接收機輸出到喇叭的音量動態範圍是合適的。</p>
@@ -3032,11 +3036,14 @@ $$
 <br>
 
 <p>&emsp;&emsp;在最後一章(<font color="red">第十三章</font>)，談論的是那終極的慾望──連貫的存在。巴塔耶以「<strong>美貌</strong>」為例，描繪這股慾望的真面目：我們對美貌的追求，無非是為了毀滅、超越它，達到極致──感受最為強烈，最為接近連貫。不過，他也說：「沒有了妥協，情色將不復存在。」如果能夠這樣思考自己孤獨而不連貫的生命，也許可以說服自己繼續執拗的活在這世上。這就是對生命的肯定。</p>
-<h3 id="第二部：情色的個案研究"><a href="#第二部：情色的個案研究" class="headerlink" title="第二部：情色的個案研究"></a>第二部：情色的個案研究</h3><p>&emsp;&emsp;顧名思義，從個案來探討情色。這部分我就不寫了，因為再寫下去篇幅就太長了。不過，透過這些篇章反而更深刻理解巴塔耶的想法，因為第一部分還是有點抽象。</p>
+<h3 id="第二部：情色的個案研究"><a href="#第二部：情色的個案研究" class="headerlink" title="第二部：情色的個案研究"></a>第二部：情色的個案研究</h3><p>&emsp;&emsp;這部分我就不寫了，因為再寫下去篇幅就太長了。不過，透過這些篇章反而更能夠深刻理解巴塔耶的想法，因為第一部分還是有點抽象；事實上，第二部分揭露的真相更為震撼。</p>
 <h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;從情色裡可以發現人性的基礎，因為若沒有禁忌的存在、神聖世界與工作世界的區分，理性將不復存在。這麼說來，人類並不反對暴力──廣義上的──而是反對未被規劃的暴力。這個概念可以延展至其他的規範，如性相關的互動、格鬥競技、藝術、政治甚至語言；每種語言都有髒話的存在，就是一例。</p>
 <br>
 
-<p>&emsp;&emsp;過年的時候和弟弟討論了一下「神聖」的概念，他倒是提出蠻有意思的觀點。我們在談宗教的感受、神聖的感受：沒有宗教信仰卻買了平安符保平安，這樣心裡有沒有感受到神聖呢？我覺得沒有，有點「姑且相信」、投機的意味，但是弟弟認為每個人對神聖的感受並不相同，因此無法比較──某人的行為與表現在他人眼裡也許是世俗的，但是某人心中卻是懷著瀕臨極致的感想。我覺得蠻有道理。巴塔耶的論述在早期、乃至於近代的人類社會或許仍有說服力，然而在個人主義成為基本共識的當代社會，宗教逐漸失去集體性，每個人都有自己的宗教、自己的神聖感受──分享、討論巴塔耶的思想，本身便充滿挑戰。</p>
+<p>&emsp;&emsp;過年的時候和弟弟討論了一下「神聖」的概念，他倒是提出蠻有意思的觀點。我們在談宗教的感受、神聖的感受：沒有宗教信仰卻買了平安符保平安，這樣心裡有沒有感受到神聖呢？我覺得沒有，有點「姑且相信」、投機的意味，但是弟弟認為每個人對神聖的感受並不相同，因此無法比較──某人的行為與表現在他人眼裡也許是世俗的，但是某人心中卻是懷著瀕臨極致的感想。我覺得蠻有道理。</p>
+<br>
+
+<p>&emsp;&emsp;巴塔耶的論述在早期、乃至於近代的人類社會或許仍有說服力，然而在個人主義成為基本共識的當代社會，宗教逐漸失去集體性，每個人都有自己的宗教、自己的神聖感受──分享、討論巴塔耶的思想，本身便充滿挑戰。</p>
 <h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>&emsp;&emsp;無。</p>
 ]]></content>
       <categories>
