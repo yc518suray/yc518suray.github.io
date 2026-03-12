@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yc518suray.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content=".no-bottom { border-bottom: none !important; }   .no-top { border-top: none !important; }   .no-both { border-bottom: none !important; border-top: none !important;}   Content來聊聊通道模型與通道估測。更深入的討論請見本站">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OFDM筆記-2: 通道模型">
+<meta property="og:url" content="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-2/index.html">
+<meta property="og:site_name" content="R.S. Random Space">
+<meta property="og:description" content=".no-bottom { border-bottom: none !important; }   .no-top { border-top: none !important; }   .no-both { border-bottom: none !important; border-top: none !important;}   Content來聊聊通道模型與通道估測。更深入的討論請見本站">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2025-06-16T14:31:11.000Z">
+<meta property="article:modified_time" content="2026-03-06T16:21:25.704Z">
+<meta property="article:author" content="Raymond Su">
+<meta property="article:tag" content="無線通道">
+<meta property="article:tag" content="OFDM">
+<meta property="article:tag" content="DSP">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-2/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-2/","path":"通訊技術/OFDM-intro-2/","title":"OFDM筆記-2: 通道模型"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>OFDM筆記-2: 通道模型 | R.S. Random Space</title>
+  
+
+
+
+
+
+
+
+<script src="/live2d-widget/dist/autoload.js"></script>
+<script src="/js/hexo_resize_image.js"></script>
+<link rel="stylesheet" href="/css/SpoilerBlur.css">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">R.S. Random Space</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Raymond Su的個人網站</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa-solid fa-house fa-fw"></i>首頁</a></li><li class="menu-item menu-item-archives"><a href="/archives" rel="section"><i class="fa-solid fa-folder-open fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-categories"><a href="/categories" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-tags"><a href="/tags" rel="section"><i class="fa-solid fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-音樂"><a href="/music" rel="section"><i class="fa fa-music fa-fw"></i>音樂</a></li><li class="menu-item menu-item-連結"><a href="/links" rel="section"><i class="fa fa-link fa-fw"></i>連結</a></li><li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa-solid fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Content"><span class="nav-number">1.</span> <span class="nav-text">Content</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OFDM-%E9%80%9A%E9%81%93%E4%BA%94%E5%9B%9B%E4%B8%89"><span class="nav-number">2.</span> <span class="nav-text">OFDM 通道五四三</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Empirical-path-loss-models"><span class="nav-number">3.</span> <span class="nav-text">Empirical path loss models</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hata-Model"><span class="nav-number">3.1.</span> <span class="nav-text">Hata Model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#COST-231-Walfish-Ikegami-Model"><span class="nav-number">3.2.</span> <span class="nav-text">COST 231-Walfish-Ikegami Model</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Multipath-models"><span class="nav-number">4.</span> <span class="nav-text">Multipath models</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SUI-Channel-Models"><span class="nav-number">4.1.</span> <span class="nav-text">SUI Channel Models</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ITU-Path-Loss-Models"><span class="nav-number">4.2.</span> <span class="nav-text">ITU Path Loss Models</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3GPP-LTE-propagation-channel-model"><span class="nav-number">4.3.</span> <span class="nav-text">3GPP LTE propagation channel model</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AA%9E"><span class="nav-number">5.</span> <span class="nav-text">結語</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Raymond Su"
+      src="/uploads/images/blog_avatar.png">
+  <p class="site-author-name" itemprop="name">Raymond Su</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives">
+          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yc518suray" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yc518suray" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:raymondsu0110@gmail.com" title="E-mail → mailto:raymondsu0110@gmail.com" rel="noopener me" target="_blank"><i class="fa-solid fa-envelope fa-fw"></i>E-mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://hackmd.io/@Q5thU81LTku-dZ3h7gNMFQ" title="HackMD → https:&#x2F;&#x2F;hackmd.io&#x2F;@Q5thU81LTku-dZ3h7gNMFQ" rel="noopener me" target="_blank"><i class="fa-solid fa-book-open fa-fw"></i>HackMD</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/images/blog_avatar.png">
+      <meta itemprop="name" content="Raymond Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R.S. Random Space">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="OFDM筆記-2: 通道模型 | R.S. Random Space">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OFDM筆記-2: 通道模型
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-06-16 22:31:11" itemprop="dateCreated datePublished" datetime="2025-06-16T22:31:11+08:00">2025-06-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-03-07 00:21:25" itemprop="dateModified" datetime="2026-03-07T00:21:25+08:00">2026-03-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/" itemprop="url" rel="index"><span itemprop="name">通訊技術</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-2/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="通訊技術/OFDM-intro-2/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><style>
+  .no-bottom { border-bottom: none !important; }
+  .no-top { border-top: none !important; }
+  .no-both { border-bottom: none !important; border-top: none !important;}
+</style>
+
+<h2 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h2><p>來聊聊通道模型與通道估測。更深入的討論請見本站的其他文章，如<a href="">這篇</a>。</p>
+<span id="more"></span>
+
+<p>以下是OFDM筆記全系列的文章：</p>
+<ul>
+<li><a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-1/" title="OFDM筆記-1: OFDM簡介">OFDM筆記-1: OFDM簡介</a></li>
+<li><a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-2/" title="OFDM筆記-2: 通道模型">OFDM筆記-2: 通道模型</a></li>
+</ul>
+<h2 id="OFDM-通道五四三"><a href="#OFDM-通道五四三" class="headerlink" title="OFDM 通道五四三"></a>OFDM 通道五四三</h2><p>&emsp;&emsp;在前一篇「<a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-1/" title="OFDM筆記-1: OFDM簡介">OFDM筆記-1: OFDM簡介</a>」已經提到過 OFDM 的訊號模型與接收機架構。OFDM 是一個多載波調變的系統，在不同的子載波上承載資料，可以有效對抗多路徑通道 frequency-selective 的特性。不過相對的，OFDM 系統對於 Doppler spread 的挑戰就嚴峻得多，因為單一子載波的頻寬減少、時域的符號區間增加，受到時變通道的影響會更大。表A呈現 WiMAX 系統的通道參數，在高速移動的條件下，OFDM 需要良好的通道估測方法，才能及時更新通道資訊(或是增加系統頻寬、縮短符號區間。)</p>
+<br>
+<table style="width:500px; margin-left:130px;">
+  <tr>
+    <th style="width:18%;">載波頻率</th>
+    <th style="width:20%;">速率</th>
+    <th style="width:25%;">Doppler 頻率</th>
+    <th>Coherence Time</th>
+  </tr>
+  <tr>
+    <td>2.5 GHz</td>
+    <td>2 km/hr</td>
+    <td>4.6 Hz</td>
+    <td>200 ms</td>
+  </tr>
+  <tr>
+    <td>2.5 GHz</td>
+    <td>45 km/hr</td>
+    <td>104.2 Hz</td>
+    <td>10 ms</td>
+  </tr>
+  <tr>
+    <td>2.5 GHz</td>
+    <td>100 km/hr</td>
+    <td>231.5 Hz</td>
+    <td>4 ms</td>
+  </tr>
+  <tr>
+    <td>5.8 GHz</td>
+    <td>2 km/hr</td>
+    <td>10.7 Hz</td>
+    <td>93 ms</td>
+  </tr>
+  <tr>
+    <td>5.8 GHz</td>
+    <td>45 km/hr</td>
+    <td>241.7 Hz</td>
+    <td>4 ms</td>
+  </tr>
+  <tr>
+    <td>5.8 GHz</td>
+    <td>100 km/hr</td>
+    <td>537 Hz</td>
+    <td>2 ms</td>
+  </tr>
+</table>
+<center><font color="cyan">表A，來自[1]的 Table A.1.1。</font></center>
+
+<h2 id="Empirical-path-loss-models"><a href="#Empirical-path-loss-models" class="headerlink" title="Empirical path loss models"></a>Empirical path loss models</h2><p>&emsp;&emsp;這一節就來介紹一些基於實證資料的 path loss 通道模型，內容主要來自[1]這篇教學文章，是 2007 年的資料，所以主要面向當時的通訊系統 (2G 及 3G)。Path loss 的考量對於 OFDM 雖然並非主要，但是對於整個通訊系統卻是不可或缺的。</p>
+<h3 id="Hata-Model"><a href="#Hata-Model" class="headerlink" title="Hata Model"></a>Hata Model</h3><p>&emsp;&emsp;1980 年 Hata 根據 Okumura 的量測資料，提出以下 path loss 的數學模型：</p>
+<p>$$<br>\begin{align}<br>PL_{\text{urban}} (d)\ \ (\text{dB}) &#x3D; 69.55 &amp;+ 26.16 \log_{10}{(f_c)} - 13.82 \log_{10}{(h_t)}\\[10pt]<br>&amp;- a(h_r) + (44.9 - 6.55 \log_{10}{(h_t)}) \log_{10}{(d)}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;其中 $f_c$ 為載波頻率，$h_t$ 和 $h_r$ 分別為發射與接收天線的高度，$a(h_r)$ 是一個校正項。這個模型的<font color="Tomato">適用頻率範圍為 150 ~ 1500 MHz</font>，適用情境為較大的細胞 (cell) 以及 1G 通訊系統。</p>
+<h3 id="COST-231-Walfish-Ikegami-Model"><a href="#COST-231-Walfish-Ikegami-Model" class="headerlink" title="COST 231-Walfish-Ikegami Model"></a>COST 231-Walfish-Ikegami Model</h3><p>&emsp;&emsp;由歐洲科技研究合作網路 (COST) 提出，基於 Walfish 和 Ikegami的模型，考慮到建築高度、道路寬度、建築間距以及道路方向等變數；不過還是假設較為均質、平坦的環境。對於 LOS 的路徑，path loss 表示為</p>
+<p>$$<br>PL (d)\ \ (\text{dB}) &#x3D; 42.6 + 26 \log_{10}{(d)} + 20 \log_{10}{(f_c)}<br>$$</p>
+<p>&emsp;&emsp;其中 $d \geq 0.02$ 的單位為公里，$f_c$ 的單位為 MHz。對於 NLOS 的路徑，path loss 由 free space path loss $PL_0$、multi-screen loss $L_{\text{msd}}$ 以及最後一片屋頂轉角導致的繞射成分 $L_{\text{rts}}$ 組成：</p>
+<p>$$<br>PL &#x3D;<br>\begin{cases}<br>\begin{align}<br>&amp;PL_0 + L_{\text{msd}} + L_{\text{rts}}&amp;,\ \text{for}\ L_{\text{msd}} + L_{\text{rts}} &gt; 0\\[10pt]<br>&amp;PL_0&amp;,\ \text{for}\ L_{\text{msd}} + L_{\text{rts}} \leq 0<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;這個模型的<font color="Tomato">適用頻率範圍為 800 ~ 2000 MHz，適用距離為 0.02 ~ 5 km</font>，另外還有天線高度的限制：<font color="Tomato">BS 天線高度在 4 ~ 50 m 之間，MS 天線高度在 1 ~ 3 m 之間</font>。因此，5G 以後的通訊系統可能不適合使用這個模型。</p>
+<h2 id="Multipath-models"><a href="#Multipath-models" class="headerlink" title="Multipath models"></a>Multipath models</h2><p>&emsp;&emsp;這一節介紹多路徑通道的通道模型。在「OFDM 通道五四三」這一節，提到 OFDM 系統雖然可以有效對抗 ISI，但是在高速移動的環境(如高鐵、飛機及衛星通訊)下，Doppler spread 導致的 ICI 影響非常嚴重。在設計收發機演算法時，必須要考量到這些通道的特性。</p>
+<h3 id="SUI-Channel-Models"><a href="#SUI-Channel-Models" class="headerlink" title="SUI Channel Models"></a>SUI Channel Models</h3><p>&emsp;&emsp;在教學文章[1]中稱其為 path loss model，不過這個模型包含對 delay spread 的描述，屬於 small-scale fading 的範疇。這個通道模型根據地形、有無 LOS 成分、delay spread 情形、Doppler spread 情形分為六種通道 SUI-1 ~ SUI-6。地形分為三種，是基於美國內陸的地貌特徵：A型為樹林覆蓋的山丘區域，路徑損耗較高；B型為樹林覆蓋的平地或是植被稀疏的山丘；最後，C型為植被稀疏的平地，路徑損耗較低。</p>
+<br>
+
+<p>&emsp;&emsp;模型將多路徑描述為 3 個 tap delay，每個 tap gain 為 Rician 分布(基於 Jake’s model)，</p>
+<p>$$<br>f(r) &#x3D; \frac{r}{\sigma^2} e^{-\frac{r^2 + A^2}{2\sigma^2}} I_0(\frac{rA}{\sigma^2})<br>$$</p>
+<p>&emsp;&emsp;LOS 的成分由 K-factor (或稱 Rician factor) 描述，</p>
+<p>$$<br>K &#x3D; \frac{A^2}{2\sigma^2}<br>$$</p>
+<p>&emsp;&emsp;當 $A &#x3D; 0$，channel gain 便退化為 Rayleigh fading。SUI model 模擬 MIMO 的系統，考慮到不同天線訊號之間的相關性(或 co-channel interference)。因此，在建立 SUI model 時，使用到三個矩陣：<font color="yellow">input mixing matrix、TDL matrix 以及 output mixing matrix</font>。表B摘錄 SUI-1 channel model 的部分參數。</p>
+<br>
+<table style="width:550px; margin-left:100px;">
+  <tr>
+    <th colspan="2" style="width:32%;">參數</th>
+    <th colspan="2" style="width:16%;">Tap 1</th>
+    <th colspan="2" style="width:17%;">Tap 2</th>
+    <th colspan="2" style="width:17%;">Tap 3</th>
+    <th colspan="2" style="width:18%;">單位</th>
+  </tr>
+  <tr>
+    <td colspan="2">Delay</td>
+    <td colspan="2">0</td>
+    <td colspan="2">0.4</td>
+    <td colspan="2">0.9</td>
+    <td colspan="2">$\mu s$</td>
+  </tr>
+  <tr class="no-bottom">
+    <td colspan="2" class="no-bottom">Power (omni ant.)</td>
+    <td colspan="2" class="no-bottom">0</td>
+    <td colspan="2" class="no-bottom">-15</td>
+    <td colspan="2" class="no-bottom">-20</td>
+    <td colspan="2" class="no-bottom">dB</td>
+  </tr>
+  <tr class="no-both">
+    <td colspan="2" class="no-both">90% K-factor (omni)</td>
+    <td colspan="2" class="no-both">4</td>
+    <td colspan="2" class="no-both">0</td>
+    <td colspan="2" class="no-both">0</td>
+    <td colspan="2" class="no-both">linear</td>
+  </tr>
+  <tr class="no-top">
+    <td colspan="2" class="no-top">75% K-factor (omni)</td>
+    <td colspan="2" class="no-top">20</td>
+    <td colspan="2" class="no-top">0</td>
+    <td colspan="2" class="no-top">0</td>
+    <td colspan="2" class="no-top">linear</td>
+  </tr>
+  <tr class="no-bottom">
+    <td colspan="2" class="no-bottom">Power ($30^\circ$ ant.)</td>
+    <td colspan="2" class="no-bottom">0</td>
+    <td colspan="2" class="no-bottom">-21</td>
+    <td colspan="2" class="no-bottom">-32</td>
+    <td colspan="2" class="no-bottom">dB</td>
+  </tr>
+  <tr class="no-both">
+    <td colspan="2" class="no-both">90% K-factor ($30^\circ$)</td>
+    <td colspan="2" class="no-both">16</td>
+    <td colspan="2" class="no-both">0</td>
+    <td colspan="2" class="no-both">0</td>
+    <td colspan="2" class="no-both">linear</td>
+  </tr>
+  <tr class="no-top">
+    <td colspan="2" class="no-top">75% K-factor ($30^\circ$)</td>
+    <td colspan="2" class="no-top">72</td>
+    <td colspan="2" class="no-top">0</td>
+    <td colspan="2" class="no-top">0</td>
+    <td colspan="2" class="no-top">linear</td>
+  </tr>
+  <tr class="no-bottom">
+    <td colspan="5" class="no-bottom">
+        Antenna Correlation: $\rho_{\text{env}}$ =  0.7
+    </td>
+    <td colspan="5" class="no-bottom">Terrain Type: C</td>
+  </tr>
+  <tr class="no-both">
+    <td colspan="5" class="no-both">
+        <span style="display: inline-block; width: 150px;">
+            Normalization factor:
+        </span>
+        <span style="display: inline-block; width: 130px;">
+            $F_{\text{omni}}$ = -0.1771 dB
+        </span>
+    </td>
+    <td colspan="5" class="no-both">
+        Omni antenna: $\tau_{\text{rms}}$ = 0.111 $\mu s$
+    </td>
+  </tr>
+  <tr class="no-top">
+    <td colspan="5" class="no-top">
+        <span style="display: inline-block; width: 150px;"></span>
+        <span style="display: inline-block; width: 130px;">
+            $F_{30^\circ}$ = -0.0371 dB
+        </span>
+    </td>
+    <td colspan="5" class="no-top">
+        $30^\circ$ antenna: $\tau_{\text{rms}}$ = 0.042 $\mu s$
+    </td>
+  </tr>
+</table>
+<center><font color="cyan">表B，摘自[1]的 Table A.2.5.1。</font></center>
+<br>
+
+<p>&emsp;&emsp;其中「90% K-factor」指的是細胞中 90% 的面積接收到的 K-factor 大於等於該基準值。SUI models <font color="Tomato">適用頻率範圍為數百 MHz</font> (參考 Erceg model 的適用頻率)，<font color="Tomato">適用範圍為 7 km</font>，對於天線波束寬度 (omni-direction 或是 $30^\circ$) 也有限制，且<font color="Tomato">僅適用於垂直偏振的電磁波</font>。</p>
+<h3 id="ITU-Path-Loss-Models"><a href="#ITU-Path-Loss-Models" class="headerlink" title="ITU Path Loss Models"></a>ITU Path Loss Models</h3><p>&emsp;&emsp;國際電信聯盟的 ITU-R recommendation M.1225 中記載此通道模型，作為 3G 系統的設計參考。該模型區分出三種測試環境：<font color="Tomato">室內-辦公室</font>、<font color="Tomato">室外到室內-行人</font>以及<font color="Tomato">車載-高天線</font>，又區分出低延遲 (A) 和中等延遲 (B) 兩種延遲條件；Doppler spread 的部分則是 classic spectrum (i.e. Jake’s model)。表C摘錄車載環境的通道參數。</p>
+<br>
+<table style="width:500px; margin-left:130px;">
+  <tr>
+    <th style="width:10%;">Tap</th>
+    <th colspan="2" style="width:45%;">通道 (A)</th>
+    <th colspan="2"style="width:45%;">通道 (B)</th>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="1">Relative delay (ns)</td>
+    <td colspan="1">Average power (dB)</td>
+    <td colspan="1">Relative delay (ns)</td>
+    <td colspan="1">Average power (dB)</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td colspan="1">0</td>
+    <td colspan="1">0.0</td>
+    <td colspan="1">0</td>
+    <td colspan="1">-2.5</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td colspan="1">310</td>
+    <td colspan="1">-1.0</td>
+    <td colspan="1">300</td>
+    <td colspan="1">0</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td colspan="1">710</td>
+    <td colspan="1">-9.0</td>
+    <td colspan="1">8900</td>
+    <td colspan="1">-12.8</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td colspan="1">1090</td>
+    <td colspan="1">-10.0</td>
+    <td colspan="1">12900</td>
+    <td colspan="1">-10.0</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td colspan="1">1730</td>
+    <td colspan="1">-15.0</td>
+    <td colspan="1">17100</td>
+    <td colspan="1">-25.2</td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td colspan="1">2510</td>
+    <td colspan="1">-20.0</td>
+    <td colspan="1">20000</td>
+    <td colspan="1">-16.0</td>
+  </tr>
+</table>
+<center><font color="cyan">表C，摘自[1]的 Table A.2.6.3。</font></center>
+
+<h3 id="3GPP-LTE-propagation-channel-model"><a href="#3GPP-LTE-propagation-channel-model" class="headerlink" title="3GPP LTE propagation channel model"></a>3GPP LTE propagation channel model</h3><p>&emsp;&emsp;3GPP 的技術文件 TS 36.101 及 TS 36.104 記載了多路徑通道與時變通道的規格，主要用於 LTE 系統。以下資料則是來自 MATLAB 官方網站 help center 的教學文件。之後有時間再從 3GPP 技術文件來看。</p>
+<br>
+
+<p>&emsp;&emsp;首先介紹三個多路徑通道模型：Extended Pedestrian A model (<font color="Tomato">EPA</font>)、Extended Vehicular A model (<font color="Tomato">EVA</font>) 以及 Extended Typical Urban model (<font color="Tomato">ETU</font>)，以 PDP 的形式呈現。表D為 EVA 模型的參數，總共有 9 個 tap；仔細觀察，可以發現它是衍生自前述的 ITU path loss model (表C)。</p>
+<br>
+<table style="width:600px; margin-left:80px;">
+  <tr>
+    <th style="width:30%;">Excess tap delay (ns)</th>
+    <th style="width:20%;">Relative power (dB)</th>
+    <th style="width:30%;">Excess tap delay (ns)</th>
+    <th style="width:20%;">Relative power (dB)</th>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>0.0</td>
+    <td>710</td>
+    <td>-9.1</td>
+  </tr>
+  <tr>
+    <td>30</td>
+    <td>-1.5</td>
+    <td>1090</td>
+    <td>-7.0</td>
+  </tr>
+  <tr>
+    <td>150</td>
+    <td>-1.4</td>
+    <td>1730</td>
+    <td>-12.0</td>
+  </tr>
+  <tr>
+    <td>310</td>
+    <td>-3.6</td>
+    <td>2510</td>
+    <td>-16.9</td>
+  </tr>
+  <tr>
+    <td>370</td>
+    <td>-0.6</td>
+    <td></td><td></td>
+  </tr>
+</table>
+<center><font color="cyan">表D，來自[2]提供的表格。</font></center>
+<br>
+
+<p>&emsp;&emsp;除了 delay spread 的描述，也提出 5 Hz 或 70 Hz 的 Doppler frequency (ETU 則是 300 Hz)，採用 classic spectrum。</p>
+<br>
+
+<p>&emsp;&emsp;接著是高速鐵路面對的 Doppler shift。技術文件提出一個理想的情況：在高鐵軌道沿線架設基地台 (在 LTE 的 case 是 eNodeB)，基地台間距為 $2 D_s$，基地台距離軌道 $D_{\text{min}}$。則單一路徑的 Doppler shift 可以表示為 ($f_d$ 為 Doppler frequency)</p>
+<p>$$<br>f_s(t) &#x3D; f_d \cos{\theta(t)}<br>$$</p>
+<p>&emsp;&emsp;Doppler shift 是時間的函數，其中</p>
+<p>$$<br>\cos{\theta(t)} &#x3D;<br>\begin{cases}<br>\begin{align}<br>\frac{D_s &#x2F; 2 - vt}{\sqrt{D_{\text{min}}^2 + (D_s &#x2F; 2 - vt)^2}}&amp;,\ \ 0 \leq t \leq D_s &#x2F; v\\[10pt]<br>\frac{vt - 3 D_s &#x2F; 2}{\sqrt{D_{\text{min}}^2 + (vt - 3 D_s &#x2F; 2)^2}}&amp;,\ \ D_s &#x2F; v &lt; t \leq 2 D_s &#x2F; v<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;因此 Doppler shift 會週期性的振盪，週期為 $2D_s &#x2F; v$，這是因為沿線都有架設基地台。這個模型雖然經過簡化、比較理想，對於高速鐵路的通訊系統設計還是提供不少 insight。</p>
+<br>
+
+<p>&emsp;&emsp;最後，在技術文件裡還定義了 channel correlation matrices，使用 Kronecker product 來描述 MIMO 系統中發射&#x2F;接收天線之間的相關性。詳細資訊請參考[2]。</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;有關 OFDM 的通道大概就介紹到這裡，還有很多通道模型沒有提及，有待日後補充。此外，因應新興技術(如 OTFS)而發展的通道模型也有很多，之後再談吧。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[1] Raj Jain, “Channel Models: A Tutorial,” sponsored in part by WiMAX Forum, V1.0, Feb. 21, 2007.</p>
+<p>[2] mathworks.com, “Propagation Channel Models”, documentation of LTE Toolbox, MATLAB help center. Available: <a target="_blank" rel="noopener" href="https://www.mathworks.com/help/lte/ug/propagation-channel-models.html">https://www.mathworks.com/help/lte/ug/propagation-channel-models.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Raymond Su
+  </li>
+  <li class="post-copyright-link">
+      <strong>文章連結：</strong>
+      <a href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-2/" title="OFDM筆記-2: 通道模型">https://yc518suray.github.io/通訊技術/OFDM-intro-2/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版權聲明： </strong>本網誌所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 許可協議。轉載請註明出處！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%84%A1%E7%B7%9A%E9%80%9A%E9%81%93/" rel="tag"><i class="fa fa-tag"></i> 無線通道</a>
+              <a href="/tags/OFDM/" rel="tag"><i class="fa fa-tag"></i> OFDM</a>
+              <a href="/tags/DSP/" rel="tag"><i class="fa fa-tag"></i> DSP</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-1/" rel="prev" title="OFDM筆記-1: OFDM簡介">
+                  <i class="fa fa-angle-left"></i> OFDM筆記-1: OFDM簡介
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/%E8%AE%80%E5%BE%8C%E9%9A%A8%E6%83%B3/brave-new-world-reading/" rel="next" title="讀後隨想：「美麗新世界」">
+                  讀後隨想：「美麗新世界」 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Raymond Su</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"oscarsu-disqus","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

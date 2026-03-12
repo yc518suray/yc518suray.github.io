@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yc518suray.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="&emsp;&emsp;這篇 1963 年的經典論文在通道模型的領域有近兩千次引用，直到最近 (2026) 的期刊論文也都有引用，足見其影響之深遠。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="論文閱讀：Randomly Linear Time-Variant Channel">
+<meta property="og:url" content="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-time-variant-channel/index.html">
+<meta property="og:site_name" content="R.S. Random Space">
+<meta property="og:description" content="&emsp;&emsp;這篇 1963 年的經典論文在通道模型的領域有近兩千次引用，直到最近 (2026) 的期刊論文也都有引用，足見其影響之深遠。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1da1SodVseCX-ruHn1-Yz0ewwarkq03Pz&sz=s1024">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1v4GM55j0C0m9mBU57rFyJnpTWPArPXb6&sz=s1024">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1v4GM55j0C0m9mBU57rFyJnpTWPArPXb6&sz=s1024">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1aruc8t1kMbc5RrIa1Mrk5sW2DWMZixiD&sz=s1024">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1G7_dANvvHc-EXuvOfxjMBvVyaMt8QxRY&sz=s1024">
+<meta property="article:published_time" content="2026-03-06T17:09:01.000Z">
+<meta property="article:modified_time" content="2026-03-12T13:46:25.688Z">
+<meta property="article:author" content="Raymond Su">
+<meta property="article:tag" content="數學">
+<meta property="article:tag" content="Modeling">
+<meta property="article:tag" content="無線通訊">
+<meta property="article:tag" content="無線通道">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://drive.google.com/thumbnail?id=1da1SodVseCX-ruHn1-Yz0ewwarkq03Pz&sz=s1024">
+
+
+<link rel="canonical" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-time-variant-channel/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-time-variant-channel/","path":"通訊技術/paper-time-variant-channel/","title":"論文閱讀：Randomly Linear Time-Variant Channel"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>論文閱讀：Randomly Linear Time-Variant Channel | R.S. Random Space</title>
+  
+
+
+
+
+
+
+
+<script src="/live2d-widget/dist/autoload.js"></script>
+<script src="/js/hexo_resize_image.js"></script>
+<link rel="stylesheet" href="/css/SpoilerBlur.css">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">R.S. Random Space</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Raymond Su的個人網站</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa-solid fa-house fa-fw"></i>首頁</a></li><li class="menu-item menu-item-archives"><a href="/archives" rel="section"><i class="fa-solid fa-folder-open fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-categories"><a href="/categories" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-tags"><a href="/tags" rel="section"><i class="fa-solid fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-音樂"><a href="/music" rel="section"><i class="fa fa-music fa-fw"></i>音樂</a></li><li class="menu-item menu-item-連結"><a href="/links" rel="section"><i class="fa fa-link fa-fw"></i>連結</a></li><li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa-solid fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AB%96%E6%96%87%E8%B3%87%E8%A8%8A"><span class="nav-number">1.</span> <span class="nav-text">論文資訊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AB%96%E6%96%87%E5%85%A7%E5%AE%B9"><span class="nav-number">2.</span> <span class="nav-text">論文內容</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#System-Functions"><span class="nav-number">2.1.</span> <span class="nav-text">System Functions</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Delay-%E5%92%8C-Doppler"><span class="nav-number">2.1.1.</span> <span class="nav-text">Delay 和 Doppler</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Delay-Doppler-%E5%92%8C-Doppler-Delay"><span class="nav-number">2.1.2.</span> <span class="nav-text">Delay-Doppler 和 Doppler-Delay</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Correlation-Functions"><span class="nav-number">2.2.</span> <span class="nav-text">Correlation Functions</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#WSS-%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.2.1.</span> <span class="nav-text">WSS 模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#US-%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.2.2.</span> <span class="nav-text">US 模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WSSUS-%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.2.3.</span> <span class="nav-text">WSSUS 模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%84%A1%E7%B7%9A%E9%9B%BB%E6%B3%A2%E9%80%9A%E9%81%93%E7%9A%84%E6%80%A7%E8%B3%AA%E6%8F%8F%E8%BF%B0"><span class="nav-number">2.2.4.</span> <span class="nav-text">無線電波通道的性質描述</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%99%E6%BA%96%E9%80%9A%E9%81%93%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.3.</span> <span class="nav-text">標準通道模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%80%E5%BE%8C%E6%83%B3%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">讀後想法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E9%8C%84"><span class="nav-number">4.</span> <span class="nav-text">附錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Raymond Su"
+      src="/uploads/images/blog_avatar.png">
+  <p class="site-author-name" itemprop="name">Raymond Su</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives">
+          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yc518suray" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yc518suray" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:raymondsu0110@gmail.com" title="E-mail → mailto:raymondsu0110@gmail.com" rel="noopener me" target="_blank"><i class="fa-solid fa-envelope fa-fw"></i>E-mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://hackmd.io/@Q5thU81LTku-dZ3h7gNMFQ" title="HackMD → https:&#x2F;&#x2F;hackmd.io&#x2F;@Q5thU81LTku-dZ3h7gNMFQ" rel="noopener me" target="_blank"><i class="fa-solid fa-book-open fa-fw"></i>HackMD</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-time-variant-channel/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/images/blog_avatar.png">
+      <meta itemprop="name" content="Raymond Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R.S. Random Space">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="論文閱讀：Randomly Linear Time-Variant Channel | R.S. Random Space">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          論文閱讀：Randomly Linear Time-Variant Channel
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2026-03-07 01:09:01" itemprop="dateCreated datePublished" datetime="2026-03-07T01:09:01+08:00">2026-03-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-03-12 21:46:25" itemprop="dateModified" datetime="2026-03-12T21:46:25+08:00">2026-03-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/" itemprop="url" rel="index"><span itemprop="name">通訊技術</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-time-variant-channel/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="通訊技術/paper-time-variant-channel/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;這篇 1963 年的經典論文在通道模型的領域有近兩千次引用，直到最近 (2026) 的期刊論文也都有引用，足見其影響之深遠。</p>
+<span id="more"></span>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1da1SodVseCX-ruHn1-Yz0ewwarkq03Pz&sz=s1024" width="300">
+<center><font color="cyan">清冽的藍天底下，長崎的 NHK 發射站。</font></center>
+<br>
+
+<p>&emsp;&emsp;這篇文章旨在把 Bello 的概念說明清楚。時間允許的話，我也會進行模擬 (MATLAB) 來輔助說明這些概念。</p>
+<h2 id="論文資訊"><a href="#論文資訊" class="headerlink" title="論文資訊"></a>論文資訊</h2><p>P. Bello, “Characterization of Randomly Time-Variant Linear Channels,” in <em>IEEE Transactions on Communications Systems</em>, vol. 11, no. 4, pp. 360-393, December 1963.</p>
+<h2 id="論文內容"><a href="#論文內容" class="headerlink" title="論文內容"></a>論文內容</h2><p>&emsp;從標題可得知，這篇論文主要聚焦在隨機線性時變通道的各種面向：time-frequency duality、correlation functions 等，並討論三種通道模型：</p>
+<ul>
+<li>Wide-sense stationary (WSS)</li>
+<li>Uncorrelated scattering (US)</li>
+<li>Wide-sense stationary uncorrelated scattering (WSSUS)</li>
+</ul>
+<p>&emsp;&emsp;看來第三個似乎是集大成者。除了模型的建立，論文也討論該模型的統計性質──因為本質上通道響應帶有隨機性，可以視為隨機過程。</p>
+<br>
+
+<p>&emsp;&emsp;前提：本論文使用到 complex envelope、low-pass equivalent 的概念。</p>
+<h3 id="System-Functions"><a href="#System-Functions" class="headerlink" title="System Functions"></a>System Functions</h3><p>&emsp;&emsp;首先探討 duality 的概念。如果我們把輸入與輸出訊號(這裡應該是假設 energy signal)寫作時間或頻率的函數 ($X(f) &#x3D; F{x(t)}$)，我們可以得到兩組、互為對偶的運算子 (operator)：</p>
+<p>$$<br>\begin{align}<br>&amp;y(t) &#x3D; O_{tt}[x(t)],\ \ Y(f) &#x3D; O_{ff}[X(f)]\\[10pt]<br>&amp;y(t) &#x3D; O_{tf}[X(f)],\ \ Y(f) &#x3D; O_{ft}[x(t)]<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;若將這些運算視為輸入訊號與系統基底函數 (system kernel function) 的卷積，則可以寫作：</p>
+<p>$$<br>\begin{align}<br>y(t) &amp;&#x3D; \int{x(t’) K_1(t, t’)\ dt’}\\[10pt]<br>Y(f) &amp;&#x3D; \int{X(f’) K_2(f, f’)\ df’}\\[10pt]<br>y(t) &amp;&#x3D; \int{X(f) K_3(t, f)\ df}\\[10pt]<br>Y(f) &amp;&#x3D; \int{x(t) K_4(f, t)\ dt}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;$K_1(t, t’)$ 和 $K_2(f, f’)$ 是一對 double Fourier transform pair，同樣的 $K_3(t, f)$ 和 $K_4(f, t)$ 也是一對；$K_1$ 和 $K_3$ 為 single Fourier transform pair，$K_2$ 和 $K_4$ 也是。另外，$K_1(t, t’)$ 可以看作是對於時間 $t’$ 的一個 impulse input，系統在時間 $t$ 的響應，依此類推。(可以這麼記憶：第一個變數是輸出，第二個變數是輸入。)<br><br></p>
+<h4 id="Delay-和-Doppler"><a href="#Delay-和-Doppler" class="headerlink" title="Delay 和 Doppler"></a>Delay 和 Doppler</h4><p>&emsp;&emsp;接著應用上述的概念。假設一個線性時變通道 $h(t, \tau)$，它的輸入-輸出模型可以寫作</p>
+<p>$$<br>y(t) &#x3D; \int{x(t - \tau) h(t, \tau)\ d\tau}<br>$$</p>
+<p>&emsp;&emsp;$h(t, \tau)$ 其實就是 $K_1(t, t - \tau)$，稱作 <font color="yellow">input delay-spread function</font>，物理意義為「對於發生在 $t - \tau$ 的 impulse，系統在 $t$ 的響應」。同樣的線性時變通道也可以寫作</p>
+<p>$$<br>y(t) &#x3D; \int{x(t - \tau) g(t - \tau, \tau)\ d\tau}<br>$$</p>
+<p>&emsp;&emsp;$g(t, \tau)$ 稱作 <font color="yellow">output delay-spread function</font>，其物理意義為「對於發生在 $t$ 的 impulse，系統在 $t + \tau$ 的響應」，$g(t, \tau) &#x3D; h(t + \tau, \tau)$。對於 causal systems，$h(t, \tau) &#x3D; g(t, \tau) &#x3D; 0\ \ \text{for }\tau &lt; 0$</p>
+<br>
+
+<p>&emsp;&emsp;同樣的，在頻域也有類似的表示：</p>
+<p>$$<br>Y(f) &#x3D; \int{X(f - \nu) G(f, \nu)\ d\nu}<br>$$</p>
+<p>&emsp;&emsp;$G(f, \nu)$ 就稱作 <font color="yellow">input Doppler-spread function</font>，對應到 system function $G(f, \nu) &#x3D; K_2(f, f - \nu)$。$H(f, \nu) &#x3D; G(f + \nu, \nu)$ 則是 <font color="yellow">outut Doppler-spread function</font>。不難看出 $(h, g)$ 和 $(G, H)$ 之間的對偶關係。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1v4GM55j0C0m9mBU57rFyJnpTWPArPXb6&sz=s1024" width="400">
+<center><font color="cyan">圖A，$h(t, \tau)$ 的演示。</font></center>
+<br>
+
+<p>&emsp;&emsp;上述的概念也可以類比到 $K_3(t, f)$ 和 $K_4(f, t)$。首先是 <font color="yellow">time-variant transfer function</font> (作者給的名稱) $T(f, t)$。假設輸入為一 complex exponential，則輸出為</p>
+<p>$$<br>\begin{align}<br>\int{e^{j2\pi f(t - \tau)} h(t, \tau)\ d\tau} &amp;&#x3D; e^{j2\pi ft} \int{h(t, \tau) e^{-j2\pi f\tau}\ d\tau}\\[10pt]<br>&amp;&#x3D; e^{j2\pi ft}\ T(f, t)<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;即 $T(f, t)$ 是對應到 eigenfunction $e^{j2\pi ft}$ 的 eigenvalue，故</p>
+<p>$$<br>\begin{align}<br>y(t) &amp;&#x3D; H\lbrace x(t)\rbrace\\[10pt]<br>&amp;&#x3D; H\lbrace \int{X(f) e^{j2\pi ft}\ df}\rbrace\\[10pt]<br>&amp;&#x3D; \int{X(f) H\lbrace e^{j2\pi ft}\rbrace\ df}\\[10pt]<br>&amp;&#x3D; \int{X(f) T(f, t) e^{j2\pi ft}\ df}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;事實上，$T(f, t)$ 和 $H(f, \nu)$ 是 Fourier transform pair：<font color="Tomato">$T(f, t) &#x3D; F^{-1}\lbrace H(f, \nu)\rbrace$</font> (請自行推導一遍)。並且，根據前面對於 system kernel 的描述，$K_3(t, f) &#x3D; T(f, t) e^{j2\pi ft}$。至於 <font color="yellow">frequency-dependent modulation function</font> $M(t, f)$，和剛才的做法一樣，假設輸入為一 impulse $\delta(t - \tau)$，其頻域表示為 $e^{-j2\pi f\tau}$。則系統輸出為</p>
+<p>$$<br>\begin{align}<br>\int{e^{-j2\pi\tau(f - \nu)} G(f, \nu)\ d\nu} &amp;&#x3D; e^{-j2\pi f\tau} \int{G(f, \nu) e^{2\pi\tau\nu}\ d\nu}\\[10pt]<br>&amp;&#x3D; e^{-j2\pi f\tau} M(\tau, f)<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;因此(省略推導過程)</p>
+<p>$$<br>Y(f) &#x3D; \int{x(t) M(t, f) e^{-j2\pi ft}\ dt}<br>$$</p>
+<p>&emsp;&emsp;從上面這個式子應該可以理解「frequency-dependent modulation」名稱的由來。Fourier transform pair 的關係：<font color="Tomato">$M(t, f) &#x3D; F\lbrace g(t, \tau)\rbrace$</font> (請自行推導一遍)，並且 $K_4(f, t) &#x3D; M(t, f) e^{-j2\pi ft}$。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1v4GM55j0C0m9mBU57rFyJnpTWPArPXb6&sz=s1024" width="400">
+<center><font color="cyan">圖B，視覺化呈現 $T(f, t)$。</font></center>
+
+<h4 id="Delay-Doppler-和-Doppler-Delay"><a href="#Delay-Doppler-和-Doppler-Delay" class="headerlink" title="Delay-Doppler 和 Doppler-Delay"></a>Delay-Doppler 和 Doppler-Delay</h4><p>&emsp;&emsp;前面的數學模型只能呈現 delay 或是 Doppler 的輸入-輸出關係，而不能同時描述兩者。這邊描述的模型則綜合兩者。首先，定義 input delay-spread function $h(t, \tau)$ 的頻域表示為 $U(\tau, \nu)$，$U(\tau, \nu) &#x3D; F\lbrace h(t, \tau)\rbrace$。推導得到</p>
+<p>$$<br>y(t) &#x3D; \int{\int{ {\color{yellow} x(t - \tau)}\ {\color{Tomato} e^{j2\pi\nu t} }\ U(\tau, \nu)\ d\nu}\ d\tau}<br>$$</p>
+<p>&emsp;&emsp;注意<font color="yellow">黃色</font>的部分是 delay spread 的成分，<font color="Tomato">橘紅色</font>的部分是 Doppler spread 的成分，而 $U(\tau, \nu)$ 是特定 delay spread 和特定 Doppler spread 對應的 gain，稱作 <font color="yellow">delay-Doppler-spread function</font>。那麼若是從輸入訊號的頻域表示來看呢？定義 $V(\nu, \tau) &#x3D; F^{-1}\lbrace G(f, \nu)\rbrace$，則可以得到</p>
+<p>$$<br>Y(f) &#x3D; \int{\int{ {\color{Tomato} X(f - \nu)}\ {\color{yellow} e^{-j2\pi f\tau}}\ V(\nu, \tau)\ d\tau}\ d\nu}<br>$$</p>
+<p>&emsp;&emsp;我們把 $V(\nu, \tau)$ 稱作 <font color="yellow">Doppler-delay-spread function</font>。事實上兩者只有相位的差異，</p>
+<p>$$<br>U(\tau, \nu) &#x3D; e^{-j2\pi\nu\tau}\ V(\nu, \tau)<br>$$</p>
+<p>&emsp;&emsp;而這個相位差也很好理解，因為兩者分別是 input delay-spread function 和 output delay-spread function 以變數 $t$ 作 Fourier transform 得到，其實是在表示一樣的東西。</p>
+<br>
+
+<p>&emsp;&emsp;圖C整理各種函數之間的關係，總共有八個函數，不過關係還算清楚。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1aruc8t1kMbc5RrIa1Mrk5sW2DWMZixiD&sz=s1024" width="500">
+<center><font color="cyan">圖C，各種函數的關係。</font></center>
+
+<h3 id="Correlation-Functions"><a href="#Correlation-Functions" class="headerlink" title="Correlation Functions"></a>Correlation Functions</h3><p>&emsp;&emsp;由於線性時變通道的變化帶有隨機性，我們用 correlation functions 來描述通道隨機的特徵。這邊假設 system functions 的 ensemble average 為零。以一個獨立變數的隨機過程為例，其自相關函數會有兩個獨立變數，表示兩個時間的相關性；這篇論文裡的 system functions 有兩個獨立變數，因此其自相關函數會有四個獨立變數，以 input delay-spread function 為例：</p>
+<p>$$<br>E[h^{*}(t, \tau) h(s, \eta)] &#x3D; R_h(t, s; \tau, \eta)<br>$$</p>
+<p>&emsp;&emsp;並且，圖C呈現的關係也適用於自相關函數，比如：</p>
+<p>$$<br>R_T(f, \nu; t, s) &#x3D; \int{\int{R_h(t, s; \tau, \eta)\ e^{j2\pi(\tau f - \eta\nu)}\ d\tau}\ d\eta}<br>$$</p>
+<p>&emsp;&emsp;就是 double (inverse) Fourier transform 的關係。並且</p>
+<p>$$<br>R_U(\tau, \eta; \nu, \mu) &#x3D; e^{j2\pi(\nu\tau - \eta\mu)}\ R_V(\nu, \mu; \tau, \eta)<br>$$</p>
+<p>&emsp;&emsp;(請自行推導一遍，這邊論文好像有寫錯。)其他關係式都可以從圖C的關係來推導。假設輸入訊號也可以用隨機過程來 model，可以得到(請自行推導一遍，頻域也有相似的表示式)：</p>
+<p>$$<br>R_y(t, s) &#x3D; \int{\int{R_x(t - \tau, s - r) R_h(t, s; \tau, t)\ d\tau}\ dr}<br>$$</p>
+<h4 id="WSS-模型"><a href="#WSS-模型" class="headerlink" title="WSS 模型"></a>WSS 模型</h4><p>&emsp;&emsp;根據以上自相關函數的數學表示，首先探討 WSS 模型，aka 自相關函數和當下時間點無關、只和時間差有關；這表示 $h$、$g$、$T$、$M$ 等函數的自相關函數符合這個特性，並且導致 Doppler domain 出現 singularity function ($\delta(\nu)$)，如：</p>
+<p>$$<br>\begin{align}<br>R_U(\tau, \eta; \nu, \mu) &amp;&#x3D; \int{\int{R_h(t, s; \tau, \eta)\ e^{j2\pi(\nu t - \mu s)}\ dt}\ ds}\\[10pt]<br>&amp;&#x3D; \int{e^{j2\pi s(\nu - \mu)}\ ds} \int{R_h(r; \tau, \eta)\ e^{j2\pi\nu r}\ dr}\\[10pt]<br>&amp;&#x3D; \delta(\nu - \mu) P_U(\tau, \eta; \nu)<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;其中 $r &#x3D; t - s$。它的物理意義是什麼呢？我們從以下兩個式子來看：</p>
+<p>$$<br>\begin{align}<br>R_U(\tau, \eta; \nu, \mu) &amp;&#x3D; \delta(\nu - \mu) P_U(\tau, \eta; \nu)\tag{1}\\[10pt]<br>R_G(f, l; \nu, \mu) &amp;&#x3D; \delta(\nu - \mu) P_G(f, l; \nu)\tag{2}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;式 (1) 表示 delay-Doppler-spread function 在相異 Doppler shift 的兩點為<strong>不相關</strong>，也就是說不管 delay 為何，不同的頻率偏移量 $\nu$ 對輸出訊號 $y(t)$ 的貢獻是不相關的；式 (2) 表示系統轉移函數在相異 Doppler shift 的兩點為<strong>不相關</strong>，對於任意頻率 $f$ 而言，不同的頻率偏移量 $\nu$ 的貢獻是不相關的。如果系統函數是 Gaussian 的話，不相關意味著互相獨立，便於分析。</p>
+<br>
+
+<p>&emsp;&emsp;再仔細思考式 (1) 的物理意義，會發現給定 $\tau$ 和 $\eta$，$P_U$ 可以視為 $\nu$ 軸上的分布。由於 $U$ 是 delay-Doppler domain 的 complex amplitude，$P_U$ 可以視為功率(密度)──$h(t, \tau)$ 和 $h(t, \eta)$ 在 $\nu$ 軸上的 cross power spectral density。$h(t, \tau)$ 為「延遲 $\tau$ 的響應」，$h(t, \eta)$ 為「延遲 $\eta$ 的響應」，這兩個響應如果只有在時間距離很近的時候才明顯相關，表示通道變化快速、短時間內就變得六親不認，對應到 cross power 平均散布在 Doppler shift 上；如果這兩個響應在任何時間距離都高度相關，表示通道幾乎沒有變化(就延遲 $\tau$ 和 $\eta$ 的部分而言)，cross power 集中在 $\nu &#x3D; 0$ 處。</p>
+<h4 id="US-模型"><a href="#US-模型" class="headerlink" title="US 模型"></a>US 模型</h4><p>&emsp;&emsp;US 表示 uncorrelated scattering，可以視為 WSS 的對偶：頻域的自相關函數和當下頻率無關，只和頻率差有關，對應到 delay domain 出現 singularity function。</p>
+<p>$$<br>\begin{align}<br>&amp;R_h(t, s; \tau, \eta) &#x3D; \delta(\tau - \eta) P_h(t, s; \tau)\tag{3}\\[10pt]<br>&amp;R_U(\tau, \eta; \nu, \mu) &#x3D; \delta(\tau - \eta) P_U(\nu, \mu; \tau)\tag{4}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;式 (3) 表示對於任意時間點 $t$ 而言，不同 delay 的 gain 是不相關的(每一個 delay 可以視為一個 scatterer，故得名)；而式 (4) 則表示不論 Doppler shift 為何，不同的 delay $\tau$ 對輸出訊號 $y(t)$ 的貢獻是不相關的。在 WSS 模型中，通道在 Doppler domain 的特性為 non-stationary white；而在 US 模型中，通道在 delay domain 的特性為 non-stationary white。</p>
+<br>
+
+<p>&emsp;&emsp;Non-stationary white 是什麼意思？以 US 模型為例，$h(t, \tau)$ 的自相關函數在給定時間 $t$、$s$ 後，只有在 delay 相等時才相關(否則為零)，此為 white；但是相關的程度仍是 delay variable $\tau$ 的函數，此為 non-stationary。這使得 Fourier transform 積分的變數只剩下 $\tau$，對應到的頻域變數就是頻率差 $\Delta f$，在頻域呈現 WSS 的特性。</p>
+<h4 id="WSSUS-模型"><a href="#WSSUS-模型" class="headerlink" title="WSSUS 模型"></a>WSSUS 模型</h4><p>&emsp;&emsp;WSSUS 模型兼有 WSS 和 US 的特性，如</p>
+<p>$$<br>\begin{align}<br>&amp;R_h(t, t + \Delta t; \tau, \eta) &#x3D; \delta(\tau - \eta) P_h(\Delta t, \tau)\\[10pt]<br>&amp;R_G(f, f + \Delta f; \nu, \mu) &#x3D; \delta(\nu - \mu) P_G(\Delta f, \nu)<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;Delay-Doppler-spread function 的自相關函數則是</p>
+<p>$$<br>R_U(\tau, \eta; \nu, \mu) &#x3D; \delta(\tau - \eta) \delta(\nu - \mu) P_U(\tau, \nu)<br>$$</p>
+<p>&emsp;&emsp;$U(\tau, \nu)$ 在 delay variable 及 Doppler variable 都是 non-stationary white，意味著不同 delay 的貢獻是不相關的，不同 Doppler shift 的貢獻也是不相關的，$U(\tau, \nu)$ 可以被切成一塊一塊的 delay-Doppler 單元，每一個單元對應到特定的 delay 和 Doppler shift。一個例子是 $N$ 個不相關的 Rayleigh fading channel，每個路徑分別有不同的延遲 $\tau_i$，其模型為</p>
+<p>$$<br>\begin{align}<br>&amp;y(t) &#x3D; \sum_{i &#x3D; 1}^{N}{h_i(t) x(t - \tau_i)}\\[10pt]<br>&amp;h_i(t) &#x3D; \int_{-\infty}^{\infty}{U_i(\nu) e^{j2\pi\nu t}\ d\nu}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;$h_i(t)$ 是時變的 Rayleigh fading gain，根據 Clarke’s model，其功率密度頻譜為經典的 Doppler spectrum；每個路徑的 $h_i(t)$ 是不相關的，且由於 $h_i(t)$ 為 WSS，功率頻譜密度只有一個變數 $\nu$。</p>
+<p>$$<br>\begin{align}<br>R_h(t, s) &amp;&#x3D; E\left[\int_{-\infty}^{\infty}{\int_{-\infty}^{\infty}{U_i^{*}(\nu) e^{-j2\pi\nu t} U_i(\mu) e^{j2\pi\mu s}\ d\nu}\ d\mu}\right]\\[10pt]<br>&amp;&#x3D; \int_{-\infty}^{\infty}{\int_{-\infty}^{\infty}{R_{U_i}(\nu, \mu) e^{j2\pi(\mu s - \nu t)}\ d\nu}\ d\mu}\\[10pt]<br>&amp;&#x3D; \int_{-\infty}^{\infty}{\int_{-\infty}^{\infty}{\delta(\nu - \mu) P_{U_i}(\nu) e^{j2\pi(\mu s - \nu t)}\ d\nu}\ d\mu}\\[10pt]<br>&amp;&#x3D; \int_{-\infty}^{\infty}{P_{U_i}(\nu) e^{j2\pi\nu(s - t)}\ d\nu}\\[10pt]<br>(\text{令 }\Delta t &#x3D; s - t)\ \ &amp;&#x3D; \int_{-\infty}^{\infty}{P_{U_i}(\nu) e^{j2\pi\nu \Delta t}\ d\nu}<br>\end{align}<br>$$</p>
+<br>
+
+<p>&emsp;&emsp;回到 WSSUS 模型，time-frequency domain 的系統轉移函數 $T(f, t)$，在時間以及頻率方面都是 WSS 的，呼應 delay 和 Doppler shift 方面的性質。</p>
+<p>$$<br>R_T(f, f + \Delta f; t, t + \Delta t) &#x3D; R_T(\Delta f, \Delta t)<br>$$</p>
+<p>&emsp;&emsp;最後，透過前述的關係式和 Fourier transform，可以得到下面這些簡潔許多的形式：</p>
+<p>$$<br>\begin{alignat}{2}<br>&amp;P_U(\tau, \nu) &#x3D; P_V(\nu, \tau) \equiv S(\tau, \nu)\ &amp;&amp;{\text{(Scattering Function)}}\tag{5}\\[10pt]<br>&amp;P_G(\Delta f, \nu) &#x3D; P_H(\Delta f, \nu) \equiv P(\Delta f, \nu)\ &amp;&amp;{\text{(Doppler Cross-Power Spectral Density)}}\tag{6}\\[10pt]<br>&amp;P_h(\Delta t, \tau) &#x3D; P_g(\Delta t, \tau) \equiv Q(\Delta t, \tau)\ &amp;&amp;{\text{(Delay Cross-Power Spectral Density)}}\tag{7}\\[10pt]<br>&amp;R_M(\Delta t, \Delta f) &#x3D; R_T(\Delta f, \Delta t) \equiv R(\Delta f, \Delta t)\ &amp;&amp;{\text{(Time-Frequency Correlation Function)}}\tag{8}<br>\end{alignat}<br>$$</p>
+<p>&emsp;&emsp;式 (5) 表示 delay-Doppler domain 的功率分布，式 (6) 表示在特定的頻率差之下，Doppler variable 的功率分布。式 (7) 表示在不同的時間差之下，delay variable 的功率分布，當 $\Delta t &#x3D; 0$，則簡化為 power delay profile。式 (8) 代表在 WSSUS 模型下，$M(t, f)$ 和 $T(f, t)$ 在兩變數的相關性是一致的。</p>
+<h4 id="無線電波通道的性質描述"><a href="#無線電波通道的性質描述" class="headerlink" title="無線電波通道的性質描述"></a>無線電波通道的性質描述</h4><p>&emsp;&emsp;這一節討論 Quasi-WSSUS (QWSSUS) 模型：在短時間區間、有限頻寬內，通道可以視為 WSSUS。假設輸入訊號滿足以下條件：</p>
+<p>$$<br>\begin{align}<br>W &amp;\ll B_C\\[10pt]<br>T + \Delta &amp;\ll T_C<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;當中 $\Delta$ (應該)是<span class="hint--info hint--rounded hint--top" data-hint="論文原文是寫 multipath spread" ontouchstart>系統的 rms 延遲</span>，$T_c$ 和 $B_c$ 是 coherence time 和 coherence bandwidth。論文接著論述為什麼這樣的條件可以將通道視為 QWSSUS。從輸出訊號的自相關函數看起：</p>
+<p>$$<br>E[y^{*}(t) y(s)] &#x3D; \iint{X^{*}(f) X(l) R_T(f, l; t, s) e^{-j2\pi(ft - ls)}\ df}\ dl\\[10pt]<br>$$</p>
+<p>&emsp;&emsp;經過變數變換得到</p>
+<p>$$<br>E[y^{*}(t - \frac{\Delta t}{2}) y(t + \frac{\Delta t}{2})] &#x3D; \iint{X^{*}(f - \frac{\Delta f}{2}) X(f + \frac{\Delta f}{2}) R_{f, t}(\Delta t, \Delta f) e^{j2\pi(f\Delta t + \Delta f t)}\ df}\ d\Delta f<br>$$</p>
+<p>&emsp;&emsp;其中 $R_{f, t}(\Delta t, \Delta f) &#x3D; R_T(f - \frac{\Delta f}{2}, f + \frac{\Delta f}{2}; t - \frac{\Delta t}{2}, t + \frac{\Delta t}{2})$。根據上述條件，$R_{t, f}$ 在有效積分範圍內(幾乎)不受 $f$ 和 $t$ 的變動而影響、獨立於 $f$ 和 $t$，故</p>
+<p>$$<br>R(\Delta t, \Delta f) &#x3D; R_{0, 0}(\Delta t, \Delta f)<br>$$</p>
+<p>&emsp;&emsp;也就是說從輸入訊號的符號長度和頻寬來看，通道可視為 WSSUS。</p>
+<h3 id="標準通道模型"><a href="#標準通道模型" class="headerlink" title="標準通道模型"></a>標準通道模型</h3><p>&emsp;&emsp;這裡的「標準」原文是 canonical，指的是基於有限自由度 (DoF) 而建立的、簡化過的模型，可以分為兩類：<strong>Sampling models</strong> 適用於 time-limited 或 band-limited 的訊號或通道，而 <strong>power series models</strong> 則要求系統函數可以展開為 power series。</p>
+<h2 id="讀後想法"><a href="#讀後想法" class="headerlink" title="讀後想法"></a>讀後想法</h2><p>&emsp;&emsp;這篇論文的用語沒有我想像的過時，說明得也很清楚。不過，由於是第一次碰到這些概念，還無法深刻了解一些數學式的意義，接下來要慢慢熟悉這些概念。後半段以 sampling 和 power series 建立實用模型的段落沒有看，之後有需要再回來讀。</p>
+<h2 id="附錄"><a href="#附錄" class="headerlink" title="附錄"></a>附錄</h2><p>&emsp;&emsp;[1]也討論了時變通道的 system function 和 correlation function，並且整理如下圖。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1G7_dANvvHc-EXuvOfxjMBvVyaMt8QxRY&sz=s1024" width="500">
+<center><font color="cyan">圖，把所有關係都說清楚的一張圖。圖片來源：[1] Figure 6.9，p. 117。</font></center>
+<br>
+
+<p>&emsp;&emsp;讀過這篇論文後，應該對這張圖的架構比較有想法(其實 Molisch 這本教科書裡也講得蠻詳細)。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[1] A. F. Molisch, <em>Wireless Communications</em>, second edition, John Wiley &amp; Sons Ltd, 2001.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Raymond Su
+  </li>
+  <li class="post-copyright-link">
+      <strong>文章連結：</strong>
+      <a href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-time-variant-channel/" title="論文閱讀：Randomly Linear Time-Variant Channel">https://yc518suray.github.io/通訊技術/paper-time-variant-channel/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版權聲明： </strong>本網誌所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 許可協議。轉載請註明出處！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B8%E5%AD%B8/" rel="tag"><i class="fa fa-tag"></i> 數學</a>
+              <a href="/tags/Modeling/" rel="tag"><i class="fa fa-tag"></i> Modeling</a>
+              <a href="/tags/%E7%84%A1%E7%B7%9A%E9%80%9A%E8%A8%8A/" rel="tag"><i class="fa fa-tag"></i> 無線通訊</a>
+              <a href="/tags/%E7%84%A1%E7%B7%9A%E9%80%9A%E9%81%93/" rel="tag"><i class="fa fa-tag"></i> 無線通道</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-channel-est-ofdm/" rel="prev" title="論文閱讀：Channel Estimation with Pilot Arrangement">
+                  <i class="fa fa-angle-left"></i> 論文閱讀：Channel Estimation with Pilot Arrangement
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Raymond Su</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"oscarsu-disqus","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

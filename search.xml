@@ -2367,7 +2367,7 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 <h3 id="OFDMA"><a href="#OFDMA" class="headerlink" title="OFDMA"></a>OFDMA</h3><p>&emsp;&emsp;參考[8]，OFDMA和OFDM的差異主要在於，傳統的OFDM系統多重存取(multiple access)資源的方式為分時存取，也就是不同時槽可以提供不同使用者使用；而OFDMA則是在頻域也劃分出好幾個RE (resource element)，在時域和頻域的劃分便形成好幾個RB (resource block)，分配給不同使用者使用。</p>
 <h3 id="SC-FDMA"><a href="#SC-FDMA" class="headerlink" title="SC-FDMA"></a>SC-FDMA</h3><p>&emsp;&emsp;參考[9]，全名為Single-Carrier FDMA，也就是單載波的「頻率多重存取」，好像有些矛盾？單載波要怎麼做到多重存取？參考下圖，SC-FDMA的系統方塊圖和OFDM相當相似，只差在SC-FDMA裡，符號其實是在時域表示。時域的符號N個為一組，經過DFT轉換到頻域後，再把這N點分配給M個子載波裡的N個一組；接著，下一組時域符號再依此處裡。</p>
 <br>
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/SC-FDMA.svg/2560px-SC-FDMA.svg.png" style="background-color: #FFFFFF;" width="500">
+<img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/SC-FDMA.svg" style="background-color: #FFFFFF;" width="500">
 <center><font color="cyan">SC-FDMA的系統方塊圖。</font></center>
 </br>
 
@@ -3053,6 +3053,612 @@ $$
         <tag>閱讀</tag>
         <tag>文學</tag>
         <tag>哲學</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>論文閱讀：A Multi-Bus Dispatching Strategy Based on Boarding Control</title>
+    <url>/%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/intelligent-manu-paper/</url>
+    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="80ce9c5b07075dbda63b071259fa964acb4b61b2ddbf102a0503270b44f52fe6">4630436162ade97ba2718b7d0c4b3b630ef8b034c35893a7afa4c54a5752d90eba191a593f89497fdfca691efaf72d5ce8e26261e620f2f090e7b224796e7e9da8f1181440a38a8447bd21ef46f70e563054faa237f6426c3614cc3f582eb66ee07f2f8f79ce876c0855c2d3064d5c110aa55504f44bc8e978726e9de58c21fce29b30f7f5c4acc10a7febfed05eacc3e951179f50d64cdbb3528870365469bb4e875adff999822f9d11e745968fd36a35b4fdf7cb7f180e2dd76f63713334d93a10a899f052a4124b5cd547c7c9a03aab59fb6127f397acb2e52fe51e7da953e42fd86e750ef50c698ba95917736d14a27ec6b04b5c62fb158f041e4b57ca251ba34ee6e3a7354d22d90ce16e2a46e1473a00ce94d2f7c989aa1e8af2cd67224fcb157d562e36acdbd4aa09b42b808b99884c506342709d31080ee7256517890ee7da97dda59d947cef2b244a9807c225e9cff304af126bdbfd1d5a2ebfbc7761f5ab4697cdc271216ad65270d028d671a75ded40a89006201e67bff18b76f8d7d604bc04814d0e0bd487aba2482f29dcf2a308bf0fcc8020d37af0e6fc1e1b242b0cd563b4948a1b45e036bedf36c9299629c19b81a95b8f6494ee96e3353f67062f3b3ed29048b082c523903ca886d9c89ff612f3442635e7b655f89aedd1880e84f57333fd33c1cb7396cecd92037cf99772ab7dd8696eca5f4dc5a58d5d9b39a09bd95db752ce1b472ff7e16e4e780d698d93428037669a53288081636b112865b649a96bf28abe50bdf565cd918ae1d56fa70fe9fea57c90d883bbd041c0284155612a07d2b23fac13235b6b983a1603b395bb500186fe7cc9fce4093ae826536c10dabe899c4a3eb2039a70d4050d39267585d92d7ed29c8f9b71eccffa06f92904103750e9528dfd53455606c2d551736184e7ad5bfc96d9d16a64644584059e6d2370218dfad0a2c4c9db50b2d788b3d4b3cfbdbe3fac10df90b7fe6a0a76247f72de4982abb3dc40832f5ec88e253cc260c5c3337c99401ae2db79bb2262ea9cb938cb703f73c85ecb954198d197fd7000c79cbf405f5200816a8a30d293feffa2dc4fd242b084c735f25fc5786b46b6f4a1d0ac21815608644e984980ffb9e9fdc28efc8755f6bdfdd46e41b504bce63887366661572efd11c2cde408d9e9059ebc0b73fe42ccdce71fbcc1ab03049d5a8f294ae2919e39020981147e5be97cc4d528267a9241c1c2dc8030abcb9bc705526110f595de6429203404f45b9b798c401a731f0cc8b64d446e20f0023fb136043c258e6bed3c3cf81d1ce3914aa5ac63a541086f467eb3f948f2018046cde891f883f345eae0fc8a2fc3c36c777e9913737ba58fa3bb6025ae3ddd61024cfbcc4e1d9dedf003aaf5705a0a2646e55f2ec7318ae6f2fc886f1e76f15445d09cbd2e0246a7a64388687c1c664890be9e2457cf2f3dba7667fb0d9a64d876cf228be18bf9d67402cb583ca07062390d638763fad93dd227374c30b8615a4c802087ac04e1fdc4d32d425c2a17db598d04d46a4a014ddee8bef7db15f11fe42fd20b7c5a4d2633db4f37ef0ef93b839bf0f3d444c082cea2d1e8654fddaace32d81038037489cc227f69d2c61af7f16c6d72305f6384d634ecb14f2d14863fba13c554b8755611a1d3c49df814ec7e636530ac828bf6f85e26dec1241c49d8b86283d32e2b8102bab60b349ce935369bda0735029fa1a14c2ce6597a4c57dc2af43e1b34fa44afd3915cf1d45f37ad717f1cdd4de73cc8964e11c07f9917240c3f1938a02729f7afe884fca7e58f0a1667de976b5252eb9acfc3e1a7925b5a7cadbad6b2ca43e7439b4e1f8bb02d91c0b032a81b34df76c4db5a916854257d4fa559160d20ef9a944687ee00254cb119b93000781b01069627d8cb5070c1c1030adf2444740703e104997e4a8e02b4dadd79db7971e1297ff47941e396a4c915a1ef85cfb9f27f463a0831a3ba198dc4e42cdc619c60401dc84708061e8b01d5184f788c8557b4b134deffe8d96ca1e0ad140701a20c40d3ace40075660d2cc1e20fd52ab08f70fe73237a419a8a3ed8dbaef27ca160315fca219f5aa1d72760d9fa956c5c022211c8156207ee484cc8b1853c74beb20274d561265c209ea0a7a39c4712585a6e029b84d9704d0da8687bab3bd73df38f67ee88b8637fc1d595da34e314515ae4e34a33931f95df871e5b5ccceb3229f5f970a608f7716c24f731087e6e6e44e86c7df3fd6eaaea9420dd27fe975ec29f1da11dee17cb7e1e825336a613c6d3e621dc4f43cdcda9cade446d86aafa3502a3720cf414601a4da210fd541f5b0fc3990942097affbf4b3c41be5c1d54e055d41dd11baceb177e468948820a5dc366398a4a5ad4e86b1f3335c82cfcb4ddeb6b06a33617eb949e1526df12c7357b22726c1f7b97458a186bbb50e1c01c78a5522f4b02059ff8fec6f6ee1eec35a646e41e8a105c0f9b3c9e2941ab86e10846645f87b13faa7d3f5923cf5d68a77a39b7c3215b9313b9b02e92a9c47453cbab4d210e78987d1ae42870883b20598ebd68be47edb5d1c6ed684912f71600d89517c97d35dbf6c1d2091210447f2d49920da44f3c5b2a7b0a86718a91234cd9ae3b942feb98d8767a162e0fd43337f364f57a7fdaca3e1406afd1e73751fe897ecb498d5382220b9b198bac7cc83143eba365f0916870e416f7639e51263f5b9c94792dafe275d2972eb5a682c44b85780b12002abb9112ff2e6f3cb728d3f51339500a9cbad7f268bb7e27df84b3f9e79019dff99e16681b9da04efa9be4d33859f8ddd85b920eb14398d22782e7844e04e33f20a3d4b743502f22e40ccd12915a121255db8d20926e8683e371be0753c172073910d0dea168f88519b485a513e2aff0d617d1ca4fb765a45210860bc7b140ab17258e3fbdc18026b9e6cb3eb93584edd9832ca1d6138737c5a4525c864d0eae6174383c6eb800e1497ef2cfd5de622e8ee697989d895486e5d0e561ec670586afb845b947ea78cb65d9cac6d895a0c009298438cc205a27649f74fd611516f895e4a0bfb779ed784dd99d5ed946cd9ff38405105d0887426bb61e8762ad6f696aa75d7984713326fc297cbbba834bcd874bc2fe169394b975a23a8c45222325c0d43a3b37911c15dd5686b5b60af9bc4aafdea8fe168dd8e55d5a91ebb81b24394754804a39d3ccd6b8090e21220da7f24b46849c3fbf1cb5a34784b9e21b33cc463258e85ce4fc8d5846387a6ce137035cfa0972e46982b97d4d39b87591c7c804bbbca730a274f2d34d9e8f2d62e8bbd082dea9792c513ca6ae90a6429ed8477b550743c9790b1785bf9295e26732493d5ad1d4ba2cdf3a2c73935a296d1e4cfbbe10dc649ac494271ee6cd3fe21c16c94eef3fcf0b3ecde5a553b7d3e3755dea32053dbde60c2574af66421fab5934721ef04c977a15a06dea0343c25994e52626eace7353420167ad5add83ec025bb55bb72dbd012838ab57808f2947e9a08e4d8e53ddbb7e697e8de85fcd751f6d15e0c07b5323c4e26bd8fff87bb1262868831412a337cb978d7a1edbc6a464bde770965042f0f96672a0fd10639aef93e928340ca740ee81b7ee558e3af8fa1f77528a2049edbd764994689e482c0fa70447cf7ba46716b96c1231072bf7128718c849ac54a334e9314000e1cda9a976ee8673cbb6a2d74a052a5d72be2569736a64623c8dc6e97028db0e67df7e4a43e273c74feeb4748becdcd43c2e7121e02fe440405cab4d77d30855ca31bc3b9435a46dc0f1a012ab4b2e13a5bba3c1b64998f319e67e00623b2da5a92de377bc83e19653bc266feda70768ec228265cd843309507a19dd3664196c24ffeb3519b8f4f33de6ac4921fb83892e96ca68d83d9fbc6a7a0d700aadbf588e887f4b86142f4b31147ee4a8fcdd50cec04ba0682600c8ae966c2e4b4e44b87227b2a34f3872657642eca895f216703563e7c6a36e41d364feab41c3602ce65f564c4bff9678f94c0d0859645f3f489ab546e5b1c0228e60e55e8da75a4bc8419f4f019d561b9ef9cc65aaabb168decd01779a2d751bee72c222676d5e21697cd2c26caebb662611545d2028eeb6a6152cd9bda19e2acade594467cd9950300444627714b6d7d2f9e64d3510ca26f85b23e8bb92ded78888ab9fba407b093951977591b41a02f99a938106402f00b1308bae3a2f15aaa974635f6d7df1910534c1e42b4dad0fb21b7008131e96573c8294d1a2e4f648aff665028dcef1cc993db6c847a84f7c3342f1d7f9a68801add6a957bb7dde352941e35e97f26b01029e8f7770e81988b042c765da299f2ce627d91543767d66adf8157405392efa213fbb348ddee94a653a650ae9e10d95005cb987621da65c7710b256b72f998af790e5d8289c13771cf7dd2ce69b241b95284bdb1fc3db0e625ab631e8b4ff46b15498304ae623bd01fae3123d51e403363c05b72ef8ca294125eedfc229b17fb8b8b7b6b2d77178c23f05a2ddece8d557f9d89ba3b82cd9ce24b874245f347366942dd22c7e0bce1e0eb3ea4d7f5d06bab854101b6b3d423db91eefdefef2a6655f478b2aeb3ce6cf758b6ee091eb45147f69af58f8785c33442d702ac88dc533b25b76792952a0e7818161c293313726ceb6ba9a4a299ff11b328e8ee018ca7aa94cb6642261def79ccb59e76e4726fa26682430d9df0fd5fd378555ae6956521c8b18564ec42de097c31abae439e3f0b41a71ea29b4572186b09eac1df805b4fc9bcd2592a55796c239113141e749e2301e9f2a69e950fb8bda8832fcdc98357265fc51525a1b1380c0baafb04d863eade630934d32c41dbf0466418ac7f004c98e7e58b18d7026603f110df20ab0ac7d6d8b4a5aa2764968b22bf88c1e97601e20b38595a928ac3a5fb1e4c9ea98d0091d52bcbacf9f9b696a07815065e7a302610f7a9ae3bc7f5fa1876bbf439f5629e43d141ca2c5c7140909a89e6c5548e34fc895ad17379ea55e0f669181cfae2040d9ee98b04188acc47d31a99965489b1e0c807b4ded9f830ab130ebb8c34b1d75ba61f7aa051291ff07dd64eef00adf89f9a2adf90fca5b86de2ba1f829d849915b85f5a9821a3141ebfe45c2679b3fbd486fe0096cfdfed7cfcc4458fd3ba06d99073d43595e302a90ed6c49add3f63b37dcdad0a2b3ced025c897a0dffc6d447d616821e8a5d71cd6917b2b37d00de387edc8dd4f2081d6cdd6ee057e02c2002a60d43cdbabd3e0347bdfc7529682fd4fccfcbfcd42e781f873f9d621768165ab7f9c300cd3ac182485731f1a4572534ae486e08e82b8804f693415357f681dc9fa4d5e910a2e935b864ec3b4e3953352ce0a94b8dede4187512783a4affe0ab0655a68ea814251fe7dcdd115640be229a1bf991efde843693e5867813c3d718e800ba83e9b8ce672c6dc107262c813b7b05c74387e8a4d8ed817c3c7a436551c25894f7b05c54c5e86800a6f4e619cce9c6d23e71cb8e6890ce1e31d8f44f2a0e2fadfdbfcc465d04894a1f4c025122edaf52975c804dc081eeb53dcbafd2a7670b563a42240db9c0be012f1d9bfe9436392bdaf1271b48ab678f3228847979b65da8e325a0cb565bcdc0740c7f0e049cf62f922e94253771e8687ef78db27f5ee6cf2029ae8387b15b0e43fbf09c3f8fc09e4d1b1678830be783e5db0dbd9c325f51c8739f4c9633ef9b63193ddf6e0ee69b88a39401d6a45f99ca2d77c45bfcd80373b9f14f4bb2cf6eb89b486968e79159723ab3cff5a8c73884e4643e7e76169fc2c48ea0269926829fe86f4c00015399ac49b49095f63d750e128ae1281d6c07973a7f80da116637cc99bfe9b7e25842bbfa91c539bc4c1e41e20b0131bc9c959703da3ea0bbc16ce1da2b57b0013d0cc32737439e257b195367328932148e5b7d4cdad071ce4d7010fed8add5bae133fe53674745f376b950b40beb373a7801221261b77e1e8f2afe9c84447a6d49b9e2e620f5d1267d8272a72183c392be2e2c65dde1b2ae3118b73c00e3f5fced02991a89ec0406f86463e22accb308fc41306f20fd76d12b745e273305c5f536e9edc4a10d1812beb229df9b2c4e3441122b3de6efb7c25c4e391437ee7c5a817e2d907d04f0fe35db66e27f4f16cb271e0c1de5b8f99656dc4f29efa5a78e7d848e8183039bf421f4716150cc0850eb8464c6a99fea37f67b7b0a8db1765e9e0bfe746c1da53e680b6eceaf9427f80d52bcb55d3b78560705d948db6b48efa9b1e944f80bd44b2d2c6c39b4ba2864980c6f6f596a960d3d199ded872265e03db0d6422768c8abdafb8f515720f06f4a3428ce62efee7841cd456c33c3b89f705ee27864779ba11a14e477ca165049d4c75c76631828217cc654a3bd3d21614dc2081de94593f29b555b525a49e43bfe1330dc0edf5ba057c742ff61cec48ab8f1b4f3ea8bc89f5565d2f02e22add18842051e89f24bd1ecc33ff57f34278a30b6c4adf5baa30bd5c05747b543de17d6ca4842b0a555b1b8a4a1cfc0b2650186d6d7e4a6b0c4aeb67d63358a12231b09da9cd1bcad22d92bcd39ae2f2297292c76d87f9ff8630f65c93bcf609c113ede5d4a571f32cee65d647b50c4f04de963df286d654b448703bd3da2494f7a776362dc3887dc56980f59d6a0cccc87739f447038057a7a41b43fb356fb2344fd96a14357772a7e49ff9087e703c3cc93d360bec456f3a9e099ace76a4416bf2354096d6444424d8e00471720b746f8422f15b3563d81c50f9f0ae441ce9fa8ea8a7180510ca0169e7e27e028acd538478fa0634bf1131a75675865ac6b737c5a5705cd0f535272e180c0e33a9f2cac8efab4860f111d2ea33e64db517245c62ac5bda40b4288d77a2062170b6f4890e3e089588bf7f69bc39965d0fe11c2f44923db4f1922fb34f32c995a8ace2430aa0ed54c22972ff3e54f9ae14ed5e60e42dfb04281121561df27f0c070c2c4320ae6c27af2f48648700ba3adabaebd4ee87d78a45d4f96ac950247c7fb9f14af020a7ca75f8c11bf07ea521a338d1e14d28c7a17788fbc7b1fd600562642a71099d69dc8348bb7136d1c4f1e7ed0d863a4b16c92136c90059bd986d354a2939f4212d2ae60bf2aece6a4833b9c267c055275b7c3ac5152556fea41bd847601bdc491cf4ac15de7f3d269576526fdb58e30433bca8c25aff3bb30b95ac54403714752056fee8df2ecac471d038245ccf7c339aa2d83d0015c5a85bcee393c73da751a6866fb202e2cf76e86d4a393ed2cd128dea852d1ab6c6202f76836819543dd0b62962ce682e5459e84b1c0fba81a9aadb8647a479d632610fed48d84a23c1420e31e329cf9fdb2e22dea34c8dd7da67671de65f7ee00d7275186af50a49b3c94d41aec91f29eb3583cb882314118563b98daa522b47364fa04e14102df2bc3b2c907ca3dd9d0d47b2afa926dadf2157d531cb916481347cefa08403f6105804edd331fec09353e3cdfb7d577f7f65df2bb3c9fa29c19ddfeaf74ddf79681d5dc4ccf89805580b7465f538f6a7717da4c58c8a92b22d22d04a6f5ae1bb15a13e6a4c2e7415641f88589f36553267b9b4e4898131eb981883867f3786925a34201020132a78dd1b4ca41911e42e0bda0409264cfb170b87b9e33dddef91b11b0b40872c1ceded7ba21dfaa337ccb30eb4873ace624fb22a272d161c66c2c57ac916563fc8657ce4111b7af06fddb326632426fceebf80dde9baa499ec83730a1c3cafd6ad4be266168c4e8bb3b766d417fd97fb4c8120348e01d72b6962aed4cf637b2ef7880e915fd06ad8478f33e831c810049c0d9fe98cd03a8fc5ead818b2167ed4ddc619b64c9b72bb1443b166d05dba5b41a52487aff5d9a56ca6e0657914f5380d25d075ab5d1831f53cc4c18396245443c2055071fc139f7572ee2edf7ad34a096b476df959e4a98f501fad461bc85713e0a2fdac7f3813d2270e78c759ef9d51240f810720e83d3827751114647641592c55f9650f0d1447fb84d4a1130a70d596639f864a647023a0e0eeb2f3721ae5721ba51ae01a517148714a9eb3babb61f6a369bfb056f83005eea3304def4bdd94bc82449750b48eb917dea8881dbb9c41b0d67fdd919dd324ad7459f09d95254bd3a33eb17bdc7b1b1810df5d5ffe78677584a31411fb021e01ae45078ef4543b367deb722ba7b45c47e1ae44a81597f4f8748e9e7ca8d1e1c3fdf1952db8257b0870f4df2aa65fc843ecd2e2d78b24ecc21ed3c83ec6daf3ca5202357a46494b4c9e5b528a4095bed413f6932071febbaa983226bda4bcf707e41fc0e8f2fe2301fe946b252591d147369fbcafbd5a4e45e8f21be36d397c9a3192fa5366ebcd6d3fd47fdc0682bd90b3dcb62aec894bbe0765437d23bc94fe962b89a2e40a7e3b93723245417e75b3c8723341217dd253d0914e01fb903db6d20475c7b5edc38503267d14c6394081b9687293f8d4acdcc798b98da7a61f9142c42d918190d63e7da62e6e9ade953653ad4b439aa4eafaeef37e578336b2a91ddae67b83779ad8e833a5960a703b1f9e471fff89e171c94ff703aa0d7da7abfb4ef6ae7fec0a4d6822bfb3ad85a4057ec997be4add40a67a815b858a383229b8fc9ae01449712063418530cfde04aaec955304551f903d09df22de5c131851af13d87e378ce961a505a98a0facdaa3aca1d7e80982ba884bbcdd325cfff7504f343c70148aecbbcc8722ea7bc84f534958cb4a85c23a03df1c042181136e0e7bad9f465addb2067573d3571b72981001d246996132be807ad6517d3589b22490fe8bb0bc5b015e83c495457bf4f0790996a1bc0204665bc2703642f5571baaaac10f0156638ee1bf32436f2a067aa544b051495535ad6c7d0a9a86c43f5ae3edd260f4b57b554b7e3557f265a1e468628e9961cc5a3b6bc819b80aeeb21387956774c92fafc18fcb7eb291e7fe76b350f4a59c672e1d35e2f4de995794354585b53c9ccdf5080df23373559ad35b03c2c5a2bb4ed0cfd12485920781eb00a7f6b1c70309c464721624daeb90c6bce9b580161fe4a2489b8284e0e9def306ac63004f39801b6ad13821ec4c180ba506ac590445f0e9cbe52a45907ac8adf131cf2dfe9a047b7171fa179f4c42ff0a47a375de0db7f851f8e6a4f9653512a979360df5b2a5423f942e91234915b79aa709f06cf57e5c35d8cef3537c2778939d842cc4a62b7c12c86a08ddc2ace18a9900eda85bcbc71989fcaef818834692ebd111f3e37443672206e41d955e153ce2a9e16e</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-blink">
+      <input class="hbe hbe-input-field hbe-input-field-blink" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-blink" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-blink" data-content="輸入密碼解鎖文章！">輸入密碼解鎖文章！</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
+      <categories>
+        <category>學習筆記</category>
+      </categories>
+      <tags>
+        <tag>數學</tag>
+        <tag>Modeling</tag>
+        <tag>模擬</tag>
+        <tag>演算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>論文閱讀：Channel Estimation with Pilot Arrangement</title>
+    <url>/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-channel-est-ofdm/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;這篇2002年的論文探討兩種用來估測通道的 OFDM pilot 設計，雖然是二十幾年前的想法，還是可以提供一些 insights。這篇論文用到 LS 和 MMSE 等估測的概念，所以這篇文章會補充一些推導的過程。</p>
+<span id="more"></span>
+
+<h2 id="論文資訊"><a href="#論文資訊" class="headerlink" title="論文資訊"></a>論文資訊</h2><p>S. Coleri, M. Ergen, A. Puri and A. Bahai, “Channel estimation techniques based on pilot arrangement in OFDM systems,” in <em>IEEE Transactions on Broadcasting</em>, vol. 48, no. 3, pp. 223-229, Sept. 2002.</p>
+<h2 id="論文內容"><a href="#論文內容" class="headerlink" title="論文內容"></a>論文內容</h2><p>&emsp;&emsp;論文假設通道形如</p>
+<p>$$<br>h[n; \lambda] &#x3D; \sum_{i &#x3D; 0}^{r - 1}{h_i\ e^{j\frac{2\pi}{N} f_{D_i}T n}\ \delta[\lambda - \tau_i]},\ \ 0 \leq n \leq N - 1<br>$$</p>
+<p>&emsp;&emsp;其中 $r$ 為路徑數，$h_i$ 為 complex gain，$f_{D_i}$ 為第 $i$ 條路徑的 Doppler shift，$\lambda$ 為 delay index，$\tau_i$ 為第 $i$ 條路徑的 delay，$T$ 為取樣週期。<font color="yellow">假設</font>沒有 ISI，則接收到的訊號去除 CP 經 DFT 轉換得到</p>
+<p>$$<br>Y[k] &#x3D; X[k] H[k] + I[k] + W[k],\ \ k &#x3D; 0, 1, \cdots, N - 1<br>$$</p>
+<p>&emsp;&emsp;其中</p>
+<p>$$<br>H[k] &#x3D; \sum_{i &#x3D; 0}^{r - 1}{h_i\ e^{j\pi f_{D_i} T}\ \text{sinc}(f_{D_i} T)\ e^{-j\frac{2\pi \tau_i}{N} k}}<br>$$</p>
+<p>&emsp;&emsp;而 $I(k)$ 為 ICI 的項(在這篇論文裡沒有談論如何消除這項 ICI)，</p>
+<p>$$<br>I[k] &#x3D; \sum_{i &#x3D; 0}^{r - 1}{\sum_{m &#x3D; 0, m \neq k}^{N - 1}{\frac{h_i X[m]}{N}\ \frac{1 - e^{j2\pi (f_{D_i} T - k + m)}}{1 - e^{j\frac{2\pi}{N} (f_{D_i} T - k + m)}}\ e^{-j\frac{2\pi \tau_i}{N} m}}}<br>$$</p>
+<p>&emsp;&emsp;$W[k]$ 則是 AWGN 的頻域表示 (DFT)。重申一次這是假設無 ISI 的情況。</p>
+<br>
+
+<p>&emsp;&emsp;此外，和論文不同，這篇文章裡 DFT 的定義為</p>
+<p>$$<br>X[k] &#x3D; \sum_{n &#x3D; 0}^{N - 1}{x[n] W_N^{kn}},\ \ 0 \leq k \leq N - 1<br>$$</p>
+<h3 id="Block-type-arrangement"><a href="#Block-type-arrangement" class="headerlink" title="Block-type arrangement"></a>Block-type arrangement</h3><img src="https://drive.google.com/thumbnail?id=1v3M6irPZ1LVQKUDR9jNz5wPK20PiSmVr&sz=w1024" width="500">
+<center><font color="cyan">圖A，block-type pilot arrangement，改自論文的 Fig. 2。</font></center>
+<br>
+
+<p>&emsp;&emsp;根據論文，接收到的訊號以矩陣表示為</p>
+<p>$$<br>Y &#x3D; X F h + W<br>$$</p>
+<p>&emsp;&emsp;其中 $X$ 是對角線元素為 $X[k]$ 的對角矩陣，$F$ 為 DFT 矩陣，$h$ 為時域的通道脈衝響應。但是<font color="Tomato">我覺得這個式子有點問題</font>，因為若 $h$ 是 column vector，則不能表示 Doppler shift 的特徵，只能表示 static channel response。</p>
+<br>
+
+<p>我認為正確的表示為</p>
+<p>$$<br>Y &#x3D; B X + W<br>$$</p>
+<p>&emsp;&emsp;其中 $X &#x3D; [X[0], X[1], \cdots, X[N - 1]]^T$ (column vector)，並且</p>
+<p>$$<br>[B]_{k, m} &#x3D;<br>\begin{cases}<br>\begin{align}<br>I_{k, m} &amp;&#x3D; \sum_{i &#x3D; 0}^{r - 1}{\frac{h_i}{N} \frac{1 - e^{j2\pi(f_{D_i}T + m - k)}}{1 - e^{j\frac{2\pi}{N}(f_{D_i}T + m - k)}} e^{-j\frac{2\pi}{N} m \tau_i}}&amp;,\ \ m \neq k\\[10pt]<br>H_k &amp;&#x3D; H[k]&amp;,\ \ m &#x3D; k<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;也就是說，$N \times N$ 矩陣 $B$ 形如</p>
+<p>$$<br>B &#x3D;<br>\begin{bmatrix}<br>H_0 &amp; I_{0, 1} &amp; I_{0, 2} &amp; \cdots &amp; I_{0, N - 1}\\[10pt]<br>I_{1, 0} &amp; H_1 &amp; I_{1, 2} &amp; \cdots &amp; I_{1, N - 1}\\[10pt]<br>I_{2, 0} &amp; I_{2, 1} &amp; H_2 &amp; \cdots &amp; I_{2, N - 1}\\[10pt]<br>\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots\\[10pt]<br>I_{N - 1, 0} &amp; I_{N - 1, 1} &amp; I_{N - 1, 2} &amp; \cdots &amp; H_{N - 1}<br>\end{bmatrix}<br>$$</p>
+<p>&emsp;&emsp;其實只是把上一節的式子寫成矩陣形式。一般來說，$B$ 並不是 Hermitian matrix。只不過這樣改寫後，似乎沒辦法用 LS 方法估計；論文的寫法，$Y &#x3D; X F h + W$，應該是從估計的角度看待訊號模型，也就是說 <font color="Tomato">ICI 的項被歸類為誤差或雜訊</font>。</p>
+<br>
+
+<p>&emsp;&emsp;根據論文，LS 估計量為</p>
+<p>$$<br>H_{LS} &#x3D; X^{-1} Y<br>$$</p>
+<p>&emsp;&emsp;(這裡的 $X$ 是一開始定義的對角矩陣。)在 slow fading 的情況下，可以在一個 block 裡使用 decision feedback equalizer：前一個 symbol 估計的 $H[k]$ 拿來還原、偵測符號後，用判斷出的符號來更新 $H[k]$。可想而知，fast fading 的情況下 comb-type pilot 的表現會比較好。</p>
+<h3 id="Comb-type-arrangement"><a href="#Comb-type-arrangement" class="headerlink" title="Comb-type arrangement"></a>Comb-type arrangement</h3><img src="https://drive.google.com/thumbnail?id=1KAcQE8_afrXgFs-wB-gNF2NKUyA2UC10&sz=w1024" width="500">
+<center><font color="cyan">圖B，comb-type pilot arrangement，改自論文的 Fig. 2。</font></center>
+<br>
+
+<p>&emsp;&emsp;在 $N_c$ 個子載波裡均勻挑 $N_p$ 個作為 pilot，$X_p[m] &#x3D; X[mL]$，$L &#x3D; N_c &#x2F; N_p$，剩餘的則承載資料。其 LS 估計為 $H_p[m] &#x3D; Y_p[m] &#x2F; X_p[m],\ \ m &#x3D; 0, 1, \cdots, N_p - 1$。若考量 ICI 的影響，可以考慮使用複雜度較高的 MMSE，或是簡化的 linear MMSE。</p>
+<br>
+
+<p>&emsp;&emsp;由於 comb-type pilot arrangement 只有估計特定幾個 sub-channel，完整的 $H_e[k]$ 需要透過內插 (interpolation) 得到。方法有：</p>
+<ul>
+<li>Linear interpolation</li>
+<li>Second-order interpolation</li>
+<li>Zero-padding (time domain)</li>
+<li>Spline cubic interpolation (MATLAB <code>spline</code>)</li>
+<li>low-pass interpolation (MATLAB <code>interp</code>)</li>
+</ul>
+<p>&emsp;&emsp;Second order 的做法如下(可以從拉格朗日插值多項式推得)：</p>
+<p>$$<br>\begin{align}<br>H_e[k] &amp;&#x3D; H_e[mL + l]\\[10pt]<br>&amp;&#x3D; c_1 H_p[m - 1] + c_0 H_p[m] + c_{-1} H_p[m + 1]<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;其中</p>
+<p>$$<br>\begin{align}<br>c_1 &amp;&#x3D; \frac{\alpha(\alpha - 1)}{2}\\[10pt]<br>c_0 &amp;&#x3D; -(\alpha - 1)(\alpha + 1),\ \ \alpha &#x3D; \frac{l}{L}\text{   (論文這邊寫錯)}\\[10pt]<br>c_{-1} &amp;&#x3D; \frac{\alpha(\alpha + 1)}{2}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;$L &#x3D; N_c &#x2F; N_p$。圖C簡單呈現這幾種方法的效果。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1BODaJijL4O4Gsxst8RIMg_W_HOCvHT9O&sz=w1024" width="400">
+<center><font color="cyan">圖C，不同內插方法的效果。</font></center>
+
+<h3 id="模擬結果"><a href="#模擬結果" class="headerlink" title="模擬結果"></a>模擬結果</h3><p>&emsp;&emsp;參照論文 Table I (見下表A)的參數，模擬結果如圖D和圖E所示。調變方式為 BPSK (圖D)和 16QAM (圖E)，block 長度為 26 OFDM symbols (論文是採用 30 OFDM symbols)，通道估計方法為 LS 估計；通道採用 Rayleigh fading，Doppler 頻率為 70 Hz (這裡是指 Jake’s model 得到的 time-varying channel gain，而不是前述的通道描述)，通道的 static impulse response 如下所示：</p>
+<p>$$<br>\begin{align}<br>h[n] &amp;&#x3D; \alpha[n] + 0.3162\alpha[n - 2] + 0.1995\alpha[n - 17]\\[10pt]<br>&amp;+ 0.1296\alpha[n - 36] + 0.1\alpha[n - 75] + 0.1\alpha[n - 137]<br>\end{align}<br>$$</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1v4GM55j0C0m9mBU57rFyJnpTWPArPXb6&sz=w1024" width="450">
+<center><font color="cyan">圖D，block-type 以及 comb-type 的錯誤率表現，BPSK。</font></center>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1v4GM55j0C0m9mBU57rFyJnpTWPArPXb6&sz=w1024" width="450">
+<center><font color="cyan">圖E，block-type 以及 comb-type 的錯誤率表現，16QAM。</font></center>
+<br>
+
+<p>&emsp;&emsp;從表A提供的參數，可以推算 coherence time $T_c \approx 1 &#x2F; f_m &#x3D; 1 &#x2F; 70 &#x3D; 14.3 \text{ms}$，而 OFDM symbol duration $T_{sym} &#x3D; 1024 &#x2F; 44100 \approx 23.2 \text{ms}$，可以視為 <font color="Tomato">fast fading</font> 的環境；time dispersion 的部分，由於 CP 的長度大於最大延遲 ($\tau_{max} &#x3D; 137$ samples)，ISI 的影響不大。</p>
+<br>
+<table style="width:300px; margin-left:230px;">
+  <tr>
+    <th style="width:50%;">參數</th>
+    <th>參數值</th> 
+  </tr>
+  <tr>
+    <td>FFT Size</td>
+    <td>1024</td>
+  </tr>
+  <tr>
+    <td>實際使用子載波數</td>
+    <td>128</td>
+  </tr>
+  <tr>
+    <td>Pilot Ratio</td>
+    <td>1 / 8</td>
+  </tr>
+  <tr>
+    <td>CP 長度</td>
+    <td>256</td>
+  </tr>
+  <tr>
+    <td>取樣率</td>
+    <td>44.1 kHz</td>
+  </tr>
+  <tr>
+    <td>系統頻寬</td>
+    <td>17.5 kHz<br>(包含 guard band)</td>
+  </tr>
+  <tr>
+    <td>調變方式</td>
+    <td>BPSK，16QAM</td>
+  </tr>
+</table>
+<center><font color="cyan">表A，MATLAB 模擬的 OFDM 系統參數，改自論文 TABLE. I。</font></center>
+<br>
+
+<p>&emsp;&emsp;由圖D和圖E可知，comb-type arrangement 的效果比 block-type arrangement 好，而 comb-type arrangement 當中，又以 low-pass interpolation 的效果最好。論文還比較不同 Doppler shift 下的錯誤率表現，也是類似的結果。</p>
+<h3 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h3><p>&emsp;&emsp;這篇論文回顧兩種使用 pilot 訊號的通道估計方法。模擬結果顯示，comb-type pilot 加上 low-pass interpolation 的效果最好(特別是 fast fading 的通道)。此外，low Doppler frequency 的情況下可以使用 decision feedback。</p>
+<h2 id="讀後想法"><a href="#讀後想法" class="headerlink" title="讀後想法"></a>讀後想法</h2><p>&emsp;&emsp;在繪製不同內插方法的效果時，一開始是用複數點作為示範，但是複數可以視為二維的資料，要呈現複數點內插效果的話，其實應該要在三維空間繪製曲線，才能確實呈現。後來改用實數點作為示範，就比較直覺，因為是一維的資料。</p>
+<br>
+
+<p>&emsp;&emsp;這篇論文比較像是一篇文獻回顧，整理一些已經提出的做法，以模擬結果做比較。方法比較簡單，不過從中可以知道，通道的特性對通訊系統設計來說至關重要。</p>
+<h2 id="附錄"><a href="#附錄" class="headerlink" title="附錄"></a>附錄</h2><p>&emsp;&emsp;[1] 這篇1997年的會議論文提出前面描述的通道的頻域表示，但是沒有提供推導過程。我就在這裡推導一下。首先，接收到的訊號(不考慮 AWGN 的話)在一個 OFDM symbol useful part 期間為</p>
+<p>$$<br>y[n] &#x3D; \sum_{i &#x3D; 0}^{r - 1}{h_i\ e^{j\frac{2\pi}{N} f_{D_i}T n}\ x[\left(n - \tau_i\right)_N]},\ \ 0 \leq n \leq N - 1<br>$$</p>
+<p>&emsp;&emsp;(注意在這個系統有使用 CP。)其中</p>
+<p>$$<br>x[\left(n - \tau_i\right)_N] &#x3D; \frac{1}{N} \sum_{l &#x3D; 0}^{N - 1}{X[l] e^{j\frac{2\pi}{N} (n - \tau_i) l}}<br>$$</p>
+<p>&emsp;&emsp;所以接收到訊號 $y[n]$ 的頻域表示，$Y[k]$，可以寫為</p>
+<p>$$<br>\begin{align}<br>Y[k] &amp;&#x3D; \sum_{n &#x3D; 0}^{N - 1}{\sum_{i &#x3D; 0}^{r - 1}{h_i\ e^{j\frac{2\pi}{N} f_{D_i}T n}\ x[\left(n - \tau_i\right)_N]\ e^{-j\frac{2\pi}{N}k n}}}\\[10pt]<br>&amp;&#x3D; \sum_{n &#x3D; 0}^{N - 1}{\sum_{i &#x3D; 0}^{r - 1}{\sum_{l &#x3D; 0}^{N - 1}{\frac{h_i}{N}\ e^{j\frac{2\pi}{N} f_{D_i}T n}\ X[l] e^{j\frac{2\pi}{N} (n - \tau_i) l}\ e^{-j\frac{2\pi}{N}k n}}}}\\[10pt]<br>&amp;&#x3D; \sum_{i &#x3D; 0}^{r - 1}{\sum_{l &#x3D; 0}^{N - 1}{\frac{h_i}{N} X[l] e^{-j\frac{2\pi}{N} \tau_i l} \sum_{n &#x3D; 0}^{N - 1}{e^{j\frac{2\pi}{N} (f_{D_i}T + l - k) n}}}}\\[10pt]<br>&amp;&#x3D; \sum_{i &#x3D; 0}^{r - 1}{\sum_{l &#x3D; 0}^{N - 1}{\frac{h_i}{N} X[l] e^{-j\frac{2\pi}{N} \tau_i l} \frac{1 - e^{j2\pi(f_{D_i}T + l - k)}}{1 - e^{j\frac{2\pi}{N}(f_{D_i}T + l - k)}}}}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;ICI 的項，$I(k)$，大概是如此形式。至於 $H(k)$ 的形式，應該是因為 $f_{D_i}T$ 的值很小 ($f_{D_i}$ 和 Tx-Rx 相對移動的速率有關，而 $T$ 通常很小)，所以有以下的近似：</p>
+<p>$$<br>\begin{align}<br>\frac{1 - e^{j2\pi f_{D_i}T}}{1 - e^{j\frac{2\pi}{N}f_{D_i}T}} &amp;\approx \frac{1 - e^{j2\pi f_{D_i}T}}{1 - (1 + j\frac{2\pi}{N}f_{D_i}T)}\\[10pt]<br>&amp;&#x3D; \frac{1 - e^{j2\pi f_{D_i}T}}{-j\frac{2\pi}{N}f_{D_i}T}\\[10pt]<br>&amp;&#x3D; e^{j\pi f_{D_i}T} \frac{\sin(\pi f_{D_i}T)}{\pi f_{D_i}T &#x2F; N}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;這樣就和論文的式子一致了。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[1] Yuping Zhao and Aiping Huang, “A novel channel estimation method for OFDM mobile communication systems based on pilot signals and transform-domain processing,” <em>1997 IEEE 47th Vehicular Technology Conference. Technology in Motion</em>, Phoenix, AZ, USA, 1997, pp. 2089-2093 vol.3.</p>
+]]></content>
+      <categories>
+        <category>通訊技術</category>
+      </categories>
+      <tags>
+        <tag>無線通訊</tag>
+        <tag>無線通道</tag>
+        <tag>OFDM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>OFDM筆記-2: 通道模型</title>
+    <url>/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-2/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><style>
+  .no-bottom { border-bottom: none !important; }
+  .no-top { border-top: none !important; }
+  .no-both { border-bottom: none !important; border-top: none !important;}
+</style>
+
+<h2 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h2><p>來聊聊通道模型與通道估測。更深入的討論請見本站的其他文章，如<a href="">這篇</a>。</p>
+<span id="more"></span>
+
+<p>以下是OFDM筆記全系列的文章：</p>
+<ul>
+<li><a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-1/" title="OFDM筆記-1: OFDM簡介">OFDM筆記-1: OFDM簡介</a></li>
+<li><a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-2/" title="OFDM筆記-2: 通道模型">OFDM筆記-2: 通道模型</a></li>
+</ul>
+<h2 id="OFDM-通道五四三"><a href="#OFDM-通道五四三" class="headerlink" title="OFDM 通道五四三"></a>OFDM 通道五四三</h2><p>&emsp;&emsp;在前一篇「<a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-1/" title="OFDM筆記-1: OFDM簡介">OFDM筆記-1: OFDM簡介</a>」已經提到過 OFDM 的訊號模型與接收機架構。OFDM 是一個多載波調變的系統，在不同的子載波上承載資料，可以有效對抗多路徑通道 frequency-selective 的特性。不過相對的，OFDM 系統對於 Doppler spread 的挑戰就嚴峻得多，因為單一子載波的頻寬減少、時域的符號區間增加，受到時變通道的影響會更大。表A呈現 WiMAX 系統的通道參數，在高速移動的條件下，OFDM 需要良好的通道估測方法，才能及時更新通道資訊(或是增加系統頻寬、縮短符號區間。)</p>
+<br>
+<table style="width:500px; margin-left:130px;">
+  <tr>
+    <th style="width:18%;">載波頻率</th>
+    <th style="width:20%;">速率</th>
+    <th style="width:25%;">Doppler 頻率</th>
+    <th>Coherence Time</th>
+  </tr>
+  <tr>
+    <td>2.5 GHz</td>
+    <td>2 km/hr</td>
+    <td>4.6 Hz</td>
+    <td>200 ms</td>
+  </tr>
+  <tr>
+    <td>2.5 GHz</td>
+    <td>45 km/hr</td>
+    <td>104.2 Hz</td>
+    <td>10 ms</td>
+  </tr>
+  <tr>
+    <td>2.5 GHz</td>
+    <td>100 km/hr</td>
+    <td>231.5 Hz</td>
+    <td>4 ms</td>
+  </tr>
+  <tr>
+    <td>5.8 GHz</td>
+    <td>2 km/hr</td>
+    <td>10.7 Hz</td>
+    <td>93 ms</td>
+  </tr>
+  <tr>
+    <td>5.8 GHz</td>
+    <td>45 km/hr</td>
+    <td>241.7 Hz</td>
+    <td>4 ms</td>
+  </tr>
+  <tr>
+    <td>5.8 GHz</td>
+    <td>100 km/hr</td>
+    <td>537 Hz</td>
+    <td>2 ms</td>
+  </tr>
+</table>
+<center><font color="cyan">表A，來自[1]的 Table A.1.1。</font></center>
+
+<h2 id="Empirical-path-loss-models"><a href="#Empirical-path-loss-models" class="headerlink" title="Empirical path loss models"></a>Empirical path loss models</h2><p>&emsp;&emsp;這一節就來介紹一些基於實證資料的 path loss 通道模型，內容主要來自[1]這篇教學文章，是 2007 年的資料，所以主要面向當時的通訊系統 (2G 及 3G)。Path loss 的考量對於 OFDM 雖然並非主要，但是對於整個通訊系統卻是不可或缺的。</p>
+<h3 id="Hata-Model"><a href="#Hata-Model" class="headerlink" title="Hata Model"></a>Hata Model</h3><p>&emsp;&emsp;1980 年 Hata 根據 Okumura 的量測資料，提出以下 path loss 的數學模型：</p>
+<p>$$<br>\begin{align}<br>PL_{\text{urban}} (d)\ \ (\text{dB}) &#x3D; 69.55 &amp;+ 26.16 \log_{10}{(f_c)} - 13.82 \log_{10}{(h_t)}\\[10pt]<br>&amp;- a(h_r) + (44.9 - 6.55 \log_{10}{(h_t)}) \log_{10}{(d)}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;其中 $f_c$ 為載波頻率，$h_t$ 和 $h_r$ 分別為發射與接收天線的高度，$a(h_r)$ 是一個校正項。這個模型的<font color="Tomato">適用頻率範圍為 150 ~ 1500 MHz</font>，適用情境為較大的細胞 (cell) 以及 1G 通訊系統。</p>
+<h3 id="COST-231-Walfish-Ikegami-Model"><a href="#COST-231-Walfish-Ikegami-Model" class="headerlink" title="COST 231-Walfish-Ikegami Model"></a>COST 231-Walfish-Ikegami Model</h3><p>&emsp;&emsp;由歐洲科技研究合作網路 (COST) 提出，基於 Walfish 和 Ikegami的模型，考慮到建築高度、道路寬度、建築間距以及道路方向等變數；不過還是假設較為均質、平坦的環境。對於 LOS 的路徑，path loss 表示為</p>
+<p>$$<br>PL (d)\ \ (\text{dB}) &#x3D; 42.6 + 26 \log_{10}{(d)} + 20 \log_{10}{(f_c)}<br>$$</p>
+<p>&emsp;&emsp;其中 $d \geq 0.02$ 的單位為公里，$f_c$ 的單位為 MHz。對於 NLOS 的路徑，path loss 由 free space path loss $PL_0$、multi-screen loss $L_{\text{msd}}$ 以及最後一片屋頂轉角導致的繞射成分 $L_{\text{rts}}$ 組成：</p>
+<p>$$<br>PL &#x3D;<br>\begin{cases}<br>\begin{align}<br>&amp;PL_0 + L_{\text{msd}} + L_{\text{rts}}&amp;,\ \text{for}\ L_{\text{msd}} + L_{\text{rts}} &gt; 0\\[10pt]<br>&amp;PL_0&amp;,\ \text{for}\ L_{\text{msd}} + L_{\text{rts}} \leq 0<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;這個模型的<font color="Tomato">適用頻率範圍為 800 ~ 2000 MHz，適用距離為 0.02 ~ 5 km</font>，另外還有天線高度的限制：<font color="Tomato">BS 天線高度在 4 ~ 50 m 之間，MS 天線高度在 1 ~ 3 m 之間</font>。因此，5G 以後的通訊系統可能不適合使用這個模型。</p>
+<h2 id="Multipath-models"><a href="#Multipath-models" class="headerlink" title="Multipath models"></a>Multipath models</h2><p>&emsp;&emsp;這一節介紹多路徑通道的通道模型。在「OFDM 通道五四三」這一節，提到 OFDM 系統雖然可以有效對抗 ISI，但是在高速移動的環境(如高鐵、飛機及衛星通訊)下，Doppler spread 導致的 ICI 影響非常嚴重。在設計收發機演算法時，必須要考量到這些通道的特性。</p>
+<h3 id="SUI-Channel-Models"><a href="#SUI-Channel-Models" class="headerlink" title="SUI Channel Models"></a>SUI Channel Models</h3><p>&emsp;&emsp;在教學文章[1]中稱其為 path loss model，不過這個模型包含對 delay spread 的描述，屬於 small-scale fading 的範疇。這個通道模型根據地形、有無 LOS 成分、delay spread 情形、Doppler spread 情形分為六種通道 SUI-1 ~ SUI-6。地形分為三種，是基於美國內陸的地貌特徵：A型為樹林覆蓋的山丘區域，路徑損耗較高；B型為樹林覆蓋的平地或是植被稀疏的山丘；最後，C型為植被稀疏的平地，路徑損耗較低。</p>
+<br>
+
+<p>&emsp;&emsp;模型將多路徑描述為 3 個 tap delay，每個 tap gain 為 Rician 分布(基於 Jake’s model)，</p>
+<p>$$<br>f(r) &#x3D; \frac{r}{\sigma^2} e^{-\frac{r^2 + A^2}{2\sigma^2}} I_0(\frac{rA}{\sigma^2})<br>$$</p>
+<p>&emsp;&emsp;LOS 的成分由 K-factor (或稱 Rician factor) 描述，</p>
+<p>$$<br>K &#x3D; \frac{A^2}{2\sigma^2}<br>$$</p>
+<p>&emsp;&emsp;當 $A &#x3D; 0$，channel gain 便退化為 Rayleigh fading。SUI model 模擬 MIMO 的系統，考慮到不同天線訊號之間的相關性(或 co-channel interference)。因此，在建立 SUI model 時，使用到三個矩陣：<font color="yellow">input mixing matrix、TDL matrix 以及 output mixing matrix</font>。表B摘錄 SUI-1 channel model 的部分參數。</p>
+<br>
+<table style="width:550px; margin-left:100px;">
+  <tr>
+    <th colspan="2" style="width:32%;">參數</th>
+    <th colspan="2" style="width:16%;">Tap 1</th>
+    <th colspan="2" style="width:17%;">Tap 2</th>
+    <th colspan="2" style="width:17%;">Tap 3</th>
+    <th colspan="2" style="width:18%;">單位</th>
+  </tr>
+  <tr>
+    <td colspan="2">Delay</td>
+    <td colspan="2">0</td>
+    <td colspan="2">0.4</td>
+    <td colspan="2">0.9</td>
+    <td colspan="2">$\mu s$</td>
+  </tr>
+  <tr class="no-bottom">
+    <td colspan="2" class="no-bottom">Power (omni ant.)</td>
+    <td colspan="2" class="no-bottom">0</td>
+    <td colspan="2" class="no-bottom">-15</td>
+    <td colspan="2" class="no-bottom">-20</td>
+    <td colspan="2" class="no-bottom">dB</td>
+  </tr>
+  <tr class="no-both">
+    <td colspan="2" class="no-both">90% K-factor (omni)</td>
+    <td colspan="2" class="no-both">4</td>
+    <td colspan="2" class="no-both">0</td>
+    <td colspan="2" class="no-both">0</td>
+    <td colspan="2" class="no-both">linear</td>
+  </tr>
+  <tr class="no-top">
+    <td colspan="2" class="no-top">75% K-factor (omni)</td>
+    <td colspan="2" class="no-top">20</td>
+    <td colspan="2" class="no-top">0</td>
+    <td colspan="2" class="no-top">0</td>
+    <td colspan="2" class="no-top">linear</td>
+  </tr>
+  <tr class="no-bottom">
+    <td colspan="2" class="no-bottom">Power ($30^\circ$ ant.)</td>
+    <td colspan="2" class="no-bottom">0</td>
+    <td colspan="2" class="no-bottom">-21</td>
+    <td colspan="2" class="no-bottom">-32</td>
+    <td colspan="2" class="no-bottom">dB</td>
+  </tr>
+  <tr class="no-both">
+    <td colspan="2" class="no-both">90% K-factor ($30^\circ$)</td>
+    <td colspan="2" class="no-both">16</td>
+    <td colspan="2" class="no-both">0</td>
+    <td colspan="2" class="no-both">0</td>
+    <td colspan="2" class="no-both">linear</td>
+  </tr>
+  <tr class="no-top">
+    <td colspan="2" class="no-top">75% K-factor ($30^\circ$)</td>
+    <td colspan="2" class="no-top">72</td>
+    <td colspan="2" class="no-top">0</td>
+    <td colspan="2" class="no-top">0</td>
+    <td colspan="2" class="no-top">linear</td>
+  </tr>
+  <tr class="no-bottom">
+    <td colspan="5" class="no-bottom">
+        Antenna Correlation: $\rho_{\text{env}}$ =  0.7
+    </td>
+    <td colspan="5" class="no-bottom">Terrain Type: C</td>
+  </tr>
+  <tr class="no-both">
+    <td colspan="5" class="no-both">
+        <span style="display: inline-block; width: 150px;">
+            Normalization factor:
+        </span>
+        <span style="display: inline-block; width: 130px;">
+            $F_{\text{omni}}$ = -0.1771 dB
+        </span>
+    </td>
+    <td colspan="5" class="no-both">
+        Omni antenna: $\tau_{\text{rms}}$ = 0.111 $\mu s$
+    </td>
+  </tr>
+  <tr class="no-top">
+    <td colspan="5" class="no-top">
+        <span style="display: inline-block; width: 150px;"></span>
+        <span style="display: inline-block; width: 130px;">
+            $F_{30^\circ}$ = -0.0371 dB
+        </span>
+    </td>
+    <td colspan="5" class="no-top">
+        $30^\circ$ antenna: $\tau_{\text{rms}}$ = 0.042 $\mu s$
+    </td>
+  </tr>
+</table>
+<center><font color="cyan">表B，摘自[1]的 Table A.2.5.1。</font></center>
+<br>
+
+<p>&emsp;&emsp;其中「90% K-factor」指的是細胞中 90% 的面積接收到的 K-factor 大於等於該基準值。SUI models <font color="Tomato">適用頻率範圍為數百 MHz</font> (參考 Erceg model 的適用頻率)，<font color="Tomato">適用範圍為 7 km</font>，對於天線波束寬度 (omni-direction 或是 $30^\circ$) 也有限制，且<font color="Tomato">僅適用於垂直偏振的電磁波</font>。</p>
+<h3 id="ITU-Path-Loss-Models"><a href="#ITU-Path-Loss-Models" class="headerlink" title="ITU Path Loss Models"></a>ITU Path Loss Models</h3><p>&emsp;&emsp;國際電信聯盟的 ITU-R recommendation M.1225 中記載此通道模型，作為 3G 系統的設計參考。該模型區分出三種測試環境：<font color="Tomato">室內-辦公室</font>、<font color="Tomato">室外到室內-行人</font>以及<font color="Tomato">車載-高天線</font>，又區分出低延遲 (A) 和中等延遲 (B) 兩種延遲條件；Doppler spread 的部分則是 classic spectrum (i.e. Jake’s model)。表C摘錄車載環境的通道參數。</p>
+<br>
+<table style="width:500px; margin-left:130px;">
+  <tr>
+    <th style="width:10%;">Tap</th>
+    <th colspan="2" style="width:45%;">通道 (A)</th>
+    <th colspan="2"style="width:45%;">通道 (B)</th>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="1">Relative delay (ns)</td>
+    <td colspan="1">Average power (dB)</td>
+    <td colspan="1">Relative delay (ns)</td>
+    <td colspan="1">Average power (dB)</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td colspan="1">0</td>
+    <td colspan="1">0.0</td>
+    <td colspan="1">0</td>
+    <td colspan="1">-2.5</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td colspan="1">310</td>
+    <td colspan="1">-1.0</td>
+    <td colspan="1">300</td>
+    <td colspan="1">0</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td colspan="1">710</td>
+    <td colspan="1">-9.0</td>
+    <td colspan="1">8900</td>
+    <td colspan="1">-12.8</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td colspan="1">1090</td>
+    <td colspan="1">-10.0</td>
+    <td colspan="1">12900</td>
+    <td colspan="1">-10.0</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td colspan="1">1730</td>
+    <td colspan="1">-15.0</td>
+    <td colspan="1">17100</td>
+    <td colspan="1">-25.2</td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td colspan="1">2510</td>
+    <td colspan="1">-20.0</td>
+    <td colspan="1">20000</td>
+    <td colspan="1">-16.0</td>
+  </tr>
+</table>
+<center><font color="cyan">表C，摘自[1]的 Table A.2.6.3。</font></center>
+
+<h3 id="3GPP-LTE-propagation-channel-model"><a href="#3GPP-LTE-propagation-channel-model" class="headerlink" title="3GPP LTE propagation channel model"></a>3GPP LTE propagation channel model</h3><p>&emsp;&emsp;3GPP 的技術文件 TS 36.101 及 TS 36.104 記載了多路徑通道與時變通道的規格，主要用於 LTE 系統。以下資料則是來自 MATLAB 官方網站 help center 的教學文件。之後有時間再從 3GPP 技術文件來看。</p>
+<br>
+
+<p>&emsp;&emsp;首先介紹三個多路徑通道模型：Extended Pedestrian A model (<font color="Tomato">EPA</font>)、Extended Vehicular A model (<font color="Tomato">EVA</font>) 以及 Extended Typical Urban model (<font color="Tomato">ETU</font>)，以 PDP 的形式呈現。表D為 EVA 模型的參數，總共有 9 個 tap；仔細觀察，可以發現它是衍生自前述的 ITU path loss model (表C)。</p>
+<br>
+<table style="width:600px; margin-left:80px;">
+  <tr>
+    <th style="width:30%;">Excess tap delay (ns)</th>
+    <th style="width:20%;">Relative power (dB)</th>
+    <th style="width:30%;">Excess tap delay (ns)</th>
+    <th style="width:20%;">Relative power (dB)</th>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>0.0</td>
+    <td>710</td>
+    <td>-9.1</td>
+  </tr>
+  <tr>
+    <td>30</td>
+    <td>-1.5</td>
+    <td>1090</td>
+    <td>-7.0</td>
+  </tr>
+  <tr>
+    <td>150</td>
+    <td>-1.4</td>
+    <td>1730</td>
+    <td>-12.0</td>
+  </tr>
+  <tr>
+    <td>310</td>
+    <td>-3.6</td>
+    <td>2510</td>
+    <td>-16.9</td>
+  </tr>
+  <tr>
+    <td>370</td>
+    <td>-0.6</td>
+    <td></td><td></td>
+  </tr>
+</table>
+<center><font color="cyan">表D，來自[2]提供的表格。</font></center>
+<br>
+
+<p>&emsp;&emsp;除了 delay spread 的描述，也提出 5 Hz 或 70 Hz 的 Doppler frequency (ETU 則是 300 Hz)，採用 classic spectrum。</p>
+<br>
+
+<p>&emsp;&emsp;接著是高速鐵路面對的 Doppler shift。技術文件提出一個理想的情況：在高鐵軌道沿線架設基地台 (在 LTE 的 case 是 eNodeB)，基地台間距為 $2 D_s$，基地台距離軌道 $D_{\text{min}}$。則單一路徑的 Doppler shift 可以表示為 ($f_d$ 為 Doppler frequency)</p>
+<p>$$<br>f_s(t) &#x3D; f_d \cos{\theta(t)}<br>$$</p>
+<p>&emsp;&emsp;Doppler shift 是時間的函數，其中</p>
+<p>$$<br>\cos{\theta(t)} &#x3D;<br>\begin{cases}<br>\begin{align}<br>\frac{D_s &#x2F; 2 - vt}{\sqrt{D_{\text{min}}^2 + (D_s &#x2F; 2 - vt)^2}}&amp;,\ \ 0 \leq t \leq D_s &#x2F; v\\[10pt]<br>\frac{vt - 3 D_s &#x2F; 2}{\sqrt{D_{\text{min}}^2 + (vt - 3 D_s &#x2F; 2)^2}}&amp;,\ \ D_s &#x2F; v &lt; t \leq 2 D_s &#x2F; v<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;因此 Doppler shift 會週期性的振盪，週期為 $2D_s &#x2F; v$，這是因為沿線都有架設基地台。這個模型雖然經過簡化、比較理想，對於高速鐵路的通訊系統設計還是提供不少 insight。</p>
+<br>
+
+<p>&emsp;&emsp;最後，在技術文件裡還定義了 channel correlation matrices，使用 Kronecker product 來描述 MIMO 系統中發射&#x2F;接收天線之間的相關性。詳細資訊請參考[2]。</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;有關 OFDM 的通道大概就介紹到這裡，還有很多通道模型沒有提及，有待日後補充。此外，因應新興技術(如 OTFS)而發展的通道模型也有很多，之後再談吧。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[1] Raj Jain, “Channel Models: A Tutorial,” sponsored in part by WiMAX Forum, V1.0, Feb. 21, 2007.</p>
+<p>[2] mathworks.com, “Propagation Channel Models”, documentation of LTE Toolbox, MATLAB help center. Available: <a href="https://www.mathworks.com/help/lte/ug/propagation-channel-models.html">https://www.mathworks.com/help/lte/ug/propagation-channel-models.html</a></p>
+]]></content>
+      <categories>
+        <category>通訊技術</category>
+      </categories>
+      <tags>
+        <tag>無線通道</tag>
+        <tag>OFDM</tag>
+        <tag>DSP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>論文閱讀：Randomly Linear Time-Variant Channel</title>
+    <url>/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-time-variant-channel/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;這篇 1963 年的經典論文在通道模型的領域有近兩千次引用，直到最近 (2026) 的期刊論文也都有引用，足見其影響之深遠。</p>
+<span id="more"></span>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1da1SodVseCX-ruHn1-Yz0ewwarkq03Pz&sz=s1024" width="300">
+<center><font color="cyan">清冽的藍天底下，長崎的 NHK 發射站。</font></center>
+<br>
+
+<p>&emsp;&emsp;這篇文章旨在把 Bello 的概念說明清楚。時間允許的話，我也會進行模擬 (MATLAB) 來輔助說明這些概念。</p>
+<h2 id="論文資訊"><a href="#論文資訊" class="headerlink" title="論文資訊"></a>論文資訊</h2><p>P. Bello, “Characterization of Randomly Time-Variant Linear Channels,” in <em>IEEE Transactions on Communications Systems</em>, vol. 11, no. 4, pp. 360-393, December 1963.</p>
+<h2 id="論文內容"><a href="#論文內容" class="headerlink" title="論文內容"></a>論文內容</h2><p>&emsp;從標題可得知，這篇論文主要聚焦在隨機線性時變通道的各種面向：time-frequency duality、correlation functions 等，並討論三種通道模型：</p>
+<ul>
+<li>Wide-sense stationary (WSS)</li>
+<li>Uncorrelated scattering (US)</li>
+<li>Wide-sense stationary uncorrelated scattering (WSSUS)</li>
+</ul>
+<p>&emsp;&emsp;看來第三個似乎是集大成者。除了模型的建立，論文也討論該模型的統計性質──因為本質上通道響應帶有隨機性，可以視為隨機過程。</p>
+<br>
+
+<p>&emsp;&emsp;前提：本論文使用到 complex envelope、low-pass equivalent 的概念。</p>
+<h3 id="System-Functions"><a href="#System-Functions" class="headerlink" title="System Functions"></a>System Functions</h3><p>&emsp;&emsp;首先探討 duality 的概念。如果我們把輸入與輸出訊號(這裡應該是假設 energy signal)寫作時間或頻率的函數 ($X(f) &#x3D; F{x(t)}$)，我們可以得到兩組、互為對偶的運算子 (operator)：</p>
+<p>$$<br>\begin{align}<br>&amp;y(t) &#x3D; O_{tt}[x(t)],\ \ Y(f) &#x3D; O_{ff}[X(f)]\\[10pt]<br>&amp;y(t) &#x3D; O_{tf}[X(f)],\ \ Y(f) &#x3D; O_{ft}[x(t)]<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;若將這些運算視為輸入訊號與系統基底函數 (system kernel function) 的卷積，則可以寫作：</p>
+<p>$$<br>\begin{align}<br>y(t) &amp;&#x3D; \int{x(t’) K_1(t, t’)\ dt’}\\[10pt]<br>Y(f) &amp;&#x3D; \int{X(f’) K_2(f, f’)\ df’}\\[10pt]<br>y(t) &amp;&#x3D; \int{X(f) K_3(t, f)\ df}\\[10pt]<br>Y(f) &amp;&#x3D; \int{x(t) K_4(f, t)\ dt}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;$K_1(t, t’)$ 和 $K_2(f, f’)$ 是一對 double Fourier transform pair，同樣的 $K_3(t, f)$ 和 $K_4(f, t)$ 也是一對；$K_1$ 和 $K_3$ 為 single Fourier transform pair，$K_2$ 和 $K_4$ 也是。另外，$K_1(t, t’)$ 可以看作是對於時間 $t’$ 的一個 impulse input，系統在時間 $t$ 的響應，依此類推。(可以這麼記憶：第一個變數是輸出，第二個變數是輸入。)<br><br></p>
+<h4 id="Delay-和-Doppler"><a href="#Delay-和-Doppler" class="headerlink" title="Delay 和 Doppler"></a>Delay 和 Doppler</h4><p>&emsp;&emsp;接著應用上述的概念。假設一個線性時變通道 $h(t, \tau)$，它的輸入-輸出模型可以寫作</p>
+<p>$$<br>y(t) &#x3D; \int{x(t - \tau) h(t, \tau)\ d\tau}<br>$$</p>
+<p>&emsp;&emsp;$h(t, \tau)$ 其實就是 $K_1(t, t - \tau)$，稱作 <font color="yellow">input delay-spread function</font>，物理意義為「對於發生在 $t - \tau$ 的 impulse，系統在 $t$ 的響應」。同樣的線性時變通道也可以寫作</p>
+<p>$$<br>y(t) &#x3D; \int{x(t - \tau) g(t - \tau, \tau)\ d\tau}<br>$$</p>
+<p>&emsp;&emsp;$g(t, \tau)$ 稱作 <font color="yellow">output delay-spread function</font>，其物理意義為「對於發生在 $t$ 的 impulse，系統在 $t + \tau$ 的響應」，$g(t, \tau) &#x3D; h(t + \tau, \tau)$。對於 causal systems，$h(t, \tau) &#x3D; g(t, \tau) &#x3D; 0\ \ \text{for }\tau &lt; 0$</p>
+<br>
+
+<p>&emsp;&emsp;同樣的，在頻域也有類似的表示：</p>
+<p>$$<br>Y(f) &#x3D; \int{X(f - \nu) G(f, \nu)\ d\nu}<br>$$</p>
+<p>&emsp;&emsp;$G(f, \nu)$ 就稱作 <font color="yellow">input Doppler-spread function</font>，對應到 system function $G(f, \nu) &#x3D; K_2(f, f - \nu)$。$H(f, \nu) &#x3D; G(f + \nu, \nu)$ 則是 <font color="yellow">outut Doppler-spread function</font>。不難看出 $(h, g)$ 和 $(G, H)$ 之間的對偶關係。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1v4GM55j0C0m9mBU57rFyJnpTWPArPXb6&sz=s1024" width="400">
+<center><font color="cyan">圖A，$h(t, \tau)$ 的演示。</font></center>
+<br>
+
+<p>&emsp;&emsp;上述的概念也可以類比到 $K_3(t, f)$ 和 $K_4(f, t)$。首先是 <font color="yellow">time-variant transfer function</font> (作者給的名稱) $T(f, t)$。假設輸入為一 complex exponential，則輸出為</p>
+<p>$$<br>\begin{align}<br>\int{e^{j2\pi f(t - \tau)} h(t, \tau)\ d\tau} &amp;&#x3D; e^{j2\pi ft} \int{h(t, \tau) e^{-j2\pi f\tau}\ d\tau}\\[10pt]<br>&amp;&#x3D; e^{j2\pi ft}\ T(f, t)<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;即 $T(f, t)$ 是對應到 eigenfunction $e^{j2\pi ft}$ 的 eigenvalue，故</p>
+<p>$$<br>\begin{align}<br>y(t) &amp;&#x3D; H\lbrace x(t)\rbrace\\[10pt]<br>&amp;&#x3D; H\lbrace \int{X(f) e^{j2\pi ft}\ df}\rbrace\\[10pt]<br>&amp;&#x3D; \int{X(f) H\lbrace e^{j2\pi ft}\rbrace\ df}\\[10pt]<br>&amp;&#x3D; \int{X(f) T(f, t) e^{j2\pi ft}\ df}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;事實上，$T(f, t)$ 和 $H(f, \nu)$ 是 Fourier transform pair：<font color="Tomato">$T(f, t) &#x3D; F^{-1}\lbrace H(f, \nu)\rbrace$</font> (請自行推導一遍)。並且，根據前面對於 system kernel 的描述，$K_3(t, f) &#x3D; T(f, t) e^{j2\pi ft}$。至於 <font color="yellow">frequency-dependent modulation function</font> $M(t, f)$，和剛才的做法一樣，假設輸入為一 impulse $\delta(t - \tau)$，其頻域表示為 $e^{-j2\pi f\tau}$。則系統輸出為</p>
+<p>$$<br>\begin{align}<br>\int{e^{-j2\pi\tau(f - \nu)} G(f, \nu)\ d\nu} &amp;&#x3D; e^{-j2\pi f\tau} \int{G(f, \nu) e^{2\pi\tau\nu}\ d\nu}\\[10pt]<br>&amp;&#x3D; e^{-j2\pi f\tau} M(\tau, f)<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;因此(省略推導過程)</p>
+<p>$$<br>Y(f) &#x3D; \int{x(t) M(t, f) e^{-j2\pi ft}\ dt}<br>$$</p>
+<p>&emsp;&emsp;從上面這個式子應該可以理解「frequency-dependent modulation」名稱的由來。Fourier transform pair 的關係：<font color="Tomato">$M(t, f) &#x3D; F\lbrace g(t, \tau)\rbrace$</font> (請自行推導一遍)，並且 $K_4(f, t) &#x3D; M(t, f) e^{-j2\pi ft}$。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1v4GM55j0C0m9mBU57rFyJnpTWPArPXb6&sz=s1024" width="400">
+<center><font color="cyan">圖B，視覺化呈現 $T(f, t)$。</font></center>
+
+<h4 id="Delay-Doppler-和-Doppler-Delay"><a href="#Delay-Doppler-和-Doppler-Delay" class="headerlink" title="Delay-Doppler 和 Doppler-Delay"></a>Delay-Doppler 和 Doppler-Delay</h4><p>&emsp;&emsp;前面的數學模型只能呈現 delay 或是 Doppler 的輸入-輸出關係，而不能同時描述兩者。這邊描述的模型則綜合兩者。首先，定義 input delay-spread function $h(t, \tau)$ 的頻域表示為 $U(\tau, \nu)$，$U(\tau, \nu) &#x3D; F\lbrace h(t, \tau)\rbrace$。推導得到</p>
+<p>$$<br>y(t) &#x3D; \int{\int{ {\color{yellow} x(t - \tau)}\ {\color{Tomato} e^{j2\pi\nu t} }\ U(\tau, \nu)\ d\nu}\ d\tau}<br>$$</p>
+<p>&emsp;&emsp;注意<font color="yellow">黃色</font>的部分是 delay spread 的成分，<font color="Tomato">橘紅色</font>的部分是 Doppler spread 的成分，而 $U(\tau, \nu)$ 是特定 delay spread 和特定 Doppler spread 對應的 gain，稱作 <font color="yellow">delay-Doppler-spread function</font>。那麼若是從輸入訊號的頻域表示來看呢？定義 $V(\nu, \tau) &#x3D; F^{-1}\lbrace G(f, \nu)\rbrace$，則可以得到</p>
+<p>$$<br>Y(f) &#x3D; \int{\int{ {\color{Tomato} X(f - \nu)}\ {\color{yellow} e^{-j2\pi f\tau}}\ V(\nu, \tau)\ d\tau}\ d\nu}<br>$$</p>
+<p>&emsp;&emsp;我們把 $V(\nu, \tau)$ 稱作 <font color="yellow">Doppler-delay-spread function</font>。事實上兩者只有相位的差異，</p>
+<p>$$<br>U(\tau, \nu) &#x3D; e^{-j2\pi\nu\tau}\ V(\nu, \tau)<br>$$</p>
+<p>&emsp;&emsp;而這個相位差也很好理解，因為兩者分別是 input delay-spread function 和 output delay-spread function 以變數 $t$ 作 Fourier transform 得到，其實是在表示一樣的東西。</p>
+<br>
+
+<p>&emsp;&emsp;圖C整理各種函數之間的關係，總共有八個函數，不過關係還算清楚。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1aruc8t1kMbc5RrIa1Mrk5sW2DWMZixiD&sz=s1024" width="500">
+<center><font color="cyan">圖C，各種函數的關係。</font></center>
+
+<h3 id="Correlation-Functions"><a href="#Correlation-Functions" class="headerlink" title="Correlation Functions"></a>Correlation Functions</h3><p>&emsp;&emsp;由於線性時變通道的變化帶有隨機性，我們用 correlation functions 來描述通道隨機的特徵。這邊假設 system functions 的 ensemble average 為零。以一個獨立變數的隨機過程為例，其自相關函數會有兩個獨立變數，表示兩個時間的相關性；這篇論文裡的 system functions 有兩個獨立變數，因此其自相關函數會有四個獨立變數，以 input delay-spread function 為例：</p>
+<p>$$<br>E[h^{*}(t, \tau) h(s, \eta)] &#x3D; R_h(t, s; \tau, \eta)<br>$$</p>
+<p>&emsp;&emsp;並且，圖C呈現的關係也適用於自相關函數，比如：</p>
+<p>$$<br>R_T(f, \nu; t, s) &#x3D; \int{\int{R_h(t, s; \tau, \eta)\ e^{j2\pi(\tau f - \eta\nu)}\ d\tau}\ d\eta}<br>$$</p>
+<p>&emsp;&emsp;就是 double (inverse) Fourier transform 的關係。並且</p>
+<p>$$<br>R_U(\tau, \eta; \nu, \mu) &#x3D; e^{j2\pi(\nu\tau - \eta\mu)}\ R_V(\nu, \mu; \tau, \eta)<br>$$</p>
+<p>&emsp;&emsp;(請自行推導一遍，這邊論文好像有寫錯。)其他關係式都可以從圖C的關係來推導。假設輸入訊號也可以用隨機過程來 model，可以得到(請自行推導一遍，頻域也有相似的表示式)：</p>
+<p>$$<br>R_y(t, s) &#x3D; \int{\int{R_x(t - \tau, s - r) R_h(t, s; \tau, t)\ d\tau}\ dr}<br>$$</p>
+<h4 id="WSS-模型"><a href="#WSS-模型" class="headerlink" title="WSS 模型"></a>WSS 模型</h4><p>&emsp;&emsp;根據以上自相關函數的數學表示，首先探討 WSS 模型，aka 自相關函數和當下時間點無關、只和時間差有關；這表示 $h$、$g$、$T$、$M$ 等函數的自相關函數符合這個特性，並且導致 Doppler domain 出現 singularity function ($\delta(\nu)$)，如：</p>
+<p>$$<br>\begin{align}<br>R_U(\tau, \eta; \nu, \mu) &amp;&#x3D; \int{\int{R_h(t, s; \tau, \eta)\ e^{j2\pi(\nu t - \mu s)}\ dt}\ ds}\\[10pt]<br>&amp;&#x3D; \int{e^{j2\pi s(\nu - \mu)}\ ds} \int{R_h(r; \tau, \eta)\ e^{j2\pi\nu r}\ dr}\\[10pt]<br>&amp;&#x3D; \delta(\nu - \mu) P_U(\tau, \eta; \nu)<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;其中 $r &#x3D; t - s$。它的物理意義是什麼呢？我們從以下兩個式子來看：</p>
+<p>$$<br>\begin{align}<br>R_U(\tau, \eta; \nu, \mu) &amp;&#x3D; \delta(\nu - \mu) P_U(\tau, \eta; \nu)\tag{1}\\[10pt]<br>R_G(f, l; \nu, \mu) &amp;&#x3D; \delta(\nu - \mu) P_G(f, l; \nu)\tag{2}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;式 (1) 表示 delay-Doppler-spread function 在相異 Doppler shift 的兩點為<strong>不相關</strong>，也就是說不管 delay 為何，不同的頻率偏移量 $\nu$ 對輸出訊號 $y(t)$ 的貢獻是不相關的；式 (2) 表示系統轉移函數在相異 Doppler shift 的兩點為<strong>不相關</strong>，對於任意頻率 $f$ 而言，不同的頻率偏移量 $\nu$ 的貢獻是不相關的。如果系統函數是 Gaussian 的話，不相關意味著互相獨立，便於分析。</p>
+<br>
+
+<p>&emsp;&emsp;再仔細思考式 (1) 的物理意義，會發現給定 $\tau$ 和 $\eta$，$P_U$ 可以視為 $\nu$ 軸上的分布。由於 $U$ 是 delay-Doppler domain 的 complex amplitude，$P_U$ 可以視為功率(密度)──$h(t, \tau)$ 和 $h(t, \eta)$ 在 $\nu$ 軸上的 cross power spectral density。$h(t, \tau)$ 為「延遲 $\tau$ 的響應」，$h(t, \eta)$ 為「延遲 $\eta$ 的響應」，這兩個響應如果只有在時間距離很近的時候才明顯相關，表示通道變化快速、短時間內就變得六親不認，對應到 cross power 平均散布在 Doppler shift 上；如果這兩個響應在任何時間距離都高度相關，表示通道幾乎沒有變化(就延遲 $\tau$ 和 $\eta$ 的部分而言)，cross power 集中在 $\nu &#x3D; 0$ 處。</p>
+<h4 id="US-模型"><a href="#US-模型" class="headerlink" title="US 模型"></a>US 模型</h4><p>&emsp;&emsp;US 表示 uncorrelated scattering，可以視為 WSS 的對偶：頻域的自相關函數和當下頻率無關，只和頻率差有關，對應到 delay domain 出現 singularity function。</p>
+<p>$$<br>\begin{align}<br>&amp;R_h(t, s; \tau, \eta) &#x3D; \delta(\tau - \eta) P_h(t, s; \tau)\tag{3}\\[10pt]<br>&amp;R_U(\tau, \eta; \nu, \mu) &#x3D; \delta(\tau - \eta) P_U(\nu, \mu; \tau)\tag{4}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;式 (3) 表示對於任意時間點 $t$ 而言，不同 delay 的 gain 是不相關的(每一個 delay 可以視為一個 scatterer，故得名)；而式 (4) 則表示不論 Doppler shift 為何，不同的 delay $\tau$ 對輸出訊號 $y(t)$ 的貢獻是不相關的。在 WSS 模型中，通道在 Doppler domain 的特性為 non-stationary white；而在 US 模型中，通道在 delay domain 的特性為 non-stationary white。</p>
+<br>
+
+<p>&emsp;&emsp;Non-stationary white 是什麼意思？以 US 模型為例，$h(t, \tau)$ 的自相關函數在給定時間 $t$、$s$ 後，只有在 delay 相等時才相關(否則為零)，此為 white；但是相關的程度仍是 delay variable $\tau$ 的函數，此為 non-stationary。這使得 Fourier transform 積分的變數只剩下 $\tau$，對應到的頻域變數就是頻率差 $\Delta f$，在頻域呈現 WSS 的特性。</p>
+<h4 id="WSSUS-模型"><a href="#WSSUS-模型" class="headerlink" title="WSSUS 模型"></a>WSSUS 模型</h4><p>&emsp;&emsp;WSSUS 模型兼有 WSS 和 US 的特性，如</p>
+<p>$$<br>\begin{align}<br>&amp;R_h(t, t + \Delta t; \tau, \eta) &#x3D; \delta(\tau - \eta) P_h(\Delta t, \tau)\\[10pt]<br>&amp;R_G(f, f + \Delta f; \nu, \mu) &#x3D; \delta(\nu - \mu) P_G(\Delta f, \nu)<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;Delay-Doppler-spread function 的自相關函數則是</p>
+<p>$$<br>R_U(\tau, \eta; \nu, \mu) &#x3D; \delta(\tau - \eta) \delta(\nu - \mu) P_U(\tau, \nu)<br>$$</p>
+<p>&emsp;&emsp;$U(\tau, \nu)$ 在 delay variable 及 Doppler variable 都是 non-stationary white，意味著不同 delay 的貢獻是不相關的，不同 Doppler shift 的貢獻也是不相關的，$U(\tau, \nu)$ 可以被切成一塊一塊的 delay-Doppler 單元，每一個單元對應到特定的 delay 和 Doppler shift。一個例子是 $N$ 個不相關的 Rayleigh fading channel，每個路徑分別有不同的延遲 $\tau_i$，其模型為</p>
+<p>$$<br>\begin{align}<br>&amp;y(t) &#x3D; \sum_{i &#x3D; 1}^{N}{h_i(t) x(t - \tau_i)}\\[10pt]<br>&amp;h_i(t) &#x3D; \int_{-\infty}^{\infty}{U_i(\nu) e^{j2\pi\nu t}\ d\nu}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;$h_i(t)$ 是時變的 Rayleigh fading gain，根據 Clarke’s model，其功率密度頻譜為經典的 Doppler spectrum；每個路徑的 $h_i(t)$ 是不相關的，且由於 $h_i(t)$ 為 WSS，功率頻譜密度只有一個變數 $\nu$。</p>
+<p>$$<br>\begin{align}<br>R_h(t, s) &amp;&#x3D; E\left[\int_{-\infty}^{\infty}{\int_{-\infty}^{\infty}{U_i^{*}(\nu) e^{-j2\pi\nu t} U_i(\mu) e^{j2\pi\mu s}\ d\nu}\ d\mu}\right]\\[10pt]<br>&amp;&#x3D; \int_{-\infty}^{\infty}{\int_{-\infty}^{\infty}{R_{U_i}(\nu, \mu) e^{j2\pi(\mu s - \nu t)}\ d\nu}\ d\mu}\\[10pt]<br>&amp;&#x3D; \int_{-\infty}^{\infty}{\int_{-\infty}^{\infty}{\delta(\nu - \mu) P_{U_i}(\nu) e^{j2\pi(\mu s - \nu t)}\ d\nu}\ d\mu}\\[10pt]<br>&amp;&#x3D; \int_{-\infty}^{\infty}{P_{U_i}(\nu) e^{j2\pi\nu(s - t)}\ d\nu}\\[10pt]<br>(\text{令 }\Delta t &#x3D; s - t)\ \ &amp;&#x3D; \int_{-\infty}^{\infty}{P_{U_i}(\nu) e^{j2\pi\nu \Delta t}\ d\nu}<br>\end{align}<br>$$</p>
+<br>
+
+<p>&emsp;&emsp;回到 WSSUS 模型，time-frequency domain 的系統轉移函數 $T(f, t)$，在時間以及頻率方面都是 WSS 的，呼應 delay 和 Doppler shift 方面的性質。</p>
+<p>$$<br>R_T(f, f + \Delta f; t, t + \Delta t) &#x3D; R_T(\Delta f, \Delta t)<br>$$</p>
+<p>&emsp;&emsp;最後，透過前述的關係式和 Fourier transform，可以得到下面這些簡潔許多的形式：</p>
+<p>$$<br>\begin{alignat}{2}<br>&amp;P_U(\tau, \nu) &#x3D; P_V(\nu, \tau) \equiv S(\tau, \nu)\ &amp;&amp;{\text{(Scattering Function)}}\tag{5}\\[10pt]<br>&amp;P_G(\Delta f, \nu) &#x3D; P_H(\Delta f, \nu) \equiv P(\Delta f, \nu)\ &amp;&amp;{\text{(Doppler Cross-Power Spectral Density)}}\tag{6}\\[10pt]<br>&amp;P_h(\Delta t, \tau) &#x3D; P_g(\Delta t, \tau) \equiv Q(\Delta t, \tau)\ &amp;&amp;{\text{(Delay Cross-Power Spectral Density)}}\tag{7}\\[10pt]<br>&amp;R_M(\Delta t, \Delta f) &#x3D; R_T(\Delta f, \Delta t) \equiv R(\Delta f, \Delta t)\ &amp;&amp;{\text{(Time-Frequency Correlation Function)}}\tag{8}<br>\end{alignat}<br>$$</p>
+<p>&emsp;&emsp;式 (5) 表示 delay-Doppler domain 的功率分布，式 (6) 表示在特定的頻率差之下，Doppler variable 的功率分布。式 (7) 表示在不同的時間差之下，delay variable 的功率分布，當 $\Delta t &#x3D; 0$，則簡化為 power delay profile。式 (8) 代表在 WSSUS 模型下，$M(t, f)$ 和 $T(f, t)$ 在兩變數的相關性是一致的。</p>
+<h4 id="無線電波通道的性質描述"><a href="#無線電波通道的性質描述" class="headerlink" title="無線電波通道的性質描述"></a>無線電波通道的性質描述</h4><p>&emsp;&emsp;這一節討論 Quasi-WSSUS (QWSSUS) 模型：在短時間區間、有限頻寬內，通道可以視為 WSSUS。假設輸入訊號滿足以下條件：</p>
+<p>$$<br>\begin{align}<br>W &amp;\ll B_C\\[10pt]<br>T + \Delta &amp;\ll T_C<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;當中 $\Delta$ (應該)是<span class="hint--info hint--rounded hint--top" data-hint="論文原文是寫 multipath spread" ontouchstart>系統的 rms 延遲</span>，$T_c$ 和 $B_c$ 是 coherence time 和 coherence bandwidth。論文接著論述為什麼這樣的條件可以將通道視為 QWSSUS。從輸出訊號的自相關函數看起：</p>
+<p>$$<br>E[y^{*}(t) y(s)] &#x3D; \iint{X^{*}(f) X(l) R_T(f, l; t, s) e^{-j2\pi(ft - ls)}\ df}\ dl\\[10pt]<br>$$</p>
+<p>&emsp;&emsp;經過變數變換得到</p>
+<p>$$<br>E[y^{*}(t - \frac{\Delta t}{2}) y(t + \frac{\Delta t}{2})] &#x3D; \iint{X^{*}(f - \frac{\Delta f}{2}) X(f + \frac{\Delta f}{2}) R_{f, t}(\Delta t, \Delta f) e^{j2\pi(f\Delta t + \Delta f t)}\ df}\ d\Delta f<br>$$</p>
+<p>&emsp;&emsp;其中 $R_{f, t}(\Delta t, \Delta f) &#x3D; R_T(f - \frac{\Delta f}{2}, f + \frac{\Delta f}{2}; t - \frac{\Delta t}{2}, t + \frac{\Delta t}{2})$。根據上述條件，$R_{t, f}$ 在有效積分範圍內(幾乎)不受 $f$ 和 $t$ 的變動而影響、獨立於 $f$ 和 $t$，故</p>
+<p>$$<br>R(\Delta t, \Delta f) &#x3D; R_{0, 0}(\Delta t, \Delta f)<br>$$</p>
+<p>&emsp;&emsp;也就是說從輸入訊號的符號長度和頻寬來看，通道可視為 WSSUS。</p>
+<h3 id="標準通道模型"><a href="#標準通道模型" class="headerlink" title="標準通道模型"></a>標準通道模型</h3><p>&emsp;&emsp;這裡的「標準」原文是 canonical，指的是基於有限自由度 (DoF) 而建立的、簡化過的模型，可以分為兩類：<strong>Sampling models</strong> 適用於 time-limited 或 band-limited 的訊號或通道，而 <strong>power series models</strong> 則要求系統函數可以展開為 power series。</p>
+<h2 id="讀後想法"><a href="#讀後想法" class="headerlink" title="讀後想法"></a>讀後想法</h2><p>&emsp;&emsp;這篇論文的用語沒有我想像的過時，說明得也很清楚。不過，由於是第一次碰到這些概念，還無法深刻了解一些數學式的意義，接下來要慢慢熟悉這些概念。後半段以 sampling 和 power series 建立實用模型的段落沒有看，之後有需要再回來讀。</p>
+<h2 id="附錄"><a href="#附錄" class="headerlink" title="附錄"></a>附錄</h2><p>&emsp;&emsp;[1]也討論了時變通道的 system function 和 correlation function，並且整理如下圖。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1G7_dANvvHc-EXuvOfxjMBvVyaMt8QxRY&sz=s1024" width="500">
+<center><font color="cyan">圖，把所有關係都說清楚的一張圖。圖片來源：[1] Figure 6.9，p. 117。</font></center>
+<br>
+
+<p>&emsp;&emsp;讀過這篇論文後，應該對這張圖的架構比較有想法(其實 Molisch 這本教科書裡也講得蠻詳細)。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[1] A. F. Molisch, <em>Wireless Communications</em>, second edition, John Wiley &amp; Sons Ltd, 2001.</p>
+]]></content>
+      <categories>
+        <category>通訊技術</category>
+      </categories>
+      <tags>
+        <tag>數學</tag>
+        <tag>Modeling</tag>
+        <tag>無線通訊</tag>
+        <tag>無線通道</tag>
       </tags>
   </entry>
 </search>

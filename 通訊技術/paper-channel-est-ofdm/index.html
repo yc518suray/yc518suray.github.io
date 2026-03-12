@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yc518suray.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="&emsp;&emsp;這篇2002年的論文探討兩種用來估測通道的 OFDM pilot 設計，雖然是二十幾年前的想法，還是可以提供一些 insights。這篇論文用到 LS 和 MMSE 等估測的概念，所以這篇文章會補充一些推導的過程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="論文閱讀：Channel Estimation with Pilot Arrangement">
+<meta property="og:url" content="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-channel-est-ofdm/index.html">
+<meta property="og:site_name" content="R.S. Random Space">
+<meta property="og:description" content="&emsp;&emsp;這篇2002年的論文探討兩種用來估測通道的 OFDM pilot 設計，雖然是二十幾年前的想法，還是可以提供一些 insights。這篇論文用到 LS 和 MMSE 等估測的概念，所以這篇文章會補充一些推導的過程。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1v3M6irPZ1LVQKUDR9jNz5wPK20PiSmVr&sz=w1024">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1KAcQE8_afrXgFs-wB-gNF2NKUyA2UC10&sz=w1024">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1BODaJijL4O4Gsxst8RIMg_W_HOCvHT9O&sz=w1024">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1v4GM55j0C0m9mBU57rFyJnpTWPArPXb6&sz=w1024">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1v4GM55j0C0m9mBU57rFyJnpTWPArPXb6&sz=w1024">
+<meta property="article:published_time" content="2026-02-19T09:52:33.000Z">
+<meta property="article:modified_time" content="2026-03-12T02:38:41.044Z">
+<meta property="article:author" content="Raymond Su">
+<meta property="article:tag" content="無線通訊">
+<meta property="article:tag" content="無線通道">
+<meta property="article:tag" content="OFDM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://drive.google.com/thumbnail?id=1v3M6irPZ1LVQKUDR9jNz5wPK20PiSmVr&sz=w1024">
+
+
+<link rel="canonical" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-channel-est-ofdm/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-channel-est-ofdm/","path":"通訊技術/paper-channel-est-ofdm/","title":"論文閱讀：Channel Estimation with Pilot Arrangement"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>論文閱讀：Channel Estimation with Pilot Arrangement | R.S. Random Space</title>
+  
+
+
+
+
+
+
+
+<script src="/live2d-widget/dist/autoload.js"></script>
+<script src="/js/hexo_resize_image.js"></script>
+<link rel="stylesheet" href="/css/SpoilerBlur.css">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">R.S. Random Space</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Raymond Su的個人網站</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa-solid fa-house fa-fw"></i>首頁</a></li><li class="menu-item menu-item-archives"><a href="/archives" rel="section"><i class="fa-solid fa-folder-open fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-categories"><a href="/categories" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-tags"><a href="/tags" rel="section"><i class="fa-solid fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-音樂"><a href="/music" rel="section"><i class="fa fa-music fa-fw"></i>音樂</a></li><li class="menu-item menu-item-連結"><a href="/links" rel="section"><i class="fa fa-link fa-fw"></i>連結</a></li><li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa-solid fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AB%96%E6%96%87%E8%B3%87%E8%A8%8A"><span class="nav-number">1.</span> <span class="nav-text">論文資訊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AB%96%E6%96%87%E5%85%A7%E5%AE%B9"><span class="nav-number">2.</span> <span class="nav-text">論文內容</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Block-type-arrangement"><span class="nav-number">2.1.</span> <span class="nav-text">Block-type arrangement</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Comb-type-arrangement"><span class="nav-number">2.2.</span> <span class="nav-text">Comb-type arrangement</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E6%93%AC%E7%B5%90%E6%9E%9C"><span class="nav-number">2.3.</span> <span class="nav-text">模擬結果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B5%90%E8%AB%96"><span class="nav-number">2.4.</span> <span class="nav-text">結論</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%80%E5%BE%8C%E6%83%B3%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">讀後想法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E9%8C%84"><span class="nav-number">4.</span> <span class="nav-text">附錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Raymond Su"
+      src="/uploads/images/blog_avatar.png">
+  <p class="site-author-name" itemprop="name">Raymond Su</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives">
+          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yc518suray" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yc518suray" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:raymondsu0110@gmail.com" title="E-mail → mailto:raymondsu0110@gmail.com" rel="noopener me" target="_blank"><i class="fa-solid fa-envelope fa-fw"></i>E-mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://hackmd.io/@Q5thU81LTku-dZ3h7gNMFQ" title="HackMD → https:&#x2F;&#x2F;hackmd.io&#x2F;@Q5thU81LTku-dZ3h7gNMFQ" rel="noopener me" target="_blank"><i class="fa-solid fa-book-open fa-fw"></i>HackMD</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-channel-est-ofdm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/images/blog_avatar.png">
+      <meta itemprop="name" content="Raymond Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R.S. Random Space">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="論文閱讀：Channel Estimation with Pilot Arrangement | R.S. Random Space">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          論文閱讀：Channel Estimation with Pilot Arrangement
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2026-02-19 17:52:33" itemprop="dateCreated datePublished" datetime="2026-02-19T17:52:33+08:00">2026-02-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-03-12 10:38:41" itemprop="dateModified" datetime="2026-03-12T10:38:41+08:00">2026-03-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/" itemprop="url" rel="index"><span itemprop="name">通訊技術</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-channel-est-ofdm/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="通訊技術/paper-channel-est-ofdm/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;這篇2002年的論文探討兩種用來估測通道的 OFDM pilot 設計，雖然是二十幾年前的想法，還是可以提供一些 insights。這篇論文用到 LS 和 MMSE 等估測的概念，所以這篇文章會補充一些推導的過程。</p>
+<span id="more"></span>
+
+<h2 id="論文資訊"><a href="#論文資訊" class="headerlink" title="論文資訊"></a>論文資訊</h2><p>S. Coleri, M. Ergen, A. Puri and A. Bahai, “Channel estimation techniques based on pilot arrangement in OFDM systems,” in <em>IEEE Transactions on Broadcasting</em>, vol. 48, no. 3, pp. 223-229, Sept. 2002.</p>
+<h2 id="論文內容"><a href="#論文內容" class="headerlink" title="論文內容"></a>論文內容</h2><p>&emsp;&emsp;論文假設通道形如</p>
+<p>$$<br>h[n; \lambda] &#x3D; \sum_{i &#x3D; 0}^{r - 1}{h_i\ e^{j\frac{2\pi}{N} f_{D_i}T n}\ \delta[\lambda - \tau_i]},\ \ 0 \leq n \leq N - 1<br>$$</p>
+<p>&emsp;&emsp;其中 $r$ 為路徑數，$h_i$ 為 complex gain，$f_{D_i}$ 為第 $i$ 條路徑的 Doppler shift，$\lambda$ 為 delay index，$\tau_i$ 為第 $i$ 條路徑的 delay，$T$ 為取樣週期。<font color="yellow">假設</font>沒有 ISI，則接收到的訊號去除 CP 經 DFT 轉換得到</p>
+<p>$$<br>Y[k] &#x3D; X[k] H[k] + I[k] + W[k],\ \ k &#x3D; 0, 1, \cdots, N - 1<br>$$</p>
+<p>&emsp;&emsp;其中</p>
+<p>$$<br>H[k] &#x3D; \sum_{i &#x3D; 0}^{r - 1}{h_i\ e^{j\pi f_{D_i} T}\ \text{sinc}(f_{D_i} T)\ e^{-j\frac{2\pi \tau_i}{N} k}}<br>$$</p>
+<p>&emsp;&emsp;而 $I(k)$ 為 ICI 的項(在這篇論文裡沒有談論如何消除這項 ICI)，</p>
+<p>$$<br>I[k] &#x3D; \sum_{i &#x3D; 0}^{r - 1}{\sum_{m &#x3D; 0, m \neq k}^{N - 1}{\frac{h_i X[m]}{N}\ \frac{1 - e^{j2\pi (f_{D_i} T - k + m)}}{1 - e^{j\frac{2\pi}{N} (f_{D_i} T - k + m)}}\ e^{-j\frac{2\pi \tau_i}{N} m}}}<br>$$</p>
+<p>&emsp;&emsp;$W[k]$ 則是 AWGN 的頻域表示 (DFT)。重申一次這是假設無 ISI 的情況。</p>
+<br>
+
+<p>&emsp;&emsp;此外，和論文不同，這篇文章裡 DFT 的定義為</p>
+<p>$$<br>X[k] &#x3D; \sum_{n &#x3D; 0}^{N - 1}{x[n] W_N^{kn}},\ \ 0 \leq k \leq N - 1<br>$$</p>
+<h3 id="Block-type-arrangement"><a href="#Block-type-arrangement" class="headerlink" title="Block-type arrangement"></a>Block-type arrangement</h3><img src="https://drive.google.com/thumbnail?id=1v3M6irPZ1LVQKUDR9jNz5wPK20PiSmVr&sz=w1024" width="500">
+<center><font color="cyan">圖A，block-type pilot arrangement，改自論文的 Fig. 2。</font></center>
+<br>
+
+<p>&emsp;&emsp;根據論文，接收到的訊號以矩陣表示為</p>
+<p>$$<br>Y &#x3D; X F h + W<br>$$</p>
+<p>&emsp;&emsp;其中 $X$ 是對角線元素為 $X[k]$ 的對角矩陣，$F$ 為 DFT 矩陣，$h$ 為時域的通道脈衝響應。但是<font color="Tomato">我覺得這個式子有點問題</font>，因為若 $h$ 是 column vector，則不能表示 Doppler shift 的特徵，只能表示 static channel response。</p>
+<br>
+
+<p>我認為正確的表示為</p>
+<p>$$<br>Y &#x3D; B X + W<br>$$</p>
+<p>&emsp;&emsp;其中 $X &#x3D; [X[0], X[1], \cdots, X[N - 1]]^T$ (column vector)，並且</p>
+<p>$$<br>[B]_{k, m} &#x3D;<br>\begin{cases}<br>\begin{align}<br>I_{k, m} &amp;&#x3D; \sum_{i &#x3D; 0}^{r - 1}{\frac{h_i}{N} \frac{1 - e^{j2\pi(f_{D_i}T + m - k)}}{1 - e^{j\frac{2\pi}{N}(f_{D_i}T + m - k)}} e^{-j\frac{2\pi}{N} m \tau_i}}&amp;,\ \ m \neq k\\[10pt]<br>H_k &amp;&#x3D; H[k]&amp;,\ \ m &#x3D; k<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;也就是說，$N \times N$ 矩陣 $B$ 形如</p>
+<p>$$<br>B &#x3D;<br>\begin{bmatrix}<br>H_0 &amp; I_{0, 1} &amp; I_{0, 2} &amp; \cdots &amp; I_{0, N - 1}\\[10pt]<br>I_{1, 0} &amp; H_1 &amp; I_{1, 2} &amp; \cdots &amp; I_{1, N - 1}\\[10pt]<br>I_{2, 0} &amp; I_{2, 1} &amp; H_2 &amp; \cdots &amp; I_{2, N - 1}\\[10pt]<br>\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots\\[10pt]<br>I_{N - 1, 0} &amp; I_{N - 1, 1} &amp; I_{N - 1, 2} &amp; \cdots &amp; H_{N - 1}<br>\end{bmatrix}<br>$$</p>
+<p>&emsp;&emsp;其實只是把上一節的式子寫成矩陣形式。一般來說，$B$ 並不是 Hermitian matrix。只不過這樣改寫後，似乎沒辦法用 LS 方法估計；論文的寫法，$Y &#x3D; X F h + W$，應該是從估計的角度看待訊號模型，也就是說 <font color="Tomato">ICI 的項被歸類為誤差或雜訊</font>。</p>
+<br>
+
+<p>&emsp;&emsp;根據論文，LS 估計量為</p>
+<p>$$<br>H_{LS} &#x3D; X^{-1} Y<br>$$</p>
+<p>&emsp;&emsp;(這裡的 $X$ 是一開始定義的對角矩陣。)在 slow fading 的情況下，可以在一個 block 裡使用 decision feedback equalizer：前一個 symbol 估計的 $H[k]$ 拿來還原、偵測符號後，用判斷出的符號來更新 $H[k]$。可想而知，fast fading 的情況下 comb-type pilot 的表現會比較好。</p>
+<h3 id="Comb-type-arrangement"><a href="#Comb-type-arrangement" class="headerlink" title="Comb-type arrangement"></a>Comb-type arrangement</h3><img src="https://drive.google.com/thumbnail?id=1KAcQE8_afrXgFs-wB-gNF2NKUyA2UC10&sz=w1024" width="500">
+<center><font color="cyan">圖B，comb-type pilot arrangement，改自論文的 Fig. 2。</font></center>
+<br>
+
+<p>&emsp;&emsp;在 $N_c$ 個子載波裡均勻挑 $N_p$ 個作為 pilot，$X_p[m] &#x3D; X[mL]$，$L &#x3D; N_c &#x2F; N_p$，剩餘的則承載資料。其 LS 估計為 $H_p[m] &#x3D; Y_p[m] &#x2F; X_p[m],\ \ m &#x3D; 0, 1, \cdots, N_p - 1$。若考量 ICI 的影響，可以考慮使用複雜度較高的 MMSE，或是簡化的 linear MMSE。</p>
+<br>
+
+<p>&emsp;&emsp;由於 comb-type pilot arrangement 只有估計特定幾個 sub-channel，完整的 $H_e[k]$ 需要透過內插 (interpolation) 得到。方法有：</p>
+<ul>
+<li>Linear interpolation</li>
+<li>Second-order interpolation</li>
+<li>Zero-padding (time domain)</li>
+<li>Spline cubic interpolation (MATLAB <code>spline</code>)</li>
+<li>low-pass interpolation (MATLAB <code>interp</code>)</li>
+</ul>
+<p>&emsp;&emsp;Second order 的做法如下(可以從拉格朗日插值多項式推得)：</p>
+<p>$$<br>\begin{align}<br>H_e[k] &amp;&#x3D; H_e[mL + l]\\[10pt]<br>&amp;&#x3D; c_1 H_p[m - 1] + c_0 H_p[m] + c_{-1} H_p[m + 1]<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;其中</p>
+<p>$$<br>\begin{align}<br>c_1 &amp;&#x3D; \frac{\alpha(\alpha - 1)}{2}\\[10pt]<br>c_0 &amp;&#x3D; -(\alpha - 1)(\alpha + 1),\ \ \alpha &#x3D; \frac{l}{L}\text{   (論文這邊寫錯)}\\[10pt]<br>c_{-1} &amp;&#x3D; \frac{\alpha(\alpha + 1)}{2}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;$L &#x3D; N_c &#x2F; N_p$。圖C簡單呈現這幾種方法的效果。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1BODaJijL4O4Gsxst8RIMg_W_HOCvHT9O&sz=w1024" width="400">
+<center><font color="cyan">圖C，不同內插方法的效果。</font></center>
+
+<h3 id="模擬結果"><a href="#模擬結果" class="headerlink" title="模擬結果"></a>模擬結果</h3><p>&emsp;&emsp;參照論文 Table I (見下表A)的參數，模擬結果如圖D和圖E所示。調變方式為 BPSK (圖D)和 16QAM (圖E)，block 長度為 26 OFDM symbols (論文是採用 30 OFDM symbols)，通道估計方法為 LS 估計；通道採用 Rayleigh fading，Doppler 頻率為 70 Hz (這裡是指 Jake’s model 得到的 time-varying channel gain，而不是前述的通道描述)，通道的 static impulse response 如下所示：</p>
+<p>$$<br>\begin{align}<br>h[n] &amp;&#x3D; \alpha[n] + 0.3162\alpha[n - 2] + 0.1995\alpha[n - 17]\\[10pt]<br>&amp;+ 0.1296\alpha[n - 36] + 0.1\alpha[n - 75] + 0.1\alpha[n - 137]<br>\end{align}<br>$$</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1v4GM55j0C0m9mBU57rFyJnpTWPArPXb6&sz=w1024" width="450">
+<center><font color="cyan">圖D，block-type 以及 comb-type 的錯誤率表現，BPSK。</font></center>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1v4GM55j0C0m9mBU57rFyJnpTWPArPXb6&sz=w1024" width="450">
+<center><font color="cyan">圖E，block-type 以及 comb-type 的錯誤率表現，16QAM。</font></center>
+<br>
+
+<p>&emsp;&emsp;從表A提供的參數，可以推算 coherence time $T_c \approx 1 &#x2F; f_m &#x3D; 1 &#x2F; 70 &#x3D; 14.3 \text{ms}$，而 OFDM symbol duration $T_{sym} &#x3D; 1024 &#x2F; 44100 \approx 23.2 \text{ms}$，可以視為 <font color="Tomato">fast fading</font> 的環境；time dispersion 的部分，由於 CP 的長度大於最大延遲 ($\tau_{max} &#x3D; 137$ samples)，ISI 的影響不大。</p>
+<br>
+<table style="width:300px; margin-left:230px;">
+  <tr>
+    <th style="width:50%;">參數</th>
+    <th>參數值</th> 
+  </tr>
+  <tr>
+    <td>FFT Size</td>
+    <td>1024</td>
+  </tr>
+  <tr>
+    <td>實際使用子載波數</td>
+    <td>128</td>
+  </tr>
+  <tr>
+    <td>Pilot Ratio</td>
+    <td>1 / 8</td>
+  </tr>
+  <tr>
+    <td>CP 長度</td>
+    <td>256</td>
+  </tr>
+  <tr>
+    <td>取樣率</td>
+    <td>44.1 kHz</td>
+  </tr>
+  <tr>
+    <td>系統頻寬</td>
+    <td>17.5 kHz<br>(包含 guard band)</td>
+  </tr>
+  <tr>
+    <td>調變方式</td>
+    <td>BPSK，16QAM</td>
+  </tr>
+</table>
+<center><font color="cyan">表A，MATLAB 模擬的 OFDM 系統參數，改自論文 TABLE. I。</font></center>
+<br>
+
+<p>&emsp;&emsp;由圖D和圖E可知，comb-type arrangement 的效果比 block-type arrangement 好，而 comb-type arrangement 當中，又以 low-pass interpolation 的效果最好。論文還比較不同 Doppler shift 下的錯誤率表現，也是類似的結果。</p>
+<h3 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h3><p>&emsp;&emsp;這篇論文回顧兩種使用 pilot 訊號的通道估計方法。模擬結果顯示，comb-type pilot 加上 low-pass interpolation 的效果最好(特別是 fast fading 的通道)。此外，low Doppler frequency 的情況下可以使用 decision feedback。</p>
+<h2 id="讀後想法"><a href="#讀後想法" class="headerlink" title="讀後想法"></a>讀後想法</h2><p>&emsp;&emsp;在繪製不同內插方法的效果時，一開始是用複數點作為示範，但是複數可以視為二維的資料，要呈現複數點內插效果的話，其實應該要在三維空間繪製曲線，才能確實呈現。後來改用實數點作為示範，就比較直覺，因為是一維的資料。</p>
+<br>
+
+<p>&emsp;&emsp;這篇論文比較像是一篇文獻回顧，整理一些已經提出的做法，以模擬結果做比較。方法比較簡單，不過從中可以知道，通道的特性對通訊系統設計來說至關重要。</p>
+<h2 id="附錄"><a href="#附錄" class="headerlink" title="附錄"></a>附錄</h2><p>&emsp;&emsp;[1] 這篇1997年的會議論文提出前面描述的通道的頻域表示，但是沒有提供推導過程。我就在這裡推導一下。首先，接收到的訊號(不考慮 AWGN 的話)在一個 OFDM symbol useful part 期間為</p>
+<p>$$<br>y[n] &#x3D; \sum_{i &#x3D; 0}^{r - 1}{h_i\ e^{j\frac{2\pi}{N} f_{D_i}T n}\ x[\left(n - \tau_i\right)_N]},\ \ 0 \leq n \leq N - 1<br>$$</p>
+<p>&emsp;&emsp;(注意在這個系統有使用 CP。)其中</p>
+<p>$$<br>x[\left(n - \tau_i\right)_N] &#x3D; \frac{1}{N} \sum_{l &#x3D; 0}^{N - 1}{X[l] e^{j\frac{2\pi}{N} (n - \tau_i) l}}<br>$$</p>
+<p>&emsp;&emsp;所以接收到訊號 $y[n]$ 的頻域表示，$Y[k]$，可以寫為</p>
+<p>$$<br>\begin{align}<br>Y[k] &amp;&#x3D; \sum_{n &#x3D; 0}^{N - 1}{\sum_{i &#x3D; 0}^{r - 1}{h_i\ e^{j\frac{2\pi}{N} f_{D_i}T n}\ x[\left(n - \tau_i\right)_N]\ e^{-j\frac{2\pi}{N}k n}}}\\[10pt]<br>&amp;&#x3D; \sum_{n &#x3D; 0}^{N - 1}{\sum_{i &#x3D; 0}^{r - 1}{\sum_{l &#x3D; 0}^{N - 1}{\frac{h_i}{N}\ e^{j\frac{2\pi}{N} f_{D_i}T n}\ X[l] e^{j\frac{2\pi}{N} (n - \tau_i) l}\ e^{-j\frac{2\pi}{N}k n}}}}\\[10pt]<br>&amp;&#x3D; \sum_{i &#x3D; 0}^{r - 1}{\sum_{l &#x3D; 0}^{N - 1}{\frac{h_i}{N} X[l] e^{-j\frac{2\pi}{N} \tau_i l} \sum_{n &#x3D; 0}^{N - 1}{e^{j\frac{2\pi}{N} (f_{D_i}T + l - k) n}}}}\\[10pt]<br>&amp;&#x3D; \sum_{i &#x3D; 0}^{r - 1}{\sum_{l &#x3D; 0}^{N - 1}{\frac{h_i}{N} X[l] e^{-j\frac{2\pi}{N} \tau_i l} \frac{1 - e^{j2\pi(f_{D_i}T + l - k)}}{1 - e^{j\frac{2\pi}{N}(f_{D_i}T + l - k)}}}}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;ICI 的項，$I(k)$，大概是如此形式。至於 $H(k)$ 的形式，應該是因為 $f_{D_i}T$ 的值很小 ($f_{D_i}$ 和 Tx-Rx 相對移動的速率有關，而 $T$ 通常很小)，所以有以下的近似：</p>
+<p>$$<br>\begin{align}<br>\frac{1 - e^{j2\pi f_{D_i}T}}{1 - e^{j\frac{2\pi}{N}f_{D_i}T}} &amp;\approx \frac{1 - e^{j2\pi f_{D_i}T}}{1 - (1 + j\frac{2\pi}{N}f_{D_i}T)}\\[10pt]<br>&amp;&#x3D; \frac{1 - e^{j2\pi f_{D_i}T}}{-j\frac{2\pi}{N}f_{D_i}T}\\[10pt]<br>&amp;&#x3D; e^{j\pi f_{D_i}T} \frac{\sin(\pi f_{D_i}T)}{\pi f_{D_i}T &#x2F; N}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;這樣就和論文的式子一致了。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[1] Yuping Zhao and Aiping Huang, “A novel channel estimation method for OFDM mobile communication systems based on pilot signals and transform-domain processing,” <em>1997 IEEE 47th Vehicular Technology Conference. Technology in Motion</em>, Phoenix, AZ, USA, 1997, pp. 2089-2093 vol.3.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Raymond Su
+  </li>
+  <li class="post-copyright-link">
+      <strong>文章連結：</strong>
+      <a href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-channel-est-ofdm/" title="論文閱讀：Channel Estimation with Pilot Arrangement">https://yc518suray.github.io/通訊技術/paper-channel-est-ofdm/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版權聲明： </strong>本網誌所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 許可協議。轉載請註明出處！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%84%A1%E7%B7%9A%E9%80%9A%E8%A8%8A/" rel="tag"><i class="fa fa-tag"></i> 無線通訊</a>
+              <a href="/tags/%E7%84%A1%E7%B7%9A%E9%80%9A%E9%81%93/" rel="tag"><i class="fa fa-tag"></i> 無線通道</a>
+              <a href="/tags/OFDM/" rel="tag"><i class="fa fa-tag"></i> OFDM</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-diversity-alamouti/" rel="prev" title="論文閱讀：Alamouti code">
+                  <i class="fa fa-angle-left"></i> 論文閱讀：Alamouti code
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-time-variant-channel/" rel="next" title="論文閱讀：Randomly Linear Time-Variant Channel">
+                  論文閱讀：Randomly Linear Time-Variant Channel <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Raymond Su</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"oscarsu-disqus","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
