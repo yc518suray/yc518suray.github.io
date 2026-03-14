@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yc518suray.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="&emsp;&emsp;OTFS 是一種新興的通訊技術，也是 NTN 應用的候選波型。這篇會議論文發表於 2017 年，到現在也有一段時間，因為這和我的研究主題密切相關，有必要閱讀。相較於之前讀的論文，這篇算是比較近期的，所以會比較概念性的轉述論文內容。   臺南運河，圖文不符。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="論文閱讀：OTFS Modulation">
+<meta property="og:url" content="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-OTFS-modulation/index.html">
+<meta property="og:site_name" content="R.S. Random Space">
+<meta property="og:description" content="&emsp;&emsp;OTFS 是一種新興的通訊技術，也是 NTN 應用的候選波型。這篇會議論文發表於 2017 年，到現在也有一段時間，因為這和我的研究主題密切相關，有必要閱讀。相較於之前讀的論文，這篇算是比較近期的，所以會比較概念性的轉述論文內容。   臺南運河，圖文不符。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1DVTG2OLNaG7Gug7krCykt6xr-uDhTPyl&sz=s1024">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1WJHvb37rxh-jPLNj0onV_70b2YOBwpUi&sz=s1024">
+<meta property="article:published_time" content="2026-03-07T09:18:57.000Z">
+<meta property="article:modified_time" content="2026-03-14T07:49:43.733Z">
+<meta property="article:author" content="Raymond Su">
+<meta property="article:tag" content="Modeling">
+<meta property="article:tag" content="無線通訊">
+<meta property="article:tag" content="無線通道">
+<meta property="article:tag" content="OTFS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://drive.google.com/thumbnail?id=1DVTG2OLNaG7Gug7krCykt6xr-uDhTPyl&sz=s1024">
+
+
+<link rel="canonical" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-OTFS-modulation/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-OTFS-modulation/","path":"通訊技術/paper-OTFS-modulation/","title":"論文閱讀：OTFS Modulation"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>論文閱讀：OTFS Modulation | R.S. Random Space</title>
+  
+
+
+
+
+
+
+
+<script src="/live2d-widget/dist/autoload.js"></script>
+<script src="/js/hexo_resize_image.js"></script>
+<link rel="stylesheet" href="/css/SpoilerBlur.css">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">R.S. Random Space</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Raymond Su的個人網站</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa-solid fa-house fa-fw"></i>首頁</a></li><li class="menu-item menu-item-archives"><a href="/archives" rel="section"><i class="fa-solid fa-folder-open fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-categories"><a href="/categories" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-tags"><a href="/tags" rel="section"><i class="fa-solid fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-音樂"><a href="/music" rel="section"><i class="fa fa-music fa-fw"></i>音樂</a></li><li class="menu-item menu-item-連結"><a href="/links" rel="section"><i class="fa fa-link fa-fw"></i>連結</a></li><li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa-solid fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AB%96%E6%96%87%E8%B3%87%E8%A8%8A"><span class="nav-number">1.</span> <span class="nav-text">論文資訊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AB%96%E6%96%87%E5%85%A7%E5%AE%B9"><span class="nav-number">2.</span> <span class="nav-text">論文內容</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E9%81%93%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">通道模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OTFS-%E5%8E%9F%E7%90%86"><span class="nav-number">2.2.</span> <span class="nav-text">OTFS 原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Tx-%E7%9A%84%E8%A8%8A%E8%99%9F"><span class="nav-number">2.2.1.</span> <span class="nav-text">Tx 的訊號</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rx-%E7%9A%84%E8%A8%8A%E8%99%9F"><span class="nav-number">2.2.2.</span> <span class="nav-text">Rx 的訊號</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AA%BF%E8%AE%8A%E6%96%B9%E6%B3%95"><span class="nav-number">2.2.3.</span> <span class="nav-text">調變方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E6%93%AC%E7%B5%90%E6%9E%9C"><span class="nav-number">2.3.</span> <span class="nav-text">模擬結果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B5%90%E8%AB%96"><span class="nav-number">2.4.</span> <span class="nav-text">結論</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%80%E5%BE%8C%E6%83%B3%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">讀後想法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Raymond Su"
+      src="/uploads/images/blog_avatar.png">
+  <p class="site-author-name" itemprop="name">Raymond Su</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives">
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yc518suray" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yc518suray" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:raymondsu0110@gmail.com" title="E-mail → mailto:raymondsu0110@gmail.com" rel="noopener me" target="_blank"><i class="fa-solid fa-envelope fa-fw"></i>E-mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://hackmd.io/@Q5thU81LTku-dZ3h7gNMFQ" title="HackMD → https:&#x2F;&#x2F;hackmd.io&#x2F;@Q5thU81LTku-dZ3h7gNMFQ" rel="noopener me" target="_blank"><i class="fa-solid fa-book-open fa-fw"></i>HackMD</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-OTFS-modulation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/images/blog_avatar.png">
+      <meta itemprop="name" content="Raymond Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R.S. Random Space">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="論文閱讀：OTFS Modulation | R.S. Random Space">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          論文閱讀：OTFS Modulation
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2026-03-07 17:18:57" itemprop="dateCreated datePublished" datetime="2026-03-07T17:18:57+08:00">2026-03-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-03-14 15:49:43" itemprop="dateModified" datetime="2026-03-14T15:49:43+08:00">2026-03-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/" itemprop="url" rel="index"><span itemprop="name">通訊技術</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-OTFS-modulation/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="通訊技術/paper-OTFS-modulation/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;OTFS 是一種新興的通訊技術，也是 NTN 應用的候選波型。這篇會議論文發表於 2017 年，到現在也有一段時間，因為這和我的研究主題密切相關，有必要閱讀。相較於之前讀的論文，這篇算是比較近期的，所以會比較概念性的轉述論文內容。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1DVTG2OLNaG7Gug7krCykt6xr-uDhTPyl&sz=s1024" width="350">
+<center><font color="cyan">臺南運河，圖文不符。</font></center>
+<span id="more"></span>
+<br>
+
+<p>&emsp;&emsp;(按：功力不夠，還是只能筆記式的紀錄。不過我也有附上論文資訊，這篇文章大部分內容都是來自該論文。)</p>
+<h2 id="論文資訊"><a href="#論文資訊" class="headerlink" title="論文資訊"></a>論文資訊</h2><p>R. Hadani et al., “Orthogonal Time Frequency Space Modulation,” <em>2017 IEEE Wireless Communications and Networking Conference (WCNC)</em>, San Francisco, CA, USA, 2017, pp. 1-6.</p>
+<h2 id="論文內容"><a href="#論文內容" class="headerlink" title="論文內容"></a>論文內容</h2><p>&emsp;&emsp;5G 的車載通訊和高速(如高鐵)通訊，其通道變化快速，4G 常用的 OFDM 調變優勢不再。OTFS 將符號調變在一個 2D 的正交基底上，每一個符號經歷的通道增益近似於常數，有效對抗快速變化的通道特性。OTFS 還可以透過 massive-MIMO，線性增長系統的容量 (capacity)。</p>
+<br>
+
+<p>&emsp;&emsp;過去的研究大多是在時頻域 (time-frequency domain) 進行調變。也有一些研究聚焦在波型的設計，如 pulse-shaped OFDM，但仍然是在時域的設計。這些都和 OTFS 在 delay-Doppler domain (DD) 的設計不一樣。</p>
+<h3 id="通道模型"><a href="#通道模型" class="headerlink" title="通道模型"></a>通道模型</h3><p>&emsp;&emsp;DD domain 的通道可以 $h(\tau, \nu)$ 表示，</p>
+<p>$$<br>r(t) &#x3D; \iint{s(t - \tau) h(\tau, \nu) e^{j2\pi\nu(t - \tau)}\ d\nu\ d\tau}<br>$$</p>
+<p>&emsp;&emsp;詳細討論可以參考<a href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-time-variant-channel/">這篇文章</a>，上面的 $h(\tau, \nu)$ 就是那篇文章裡的 $V(\nu, \tau)$。這個 $h(\tau, \nu)$ 是稀疏 (sparse) 的，因此用來描述通道的參數數量相對較少。$s(t)$ 到 $r(t)$ 的轉換是一種 Heisenberg transform，不過這個太數學了，暫且不講。</p>
+<h3 id="OTFS-原理"><a href="#OTFS-原理" class="headerlink" title="OTFS 原理"></a>OTFS 原理</h3><p>&emsp;&emsp;OTFS 調變的流程如下 (Tx)：</p>
+<ul>
+<li>$\text{DD symbols}\ \ x[n, m]\ \longrightarrow\ \text{TF symbols}\ \ X[n, m]$ (OTFS transform)</li>
+<li>$\text{TF symbols}\ \ X[n, m]\ \longrightarrow\ \text{time-domain}\ \ s(t)$ (Heisenberg transform)</li>
+</ul>
+<p>&emsp;&emsp;Rx 解調變的流程就倒過來 (Heisenberg transform 的 inverse 為 Wigner transform)。OFDM 可以看作是在第二步驟將訊息調變到 TF symbols，而 OTFS 則是在第一步驟就調變其訊息。<br><br></p>
+<h4 id="Tx-的訊號"><a href="#Tx-的訊號" class="headerlink" title="Tx 的訊號"></a>Tx 的訊號</h4><p>&emsp;&emsp;首先定義：</p>
+<ol>
+<li><p>$\Lambda$ 為 TF domain 的格點(時間間隔 $T$，頻率間隔 $\Delta f$)，</p>
+</li>
+<li><p>一個 packet burst 時間長度為 $NT$，頻寬為 $M\Delta f$。</p>
+</li>
+<li><p>X[n, m] 為一個 packet burst 乘載的符號，共 $N\times M$ 個。</p>
+</li>
+<li><p>傳送波型 $g_{\text{tx}}(t)$ 及對應的接收波型 $g_{\text{rx}}(t)$ 為 bi-orthogonal，即</p>
+</li>
+</ol>
+<p>$$<br>\int{g^{*}_{\text{tx}}(t) g_{\text{rx}}(t - nT) e^{j2\pi m\Delta f(t - nT)}\ dt} &#x3D; \delta(n) \delta(m)<br>$$</p>
+<br>
+
+<p>&emsp;&emsp;$g_{\text{tx}}(t)$ 的一個例子是寬度為 $T$ 的方波，並且 $T$ 為 $1&#x2F;\Delta f$ 的整數倍。有了上述這些定義，就可以寫出 Heisenberg transform 的數學形式：</p>
+<p>$$<br>s(t) &#x3D; \sum_{m}{\sum_{n}{X[n, m] g_{\text{tx}}(t - nT) e^{j2\pi m\Delta f(t - nT)}}}\tag{1}<br>$$</p>
+<p>&emsp;&emsp;如果我們把 $n$ 去掉，式 (1) 就簡化為 OFDM。仔細觀察式 (1)，會發現式 (1) 可以改寫為</p>
+<p>$$<br>s(t) &#x3D; \iint{h_2(\tau, \nu) g_{\text{tx}}(t - \tau) e^{j2\pi\nu(t - \tau)}\ d\nu d\tau}<br>$$</p>
+<p>&emsp;&emsp;這個形式稱為 operator，$s(t) &#x3D; \Pi_{h_2}(g_{\text{tx}}(t))$，其中</p>
+<p>$$<br>h_2(\tau, \nu) &#x3D; \sum_{m}{\sum_{n}{X[n, m] \delta(\tau - nT) \delta(\nu - m\Delta f)}}<br>$$</p>
+<p>&emsp;&emsp;經過通道 $h(\tau, \nu)$，接收到的訊號可以表示為 $r(t) &#x3D; \Pi_{f}(g_{\text{tx}}(t))$，$f &#x3D; h(\tau, \nu) \ast_{\sigma} h_2(\tau, \nu)$ (twisted convolution)，和一般的 convolution 有些相似，不過沒有交換律，</p>
+<p>$$<br>h(\tau, \nu) \ast_{\sigma} h_2(\tau, \nu) &#x3D; \iint{h(\tau’, \nu’) h_2(\tau - \tau’, \nu - \nu’) e^{j2\pi\nu’(\tau - \tau’)}\ d\tau’d\nu’}<br>$$</p>
+<p>&emsp;&emsp;(請自行推導一遍 $f(\tau, \nu)$)。這裡我們不考慮雜訊 (AWGN)，因為重點是在訊號模型的呈現。<br><br></p>
+<h4 id="Rx-的訊號"><a href="#Rx-的訊號" class="headerlink" title="Rx 的訊號"></a>Rx 的訊號</h4><p>&emsp;&emsp;接收端收到 $r(t)$ 後，通過匹配濾波器後再取樣，得到 $Y[n, m]$。這裡的匹配濾波器輸出稱為 cross-ambiguity function，</p>
+<p>$$<br>\begin{align}<br>A_{g_{\text{rx}}, r}(\tau, \nu)\ &amp;\overset{\Delta}{&#x3D;}\ \int{g_r^{*}(t - \tau) r(t) e^{-j2\pi\nu(t - \tau)}\ dt}\\[10pt]<br>&amp;&#x3D; f(\tau, \nu) \ast_{\sigma} A_{g_{\text{rx}}, g_{\text{tx}}}(\tau, \nu)<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;理想通道 $h(\tau, \nu) &#x3D; \delta(\tau) \delta(\nu)$ 的情況下，$Y[n, m] &#x3D; X[n, m]$ (不考慮雜訊)。非理想通道、滿足 $h(\tau, \nu)$ 有 bounded finite support、$A_{g_{\text{rx}}, g_{\text{tx}}}$ 在 $(nT, m\Delta f)$ 附近為零的話 (aka 兩波型為正交)，則</p>
+<p>$$<br>Y[n, m] &#x3D; H[n, m] X[n, m]<br>$$</p>
+<p>&emsp;&emsp;這個結果和 OFDM 非常相似，只不過 $H[n, m]$ 由 $h(\tau, \nu)$ 在 DD domain 的積分組成，仍需要複雜的等化器設計。因此接下來介紹 OTFS 調變的關鍵方法，可以將通道轉變為更簡單的形式。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1WJHvb37rxh-jPLNj0onV_70b2YOBwpUi&sz=s1024" width="550">
+<center><font color="cyan">OTFS 調變流程。</font></center>
+
+<h4 id="調變方法"><a href="#調變方法" class="headerlink" title="調變方法"></a>調變方法</h4><p>&emsp;&emsp;我們要先介紹 Symplectic Finite Fourier Transform (<strong>SFFT</strong>)，它可以視為是 2D 的 DFT，</p>
+<p>$$<br>\begin{align}<br>&amp;x_p[k, r] &#x3D; \sum_{n &#x3D; 0}^{N - 1}{\sum_{m &#x3D; -M&#x2F;2}^{M&#x2F;2 - 1}{X_p[n, m] e^{-j2\pi(\frac{nk}{N} - \frac{mr}{M})}}}\\[10pt]<br>&amp;X_p[n, m] &#x3D; \frac{1}{MN} \sum_{r &#x3D; 0}^{M - 1}{\sum_{k &#x3D; 0}^{N - 1}{x_p[k, r] e^{j2\pi(\frac{nk}{N} - \frac{mr}{M})}}}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;下標 $p$ 表示 periodic，概念和 DFT 一樣，如果我們只關注 $[0, N - 1] \times [0, M - 1]$ 的範圍，那麼 SFFT 和 ISFFT 可以完整表示 $X[n, m]$。2D convolution 對應到轉換後的點乘，這點也和 DFT 一樣。</p>
+<br>
+
+<p>&emsp;&emsp;將訊息符號(如 QAM)作 ISFFT 後，乘上一個 window，成為 TF domain 的符號。</p>
+<p>$$<br>X[n, m] &#x3D; W_{\text{tx}}[n, m]\ \text{ISFFT}\lbrace x[k, r]\rbrace<br>$$</p>
+<p>&emsp;&emsp;這個操作稱作 OTFS transform。TF domain 的符號透過 Heisenberg transform 變成時域訊號，經過通道來到 Rx 解調，再透過 Wigner transform 變回 TF domain 符號；最後一步就是 SFFT，</p>
+<p>$$<br>y[k, r] &#x3D; \text{SFFT}\lbrace W_{\text{rx}}[n, m] Y[n, m]\rbrace<br>$$</p>
+<p>&emsp;&emsp;那麼我們最關心的通道呢？根據作者的推導，最後得到的 $y[k, r]$ 會是傳輸的訊息符號 $x[k, r]$ 和 windowed response $h_w$ 的卷積，</p>
+<p>$$<br>\begin{align}<br>y[k, r] &amp;&#x3D; \frac{1}{MN} \sum_{m &#x3D; 0}^{M - 1}{\sum_{n &#x3D; 0}^{N - 1}{x[n, m] h_w(\frac{k - n}{NT}, \frac{r - m}{M\Delta f})}}\\[10pt]<br>&amp;\approx x[k, r] h_w(0, 0)<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;假如沒有 ISI 的話。在這個情況下，整個 $N\times M$ 的格點都可以使用，因為通道被簡化為一個常數，這就是論文一再強調的，「extract the full channel diversity」，使用到所有頻率和時間區間。如果 $(n, m)$ 對應 time-frequency 格點的 index，那麼 $(r, k)$ 就是對應 delay-Doppler 格點的 index，故 OTFS 的訊息是調變在 DD domain 的符號。</p>
+<h3 id="模擬結果"><a href="#模擬結果" class="headerlink" title="模擬結果"></a>模擬結果</h3><p>&emsp;&emsp;未完成。</p>
+<h3 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h3><p>&emsp;&emsp;在多種星座圖大小和 Doppler 頻率的情況下，OTFS 的 block error rate 都較 OFDM 來得低，特別是高 Doppler 的環境下，OTFS 更勝一籌。</p>
+<h2 id="讀後想法"><a href="#讀後想法" class="headerlink" title="讀後想法"></a>讀後想法</h2><p>&emsp;&emsp;這篇會議論文只有六頁，卻能把概念說明清楚，沒有冗餘贅字，寫作風格和 Alamouti code 那篇相似，節奏明快、只講重點。這種風格應該適用於會議報告、演講，之前聽的幾場專題演講的風格也是這樣，比較能吸引受眾的注意力。</p>
+<br>
+
+<p>&emsp;&emsp;至於論文的主題，OTFS，沒有意外的話就是我的研究主題了。學習 OTFS、瀏覽相關文獻的過程也會認識到以往針對 OFDM 設計的演算法，算是一兼兩顧，摸蛤仔兼洗褲。不過，還是希望之後有時間可以看一些不同領域的論文。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>&emsp;&emsp;無。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Raymond Su
+  </li>
+  <li class="post-copyright-link">
+      <strong>文章連結：</strong>
+      <a href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-OTFS-modulation/" title="論文閱讀：OTFS Modulation">https://yc518suray.github.io/通訊技術/paper-OTFS-modulation/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版權聲明： </strong>本網誌所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 許可協議。轉載請註明出處！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Modeling/" rel="tag"><i class="fa fa-tag"></i> Modeling</a>
+              <a href="/tags/%E7%84%A1%E7%B7%9A%E9%80%9A%E8%A8%8A/" rel="tag"><i class="fa fa-tag"></i> 無線通訊</a>
+              <a href="/tags/%E7%84%A1%E7%B7%9A%E9%80%9A%E9%81%93/" rel="tag"><i class="fa fa-tag"></i> 無線通道</a>
+              <a href="/tags/OTFS/" rel="tag"><i class="fa fa-tag"></i> OTFS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-time-variant-channel/" rel="prev" title="論文閱讀：Randomly Linear Time-Variant Channel">
+                  <i class="fa fa-angle-left"></i> 論文閱讀：Randomly Linear Time-Variant Channel
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Raymond Su</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"oscarsu-disqus","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

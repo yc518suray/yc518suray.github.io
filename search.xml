@@ -3661,4 +3661,91 @@ $$
         <tag>無線通道</tag>
       </tags>
   </entry>
+  <entry>
+    <title>論文閱讀：OTFS Modulation</title>
+    <url>/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-OTFS-modulation/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;OTFS 是一種新興的通訊技術，也是 NTN 應用的候選波型。這篇會議論文發表於 2017 年，到現在也有一段時間，因為這和我的研究主題密切相關，有必要閱讀。相較於之前讀的論文，這篇算是比較近期的，所以會比較概念性的轉述論文內容。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1DVTG2OLNaG7Gug7krCykt6xr-uDhTPyl&sz=s1024" width="350">
+<center><font color="cyan">臺南運河，圖文不符。</font></center>
+<span id="more"></span>
+<br>
+
+<p>&emsp;&emsp;(按：功力不夠，還是只能筆記式的紀錄。不過我也有附上論文資訊，這篇文章大部分內容都是來自該論文。)</p>
+<h2 id="論文資訊"><a href="#論文資訊" class="headerlink" title="論文資訊"></a>論文資訊</h2><p>R. Hadani et al., “Orthogonal Time Frequency Space Modulation,” <em>2017 IEEE Wireless Communications and Networking Conference (WCNC)</em>, San Francisco, CA, USA, 2017, pp. 1-6.</p>
+<h2 id="論文內容"><a href="#論文內容" class="headerlink" title="論文內容"></a>論文內容</h2><p>&emsp;&emsp;5G 的車載通訊和高速(如高鐵)通訊，其通道變化快速，4G 常用的 OFDM 調變優勢不再。OTFS 將符號調變在一個 2D 的正交基底上，每一個符號經歷的通道增益近似於常數，有效對抗快速變化的通道特性。OTFS 還可以透過 massive-MIMO，線性增長系統的容量 (capacity)。</p>
+<br>
+
+<p>&emsp;&emsp;過去的研究大多是在時頻域 (time-frequency domain) 進行調變。也有一些研究聚焦在波型的設計，如 pulse-shaped OFDM，但仍然是在時域的設計。這些都和 OTFS 在 delay-Doppler domain (DD) 的設計不一樣。</p>
+<h3 id="通道模型"><a href="#通道模型" class="headerlink" title="通道模型"></a>通道模型</h3><p>&emsp;&emsp;DD domain 的通道可以 $h(\tau, \nu)$ 表示，</p>
+<p>$$<br>r(t) &#x3D; \iint{s(t - \tau) h(\tau, \nu) e^{j2\pi\nu(t - \tau)}\ d\nu\ d\tau}<br>$$</p>
+<p>&emsp;&emsp;詳細討論可以參考<a href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-time-variant-channel/">這篇文章</a>，上面的 $h(\tau, \nu)$ 就是那篇文章裡的 $V(\nu, \tau)$。這個 $h(\tau, \nu)$ 是稀疏 (sparse) 的，因此用來描述通道的參數數量相對較少。$s(t)$ 到 $r(t)$ 的轉換是一種 Heisenberg transform，不過這個太數學了，暫且不講。</p>
+<h3 id="OTFS-原理"><a href="#OTFS-原理" class="headerlink" title="OTFS 原理"></a>OTFS 原理</h3><p>&emsp;&emsp;OTFS 調變的流程如下 (Tx)：</p>
+<ul>
+<li>$\text{DD symbols}\ \ x[n, m]\ \longrightarrow\ \text{TF symbols}\ \ X[n, m]$ (OTFS transform)</li>
+<li>$\text{TF symbols}\ \ X[n, m]\ \longrightarrow\ \text{time-domain}\ \ s(t)$ (Heisenberg transform)</li>
+</ul>
+<p>&emsp;&emsp;Rx 解調變的流程就倒過來 (Heisenberg transform 的 inverse 為 Wigner transform)。OFDM 可以看作是在第二步驟將訊息調變到 TF symbols，而 OTFS 則是在第一步驟就調變其訊息。<br><br></p>
+<h4 id="Tx-的訊號"><a href="#Tx-的訊號" class="headerlink" title="Tx 的訊號"></a>Tx 的訊號</h4><p>&emsp;&emsp;首先定義：</p>
+<ol>
+<li><p>$\Lambda$ 為 TF domain 的格點(時間間隔 $T$，頻率間隔 $\Delta f$)，</p>
+</li>
+<li><p>一個 packet burst 時間長度為 $NT$，頻寬為 $M\Delta f$。</p>
+</li>
+<li><p>X[n, m] 為一個 packet burst 乘載的符號，共 $N\times M$ 個。</p>
+</li>
+<li><p>傳送波型 $g_{\text{tx}}(t)$ 及對應的接收波型 $g_{\text{rx}}(t)$ 為 bi-orthogonal，即</p>
+</li>
+</ol>
+<p>$$<br>\int{g^{*}_{\text{tx}}(t) g_{\text{rx}}(t - nT) e^{j2\pi m\Delta f(t - nT)}\ dt} &#x3D; \delta(n) \delta(m)<br>$$</p>
+<br>
+
+<p>&emsp;&emsp;$g_{\text{tx}}(t)$ 的一個例子是寬度為 $T$ 的方波，並且 $T$ 為 $1&#x2F;\Delta f$ 的整數倍。有了上述這些定義，就可以寫出 Heisenberg transform 的數學形式：</p>
+<p>$$<br>s(t) &#x3D; \sum_{m}{\sum_{n}{X[n, m] g_{\text{tx}}(t - nT) e^{j2\pi m\Delta f(t - nT)}}}\tag{1}<br>$$</p>
+<p>&emsp;&emsp;如果我們把 $n$ 去掉，式 (1) 就簡化為 OFDM。仔細觀察式 (1)，會發現式 (1) 可以改寫為</p>
+<p>$$<br>s(t) &#x3D; \iint{h_2(\tau, \nu) g_{\text{tx}}(t - \tau) e^{j2\pi\nu(t - \tau)}\ d\nu d\tau}<br>$$</p>
+<p>&emsp;&emsp;這個形式稱為 operator，$s(t) &#x3D; \Pi_{h_2}(g_{\text{tx}}(t))$，其中</p>
+<p>$$<br>h_2(\tau, \nu) &#x3D; \sum_{m}{\sum_{n}{X[n, m] \delta(\tau - nT) \delta(\nu - m\Delta f)}}<br>$$</p>
+<p>&emsp;&emsp;經過通道 $h(\tau, \nu)$，接收到的訊號可以表示為 $r(t) &#x3D; \Pi_{f}(g_{\text{tx}}(t))$，$f &#x3D; h(\tau, \nu) \ast_{\sigma} h_2(\tau, \nu)$ (twisted convolution)，和一般的 convolution 有些相似，不過沒有交換律，</p>
+<p>$$<br>h(\tau, \nu) \ast_{\sigma} h_2(\tau, \nu) &#x3D; \iint{h(\tau’, \nu’) h_2(\tau - \tau’, \nu - \nu’) e^{j2\pi\nu’(\tau - \tau’)}\ d\tau’d\nu’}<br>$$</p>
+<p>&emsp;&emsp;(請自行推導一遍 $f(\tau, \nu)$)。這裡我們不考慮雜訊 (AWGN)，因為重點是在訊號模型的呈現。<br><br></p>
+<h4 id="Rx-的訊號"><a href="#Rx-的訊號" class="headerlink" title="Rx 的訊號"></a>Rx 的訊號</h4><p>&emsp;&emsp;接收端收到 $r(t)$ 後，通過匹配濾波器後再取樣，得到 $Y[n, m]$。這裡的匹配濾波器輸出稱為 cross-ambiguity function，</p>
+<p>$$<br>\begin{align}<br>A_{g_{\text{rx}}, r}(\tau, \nu)\ &amp;\overset{\Delta}{&#x3D;}\ \int{g_r^{*}(t - \tau) r(t) e^{-j2\pi\nu(t - \tau)}\ dt}\\[10pt]<br>&amp;&#x3D; f(\tau, \nu) \ast_{\sigma} A_{g_{\text{rx}}, g_{\text{tx}}}(\tau, \nu)<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;理想通道 $h(\tau, \nu) &#x3D; \delta(\tau) \delta(\nu)$ 的情況下，$Y[n, m] &#x3D; X[n, m]$ (不考慮雜訊)。非理想通道、滿足 $h(\tau, \nu)$ 有 bounded finite support、$A_{g_{\text{rx}}, g_{\text{tx}}}$ 在 $(nT, m\Delta f)$ 附近為零的話 (aka 兩波型為正交)，則</p>
+<p>$$<br>Y[n, m] &#x3D; H[n, m] X[n, m]<br>$$</p>
+<p>&emsp;&emsp;這個結果和 OFDM 非常相似，只不過 $H[n, m]$ 由 $h(\tau, \nu)$ 在 DD domain 的積分組成，仍需要複雜的等化器設計。因此接下來介紹 OTFS 調變的關鍵方法，可以將通道轉變為更簡單的形式。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1WJHvb37rxh-jPLNj0onV_70b2YOBwpUi&sz=s1024" width="550">
+<center><font color="cyan">OTFS 調變流程。</font></center>
+
+<h4 id="調變方法"><a href="#調變方法" class="headerlink" title="調變方法"></a>調變方法</h4><p>&emsp;&emsp;我們要先介紹 Symplectic Finite Fourier Transform (<strong>SFFT</strong>)，它可以視為是 2D 的 DFT，</p>
+<p>$$<br>\begin{align}<br>&amp;x_p[k, r] &#x3D; \sum_{n &#x3D; 0}^{N - 1}{\sum_{m &#x3D; -M&#x2F;2}^{M&#x2F;2 - 1}{X_p[n, m] e^{-j2\pi(\frac{nk}{N} - \frac{mr}{M})}}}\\[10pt]<br>&amp;X_p[n, m] &#x3D; \frac{1}{MN} \sum_{r &#x3D; 0}^{M - 1}{\sum_{k &#x3D; 0}^{N - 1}{x_p[k, r] e^{j2\pi(\frac{nk}{N} - \frac{mr}{M})}}}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;下標 $p$ 表示 periodic，概念和 DFT 一樣，如果我們只關注 $[0, N - 1] \times [0, M - 1]$ 的範圍，那麼 SFFT 和 ISFFT 可以完整表示 $X[n, m]$。2D convolution 對應到轉換後的點乘，這點也和 DFT 一樣。</p>
+<br>
+
+<p>&emsp;&emsp;將訊息符號(如 QAM)作 ISFFT 後，乘上一個 window，成為 TF domain 的符號。</p>
+<p>$$<br>X[n, m] &#x3D; W_{\text{tx}}[n, m]\ \text{ISFFT}\lbrace x[k, r]\rbrace<br>$$</p>
+<p>&emsp;&emsp;這個操作稱作 OTFS transform。TF domain 的符號透過 Heisenberg transform 變成時域訊號，經過通道來到 Rx 解調，再透過 Wigner transform 變回 TF domain 符號；最後一步就是 SFFT，</p>
+<p>$$<br>y[k, r] &#x3D; \text{SFFT}\lbrace W_{\text{rx}}[n, m] Y[n, m]\rbrace<br>$$</p>
+<p>&emsp;&emsp;那麼我們最關心的通道呢？根據作者的推導，最後得到的 $y[k, r]$ 會是傳輸的訊息符號 $x[k, r]$ 和 windowed response $h_w$ 的卷積，</p>
+<p>$$<br>\begin{align}<br>y[k, r] &amp;&#x3D; \frac{1}{MN} \sum_{m &#x3D; 0}^{M - 1}{\sum_{n &#x3D; 0}^{N - 1}{x[n, m] h_w(\frac{k - n}{NT}, \frac{r - m}{M\Delta f})}}\\[10pt]<br>&amp;\approx x[k, r] h_w(0, 0)<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;假如沒有 ISI 的話。在這個情況下，整個 $N\times M$ 的格點都可以使用，因為通道被簡化為一個常數，這就是論文一再強調的，「extract the full channel diversity」，使用到所有頻率和時間區間。如果 $(n, m)$ 對應 time-frequency 格點的 index，那麼 $(r, k)$ 就是對應 delay-Doppler 格點的 index，故 OTFS 的訊息是調變在 DD domain 的符號。</p>
+<h3 id="模擬結果"><a href="#模擬結果" class="headerlink" title="模擬結果"></a>模擬結果</h3><p>&emsp;&emsp;未完成。</p>
+<h3 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h3><p>&emsp;&emsp;在多種星座圖大小和 Doppler 頻率的情況下，OTFS 的 block error rate 都較 OFDM 來得低，特別是高 Doppler 的環境下，OTFS 更勝一籌。</p>
+<h2 id="讀後想法"><a href="#讀後想法" class="headerlink" title="讀後想法"></a>讀後想法</h2><p>&emsp;&emsp;這篇會議論文只有六頁，卻能把概念說明清楚，沒有冗餘贅字，寫作風格和 Alamouti code 那篇相似，節奏明快、只講重點。這種風格應該適用於會議報告、演講，之前聽的幾場專題演講的風格也是這樣，比較能吸引受眾的注意力。</p>
+<br>
+
+<p>&emsp;&emsp;至於論文的主題，OTFS，沒有意外的話就是我的研究主題了。學習 OTFS、瀏覽相關文獻的過程也會認識到以往針對 OFDM 設計的演算法，算是一兼兩顧，摸蛤仔兼洗褲。不過，還是希望之後有時間可以看一些不同領域的論文。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>&emsp;&emsp;無。</p>
+]]></content>
+      <categories>
+        <category>通訊技術</category>
+      </categories>
+      <tags>
+        <tag>Modeling</tag>
+        <tag>無線通訊</tag>
+        <tag>無線通道</tag>
+        <tag>OTFS</tag>
+      </tags>
+  </entry>
 </search>
