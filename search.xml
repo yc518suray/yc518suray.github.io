@@ -3748,4 +3748,76 @@ $$
         <tag>OTFS</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Delay-Doppler 的 time-invariant 特性</title>
+    <url>/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/delay-doppler-question-1/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;在 <em>Delay-Doppler Communications: Principles and Applications</em> 裡有這麼一句話：<br><br></p>
+<blockquote>
+<p>… by aptly designing the frame duration, the delay-Doppler representation of a typical wireless channel can be made to be roughly time-invariant for the duration of the signal frame.</p>
+</blockquote>
+<br>
+
+<p>&emsp;&emsp;這句話讓我感覺有些矛盾：delay-Doppler 就是用來描述時變通道，怎麼還可以說是 time-invariant？不解決這個問題，就無法繼續往前進，至少沒辦法說服自己。</p>
+<span id="more"></span>
+
+<br>
+
+<p>&emsp;&emsp;本文首先描述問題，接著嘗試回答。有關時變通道的 modeling 及數學描述，可以參考<a href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-time-variant-channel/">這篇文章</a>，內容豐富但是並沒有回答到本文提出的問題。</p>
+<h2 id="問題"><a href="#問題" class="headerlink" title="問題"></a>問題</h2><p>&emsp;&emsp;<strong>書中描述的「在短時間內，通道的 DD domain 表示可以視為 time-invariant」，應該怎麼解讀？</strong> 書中舉了高速公路車載通訊的例子，由於基地台和車輛的收發機有相對移動，通道響應必須加上 Doppler shift 的描述；經其他車輛反射、散射形成的多路徑 (multi-path) 也一樣，必須考量 Doppler。以圖A的情況為例，接收機看見的通道為三條路徑，分別有著不同的 delay $\tau$ 和 Doppler $\nu$。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1ONT3wTYrC7AW2WpXUrVDPrZYivMqQzpI&sz=s1024" width="450">
+<center><font color="cyan">圖A，高速公路上的簡單例子。</font></center>
+<br>
+
+<p>&emsp;&emsp;時間為 $t_1$ 的當下，delay-Doppler 的分布如圖A左半部；然而，時間為 $t_2$ 的當下，由於我們(接收機)逐漸駛離車輛2，車輛2形成的路徑其 Doppler shift 變為負值。通道在不同時間點的 DD domain response 不同，此即 time variance。所以 <strong>time-invariance 的說法似乎有些矛盾</strong>，事實上任一時間點的 delay-Doppler response $U(\tau, \nu)$ 都會不一樣，從高速公路的簡單例子就可以理解。</p>
+<h2 id="討論"><a href="#討論" class="headerlink" title="討論"></a>討論</h2><p>&emsp;&emsp;為了回答這個問題，我們要先釐清 delay-Doppler response $U(\tau, \nu)$ 和 delay-time response $h(t, \tau)$ 之間的關係。常見的關係式為</p>
+<p>$$<br>U(\tau, \nu) &#x3D; \int{h(t, \tau) e^{-j2\pi\nu t}\ dt}<br>$$</p>
+<p>&emsp;&emsp;注意上面的式子並沒有標示積分範圍。暫且假設積分範圍是整個時間線 (aka $-\infty$ 到 $\infty$)，來看圖B的例子。給定 delay $\tau_0$，$h(t, \tau_0)$ 的振幅(實數)如圖B所示，是一個弦波，意即，delay 為 $\tau_0$ 的這個路徑其振幅以 $1&#x2F;T_0$ 的頻率波動，隨時間 $t$ 變化。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1k4Qg8WYC-xHwUlsw0BT2h3uH0wLyygrb&sz=s1024" width="400">
+<center><font color="cyan">圖B，$h(t, \tau_0)$ 的波動。</font></center>
+<br>
+
+<p>&emsp;&emsp;接著看圖C的例子，給定 delay $\tau_0$，$h(t, \tau_0)$ 的振幅為一有限長度的波動，只在 $0 \leq t \leq 3T_0$ 期間有值。對變數 $t$ 作 Fourier transform 得到</p>
+<p>$$<br>\begin{align}<br>U(\tau_0, \nu) &amp;&#x3D; F\lbrace h(t, \tau_0)\rbrace\\[10pt]<br>&amp;&#x3D; \int_{0}^{3T_0}{\cos{(2\pi t&#x2F;T_0)} e^{-j2\pi\nu t}\ dt}\\[10pt]<br>&amp;&#x3D; -\frac{3T_0}{2} e^{-j3\pi T_0\nu} \left( {\text sinc}{3T_0(\nu - \frac{1}{T_0})} + {\text sinc}{3T_0(\nu + \frac{1}{T_0})}\right)<br>\end{align}<br>$$</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1hwY8yC_qO-w-ocGHrkHSh6mVUqGhMN4-&sz=s1024" width="300">
+<center><font color="cyan">圖C，$h(t, \tau_0)$ 為有限長度。</font></center>
+<br>
+
+<p>&emsp;&emsp;我們一樣可以計算 $U(\tau, \nu)$，並且以 $U(\tau, \nu)$ 來描述通道在任何時間的特性。但是這些是特例：一般而言，通道響應不會是有限長度的，甚至(不使用 generalized functions 的概念)不存在 Fourier transform。在整個時間線上的通道響應，一般而言是隨機過程。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1TNfaRCFqtN5Lwv-D9U7HelcNAg-fpQy0&sz=s1024" width="400">
+<center><font color="cyan">圖D，整個時間線 ($-\infty < t < \infty$) 上的通道響應。</font></center>
+<br>
+
+<p>&emsp;&emsp;更關鍵的是：即使 $h(t, \tau)$ 確實是有限長度、有限能量的(其 Fourier transform 存在)，以整個時間線為積分範圍，會失去時變的資訊。這裡我們要區分兩個「時變」：</p>
+<ol>
+<li><p><strong>$h(t, \tau)$ 是時變的</strong>：就像圖B、圖C甚至圖D描繪的一樣，並非 static channel gain。</p>
+</li>
+<li><p><strong>環境是時變的</strong>：如圖A所示，任一時間點的 delay-Doppler 分布都不一樣，如果我們對一段長時間的通道響應 $h(t, \tau)$ 作 Fourier transform，得到的是對這段時間內的通道響應作「綜合描述」，好像整段時間的通道響應可以由轉換得到的 $U(\tau, \nu)$ 表示，<strong>其實不行</strong>──舉例來說，前半段時間快速變化、後半段時間幾乎不變，對整段時間的通道響應作 Fourier transform，只會得到一個「平均」的 delay-Doppler 描述。</p>
+</li>
+</ol>
+<p>&emsp;&emsp;所以以整個時間線作為積分範圍是有問題的；實際上也做不到。因此，將整個時間線切為許多時間區間，對每個區間內的 $h(t, \tau)$ 作 Fourier transform 是比較合適的，也就是 Short Time Fourier Transform (<strong>STFT</strong>)。關於 STFT，之後會再寫一篇文章來討論(怎麼變成老高的語氣)。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1pzYVXuo1QlwidEZIIiUSRhXZxBASgsGq&sz=s1024" width="400">
+<center><font color="cyan">圖E，STFT 的概念。</font></center>
+<br>
+
+<p>&emsp;&emsp;不過，STFT 有個缺點：<strong>時間解析度和頻率解析度成反比</strong>，時間區間拉得愈長，時間解析度愈低、愈無法呈現瞬時資訊，不過因為點數增加了，DFT 的頻率解析度也會增加；反之亦然。</p>
+<br>
+
+<p>&emsp;&emsp;STFT 的限制之外，選取的時間長度也要講究；如前所述，時間長度愈長，轉換得到的 $U(\tau, \nu)$ 愈無法呈現瞬時的通道特徵。如果時間區間選擇恰當，$U(\tau, \nu)$ 可以充分代表該區間內的通道，表示環境在這段區間內變化不大，可以視為 time-invariant。這就回答了本文的問題。</p>
+<h2 id="結論"><a href="#結論" class="headerlink" title="結論"></a>結論</h2><p>&emsp;&emsp;本文提出兩個「時變」的概念：第一個指通道增益隨時間變化，第二個指環境(如高速公路上的車流)隨時間變化。第二個時變的概念可以解釋，為什麼我們要選擇合適的訊框區間，如此計算得到的 $U(\tau, \nu)$ 才是有意義的。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[1] Yi Hong, Tharaj Thaj, and Emanuele Viterbo, <em>Delay-Doppler Communications: Principles and Applications</em>, Academic Press, Elsevier.</p>
+]]></content>
+      <categories>
+        <category>通訊技術</category>
+      </categories>
+      <tags>
+        <tag>Modeling</tag>
+        <tag>無線通訊</tag>
+        <tag>無線通道</tag>
+      </tags>
+  </entry>
 </search>
