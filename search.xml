@@ -1817,7 +1817,7 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 <p>&emsp;&emsp;好吧，講了這麼多都是失敗的藉口。那麼就來介紹一下<strong>index set</strong>和<strong>SDS</strong>的關係。所謂index set指的是，集合元素為序列中「-1」的位置，所以任一個序列都可以唯一對應到一個index set。如果序列對應到index set $X$，那麼correlation可以對應到什麼呢？答案是插值表(difference table)，數學表示為</p>
 <p>$$<br>\delta_X(u) &#x3D; \lvert (u + X) \cap X\rvert<br>$$</p>
 <p>&emsp;&emsp;其中「$+$」為模 $L$ 加法。$\delta_X(u)$ 表示序列向右循環位移 $u$ 後，「-1」對應到「-1」的個數。假設 $\lvert X\rvert &#x3D; r$，即序列共有 $r$ 個「-1」，我們可以整理出以下表格：</p>
-<table style="width:350px; margin-left:210px;">
+<table style="width:350px; margin: 0 auto;">
   <tr>
     <th style="width:45%;">case</th>
     <th>value</th> 
@@ -2255,7 +2255,7 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 <h3 id="訊號處理"><a href="#訊號處理" class="headerlink" title="訊號處理"></a>訊號處理</h3><p>&emsp;&emsp;以下就來介紹OFDM的訊號處理方法。前面提到過，第一步是將bits map到<span class="hint--info hint--rounded hint--top" data-hint="constellation diagram" ontouchstart>星座圖</span>上，比如說QPSK就是兩個bits對應到星座圖上的一個點，64QAM就是六個bits對應到一個點。下表整理出OFDM在不同通訊技術中使用到的星座圖(參考自[3]，[4]，[5]，[6])。</p>
 <br>
 
-<table style="width:600px; margin-left:110px;">
+<table style="width:600px; margin: 0 auto;">
   <tr>
     <th style="width:20%;">技術</th>
     <th>星座圖</th> 
@@ -2420,7 +2420,7 @@ Gamma族，Delta族和Epsilon族" ontouchstart>固定的階級</span>裡，藉�
 
 <p>&emsp;&emsp;這個頁面介紹 <strong>Comm Jam</strong> 的整體構想，隨時會更新。要是能真的完成這個構想就好了 (2026&#x2F;1&#x2F;18)。</p>
 <h2 id="遊戲架構"><a href="#遊戲架構" class="headerlink" title="遊戲架構"></a>遊戲架構</h2><p>&emsp;&emsp;如下表，目前的構想很簡單，之後可能還會增加特殊關卡、限時競賽或是小組賽的遊戲機制。</p>
-<table style="width:600px; margin-left:80px;">
+<table style="width:600px; margin: 0 auto;">
   <tr>
     <th style="width:65%;">版面概念圖</th>
     <th>說明</th> 
@@ -3157,7 +3157,7 @@ $$
 
 <p>&emsp;&emsp;從表A提供的參數，可以推算 coherence time $T_c \approx 1 &#x2F; f_m &#x3D; 1 &#x2F; 70 &#x3D; 14.3 \text{ms}$，而 OFDM symbol duration $T_{sym} &#x3D; 1024 &#x2F; 44100 \approx 23.2 \text{ms}$，可以視為 <font color="Tomato">fast fading</font> 的環境；time dispersion 的部分，由於 CP 的長度大於最大延遲 ($\tau_{max} &#x3D; 137$ samples)，ISI 的影響不大。</p>
 <br>
-<table style="width:300px; margin-left:230px;">
+<table style="width:300px; margin: 0 auto;">
   <tr>
     <th style="width:50%;">參數</th>
     <th>參數值</th> 
@@ -3239,7 +3239,7 @@ $$
 </ul>
 <h2 id="OFDM-通道五四三"><a href="#OFDM-通道五四三" class="headerlink" title="OFDM 通道五四三"></a>OFDM 通道五四三</h2><p>&emsp;&emsp;在前一篇「<a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-1/" title="OFDM筆記-1: OFDM簡介">OFDM筆記-1: OFDM簡介</a>」已經提到過 OFDM 的訊號模型與接收機架構。OFDM 是一個多載波調變的系統，在不同的子載波上承載資料，可以有效對抗多路徑通道 frequency-selective 的特性。不過相對的，OFDM 系統對於 Doppler spread 的挑戰就嚴峻得多，因為單一子載波的頻寬減少、時域的符號區間增加，受到時變通道的影響會更大。表A呈現 WiMAX 系統的通道參數，在高速移動的條件下，OFDM 需要良好的通道估測方法，才能及時更新通道資訊(或是增加系統頻寬、縮短符號區間。)</p>
 <br>
-<table style="width:500px; margin-left:130px;">
+<table style="width:500px; margin: 0 auto;">
   <tr>
     <th style="width:18%;">載波頻率</th>
     <th style="width:20%;">速率</th>
@@ -3304,7 +3304,7 @@ $$
 <p>$$<br>K &#x3D; \frac{A^2}{2\sigma^2}<br>$$</p>
 <p>&emsp;&emsp;當 $A &#x3D; 0$，channel gain 便退化為 Rayleigh fading。SUI model 模擬 MIMO 的系統，考慮到不同天線訊號之間的相關性(或 co-channel interference)。因此，在建立 SUI model 時，使用到三個矩陣：<font color="yellow">input mixing matrix、TDL matrix 以及 output mixing matrix</font>。表B摘錄 SUI-1 channel model 的部分參數。</p>
 <br>
-<table style="width:550px; margin-left:100px;">
+<table style="width:550px; margin: 0 auto;">
   <tr>
     <th colspan="2" style="width:32%;">參數</th>
     <th colspan="2" style="width:16%;">Tap 1</th>
@@ -3398,7 +3398,7 @@ $$
 <p>&emsp;&emsp;其中「90% K-factor」指的是細胞中 90% 的面積接收到的 K-factor 大於等於該基準值。SUI models <font color="Tomato">適用頻率範圍為數百 MHz</font> (參考 Erceg model 的適用頻率)，<font color="Tomato">適用範圍為 7 km</font>，對於天線波束寬度 (omni-direction 或是 $30^\circ$) 也有限制，且<font color="Tomato">僅適用於垂直偏振的電磁波</font>。</p>
 <h3 id="ITU-Path-Loss-Models"><a href="#ITU-Path-Loss-Models" class="headerlink" title="ITU Path Loss Models"></a>ITU Path Loss Models</h3><p>&emsp;&emsp;國際電信聯盟的 ITU-R recommendation M.1225 中記載此通道模型，作為 3G 系統的設計參考。該模型區分出三種測試環境：<font color="Tomato">室內-辦公室</font>、<font color="Tomato">室外到室內-行人</font>以及<font color="Tomato">車載-高天線</font>，又區分出低延遲 (A) 和中等延遲 (B) 兩種延遲條件；Doppler spread 的部分則是 classic spectrum (i.e. Jake’s model)。表C摘錄車載環境的通道參數。</p>
 <br>
-<table style="width:500px; margin-left:130px;">
+<table style="width:500px; margin: 0 auto;">
   <tr>
     <th style="width:10%;">Tap</th>
     <th colspan="2" style="width:45%;">通道 (A)</th>
@@ -3461,7 +3461,7 @@ $$
 
 <p>&emsp;&emsp;首先介紹三個多路徑通道模型：Extended Pedestrian A model (<font color="Tomato">EPA</font>)、Extended Vehicular A model (<font color="Tomato">EVA</font>) 以及 Extended Typical Urban model (<font color="Tomato">ETU</font>)，以 PDP 的形式呈現。表D為 EVA 模型的參數，總共有 9 個 tap；仔細觀察，可以發現它是衍生自前述的 ITU path loss model (表C)。</p>
 <br>
-<table style="width:600px; margin-left:80px;">
+<table style="width:600px; margin: 0 auto;">
   <tr>
     <th style="width:30%;">Excess tap delay (ns)</th>
     <th style="width:20%;">Relative power (dB)</th>
