@@ -3779,7 +3779,7 @@ $$
 <br>
 
 <p>&emsp;&emsp;接著看圖C的例子，給定 delay $\tau_0$，$h(t, \tau_0)$ 的振幅為一有限長度的波動，只在 $0 \leq t \leq 3T_0$ 期間有值。對變數 $t$ 作 Fourier transform 得到</p>
-<p>$$<br>\begin{align}<br>U(\tau_0, \nu) &amp;&#x3D; F\lbrace h(t, \tau_0)\rbrace\\[10pt]<br>&amp;&#x3D; \int_{0}^{3T_0}{\cos{(2\pi t&#x2F;T_0)} e^{-j2\pi\nu t}\ dt}\\[10pt]<br>&amp;&#x3D; -\frac{3T_0}{2} e^{-j3\pi T_0\nu} \left( {\text sinc}{3T_0(\nu - \frac{1}{T_0})} + {\text sinc}{3T_0(\nu + \frac{1}{T_0})}\right)<br>\end{align}<br>$$</p>
+<p>$$<br>\begin{align}<br>U(\tau_0, \nu) &amp;&#x3D; F\lbrace h(t, \tau_0)\rbrace\\[10pt]<br>&amp;&#x3D; \int_{0}^{3T_0}{\cos{(2\pi t&#x2F;T_0)} e^{-j2\pi\nu t}\ dt}\\[10pt]<br>&amp;&#x3D; -\frac{3T_0}{2} e^{-j3\pi T_0\nu} \left( \text{sinc}{3T_0(\nu - \frac{1}{T_0})} + \text{sinc}{3T_0(\nu + \frac{1}{T_0})}\right)<br>\end{align}<br>$$</p>
 <br>
 <img src="https://drive.google.com/thumbnail?id=1hwY8yC_qO-w-ocGHrkHSh6mVUqGhMN4-&sz=s1024" width="300">
 <center><font color="cyan">圖C，$h(t, \tau_0)$ 為有限長度。</font></center>
@@ -3818,6 +3818,136 @@ $$
         <tag>Modeling</tag>
         <tag>無線通訊</tag>
         <tag>無線通道</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IF Sampling 原理</title>
+    <url>/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/IF-sampling-principle/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><style>
+    .highlight {
+        overflow-y: auto !important;
+        max-height: 400px !important;
+    }
+</style>
+
+<p>&emsp;&emsp;在<a href="">介紹 RTL-SDR 的文章</a>中，提到 RTL-SDR 是將 RF 訊號 down-convert 到中頻 (IF，intermediate frequency)，再對中頻的訊號取樣。我有一個疑惑：對中頻訊號的取樣和對基頻訊號的取樣不一樣，並不限於一般的 Nyquist sampling theorem，那應該滿足什麼條件？這篇文章就來講解對中頻訊號取樣的原理。</p>
+<span id="more"></span>
+
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>&emsp;&emsp;在 Ziemer 和 Tranter 的教科書 <em>Principles of Communications</em> 中提到，對帶通訊號取樣，要避免 aliasing 須滿足以下條件(作者稱為 uniform sampling theorem for bandpass spectra)：</p>
+<br>
+
+<blockquote>
+<p>如果訊號的 RF 頻寬為 $W$ 且頻率上限為 $f_u$，則取樣率可以為 $2f_u &#x2F; m$，其中 $m &#x3D; \lfloor f_u &#x2F; W\rfloor$。更高的取樣率也不保證 aliasing-free，除非高於 $2f_u$。</p>
+</blockquote>
+<br>
+
+<p>&emsp;&emsp;這稱為 undersampling 或是 sub-sampling。假設經過取樣後，並無 aliasing 的情況，且帶通訊號成分在 $f_c - W&#x2F;2 &#x3D; f_u - W$ 到 $f_c + W&#x2F;2 &#x3D; f_u$ 之間。還記得取樣後的頻譜，等於原本頻譜以 $f_s$ 為週期的複製貼上 (shifted replica)，所以只要知道 $0$ ~ $f_s &#x2F; 2$ 之間的頻譜情形，就可以得知是否產生 aliasing。</p>
+<br>
+
+<p>&emsp;&emsp;現在，假設最靠近 DC 的 replica 位於 $f &gt; 0$ 的區間 $\left[-m f_s + f_u - W, -m f_s + f_u\right]$，即是向左位移 $mf_s$ 的 replica。為了必免在 DC 發生 aliasing，</p>
+<p>$$<br>\begin{align}<br>-m f_s + f_u - W &amp;\geq 0\\[10pt]<br>f_s &amp;\leq \frac{f_u - W}{m}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;也為了避免在 $f &#x3D; f_s&#x2F;2$ 附近造成 aliasing，</p>
+<p>$$<br>\begin{align}<br>-m f_s + f_u &amp;\leq f_s &#x2F; 2\\[10pt]<br>f_s &amp;\geq \frac{2f_u}{2m + 1}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;且 $W \leq f_s &#x2F; 2$。滿足這兩個不等式的 $f_s$ 就是合格的取樣率。注意到如果滿足不等式的 $f_s$ 存在，則</p>
+<p>$$<br>\frac{f_u - W}{m} \geq \frac{2f_u}{2m + 1}<br>$$</p>
+<p>&emsp;&emsp;整理得到</p>
+<p>$$<br>\begin{align}<br>W \leq \frac{f_u}{2m + 1} &amp;\Longrightarrow 2m + 1 \leq \frac{f_u}{W}\\[10pt]<br>&amp;\Longrightarrow 2m + 1 \leq \lfloor \frac{f_u}{W}\rfloor<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;令 $n &#x3D; \lfloor \frac{f_u}{W}\rfloor$，可以得到取樣率的<strong>最低</strong>合格範圍：</p>
+<p>$$<br>\begin{align}<br>\frac{2f_u}{n} \leq f_s \leq \frac{2(f_u - W)}{n - 1}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;實際上，上式不一定要取最大的 $2m + 1$，因此可以取 $\left[1, n\right]$ 之間的任意奇數，得到的區間都是合格的取樣率範圍。</p>
+<br>
+
+<p>&emsp;&emsp;上面討論的是沒有發生 <span class="hint--info hint--rounded hint--top" data-hint="DC 附近的正頻率和負頻率的成分互換" ontouchstart>spectrum inversion</span> 的情況，不過 spectrum inversion 的思路也是類似的。IF sampling 得到的訊號，其頻率成分實際上已經轉換到相對低頻，因此可以用 DDC 再將訊號轉換到基頻，結束 down-conversion 的旅程。回顧 RTL-SDR 的例子，取樣率為 2.56 M sa&#x2F;s，最大 RF 頻寬為 $W$ &#x3D; 1.28 MHz，但是以最高頻率 $f_u &#x3D; f_c + W &#x2F; 2 &#x3D; 3.57 + 0.64 &#x3D; 4.21$ MHz 來說，這個取樣率太低，因此要嘛調整取樣率，要嘛限制訊號頻寬。</p>
+<h2 id="模擬"><a href="#模擬" class="headerlink" title="模擬"></a>模擬</h2><p>&emsp;&emsp;我們以 MATLAB 模擬來驗證上述的說法。假設目標訊號為 1000 Hz 的弦波乘上寬度為 10 ms 的方波，對應到頻域就是主瓣寬度為 200 Hz 的 sinc 函數。在這個例子中，$f_u$ &#x3D; 1100 Hz，$W$ &#x3D; 200 Hz，$n &#x3D; \lfloor f_u &#x2F; W\rfloor$ &#x3D; 5，對應到的取樣率範圍為 440 ~ 450 Hz。我們取 442.5 Hz 作為取樣率。(不要問我為什麼取這個數字，問就是產出來的圖比較好看。)</p>
+<br>
+
+<p>&emsp;&emsp;模擬的程式碼如下，模擬結果如圖A所示。圖A上半部為取樣前的頻譜，下半部為取樣後頻譜，可以看到取樣後的頻譜基本上是沒有 aliasing 的(忽略 sinc 的旁瓣)。程式中對取樣訊號作 <code>upsample</code> 是為了呈現取樣後頻譜以 $f_s$ 為週期重複的特性。</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">% This program simulates sub-sampling.</span></span><br><span class="line"><span class="comment">%</span></span><br><span class="line"><span class="comment">% Author: Raymond Su, raymondsu0110@gmail.com</span></span><br><span class="line"></span><br><span class="line">clear</span><br><span class="line"></span><br><span class="line"><span class="comment">% ===== settings ===== %</span></span><br><span class="line">dt = <span class="number">1e-6</span>; <span class="comment">% time resolution of this simulation, freq span = 500 kHz</span></span><br><span class="line">fs = <span class="number">442.5</span>; <span class="comment">% sampling frequency, in Hz</span></span><br><span class="line">f0 = <span class="number">1000</span>; <span class="comment">% intermediate frequency, in Hz</span></span><br><span class="line">T = <span class="number">10000</span>; <span class="comment">% width of square pulse, in us</span></span><br><span class="line">Ns = <span class="built_in">round</span>(<span class="number">1</span> / fs / dt); <span class="comment">% sampling period normalized with &quot;simulation&quot; sampling period</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% ===== sig generation ===== %</span></span><br><span class="line">pulse_duration = <span class="number">0</span>: dt: dt * T - dt; <span class="comment">% duration of the square pulse</span></span><br><span class="line"></span><br><span class="line">pulse = <span class="built_in">cos</span>(<span class="number">2</span> * <span class="built_in">pi</span> * f0 * pulse_duration);</span><br><span class="line">x = [<span class="built_in">zeros</span>(<span class="number">1</span>, <span class="number">2</span> * <span class="built_in">length</span>(pulse)), pulse, <span class="built_in">zeros</span>(<span class="number">1</span>, <span class="number">2</span> * <span class="built_in">length</span>(pulse))];</span><br><span class="line">Nsample1 = <span class="built_in">length</span>(x);</span><br><span class="line"></span><br><span class="line">y = x(<span class="number">1</span>: Ns: <span class="keyword">end</span>);</span><br><span class="line">y = upsample(y, Ns);</span><br><span class="line">Nsample2 = <span class="built_in">length</span>(y);</span><br><span class="line"></span><br><span class="line"><span class="comment">% ===== presentation ===== %</span></span><br><span class="line">X = fftshift(fft(x)) * dt; <span class="comment">% dt = 1 / simulation_sampling_frequency</span></span><br><span class="line">f1 = <span class="number">-0.5</span> / dt: <span class="number">1</span> / dt / Nsample1: <span class="number">0.5</span> / dt - <span class="number">1</span> / Nsample1;</span><br><span class="line">Y = fftshift(fft(y)) * Ns * dt;</span><br><span class="line">f2 = <span class="number">-0.5</span> / dt: <span class="number">1</span> / dt / Nsample2: <span class="number">0.5</span> / dt - <span class="number">1</span> / Nsample2;</span><br><span class="line"></span><br><span class="line"><span class="built_in">figure</span>();</span><br><span class="line">subplot(<span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line"><span class="built_in">plot</span>(f1, <span class="built_in">abs</span>(X), <span class="string">&quot;b-&quot;</span>, <span class="string">&quot;LineWidth&quot;</span>, <span class="number">2</span>);</span><br><span class="line">xlim([<span class="number">-2000</span> <span class="number">2000</span>]); ylim([<span class="number">0</span> <span class="number">0.007</span>]);</span><br><span class="line">xlabel(<span class="string">&quot;frequency (Hz)&quot;</span>); ylabel(<span class="string">&quot;spectrum (abs)&quot;</span>);</span><br><span class="line">title(<span class="string">&quot;original signal spectrum&quot;</span>);</span><br><span class="line"></span><br><span class="line">subplot(<span class="number">2</span>, <span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line"><span class="built_in">plot</span>(f2, <span class="built_in">abs</span>(Y), <span class="string">&quot;r-&quot;</span>, <span class="string">&quot;LineWidth&quot;</span>, <span class="number">2</span>);</span><br><span class="line">xlim([<span class="number">-2000</span> <span class="number">2000</span>]); ylim([<span class="number">0</span> <span class="number">0.007</span>]);</span><br><span class="line">xlabel(<span class="string">&quot;frequency (Hz)&quot;</span>); ylabel(<span class="string">&quot;spectrum (abs)&quot;</span>);</span><br><span class="line">title(<span class="string">&quot;sub-sampled spectrum, f_s = 440 Hz&quot;</span>);</span><br><span class="line"></span><br><span class="line">clear</span><br></pre></td></tr></table></figure>
+
+<img src="https://drive.google.com/thumbnail?id=1OYPuCB-EDJqpCJxl3gftXTi-Ontw6E1R&sz=s1024" width="450">
+<center><font color="cyan">圖A，sub-sampling 的模擬結果。</font></center>
+
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;一般教科書提及取樣定理，都是指對基頻訊號的取樣，對帶通訊號取樣的理論則是草草帶過。本文對帶通訊號的取樣原理提出解釋，並且以 MATLAB 模擬證實該理論。實際應用上，由於 ADC 時脈的增加，在一些硬體上高達幾十 G sa&#x2F;s，因此也有不少系統是採用 RF 直接取樣，一個 ADC 就有 mixer + sampler 的功能，這時候本文的解說就可以派上用場。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[1] Wikipedia, “Undersampling”. Available: <a href="https://en.wikipedia.org/wiki/Undersampling">https://en.wikipedia.org/wiki/Undersampling</a></p>
+<p>[2] electronics.stackexchange.com (forum), “ADC Input Frequency Bandwidth and Sampling Frequency”. Available: <a href="https://electronics.stackexchange.com/questions/601248/adc-input-frequency-bandwidth-and-sampling-frequency">https://electronics.stackexchange.com/questions/601248/adc-input-frequency-bandwidth-and-sampling-frequency</a></p>
+]]></content>
+      <categories>
+        <category>通訊技術</category>
+      </categories>
+      <tags>
+        <tag>無線通訊</tag>
+        <tag>DSP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Tayloe Mixer 介紹</title>
+    <url>/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/tayloe-mixer-intro/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;記得大二的電子實驗，我經常是最後一個離開實驗室的人，因為各種問題弄半天、最後還是助教勉為其難的降低實驗成果的標準(不然是要助教在實驗室過夜嗎)，我才通過這門必修課。從此，我和離散元件的電路結下不解之緣。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1MFJAju6wdp21lz7S77iQ2Og2E3vhAczG&sz=s1024" width="400">
+<center><font color="cyan">大四的時候做的 MLS sequence marquee，雖然能跑但是接線凌亂不堪。</font></center>
+<br>
+
+<span id="more"></span>
+
+<p>&emsp;&emsp;明明手不是很巧、電路的概念不扎實，還是很喜歡欣賞各種電路設計，特別是業餘愛好者的作品。像是 CMoy 音訊放大器電路，小小的一片洞洞板就可以實作出如此精美的電路，而且其中還有許多學問，像是電阻的挑選、電源線路的設計，以及最重要的放大器 IC 的選擇；總覺得讓我讚嘆不已的或許不是電路本身，而是設計者傾注其中的巧思與熱情。</p>
+<br>
+
+<p>&emsp;&emsp;這篇文章要介紹的便是 SDR 離散元件電路中一個極為天才的設計──Tayloe mixer，它可以用於零中頻 (zero IF) 的無線電收發機，正好適合作為 SDR 的 up&#x2F;down converter。關於電路元件的介紹會盡可能省略，因為我不熟，數學的部分則會多一些。</p>
+<h2 id="文章資訊"><a href="#文章資訊" class="headerlink" title="文章資訊"></a>文章資訊</h2><p>Dan Tayloe, “Ultra Low Noise, High Performance, Zero IF Quadrature Product Detector and Preamplifier”. Available: <a href="https://www.norcalqrp.org/files/Tayloe_mixer_x3a.pdf">https://www.norcalqrp.org/files/Tayloe_mixer_x3a.pdf</a></p>
+<h2 id="Tyloe-Mixer-的原理"><a href="#Tyloe-Mixer-的原理" class="headerlink" title="Tyloe Mixer 的原理"></a>Tyloe Mixer 的原理</h2><p>&emsp;&emsp;首先來看看 Tayloe Quadrature Product Detector，電路圖如圖A。電路的運作如下：假設目標頻率為 $f_0$，則多工器切換的頻率為 $4f_0$，每一路輸出只會看到 1&#x2F;4 週期的訊號。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1uIlzYA8UXP9H_VbqdriZYsDYXDTpeVNV&sz=s1024" width="350">
+<center><font color="cyan">圖A，Tayloe 文章的 Figure 1。</font></center>
+<br>
+
+<p>&emsp;&emsp;作者說明這個電路其實不能算是 mixer，應該算是一個切換積分器 (switching integrator)，看看這個 RC 電路應該就明白(也可以想成低通濾波器)。第一個電容的跨壓為相位 $0^{\circ}$ 的取樣值，第二個電容跨壓為相位 $90^{\circ}$ 的取樣值，以此類推。</p>
+<br>
+
+<p>&emsp;&emsp;我們用數學來驗證它確實是一個 down converter。首先 RC 電路的輸出可以表示為(假設電容初始跨壓為 0)</p>
+<p>$$<br>\begin{align}<br>V_c(t) &amp;&#x3D; e^{-\frac{t}{RC}} \int_{0}^{t}{e^{\frac{t’}{RC}} \frac{V_{in}(t’)}{RC}\ dt’}\\[10pt]<br>&amp;\approx \frac{1}{RC} \int_{0}^{t}{V_{in}(t’)\ dt’}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;(假設 $RC \gg 1 &#x2F; f_0$) 確定是一個積分器。接著，假設輸入訊號(由 in-phase 和 quadrature 成分組成)可以表示為 $x(t) &#x3D; x_I(t)\cos{(2\pi f_0 t + \theta)} - x_Q(t)\sin{(2\pi f_0 t + \theta)}$，計算第一顆電容在 1&#x2F;4 週期後的輸出 ($a &#x3D; RC$)：</p>
+<p>$$<br>\begin{align}<br>r_1 &amp;&#x3D; \frac{1}{a} \int_{t_0}^{t_0 + 1 &#x2F; 4f_0}{x(t)\ dt}\\[10pt]<br>&amp;&#x3D; \frac{1}{a} \int_{t_0}^{t_0 + 1 &#x2F; 4f_0}{x_I(t)\cos{(2\pi f_0 t + \theta)} - x_Q(t)\sin{(2\pi f_0 t + \theta)}\ dt}\\[10pt]<br>&amp;\approx \frac{1}{a}\left(x_I(t_0)\int_{t_0}^{t_0 + 1 &#x2F; 4f_0}{\cos{(2\pi f_0 t + \theta)}\ dt} - x_Q(t_0)\int_{t_0}^{t_0 + 1 &#x2F; 4f_0}{\sin{(2\pi f_0 t + \theta)}\ dt}\right)\\[10pt]<br>&amp;&#x3D; \frac{1}{a 2\pi f_0}\left(x_I(t_0)(\cos{\beta} - \sin{\beta}) - x_Q(t_0)(\cos{\beta} + \sin{\beta})\right)<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;其中</p>
+<p>$$<br>\beta &#x3D; 2\pi f_0 t_0 + \theta<br>$$</p>
+<p>&emsp;&emsp;其他電容的輸出則是</p>
+<p>$$<br>\begin{align}<br>r_2 &amp;&#x3D; \frac{1}{a 2\pi f_0}\left(x_I(t_0)(-\sin{\beta} - \cos{\beta}) - x_Q(t_0)(\cos{\beta} - \sin{\beta})\right)\\[10pt]<br>r_3 &amp;&#x3D; \frac{1}{a 2\pi f_0}\left(x_I(t_0)(-\cos{\beta} + \sin{\beta}) - x_Q(t_0)(-\sin{\beta} - \cos{\beta})\right)\\[10pt]<br>r_4 &amp;&#x3D; \frac{1}{a 2\pi f_0}\left(x_I(t_0)(\sin{\beta} + \cos{\beta}) - x_Q(t_0)(-\cos{\beta} + \sin{\beta})\right)<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;各個切換積分器的輸出送到差分放大器，見圖B。經過簡單的加減，</p>
+<p>$$<br>\begin{align}<br>I&amp;:\ \ A(r_1 - r_3) &#x3D; 2A r_1\\[10pt]<br>Q&amp;:\ \ A(r_2 - r_4) &#x3D; 2A r_2<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;得到 6 dB 的增益(和 Gemini 討論，差分放大器也可以消除共模雜訊或 DC漂移)。到這一步我們已經可以得到 in-phase 和 quadrature 的訊號成分，因為(令 $k &#x3D; \sqrt{2}A &#x2F; a\pi f_0$)：</p>
+<p>$$<br>\begin{align}<br>I&amp;:\ \ 2A r_1 &#x3D; k \cdot {\cal Re}\lbrace (x_I(t_0) + jx_Q(t_0)) e^{j(\pi&#x2F;4 + \beta)}\rbrace\\[10pt]<br>Q&amp;:\ \ 2A r_2 &#x3D; k \cdot {\cal Im}\lbrace (x_I(t_0) + jx_Q(t_0)) e^{j(\pi&#x2F;4 + \beta)}\rbrace<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;即為 down-converted、旋轉後的 baseband complex sample，可以由 SDR 軟體處理。作者提到，這個 down converter 的 conversion loss 低於一般 mixer 的作法(甚至還有 6 dB 的增益)，相當吸引人。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1N1r_PdGCvacaysTugC0d5df1l3c0u-55&sz=s1024" width="350">
+<center><font color="cyan">圖B，Tayloe 文章的 Figure 3。</font></center>
+<br>
+
+<p>&emsp;&emsp;作者也提出 up converter 的設計，見圖C。其實就是反過來的設計、甚至更簡單，連 RC 電路都不用了，不過輸出端要一個 BPF。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=17URsHy_DXf4Z1BEciXPLwTRAY25MOnIv&sz=s1024" width="350">
+<center><font color="cyan">圖C，Tayloe 文章裡的 Figure 5。</font></center>
+<br>
+
+<p>&emsp;&emsp;驗證其為 up converter：假設 in-phase 的 sample 為 $x_I$，quadrature 的 sample 為 $x_Q$，則 BPF 的輸出波形為</p>
+<p>$$<br>x_r(t) &#x3D; {\cal Re}\lbrace (x_I - jx_Q) e^{j(2\pi f_0 t - \pi &#x2F; 4)}\rbrace<br>$$</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1-GpPGIefhHeNQ2B_6Lb_a35m-MOHKiF5&sz=s1024" width="350">
+<center><font color="cyan">圖D，經過 BPF 消除諧波的輸出波形。</font></center>
+<br>
+
+<p>&emsp;&emsp;最後補充其他內容。作者提到 RC 電路的電阻和電容值的選擇會影響系統頻寬 (LPF 的 roll-off frequency)，也會影響振盪電路的 Q 值。作者還提到，反轉切換的順序可以得到 LSB&#x2F;USB 的訊號(畢竟兩者的差異在於相位)，這個反轉可以用控制的 bit 的反轉來實現。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1SbOPBxJ0cqUZ2RB26XUMS6703qpBvSnk&sz=s1024" width="450">
+<center><font color="cyan">圖E，Tayloe mixer 應用於 SDR 電路。圖片來源：[1] Fig 14。</font></center>
+
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[1] Gerald Youngblood (AC5OG), “A Software-Defined Radio for the Masses, Part 1”, QEX, Jul&#x2F;Aug, 2002. Available: <a href="https://www.arrl.org/files/file/Technology/tis/info/pdf/020708qex013.pdf">https://www.arrl.org/files/file/Technology/tis/info/pdf/020708qex013.pdf</a></p>
+]]></content>
+      <categories>
+        <category>通訊技術</category>
+      </categories>
+      <tags>
+        <tag>無線通訊</tag>
+        <tag>電路設計</tag>
       </tags>
   </entry>
 </search>
