@@ -3950,4 +3950,72 @@ $$
         <tag>Modeling</tag>
       </tags>
   </entry>
+  <entry>
+    <title>一個條件機率的問題</title>
+    <url>/%E6%95%B8%E5%AD%B8%E5%95%8F%E9%A1%8C/conditional-probability-1/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;幾天前在 <a href="https://www.facebook.com/UniMathTw/">UniMath</a> 粉絲專頁看到這個問題：</p>
+<blockquote>
+<p>瑪莉有兩個小孩，其中一個是男孩，且在星期二出生。請問另外一個孩子是女生的機率是多少？</p>
+</blockquote>
+<p>&emsp;&emsp;看起來就是一個典型的條件機率的問題。不過就像其他機率問題一樣，這個問題的答案也有些反直覺(還是說我太笨了)；我覺得蠻有意思的，故在這篇文章中展開對這個問題的討論。</p>
+<span id="more"></span>
+<br>
+
+<p>&emsp;&emsp;在回答問題前，我們先敘述基本的假設：<strong>生男生女的機率相同，為 1&#x2F;2；出生在一星期中任一天的機率相同，皆為 1&#x2F;7</strong>。換句話說，假設出生性別和出生於星期幾是 uniform 的機率分布。我們不考慮雙胞胎的情形，也就是說，兩個小孩是有出生順序的。並且兩個小孩的出生是獨立事件：第一個孩子的性別和出生日獨立於第二個孩子的性別和出生日。</p>
+<h2 id="第一個問題"><a href="#第一個問題" class="headerlink" title="第一個問題"></a>第一個問題</h2><p>&emsp;&emsp;我們忽略「星期二出生」這個資訊，把問題改寫為：</p>
+<blockquote>
+<p>瑪莉有兩個小孩，其中一個是男孩。請問另外一個孩子是女生的機率是多少？</p>
+</blockquote>
+<p>&emsp;&emsp;條件「其中一個是男孩」包含以下的事件：<strong>兩個皆男孩</strong>，<strong>先男後女</strong>，以及<strong>先女後男</strong>，每個事件的發生機率都是 1&#x2F;4。根據條件機率的計算方法，得到另外一個孩子是女生的機率為 <font color="yellow">2&#x2F;3</font>。這符合直覺，因為一男一女有兩種排列，但是兩個都男孩的只有一種排列；生一男一女的機率本來就比較高(數學而言)。</p>
+<br>
+
+<p>&emsp;&emsp;順便提一下我原本不經思考的答案是 1&#x2F;2，大概是以為兩個孩子的出生性別是互相獨立，所以是 1&#x2F;2。但是仔細想想，「其中一個是男孩」的資訊並沒有告訴我們男孩是先生還是後生，所以關注的事件不是某個孩子的出生性別，而是「出生性別的組合」──「兩男」或是「一男一女」。</p>
+<h2 id="第二個問題"><a href="#第二個問題" class="headerlink" title="第二個問題"></a>第二個問題</h2><p>&emsp;&emsp;接著，我們回答原本的問題：</p>
+<blockquote>
+<p>瑪莉有兩個小孩，其中一個是男孩，且在星期二出生。請問另外一個孩子是女生的機率是多少？</p>
+</blockquote>
+<p>&emsp;&emsp;這個問題比較 tricky 一點，因為加上了「星期二出生」的資訊。第一個直覺可能是：「星期二出生」這個資訊，怎麼會對出生性別的機率有影響？如果問題改成：</p>
+<blockquote>
+<p>兩個小孩當中，第一個是男孩，且在星期二出生。請問另外一個孩子是女生的機率是多少？</p>
+</blockquote>
+<p>&emsp;&emsp;答案就是 1&#x2F;2，出生在星期幾是不影響的。偏偏原問題不能這樣想；在原問題裡，我們不知道男孩是先生還是後生，所以和第一個問題一樣，關注的不是某個孩子的出生性別，而是「出生性別與出生時間的組合」。「一男一女」的組合，機率是 1&#x2F;4 * 1&#x2F;7 * 2 &#x3D; 1 &#x2F; 14；「兩男」的組合，機率是 1&#x2F;4 * (1&#x2F;7 * 2 - 1&#x2F;49) &#x3D; 13&#x2F;196。根據條件機率計算方法，另一個孩子是女生的機率為 <font color="yellow">14&#x2F;27</font>。</p>
+<h2 id="討論"><a href="#討論" class="headerlink" title="討論"></a>討論</h2><p>&emsp;&emsp;為什麼第一個問題和第二個問題的答案<strong>不一樣</strong>？簡單的回答，就是兩個問題對事件的描述不同：第一個問題描述的是「出生性別組合」，第二個問題描述的是「出生性別與出生時間的組合」。</p>
+<br>
+
+<p>&emsp;&emsp;這樣我們就滿意了嗎？當然沒有。直覺的想，那個男孩必然是在一星期當中的某天出生的，「出生在星期二」可以換成星期一、星期三…任一天，答案都是一樣的。那麼，<strong>為什麼只是指定男孩在哪一天出生，另一個孩子也是男生的機率就增加了？</strong></p>
+<br>
+
+<p>&emsp;&emsp;UniMath 畫了一張圖呈現條件的變化造成的機率變化，一目瞭然；從另一個角度，我們以文字敘述來呈現。在第一個問題裡，我們只有性別的資訊，性別組合中的「<span class="hint--info hint--rounded hint--top" data-hint="因差異而可以形成排列的最小單位" ontouchstart>單一個體</span>」的屬性欄位如下：</p>
+<p>$$<br>\begin{align}<br>&amp;\text{小孩 A 號：  }\lbrace \text{性別}\rbrace\\[10pt]<br>&amp;\text{小孩 B 號：  }\lbrace \text{性別}\rbrace<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;A 號、B 號用來表示他們是不同的個體。A 號&#x2F;B 號是男生或女生的機率皆為 1&#x2F;2。現在，「兩個皆男孩」的排列有兩個：「A 男 B 男」和「B 男 A 男」，但是這兩種排列其實是同一種，因為A 號、B 號的資訊會被抹去。(我們只在乎性別組合。)「兩個皆男孩」的排列數為 1 * 2 * <font color="yellow">1&#x2F;2</font> &#x3D; 1。(黃色表示身分資訊的抹除。)</p>
+<br>
+
+<p>&emsp;&emsp;在第二個問題裡，加上出生時間的資訊，單一個體的屬性欄位變為：</p>
+<p>$$<br>\begin{align}<br>&amp;\text{小孩 A 號：  }\lbrace \text{性別, 星期幾}\rbrace\\[10pt]<br>&amp;\text{小孩 B 號：  }\lbrace \text{性別, 星期幾}\rbrace<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;條件「其中一個是星期二出生的男孩」下，「兩個皆男孩」有多少排列數？算一下，總共有 (7 * 2 - 1) * 2 * <font color="yellow">1&#x2F;2</font> &#x3D; 13 個排列。增加了出生時間的資訊後，排列數增加了，同時每個排列的機率也降低了。</p>
+<br>
+
+<p>&emsp;&emsp;「其中一個是星期二出生的男孩」的條件，實際上<strong>增加</strong>了「兩個皆男孩」<strong>相對</strong>於「一男一女」的排列數。定義 $Q_i$ 為第 $i$ 個問題中「兩個皆男孩」排列數與「一男一女」排列數的比值，則</p>
+<p>$$<br>\begin{align}<br>Q_1 &amp;&#x3D; \frac{1 * 2 - 1}{1 * 2} &#x3D; \frac{1}{2}\\[10pt]<br>Q_2 &amp;&#x3D; \frac{7 * 2 - 1}{7 * 2} &#x3D; \frac{13}{14}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;如果再加上出生時間點的條件(增加屬性)，「其中一個是星期二早上六點出生的男孩」，作為第三個問題，那麼</p>
+<p>$$<br>Q_3 &#x3D; \frac{24 * 7 * 2 - 1}{24 * 7 * 2} &#x3D; \frac{335}{336}<br>$$</p>
+<p>&emsp;&emsp;可以發現 $Q_i$ 逐漸趨近於 1。為什麼？隨著獲得的資訊(屬性)愈多，被明確定義的可能性也就愈多；被明確定義的可能性愈多，條件的約束愈微不足道，條件機率趨於無條件限制的機率。試想一個<font color="yellow">無限多可能性</font>的情況：假設嬰兒出生的當下會被隨機賦予 1 ~ N 之間的某個整數作為其「幸運數字」，則條件「<font color="yellow">其中一個是幸運數字為 3 的男孩</font>」下，另一個孩子是女生的機率為</p>
+<p>$$<br>\begin{align}<br>&amp;P\left[\text{一男一女}\right] &#x3D; \frac{\frac{1}{4}\times\frac{2}{N}}{\frac{1}{4}\times\frac{2}{N} + \frac{1}{4}\times\frac{2N - 1}{N^2}}\\[10pt]<br>\lim_{N \rightarrow \infty}&amp;{P\left[\text{一男一女}\right]} &#x3D; \frac{1}{2}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;相同條件下，若生男孩的機率為 1&#x2F;3，生女孩的機率為 2&#x2F;3，則</p>
+<p>$$<br>\begin{align}<br>&amp;P\left[\text{一男一女}\right] &#x3D; \frac{\frac{2}{9}\times\frac{2}{N}}{\frac{2}{9}\times\frac{2}{N} + \frac{1}{9}\times\frac{2N - 1}{N^2}}\\[10pt]<br>\lim_{N \rightarrow \infty}&amp;{P\left[\text{一男一女}\right]} &#x3D; \frac{2}{3}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;結果是一致的：由於描述條件的同時引進了無數的可能性，條件本身不再具有約束力，或者應該說，對於「出生性別」的機率失去約束力。兩個孩子中，其中一個是幸運數字為 3 的男孩，另外一個可以是男孩或是女孩，不論是哪一個，都有無數個可能性；指定「幸運數字」的條件，使得「出生性別」屬性對於排列數的影響化為零。既然男孩或女孩的排列數都一樣，最終的機率就取決於與條件無關的先驗機率。</p>
+<br>
+
+<p>&emsp;&emsp;同樣的邏輯，在有限可能性的情況也適用，新增的資訊(屬性)使得男孩的排列數趨近於女孩的排列數，條件機率也會趨近於先驗機率。</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;從一個簡單的問題，寫就洋洋灑灑一篇文章，真佩服我說幹話的能力。本文探究條件機率在不同條件下的樣貌，並嘗試為違反直覺的條件機率，建立一套直覺。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>&emsp;&emsp;和 Google Gemini 3 討論，不過沒有什麼特別的成果。</p>
+]]></content>
+      <categories>
+        <category>數學問題</category>
+      </categories>
+      <tags>
+        <tag>數學</tag>
+        <tag>機率</tag>
+      </tags>
+  </entry>
 </search>
