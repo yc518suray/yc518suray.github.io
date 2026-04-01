@@ -4018,4 +4018,60 @@ $$
         <tag>機率</tag>
       </tags>
   </entry>
+  <entry>
+    <title>論文閱讀：PageRank 演算法</title>
+    <url>/%E9%9B%BB%E8%85%A6%E7%A7%91%E5%AD%B8/paper-page-rank/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;最近 Google 提出了 TurboQuant 的技術，優化 LLM 的記憶體使用效率，記憶體市場又經歷了一場驚濤駭浪。如今隻手遮天的數位霸權 Google，最初是從搜尋引擎起家的，本文介紹奠基這個數位帝國的重要技術──PageRank 演算法。</p>
+<span id="more"></span>
+<br>
+
+<p>&emsp;&emsp;雖然說是介紹，網路上肯定有更精闢、更清晰易懂的介紹，所以寫這篇文章的主要目的，還是幫助自己釐清想法。</p>
+<h2 id="論文資訊"><a href="#論文資訊" class="headerlink" title="論文資訊"></a>論文資訊</h2><p>Page, L., Brin, S., Motwani, R., and Winograd, T., “The PageRank Citation Ranking: Bring Order to the Web”, Technical Report, Standford InfoLab, Stanford, 1999.</p>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>&emsp;&emsp;近三十年前的網站已經有各種內容、版面配置以及檔案格式，如何分析形態多樣的網站，最佳化網頁搜尋的結果？這篇 paper 提出，應該根據網頁彼此連結的結構，建立一套演算法，那就是 PageRank。</p>
+<br>
+
+<p>&emsp;&emsp;在過去(相對於這篇 paper 撰寫當下)的研究主要探討學術文獻的 citation 網路，但是網頁不管在質(是否經過審查、內容的品質)還是量(網頁的生成比論文要簡單多了)都和學術文獻網路不一樣，網頁之間的關係也比學術論文之間的關係還要複雜許多。現在我們或許很難想像，但是三十年前網際網路初登場不久，許多粗製濫造的網頁充斥在搜尋引擎結果，PageRank 用意就在解決這些問題。</p>
+<br>
+
+<p>&emsp;&emsp;PageRank 計算網頁的排名 (ranking) 來度量網頁的相對重要性 (relative importance)。名詞解釋：</p>
+<ul>
+<li>Forward link：某網頁到其他網頁的連結。</li>
+<li>Backlink：其他網頁到某網頁的連結。</li>
+</ul>
+<h2 id="PageRank"><a href="#PageRank" class="headerlink" title="PageRank"></a>PageRank</h2><p>&emsp;&emsp;如果一個網頁的 backlink 排名的總和很高，該網頁的排名就會很高。以「受人歡迎的程度」為例，如果你的朋友很多，但都是一些討人厭的傢伙，那麼你受人歡迎的程度不會太高；如果你只有一個朋友，但是那個朋友是個人氣王，那麼你大概也會受人歡迎。</p>
+<br>
+
+<p>&emsp;&emsp;假設 $u$ 是一個網頁，$F_u$ 為其 forward link 的集合，$B_u$ 為其 backlink 的集合，並且 $N_u &#x3D; \lvert F_u\rvert$。簡化版本的 PageRank 可以表示為</p>
+<p>$$<br>R(u) &#x3D; c \sum_{v \in B_u}{\frac{R(v)}{N_v}}<br>$$</p>
+<p>&emsp;&emsp;其中 $c$ 是一個 normalization constant。一樣以「受人歡迎的程度」為例，假設「受人歡迎的程度」以「歡笑」作為度量單位(怪獸電力公司 neta)，我的朋友某A有一百個「歡笑」，但是他有二十個朋友，所以對於每個朋友的受歡迎程度，某A只能貢獻五個「歡笑」，大概是這樣的概念。定義方陣 $A$ 為網頁矩陣：</p>
+<p>$$<br>A_{u, v} &#x3D;<br>\begin{cases}<br>\begin{align}<br>\frac{1}{N_u},\ \ &amp;\text{one link from v to u}\\[10pt]<br>0,\ \ &amp;\text{no link from v to u}<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;如果以 $\overrightarrow{R}$ 表示所有網頁的 rank，則</p>
+<p>$$<br>\overrightarrow{R} &#x3D; c A\overrightarrow{R}<br>$$</p>
+<p>&emsp;&emsp;即，$\overrightarrow{R}$ 是 $A$ 的一個特徵向量，$c$ 為對應的特徵值。到目前為止一切正常，但是若存在只有輸入、沒有輸出的封閉迴路，稱之為 <strong>rank sink</strong>，幾個網頁互相吹捧彼此，steady state solution 就不存在($A$ 可以視為一個 transition matrix，參考 Markov chain 的概念)。</p>
+<br>
+
+<p>&emsp;&emsp;為了對付 rank sink，作者引進 <strong>rank source</strong> $\overrightarrow{E}$ 的概念。</p>
+<p>$$<br>R’(u) &#x3D; c \left(\sum_{v \in B_u}{\frac{R’(v)}{N_v}}\right) + c E(u)<br>$$</p>
+<p>&emsp;&emsp;當中 $c$ 為最大化，且 $\lVert R’\rVert_{l_1} &#x3D; 1$ (各元素和為 1)。$\overrightarrow{E}$ 可以看作是對目前狀態 (state vector) 的擾動，避免 ranking 的循環困在封閉迴路中。以矩陣表示：</p>
+<p>$$<br>\overrightarrow{R’} &#x3D; c\left(A + \overrightarrow{E} \cdot {\overrightarrow{1}}^{T}\right)\overrightarrow{R’}<br>$$</p>
+<p>&emsp;&emsp;這就是更新版本的 PageRank 了。<font color="yellow">求 PageRank 就等於是求特徵向量</font>，作者提供一個演算法，也就是 power method[1]：</p>
+<blockquote>
+<p>PageRank 計算演算法，參數 $\overrightarrow{E}$，$\epsilon$</p>
+<p>$\overrightarrow{R}_0 \longleftarrow \overrightarrow{R}_{\text{init}}$<br>While $\delta &gt; \epsilon$<br>$<br>\begin{align}<br>&amp;\quad \overrightarrow{R}_{i + 1} \longleftarrow A \overrightarrow{R}_i\quad&amp;&amp;\text{(計算經過轉移矩陣後的 state vector)}\\[5pt]<br>&amp;\quad d \longleftarrow \lVert \overrightarrow{R}_i\rVert_{l_1} - \lVert \overrightarrow{R}_{i + 1}\rVert_{l_1}\quad&amp;&amp;\text{(這裡似乎是假設 }\lVert\overrightarrow{R}_i\rVert_{l_1}\text{ 大於等於 1)}\\[5pt]<br>&amp;\quad \overrightarrow{R}_{i + 1} \longleftarrow \overrightarrow{R}_{i + 1} + d \overrightarrow{E}\quad&amp;&amp;\text{(加上 rank source 的項，d 會影響收斂速度)}\\[5pt]<br>&amp;\quad \delta \longleftarrow \lVert \overrightarrow{R}_{i + 1} - \overrightarrow{R}_i\rVert_{l_1}\quad&amp;&amp;\text{(計算誤差，用來判斷是否停止迭代)}<br>\end{align}<br>$</p>
+</blockquote>
+<p>&emsp;&emsp;這個演算法的收斂速度為何？實驗顯示，近三億個連結的資料庫，大約要 52 次迭代才會收斂到容許誤差內，迭代次數大約和連結數的對數成正比，即時間複雜度為 $O(\log{N})$。</p>
+<br>
+
+<p>&emsp;&emsp;Paper 後半段敘述實驗的方法與結果，反映了當時 (1996) 的網際網路風貌，如排名最高的網頁是 Netscape 下載頁面，CERN 首頁及 Yahoo! 也名列前十，殊不知 Google 很快就要加入戰局，改變整個網路生態。</p>
+<h2 id="讀後感想"><a href="#讀後感想" class="headerlink" title="讀後感想"></a>讀後感想</h2><p>&emsp;&emsp;嚴格來說這篇 paper 不是論文，而是 technical report。它的風格簡潔、架構簡單，短短十七頁的內容為未來的數位帝國立下基礎。即使自己無法構思這般具影響力的發明，欣賞、分析它的巧妙設計，也可以帶來樂趣。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[1] Wikipedia, “PageRank”, en.wikipedia.org. Available: <a href="https://en.wikipedia.org/wiki/PageRank">https://en.wikipedia.org/wiki/PageRank</a></p>
+]]></content>
+      <categories>
+        <category>電腦科學</category>
+      </categories>
+      <tags>
+        <tag>數學</tag>
+        <tag>線性代數</tag>
+      </tags>
+  </entry>
 </search>
