@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yc518suray.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="&emsp;&emsp;MUSIC 是一個用於頻率估計以及無線電波方向估計(如 DOA，direction of arrival) 的演算法，全名為 multiple signal classification。MUSIC 在 1980 年代被提出，一開始用於感測器陣列，如雷達、麥克風陣列等。   猴子聽音樂。圖片來源：tenor.com，連結">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MUSIC 演算法簡介">
+<meta property="og:url" content="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/music-algorithm-intro/index.html">
+<meta property="og:site_name" content="R.S. Random Space">
+<meta property="og:description" content="&emsp;&emsp;MUSIC 是一個用於頻率估計以及無線電波方向估計(如 DOA，direction of arrival) 的演算法，全名為 multiple signal classification。MUSIC 在 1980 年代被提出，一開始用於感測器陣列，如雷達、麥克風陣列等。   猴子聽音樂。圖片來源：tenor.com，連結">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://media1.tenor.com/m/sHQOEDdNomMAAAAC/monkey-music.gif">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1k8sGs5XV0cMzmW20dyR30gmiUvZdyr24&sz=s1024">
+<meta property="article:published_time" content="2026-03-27T08:29:22.000Z">
+<meta property="article:modified_time" content="2026-04-07T13:06:43.176Z">
+<meta property="article:author" content="Raymond Su">
+<meta property="article:tag" content="DSP">
+<meta property="article:tag" content="數學">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://media1.tenor.com/m/sHQOEDdNomMAAAAC/monkey-music.gif">
+
+
+<link rel="canonical" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/music-algorithm-intro/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/music-algorithm-intro/","path":"通訊技術/music-algorithm-intro/","title":"MUSIC 演算法簡介"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MUSIC 演算法簡介 | R.S. Random Space</title>
+  
+
+
+
+
+
+
+
+<script src="/live2d-widget/dist/autoload.js"></script>
+<script src="/js/hexo_resize_image.js"></script>
+<link rel="stylesheet" href="/css/SpoilerBlur.css">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">R.S. Random Space</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Raymond Su的個人網站</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa-solid fa-house fa-fw"></i>首頁</a></li><li class="menu-item menu-item-archives"><a href="/archives" rel="section"><i class="fa-solid fa-folder-open fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-categories"><a href="/categories" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-tags"><a href="/tags" rel="section"><i class="fa-solid fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-音樂"><a href="/music" rel="section"><i class="fa fa-music fa-fw"></i>音樂</a></li><li class="menu-item menu-item-連結"><a href="/links" rel="section"><i class="fa fa-link fa-fw"></i>連結</a></li><li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa-solid fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MUSIC"><span class="nav-number">1.</span> <span class="nav-text">MUSIC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E6%93%AC"><span class="nav-number">2.</span> <span class="nav-text">模擬</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AA%9E"><span class="nav-number">3.</span> <span class="nav-text">結語</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E9%8C%84"><span class="nav-number">4.</span> <span class="nav-text">附錄</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Raymond Su"
+      src="/uploads/images/blog_avatar.png">
+  <p class="site-author-name" itemprop="name">Raymond Su</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives">
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags">
+        <span class="site-state-item-count">34</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yc518suray" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yc518suray" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:raymondsu0110@gmail.com" title="E-mail → mailto:raymondsu0110@gmail.com" rel="noopener me" target="_blank"><i class="fa-solid fa-envelope fa-fw"></i>E-mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://hackmd.io/@Q5thU81LTku-dZ3h7gNMFQ" title="HackMD → https:&#x2F;&#x2F;hackmd.io&#x2F;@Q5thU81LTku-dZ3h7gNMFQ" rel="noopener me" target="_blank"><i class="fa-solid fa-book-open fa-fw"></i>HackMD</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/music-algorithm-intro/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/images/blog_avatar.png">
+      <meta itemprop="name" content="Raymond Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R.S. Random Space">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MUSIC 演算法簡介 | R.S. Random Space">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MUSIC 演算法簡介
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2026-03-27 16:29:22" itemprop="dateCreated datePublished" datetime="2026-03-27T16:29:22+08:00">2026-03-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-04-07 21:06:43" itemprop="dateModified" datetime="2026-04-07T21:06:43+08:00">2026-04-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/" itemprop="url" rel="index"><span itemprop="name">通訊技術</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/music-algorithm-intro/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="通訊技術/music-algorithm-intro/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;MUSIC 是一個用於頻率估計以及無線電波方向估計(如 DOA，direction of arrival) 的演算法，全名為 multiple signal classification。MUSIC 在 1980 年代被提出，一開始用於感測器陣列，如雷達、麥克風陣列等。</p>
+<br>
+<img src="https://media1.tenor.com/m/sHQOEDdNomMAAAAC/monkey-music.gif" width="350">
+<center><font color="cyan">猴子聽音樂。圖片來源：tenor.com，</font><a target="_blank" rel="noopener" href="https://tenor.com/zh-TW/view/monkey-music-gif-12714803110783853155"><font color="cyan">連結</font></a></center>
+<span id="more"></span>
+<br>
+
+<p>&emsp;&emsp;因為實驗室學長的研究有用到，就來認識一下這個演算法。也順便模擬一下，視覺化呈現 MUSIC。</p>
+<h2 id="MUSIC"><a href="#MUSIC" class="headerlink" title="MUSIC"></a>MUSIC</h2><p>&emsp;&emsp;假設我們知道訊號向量 $\bf x$ 由 $p$ 個 complex exponentials 組成，我們要怎麼估計這 $p$ 個頻率？我們建立一個線性模型：</p>
+<p>$$<br>{\bf x} &#x3D; A {\bf s} + {\bf n}<br>$$</p>
+<p>&emsp;&emsp;其中 $A &#x3D; [{\bf a_0}, \cdots, {\bf a_{p - 1}}]$，${\bf a_i} &#x3D; [1, e^{j\omega_i}, e^{j2\omega_i}, \cdots, e^{j(N - 1)\omega_i}]^T$，$\bf s$ 為 complex amplitude。演算法的一個前提為 $p &lt; N$。$\bf x$ 的自相關矩陣為</p>
+<p>$$<br>R_x &#x3D; A R_s A^H + \sigma^2 I<br>$$</p>
+<p>&emsp;&emsp;$R_x &#x3D; R_x^H$，且是正定矩陣。對 $R_x$ 做特徵值分解 (EVD)，可以得到</p>
+<p>$$<br>\begin{align}<br>R_x &#x3D; V \Sigma V^H,\ \ &amp;V &#x3D; [{\bf v_0}, \cdots, {\bf v_{p - 1}}, {\bf v_p}, \cdots, {\bf v_{N - 1}}]\\[10pt]<br>&amp;\Sigma &#x3D;<br>\begin{bmatrix}<br>\lambda_0 &amp; \mskip -10mu &amp; \mskip -10mu &amp; \mskip -10mu &amp; \mskip -10mu {\Huge 0} &amp; \mskip -10mu\\[-5pt]<br> &amp; \mskip -10mu \ddots &amp; \mskip -10mu &amp; \mskip -10mu &amp; \mskip -10mu &amp; \mskip -10mu\\[-5pt]<br> &amp; \mskip -10mu &amp; \mskip -10mu \lambda_{p - 1} &amp; \mskip -10mu &amp; \mskip -10mu &amp; \mskip -10mu\\[-5pt]<br> &amp; \mskip -10mu &amp; \mskip -10mu &amp; \mskip -10mu \sigma^2 &amp; \mskip -10mu &amp; \mskip -10mu\\[-5pt]<br> &amp; \mskip -10mu &amp; \mskip -10mu &amp; \mskip -10mu &amp; \mskip -10mu \ddots &amp; \mskip -10mu\\[-5pt]<br> &amp; \mskip -10mu {\Huge 0} &amp; \mskip -10mu &amp; \mskip -10mu &amp; \mskip -10mu &amp; \mskip -10mu \sigma^2<br>\end{bmatrix}_{N\times N}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;(特徵值從大到小排列。)前 $p$ 個特徵向量生成 $\cal U_s$，後 $N - p$ 個特徵向量則是和 $\cal U_s$ 正交的雜訊空間 $\cal U_n$。這其實就是主成分分析的概念，前 $p$ 個特徵向量即為功率較大的訊號成分，後 $N - p$ 個特徵向量則是雜訊成分。</p>
+<br>
+
+<p>&emsp;&emsp;令 $U_{\text{noise}} &#x3D; \left[{\bf v_p}, \cdots, {\bf v_{N - 1}}\right]$，即 $\text{col}(U_{\text{noise}}) &#x3D; {\cal U_n}$。定義 $d({\bf e})$ 為向量 $\bf e$ 在雜訊空間 $\cal U_n$ 的投影量大小，</p>
+<p>$$<br>d({\bf e}) &#x3D; \lVert U_{\text{noise}}^H {\bf e}\rVert^2 &#x3D; \sum_{i &#x3D; p}^{N - 1}{\lvert {\bf v_i}^H {\bf e}\rvert^2}<br>$$</p>
+<p>&emsp;&emsp;如果 ${\bf e} \in {\cal U_s}$，則 $d({\bf e}) &#x3D; 0$。因此 $d({\bf e})$ 小，表示 $\bf e$ 的訊號成分功率較大、雜訊成分功率較小。反過來說，$1&#x2F;d({\bf e})$ 愈大，$\bf e$ 的訊號成分功率愈大。要判斷兩個向量 $\bf e_1$ 和 $\bf e_2$ 哪一個更接近於訊號、哪一個更接近於雜訊，只要比較兩者的 $1&#x2F;d({\bf e})$ 即可。還記得我們一開始想要知道的是<strong>訊號的頻率成分</strong>嗎？令 ${\bf e} &#x3D; \left[1, e^{j\omega}, e^{j2\omega}, \cdots, e^{j(N - 1)\omega}\right]^T$，比較頻率軸上任兩點的 $1&#x2F;d({\bf e})$ 大小，不就可以判斷哪一個頻率更接近於訊號？於是我們定義 MUSIC 的 pseudo-spectrum 為</p>
+<p>$$<br>\hat{P}_{\text{MU}}(e^{j\omega}) &#x3D; \frac{1}{\lVert U_{\text{noise}}^H {\bf e}\rVert^2}<br>$$</p>
+<p>&emsp;&emsp;形成連續的頻譜。根據一開始的假設，訊號由 $p$ 個 complex exponential 組成，只要找到頻譜上數值較高的 $p$ 個點，對應到的 $\omega$ 應該就是組成訊號的 $p$ 個頻率。這就是 MUSIC 演算法。</p>
+<h2 id="模擬"><a href="#模擬" class="headerlink" title="模擬"></a>模擬</h2><p>&emsp;&emsp;網路上有人寫了<a target="_blank" rel="noopener" href="https://dataandsignal.com/software/libmusic">開源的 MUSIC 函式庫</a>，不過我還是自己寫一遍試試看，畢竟演算法本身相當簡單。圖A為模擬結果，矩陣 $A$ 是由三個頻率的 complex exponential 乘上窗函數 (window function) 組成。窗函數是用來模擬訊號的其他(功率較小的)頻率成分。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1k8sGs5XV0cMzmW20dyR30gmiUvZdyr24&sz=s1024" width="400">
+<center><font color="cyan">圖A，MUSIC 演算法。</font></center>
+
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;MUSIC 演算法概念算是簡單，但是總覺得線性模型的假設和真實情況不太一樣，不過既然已經有許多應用，應該是有實用價值的。</p>
+<h2 id="附錄"><a href="#附錄" class="headerlink" title="附錄"></a>附錄</h2><p>&emsp;&emsp;附錄介紹<strong>主成分分析</strong> (principal component analysis，PCA)，複習一下線性代數。假設我們有一個 covariance matrix $R_{xy}$，對它做奇異值分解 (SVD) (這邊都假設 mean 為 zero vector)：</p>
+<p>$$<br>{R_{xy}}_{M\times N} &#x3D; E\left[{\bf x}{\bf y}^H\right] &#x3D; U_{M\times K} \Sigma_{K\times K} V^H_{K\times N}<br>$$</p>
+<p>&emsp;&emsp;$\Sigma$ 為一對角矩陣，$U$ 的 column vectors 為一 $K$ 維向量空間的一組<span class="hint--info hint--rounded hint--top" data-hint="orthonormal" ontouchstart>單位正交</span>基底；$V$ 也是如此。要怎麼解讀這個形式呢？</p>
+<br>
+
+<p>&emsp;&emsp;假設我想要知道 ${\bf s} &#x3D; A{\bf x}$ 和 ${\bf t} &#x3D; B{\bf y}$ 的相關性，可以計算它們的 covariance matrix，</p>
+<p>$$<br>R_{st} &#x3D; E\left[{\bf s}{\bf t}^H\right] &#x3D; E\left[A{\bf x}{\bf y}^H B^H\right] &#x3D; AR_{xy}B^H<br>$$</p>
+<p>&emsp;&emsp;所以只要知道兩向量的線性變換(矩陣 $A$ 和 $B$)，就可以得知變換後兩向量的 covariance matrix。假設對 ${\bf x}$ 作線性變換，以矩陣表示為 ${\bf x’} &#x3D; U^H {\bf x}$，對 ${\bf y}$ 作線性變換表示為 ${\bf y’} &#x3D; V^H {\bf y}$，則變換後兩向量的 covariance matrix 為</p>
+<p>$$<br>R_{x’y’} &#x3D; U^H R_{xy} V &#x3D; U^H U \Sigma V^H V &#x3D; \Sigma<br>$$</p>
+<p>&emsp;&emsp;也就是說將 $\bf x$ 投影在 $\text{col}(U) &#x3D; \text{span}\lbrace{\bf u_0}, \cdots, {\bf u_{K - 1}}\rbrace$，得到座標向量 ${\bf x’} &#x3D; \left[x_0’, x_1’, \cdots, x_{K - 1}’\right]$；將 $\bf y$ 投影在 $\text{col}(V) &#x3D; \text{span}\lbrace{\bf v_0}, \cdots, {\bf v_{K - 1}}\rbrace$，得到座標向量 ${\bf y’} &#x3D; \left[y_0’, y_1’, \cdots, y_{K - 1}’\right]$。這兩個座標向量的相關性可以用 $\Sigma$ 來表示，$y_0’$ 只和 $x_0’$ 有關，$y_1’$ 只和 $x_1’$ 有關，以此類推。</p>
+<br>
+
+<p>&emsp;&emsp;原本 $\bf x$ 和 $\bf y$ 的關係很複雜，$R_{xy}$ 是 full matrix，$y_0$ 和 $x_0 \cdots x_{M - 1}$ 都相關；以座標向量來表示 $\bf x$ 和 $\bf y$ (基底則是一組 latent vector，即<strong>主成分</strong>)，只需要 $K$ 個共變異數就可以描述兩向量的關係，而且這些關係還是一對一的($x_0$ 愈大，$y_0$ 愈大或愈小)，趨近單變數的函數關係。這就是<strong>降維</strong> (dimension reduction) 的概念。推薦觀看李宏毅老師的機器學習教學影片[2]，講解非常精彩。</p>
+<br>
+
+<p>&emsp;&emsp;剛才討論的是 $\bf x$ 和 $\bf y$ 的相關性，那麼如果是 $\bf x$ 和自己的相關性呢？因為 $R_x$ 是半正定矩陣，可以作特徵值分解，$R_x &#x3D; V \Sigma V^H$。將 $\bf x$ 以 $\lbrace {\bf v_0}, \cdots, {\bf v_{K - 1}}\rbrace$ 為基底表示為座標向量 $\bf x’$，各個座標之間是不相關的。</p>
+<p>$$<br>R_{x’} &#x3D; V^H R_x V &#x3D; \Sigma<br>$$</p>
+<p>&emsp;&emsp;這有什麼好處？原本我們需要 $M\times M$ 個共變異數來描述資料的組成，以主成分作為基底向量的話，只需要 $K$ 個共變異數和 $K$ 個 latent vector 就可以完整描述該資料，大幅減少所需的儲存空間，同時也將資料變化的程度 (variance) 集中在主成分上：最大的特徵值和對應的主成分，意味著資料在這個主成分的變異量最大；最小的特徵值和對應的主成分，意味著資料在這個主成分的變異量小，既然每一筆資料在該成分的變化不大，資訊量較少，就是比較不重要的成分，可以丟棄。(比如說人臉辨識，假如資料裡每張臉的鼻子都長得差不多，那鼻子這個特徵對於辨識不同人臉就沒有幫助。)</p>
+<br>
+
+<p>&emsp;&emsp;上述的 $R_x$ 和 $R_{xy}$ 都是理論值，實際的情況是我們只有好幾筆資料 $X &#x3D; \left[{\bf x_0}, {\bf x_1}, \cdots, {\bf x_{n - 1}}\right]$，而不知道 $R_x$。這時候就會用 sample covariance matrix $\hat{R_x}$ 來近似 $R_x$ (資料已經先減去 sample mean)，</p>
+<p>$$<br>\hat{R_x} &#x3D; \frac{1}{n - 1} X X^H<br>$$</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[1] Wikipedia, MUSIC (algorithm), en.wikipedia.org.<br>Available: <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/MUSIC_(algorithm)">https://en.wikipedia.org/wiki/MUSIC_(algorithm)</a></p>
+<p>[2] Hung-yi Lee (Youtube), “ML Lecture 13: Unsupervised Learning - Linear Methods”, youtube.com. Available: <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=iwh5o_M4BNU">https://www.youtube.com/watch?v=iwh5o_M4BNU</a></p>
+<p>[3] Alex (HackMD 筆記), “直觀看待SVD及PCA之關係”, hackmd.io.<br>Available: <a target="_blank" rel="noopener" href="https://hackmd.io/@alexmav04/rJG6P7EWO">https:&#x2F;&#x2F;hackmd.io&#x2F;@alexmav04&#x2F;rJG6P7EWO</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Raymond Su
+  </li>
+  <li class="post-copyright-link">
+      <strong>文章連結：</strong>
+      <a href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/music-algorithm-intro/" title="MUSIC 演算法簡介">https://yc518suray.github.io/通訊技術/music-algorithm-intro/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版權聲明： </strong>本網誌所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 許可協議。轉載請註明出處！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/DSP/" rel="tag"><i class="fa fa-tag"></i> DSP</a>
+              <a href="/tags/%E6%95%B8%E5%AD%B8/" rel="tag"><i class="fa fa-tag"></i> 數學</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/IF-sampling-principle/" rel="prev" title="IF Sampling 原理">
+                  <i class="fa fa-angle-left"></i> IF Sampling 原理
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/%E6%95%B8%E5%AD%B8%E5%95%8F%E9%A1%8C/conditional-probability-1/" rel="next" title="一個條件機率的問題">
+                  一個條件機率的問題 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Raymond Su</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"oscarsu-disqus","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
