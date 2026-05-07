@@ -4139,4 +4139,171 @@ $$
         <tag>數學</tag>
       </tags>
   </entry>
+  <entry>
+    <title>OFDM筆記-5: Cyclic Prefix</title>
+    <url>/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-5/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h2><p>介紹 OFDM 系統不可或缺的 CP。其實我也不知道為什麼要特地把 CP 的介紹獨立為一篇文章，也許是因為 OFDM 系統非常依賴 CP 的緣故吧！並且 CP 的概念也用在其他調變方式，如 OTFS，所以深入理解 CP 絕對是有利無害的。</p>
+<span id="more"></span>
+
+<p>以下是OFDM筆記全系列的文章：</p>
+<ul>
+<li><a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-1/" title="OFDM筆記-1: OFDM簡介">OFDM筆記-1: OFDM簡介</a></li>
+<li><a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-2/" title="OFDM筆記-2: 通道模型">OFDM筆記-2: 通道模型</a></li>
+<li><a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-3/" title="OFDM筆記-3: OFDM模擬-Python">OFDM筆記-3: OFDM模擬-Python</a></li>
+<li><a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-4/" title="OFDM筆記-4: OFDM模擬-C++">OFDM筆記-4: OFDM模擬-C++</a></li>
+<li><a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-5/" title="OFDM筆記-5: Cyclic Prefix">OFDM筆記-5: Cyclic Prefix</a></li>
+<li><a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-6/" title="OFDM筆記-6: 待解決的問題">OFDM筆記-6: 待解決的問題</a></li>
+</ul>
+<p>&emsp;&emsp;CP 作為 guard interval，將 linear convolution 轉變為 circular convolution、進而簡化 OFDM 接收端等化器設計的故事，大家已經耳熟能詳了。所以這篇文章會介紹 CP 的其他應用。</p>
+<h2 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h2><p>&emsp;&emsp;OFDM 在頻率上 (carrier frequency offset，CFO) 以及時間上 (symbol timing offset，STO) 都需要同步，否則無法還原傳送的符號。這一節分享的是[1]這篇 1997 年的經典論文，同時處理 CFO 和 STO 的問題。在過去的文獻(相較於此論文)裡，Moose (1994) 假設 STO 為已知，在頻域計算 CFO 的 ML 估計，不過有一些 training symbol 長度的限制；Nogami (1995) 等人採用加入 null symbol 來估計 STO 的方法，但是這個方法在傳送 burst 的時候不管用。這篇論文改良 Classen (1994) 的做法，一種方法解決兩個問題。</p>
+<br>
+
+<p>&emsp;&emsp;讀完才發現這篇論文<strong>其實不是 CP 的應用</strong>，不過姑且還是和 CP 有關。論文首先說明如何解決 STO，接著描述如何解決 CFO，兩者都是基於一組 training sequence 的設計。</p>
+<h3 id="STO"><a href="#STO" class="headerlink" title="STO"></a>STO</h3><p>&emsp;&emsp;在一個 frame 的開頭設計一個 training symbol，稱作 TS1。TS1 的 useful part 長度為 2L，前 L 個 sample 和後 L 個 sample 一模一樣。這要如何得到？回想一下，如果在時域作 upsampling 兩倍，對應到頻域就是頻譜相對原點收縮兩倍。根據對偶性，在頻域作 upsampling 兩倍，就會對應到時域重複的兩半。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1g767YYKRC-6PW4iHPNj-dTSRSTmhC47m&sz=s1024" width="360">
+<center><font color="cyan">圖A，在頻域 upsampling。</font></center>
+<br>
+
+<p>&emsp;&emsp;接收端收到基頻的 sample $r_i$ 後，計算長度為 2L 的 sliding window 裡，前半和後半的 correlation ($d$ 為 sliding window 裡第一個 sample 時間)，</p>
+<p>$$<br>\begin{align}<br>&amp;P(d) &#x3D; \sum_{m &#x3D; 0}^{L - 1}{r_{d + m}^{*} r_{d + m + L}}\\[10pt]<br>&amp;P(d + 1) &#x3D; P(d) + r_{d + L}^{*} r_{d + 2L} - r_{d}^{*} r_{d + L}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;如果 start time 完全沒有誤差，或是在 CP 長度減去通道長度的範圍內(見圖B)，$\lvert P(d)\rvert$ 都會是最大值。定義 $R(d) &#x3D; \sum_{m &#x3D; 0}^{L - 1}{\lvert r_{d + m + L}\rvert^2}$ 作為正規化的常數，我們可以定義 <strong>timing metric</strong> $M(d)$ 來表示 STO 造成的影響，</p>
+<p>$$<br>M(d) &#x3D; \frac{\lvert P(d)\rvert}{R(d)}<br>$$</p>
+<p>&emsp;&emsp;圖C呈現 start time 與 timing metric 的關係，$N_{\text{fft}} &#x3D; 1024$，$N_{\text{CP}} &#x3D; 128$。注意到有一段平坦的區間，就是前述 CP 形成的範圍，start time 在這段區間內誤差為零(但會引入固定的相位差)。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=10CHkwtyKjSP3MlSVulwnl9NkRdvIbJi3&sz=s1024" width="360">
+<center><font color="cyan">圖B，start time 的選取範圍。</font></center>
+<br>
+<img src="https://drive.google.com/thumbnail?id=149Pdv9WkRskd18u6Jl_c_R1jVCVKcmc2&sz=s1024" width="360">
+<center><font color="cyan">圖C，timing metric vs start time，取十次模擬的平均值。</font></center>
+<br>
+
+<p>&emsp;&emsp;假設接收到的 sample 可以分為訊號和雜訊的成分，$r_i &#x3D; s_i + n_i$，$E\left[\lvert s_i\rvert^2\right] &#x3D; 2\sigma_s^2$，$E\left[\lvert n_i\rvert^2\right] &#x3D; 2\sigma_n^2$。經過一番推敲，論文提出在 correct timing 的情況下，timing metric 為常態分布，期望值為</p>
+<p>$$<br>E\left[M(d_{\text{opt}})\right] &#x3D; \frac{\sigma_s^2}{\sigma_s^2 + \sigma_n^2}<br>$$</p>
+<p>&emsp;&emsp;意味著 SNR 愈大，$E\left[M(d_{\text{opt}})\right]$ 愈趨近於 1，很合理。論文也提出對 SNR 的一個估計器，</p>
+<p>$$<br>\hat{\text{SNR}} &#x3D; \frac{M(d_{\text{opt}})}{1 - M(d_{\text{opt}})}<br>$$</p>
+<p>&emsp;&emsp;這個估計器在低 SNR 時比較準確。因此，接收端可以從 timing metric 來估計 SNR，判斷<span class="hint--info hint--rounded hint--top" data-hint="SNR 過低，可能導致錯誤率過高" ontouchstart>是否解讀訊號</span>，或是將 SNR 的資訊回傳給發射端(雖然這好像和 start time 的選取比較沒關係)。</p>
+<br>
+
+<p>&emsp;&emsp;論文提供兩個尋找最佳 start time 的方法：找 timing metric 最大值的時間點，或是找最大值左右兩個 90% 最大值的點，再取兩點中心。後者的效果比較好，不過兩種方法都要求先找到峰值。</p>
+<h3 id="CFO"><a href="#CFO" class="headerlink" title="CFO"></a>CFO</h3><p>&emsp;&emsp;假設 CFO 為 $\Delta f$，則 TS1 的前後半剛好相差一個固定的相位 $\phi &#x3D; \pi T\Delta f$，$T$ 是子載波間距的倒數。$\phi$ 可以由前面提到的 $P(d)$ 來估計(假設 STO 的問題已經解決)，</p>
+<p>$$<br>\hat{\phi} &#x3D; \angle P(d)<br>$$</p>
+<p>&emsp;&emsp;然而這裡有個問題：如果實際的頻率位移 $\lvert\Delta f\rvert &gt; \frac{1}{T}$，單從 $\hat{\phi}$ (定義在 $-\pi$ 到 $\pi$ 之間)是無法得知的。更一般的情形可以寫作</p>
+<p>$$<br>\Delta f &#x3D; \frac{\hat{\phi}}{\pi T} + \frac{2k}{T}<br>$$</p>
+<p>&emsp;&emsp;可以看成是整數部分和小數部分的表示。要估計 $\Delta f$，我們需要第二個 training symbol TS2。TS2 的每一個子載波皆載有 PN 序列 (TS1 則只有偶數編號的子載波載有 PN 序列)。首先先補償 $\hat{\phi} &#x2F; \pi T$ 的相位差，接下來的目標就是估計 $2k &#x2F; T$。</p>
+<br>
+
+<p>&emsp;&emsp;令 $X_{1, i}$ 和 $X_{2, i}$ 分別表示 TS1 和 TS2 各個子載波承載的符號，當然 $X_{1, i}$ 只有在 $i$ 為偶數的時候有值；$X_{2, i}$ 則是每個 $i$ 都有值。定義 $v_i$ 為 $X_{2, i} &#x2F; X_{1, i}$，$i$ 為偶數，也就是說它是 differential 的。現在來看看 $v_i$ 在頻率位移下的變化：頻率位移後，$v_i’ &#x3D; v_{(i + 2k)_N}$，經歷了 cyclic shift，所以 correlation 的概念一樣可以用於頻率位移的估計。定義頻率位移 metric 為</p>
+<p>$$<br>B(k) &#x3D; \frac{\lvert\sum{ {X’_{1, (i + 2k)_N}}^{*}\ {v’_i}^{*}\ X’_{2, (i + 2k)_N}}\rvert^2}{2\left(\sum{\lvert X_{2, i}\rvert^2}\right)}<br>$$</p>
+<p>&emsp;&emsp;而 $\hat{k} &#x3D; \arg{\max_{k}{B(k)}}$。看起來有點複雜，不過和 timing metric 的概念是一樣的，就有點像齒輪的嵌合，選擇合適的 $\hat{k}$ 就可以讓 $B(k)$ 分子的每一項相位為零。這部分好像比較像是 detection 而不是 estimation。</p>
+<h2 id="通道估測"><a href="#通道估測" class="headerlink" title="通道估測"></a>通道估測</h2><p>&emsp;&emsp;CP 也可以用於通道估測。這一節分享[2]這篇 1999 年的論文，使用 CP 來作 blind channel estimation，也就是不使用 training symbol 的作法。論文首先強調 CP-OFDM 時域波型的 <strong>cyclostationarity</strong> 性質。令 $P &#x3D; N + N_{\text{cp}}$，並以 polyphase representation 來表示哪一個 block 的哪一個 sample，$x_p[n] &#x3D; x[n P + p]$。據此，OFDM 時域波型可以寫為</p>
+<p>$$<br>x_p[n] &#x3D; \frac{1}{N} \sum_{m &#x3D; 0}^{N - 1}{s_m[n] e^{j\frac{2\pi}{N} m(p - N_{\text{cp}})}},\ \ 0 \leq p \leq P - 1<br>$$</p>
+<p>&emsp;&emsp;而其自相關函數可以寫為(假設 $E\left[s_m[n] s^{*}_r[n]\right] &#x3D; \sigma_s^2 \delta[m - r]$)</p>
+<p>$$<br>\begin{align}<br>c_{xx}[nP + p;\ \tau] &amp;&#x3D; E\left[x_{p + \tau}[n] x^{*}_p[n]\right] \sum_{\zeta &#x3D; 0}^{P - 1}{\delta[\zeta - (p + \tau)]}\\[10pt]<br>&amp;&#x3D; \frac{1}{N^2} \sum_{m &#x3D; 0}^{N - 1}{\sum_{r &#x3D; 0}^{N - 1}{E\left[s_m[n] s^{*}_r[n]\right] e^{j\frac{2\pi}{N} m(p + \tau - N_{\text{cp}})} e^{-j\frac{2\pi}{N} r(p - N_{\text{cp}})}}} \sum_{\zeta &#x3D; 0}^{P - 1}{\delta[\zeta - (p + \tau)]}\\[10pt]<br>&amp;&#x3D; \frac{\sigma_s^2}{N^2} \sum_{m &#x3D; 0}^{N - 1}{e^{j\frac{2\pi}{N} m\tau}} \sum_{\zeta &#x3D; 0}^{P - 1}{\delta[\zeta - (p + \tau)]}\\[10pt]<br>&amp;&#x3D; \frac{\sigma_s^2}{N} \left(\delta[\tau] + \delta[\tau - N]\sum_{\zeta &#x3D; 0}^{P - N - 1}{\delta[\zeta - p]} + \delta[\tau + N]\sum_{\zeta &#x3D; N}^{P - 1}{\delta[\zeta - p]}\right)<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;$\sum{\delta[\zeta - (p + \tau)]}$ 是用來限制 $0 \leq p + \tau \leq P - 1$ (我還是第一次看到這種操作)。上面這個式子說明 $c_{xx}$ 是 $p$ 和 $\tau$ 的函數，但是<font color="yellow">注意它不是 $n$ 的函數</font>，表示每經過週期 $P$，$c_{xx}$ 就會開始重複，因此為 <strong>cyclostationary</strong>。</p>
+<br>
+
+<p>&emsp;&emsp;經過 LTI 系統，cyclostationarity 的性質不變，就不附上推導過程了 ($L$ 是通道長度)：</p>
+<p>$$<br>c_{rr}[nP + p;\ \tau] &#x3D; \sum_{\zeta &#x3D; 0}^{L - 1}{\sum_{\substack{q &#x3D;\\ \tau - \zeta - (L - 1)}}^{\tau - \zeta}{h[\zeta] h^{*}[\zeta - \tau + q] c_{xx}[nP + p - \zeta;\ q]}} + \sigma_n^2 \delta[\tau]<br>$$</p>
+<p>&emsp;&emsp;計算它的 DTFS expansion $C_{rr}[k;\ \tau]$，論文作者稱其為 cyclic correlation。基本上，時域的自相關函數對應到頻域的功率頻譜，不過 cyclic correlation 描述時間變數 $p$ 的週期性質，而不是時間差變數 $\tau$，所以不能解讀為功率頻譜；$C_{rr}[k;\ \tau]$ 可以理解為「變化週期為 $P &#x2F; k$ 的自相關模式」。說真的搞不太懂它的物理意義。</p>
+<p>$$<br>C_{rr}[k;\ \tau] &#x3D; \frac{1}{P} \sum_{p &#x3D; 0}^{P - 1}{c_{rr}[nP + p;\ \tau] e^{-j\frac{2\pi}{P} kp}}<br>$$</p>
+<br>
+<img src="https://media1.tenor.com/m/4pZEyhWbxRsAAAAd/%E5%91%A8%E6%98%9F%E9%A6%B3-%E5%8A%9F%E5%A4%AB.gif" width="450">
+<center><font color="cyan">越讀腦袋越亂，而且論文裡有些式子沒寫好，要自己推敲一番。<br>圖片來源：tenor.com，</font><a href="https://tenor.com/zh-TW/view/周星馳-功夫-你搞得我好亂呐-gif-27169093"><font color="cyan">連結</font></a></center>
+<br>
+
+<p>&emsp;&emsp;最後，再對時間差變數 $\tau$ 作 z-transform，得到 $S_{rr}(k;\ z)$ (cyclic spectrum)。由於 $C_{rr}$ 可以寫成</p>
+<p>$$<br>C_{rr}[k;\ \tau] &#x3D; \left(h[\tau] e^{-j\frac{2\pi}{P} k\tau}\right) \star h^{*}[-\tau] \star C_{xx}[k;\ \tau]<br>$$</p>
+<p>&emsp;&emsp;故</p>
+<p>$$<br>S_{rr}(k;\ z) &#x3D; H(e^{j\frac{2\pi}{P} k} z) H^{*}((z^{-1})^{*}) S_{xx}(k;\ z)<br>$$</p>
+<p>&emsp;&emsp;$S_{xx}$ 為已知，$S_{rr}$ 則可以在接收端得到(估計)，$H(z)$ 則可以透過選取兩個合適的 $k_i$，再經過一番運算得到。圖D呈現 $L &#x3D; 7$，$N &#x3D; 64$，$N_{\text{cp}} &#x3D; 8$ 的情況下，$\lvert S_{rr}\rvert$ 的形狀。($z$ 由 $e^{j\omega}$ 代換。)</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1strRKdOmpVH-bxs4u1XTdkeVlKcd4ENF&sz=s1024" width="400">
+<center><font color="cyan">圖D，$\lvert S_{rr}(k;\ e^{j\omega})\rvert$ 頻譜。</font></center>
+<br>
+
+<p>&emsp;&emsp;這篇論文我覺得讀來相當吃力，也許是耐不住性子慢慢推導吧，和 Google Gemini 討論才對它有些想法。簡單來說，因為加入了 CP，傳送訊號與接收訊號為 cyclostationary，等於是增加了不同 $k_i$ 所提供的條件(資訊)，方能解出 $H(z)$。Blind estimation 不使用 pilot symbol，因此最大化既有的頻譜使用效率；但是估計 $S_{rr}$ 需要時間，無法應用於高速變化的通道，演算法複雜度高，不如 pilot-aided 的方法簡單有效。不過，在不可能知道 pilot 資訊的情況下，如監偵軍事情報，可能還是需要 blind estimation (thoughts from Google Gemini)。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>&emsp;&emsp;這一節我們提出一個問題：<strong>OFDM 難道就非 CP 不可嗎？</strong> 在[3]這篇論文中提出用於 ZP-OFDM 系統的等化器設計，也比較了 CP 和 ZP 的優缺點。這篇論文以相當<font color="yellow">簡潔</font>的方式表示 CP-OFDM：假設傳送的第 $i$ 個 block 符號為 ${\bf s}(i)$，則接收到的 sample 可以寫作</p>
+<p>$$<br>{\bf r}(i) &#x3D; {\rm H} {\rm F}_{\text{cp}} {\bf s}(i) + {\rm H}_{\text{IBI}} {\rm F}_{\text{cp}} {\bf s}(i - 1) + {\bf n}(i)<br>$$</p>
+<p>&emsp;&emsp;當中 ${\rm F}_{\text{cp}}$ 是加上 CP 部分的 IDFT 矩陣，$\rm H$ 是代表通道的下三角矩陣，${\rm H}_{\text{IBI}}$ 是代表 inter-block interference 的上三角矩陣。ZP-OFDM 也是一樣的形式：</p>
+<p>$$<br>\begin{align}<br>{\bf r}(i) &amp;&#x3D; {\rm H} {\rm F}_{\text{zp}} {\bf s}(i) + {\rm H}_{\text{IBI}} {\rm F}_{\text{zp}} {\bf s}(i - 1) + {\bf n}(i)\\[10pt]<br>\text{(ZP 作為 postfix)}\ &amp;&#x3D; {\rm H} {\rm F}_{\text{zp}} {\bf s}(i) + {\bf n}(i)\\[10pt]<br>&amp;&#x3D; {\rm H_0} {\rm F}_N^H {\bf s}(i) + {\bf n}(i)<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;其中 $\rm H_0$ 由 $\rm H$ 的前 $N$ 個行向量組成，也是因為將 ZP 作為 postfix 而得以簡化。注意 $P\times N$ 矩陣 $\rm H_0$ 的行向量為線性獨立，因此可以計算它的 left inverse $\rm H_0^{\dagger}$ 還原時域訊號 (ZF equalizer)。相較於 CP-OFDM 在頻域執行 one-tap equalization，ZP-OFDM 在時域的 equalizer 不會有 deep-fading 的問題，因此可以還原每一個子載波的符號 (full diversity gain)；當然 CP-OFDM 的接收機複雜度就比 ZP-OFDM 簡單許多，正所謂 <strong>trade-off 不可避</strong>，好的 performance 一定伴隨著相當的代價。</p>
+<br>
+
+<p>&emsp;&emsp;論文提出兩種 ZP-OFDM 的等化器設計，<strong>ZP-OFDM-OLA</strong> 和 <strong>ZP-OFDM-FAST</strong>，後面的十頁大家就自己去讀。從圖表得到的結論是，ZP-OFDM-OLA 的效果和 CP-OFDM 差不多，ZP-OFDM-FAST 的錯誤率在未編碼的情況下比 CP-OFDM 多出 2 ~ 3 dB 的增益，有編碼的話差異就減少到 1 dB 以內；不過模擬預設的通道也可能是 performance 差異的重要原因。</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;我一直覺得 CP 是很優美的設計，它的形式很簡單，功能卻非常強大。雖然本文舉出 CP-OFDM 的一些缺點，但是別忘了LTE-advanced、5G 和 Wifi 都是基於 CP-OFDM，顯然經過工程考量，CP 還是比較有優勢的。也許在 OTFS 系統，CP 也能大展身手。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[1] T. M. Schmidl and D. C. Cox, “Robust frequency and timing synchronization for OFDM,” in <em>IEEE Transactions on Communications</em>, vol. 45, no. 12, pp. 1613-1621, Dec. 1997.</p>
+<p>[2] R. W. Heath and G. B. Giannakis, “Exploiting input cyclostationarity for blind channel identification in OFDM systems,” in <em>IEEE Transactions on Signal Processing</em>, vol. 47, no. 3, pp. 848-856, March 1999.</p>
+<p>[3] B. Muquet, Zhengdao Wang, G. B. Giannakis, M. de Courville and P. Duhamel, “Cyclic prefixing or zero padding for wireless multicarrier transmissions?,” in <em>IEEE Transactions on Communications</em>, vol. 50, no. 12, pp. 2136-2148, Dec. 2002.</p>
+]]></content>
+      <categories>
+        <category>通訊技術</category>
+      </categories>
+      <tags>
+        <tag>OFDM</tag>
+        <tag>DSP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>視覺化星座圖與通道效應</title>
+    <url>/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/constellation-visualization/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;好久沒有更新文章了。其實就在寫這篇的當下，還有十幾份草稿未完成，看來我的拖延症還在發威。這篇文章來介紹一個視覺化星座圖的方法，也可以用來理解通道對傳送符號的影響。</p>
+<span id="more"></span>
+<br>
+
+<p>&emsp;&emsp;這個視覺化的概念是這樣的：把星座圖上各個星座點(複數)分為兩個組成成分：振幅 (magnitude) 和相位 (phase)，將<font color="yellow">振幅</font>對應到 HSV 色彩表示法中的<font color="yellow">飽和度 S</font> (saturation，又稱作彩度)，<font color="yellow">相位</font>對應到 HSV 當中的<font color="yellow">色相 H</font> (hue)，想法還蠻直覺的，振幅越小代表能量越小，應該以較淺的顏色表示，反之亦然。</p>
+<br>
+
+<p>&emsp;&emsp;詢問 Gemini 才知道，在複變分析也有相似的視覺化工具，稱作 <a href="https://complex-analysis.com/content/domain_coloring.html">Domain Coloring</a>，用來呈現複數函數各點的振幅與相位。不過好像還沒有人應用在星座圖的視覺化。(可能是因為視覺化這個東西沒什麼用吧，演算法跑一跑就解決的事。)</p>
+<h2 id="程式碼"><a href="#程式碼" class="headerlink" title="程式碼"></a>程式碼</h2><p>&emsp;&emsp;程式以 MATLAB 編寫，可以從 <a href="https://github.com/yc518suray/Colored-Constellation.git">Github</a> 下載使用。最重要的部分為函式 <code>mat2rgb</code>：</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">rgb</span> = <span class="title">mat2rgb</span><span class="params">(X)</span></span></span><br><span class="line">    <span class="comment">% convert matrix X to rgb matrix</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">persistent</span> MAX_SATURATION;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">isempty</span>(MAX_SATURATION)</span><br><span class="line">        MAX_SATURATION = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    </span><br><span class="line">    h = (<span class="built_in">angle</span>(X) + <span class="built_in">pi</span>) / (<span class="number">2</span> * <span class="built_in">pi</span>); <span class="comment">% hue (color)</span></span><br><span class="line">    s = <span class="built_in">abs</span>(X);</span><br><span class="line">    <span class="keyword">if</span> MAX_SATURATION == <span class="number">0</span></span><br><span class="line">        MAX_SATURATION = <span class="built_in">max</span>(s(:));</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    s = s / MAX_SATURATION; <span class="comment">% saturation (grayness)</span></span><br><span class="line">    v = <span class="built_in">ones</span>(<span class="built_in">size</span>(X)); <span class="comment">% value (brightness)</span></span><br><span class="line">    </span><br><span class="line">    rgb = <span class="built_in">hsv2rgb</span>(<span class="built_in">cat</span>(<span class="number">3</span>, h, s, v));</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;其中 persistent 變數 <code>MAX_SATURATION</code> 可以確保單次執行產生的每一張圖，振幅對應到的彩度都是相同的。</p>
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p>&emsp;&emsp;來展示一下視覺化的效果。下面是 64-QAM 的星座圖上色版本。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1wU3rK8bKEJvOgk3hqOOKyqdgllposVSE&sz=s1024" width="400">
+<center><font color="cyan">視覺化 64-QAM 星座圖。</font></center>
+<br>
+
+<p>&emsp;&emsp;基於這個色彩對應，下面三張圖是某個 32 X 32 的調變符號矩陣在 DD domain、DT domain 以及 TF domain 的樣子(符號在 DD domain 調變)。可以觀察到能量被不均勻的散佈在時頻空間的情況。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1SvlyRGEHHsGR0OY1-vkdCnPRaAPkh9k2&sz=s1024" width="400">
+<center><font color="cyan">視覺化 DD domain 矩陣，橫軸為 Doppler。</font></center>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1H6c9PZBM4fQMtYAPip41xv_DzX2ESvL4&sz=s1024" width="400">
+<center><font color="cyan">視覺化 DT domain 矩陣，橫軸為時間。</font></center>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1UF7-InYm21pXQEMbXmccHQnkJBbPlt-n&sz=s1024" width="400">
+<center><font color="cyan">視覺化 TF domain 矩陣，橫軸為時間。</font></center>
+<br>
+
+<p>&emsp;&emsp;接著來看看<span class="hint--info hint--rounded hint--top" data-hint="就是同時有 delay 和 Doppler 特性的通道" ontouchstart>雙選擇性通道</span> (doubly-selective channel) 下，DD domain 調變符號受到的影響。假設我們在矩陣的中央放置 16 X 16 的資料，只有三種顏色 aka 三種相異符號；其餘位置則是 zero padding。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1EICDz1sFqX7ESNdqEpJ9CaLTwpNukiep&sz=s1024" width="400">
+<center><font color="cyan">傳送端的調變符號，橫軸為 Doppler。</font></center>
+<br>
+
+<p>&emsp;&emsp;訊號經過一個四條路徑的通道，並且假設整數 Doppler：</p>
+<figure class="highlight ini"><table><tr><td class="code"><pre><span class="line"><span class="attr">h</span> = [<span class="number">1</span>, <span class="number">0.28</span> - <span class="number">0.15</span>j, -<span class="number">0.35</span> + <span class="number">0.32</span>j, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0.15</span> + <span class="number">0.18</span>j]<span class="comment">;</span></span><br><span class="line"><span class="attr">nu</span> = [<span class="number">0</span>, <span class="number">6</span>, -<span class="number">4</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">2</span>]<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;結果如下圖，除了原本的符號區塊外，跑出來三個在 DD domain 位移的 replica，而且這些 replica 的色彩有所改變，就是受到 complex channel gain 的影響。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=18x3cxHAsSkZ_z_JhggT0xt-L9fbKx2rx&sz=s1024" width="400">
+<center><font color="cyan">接收端的調變符號，橫軸為 Doppler。</font></center>
+
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;本文寫作當下，RTL-SDR、Meshtastic、OFDM 系列文、Transformer 和 iTransformer 介紹文等等，都還擱置在草稿資料夾中。過去，我好幾次嘗試建立一個自律的規範，全部都以失敗告終(沒有一個持續到今)；每天都過得很悠哉，不顧自己完全有可能被 AI 取代的現實。話說回來，研究所畢業那年會不會戴鋼盔、繫 S 腰前往作戰位置，還很難說咧，也許被 AI 取代的未來不會存在。</p>
+<br>
+
+<p>&emsp;&emsp;回到正題。和 Gemini 討論，這個視覺化方法也可以搭配影像處理演算法或深度學習方法，來分析圖裡的資訊。不過轉換成影像的計算量可能就很大了，也許並不實用。</p>
+]]></content>
+      <categories>
+        <category>通訊技術</category>
+      </categories>
+      <tags>
+        <tag>OFDM</tag>
+        <tag>無線通訊</tag>
+        <tag>MATLAB</tag>
+        <tag>OTFS</tag>
+      </tags>
+  </entry>
 </search>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yc518suray.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Content介紹 OFDM 系統不可或缺的 CP。其實我也不知道為什麼要特地把 CP 的介紹獨立為一篇文章，也許是因為 OFDM 系統非常依賴 CP 的緣故吧！並且 CP 的概念也用在其他調變方式，如 OTFS，所以深入理解 CP 絕對是有利無害的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OFDM筆記-5: Cyclic Prefix">
+<meta property="og:url" content="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-5/index.html">
+<meta property="og:site_name" content="R.S. Random Space">
+<meta property="og:description" content="Content介紹 OFDM 系統不可或缺的 CP。其實我也不知道為什麼要特地把 CP 的介紹獨立為一篇文章，也許是因為 OFDM 系統非常依賴 CP 的緣故吧！並且 CP 的概念也用在其他調變方式，如 OTFS，所以深入理解 CP 絕對是有利無害的。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1g767YYKRC-6PW4iHPNj-dTSRSTmhC47m&sz=s1024">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=10CHkwtyKjSP3MlSVulwnl9NkRdvIbJi3&sz=s1024">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=149Pdv9WkRskd18u6Jl_c_R1jVCVKcmc2&sz=s1024">
+<meta property="og:image" content="https://media1.tenor.com/m/4pZEyhWbxRsAAAAd/%E5%91%A8%E6%98%9F%E9%A6%B3-%E5%8A%9F%E5%A4%AB.gif">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1strRKdOmpVH-bxs4u1XTdkeVlKcd4ENF&sz=s1024">
+<meta property="article:published_time" content="2025-12-19T00:45:39.000Z">
+<meta property="article:modified_time" content="2026-04-10T11:08:00.504Z">
+<meta property="article:author" content="Raymond Su">
+<meta property="article:tag" content="OFDM">
+<meta property="article:tag" content="DSP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://drive.google.com/thumbnail?id=1g767YYKRC-6PW4iHPNj-dTSRSTmhC47m&sz=s1024">
+
+
+<link rel="canonical" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-5/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-5/","path":"通訊技術/OFDM-intro-5/","title":"OFDM筆記-5: Cyclic Prefix"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>OFDM筆記-5: Cyclic Prefix | R.S. Random Space</title>
+  
+
+
+
+
+
+
+
+<script src="/live2d-widget/dist/autoload.js"></script>
+<script src="/js/hexo_resize_image.js"></script>
+<link rel="stylesheet" href="/css/SpoilerBlur.css">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">R.S. Random Space</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Raymond Su的個人網站</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa-solid fa-house fa-fw"></i>首頁</a></li><li class="menu-item menu-item-archives"><a href="/archives" rel="section"><i class="fa-solid fa-folder-open fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-categories"><a href="/categories" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-tags"><a href="/tags" rel="section"><i class="fa-solid fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-音樂"><a href="/music" rel="section"><i class="fa fa-music fa-fw"></i>音樂</a></li><li class="menu-item menu-item-連結"><a href="/links" rel="section"><i class="fa fa-link fa-fw"></i>連結</a></li><li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa-solid fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Content"><span class="nav-number">1.</span> <span class="nav-text">Content</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5"><span class="nav-number">2.</span> <span class="nav-text">同步</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#STO"><span class="nav-number">2.1.</span> <span class="nav-text">STO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CFO"><span class="nav-number">2.2.</span> <span class="nav-text">CFO</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E9%81%93%E4%BC%B0%E6%B8%AC"><span class="nav-number">3.</span> <span class="nav-text">通道估測</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">4.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AA%9E"><span class="nav-number">5.</span> <span class="nav-text">結語</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Raymond Su"
+      src="/uploads/images/blog_avatar.png">
+  <p class="site-author-name" itemprop="name">Raymond Su</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives">
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yc518suray" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yc518suray" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:raymondsu0110@gmail.com" title="E-mail → mailto:raymondsu0110@gmail.com" rel="noopener me" target="_blank"><i class="fa-solid fa-envelope fa-fw"></i>E-mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://hackmd.io/@Q5thU81LTku-dZ3h7gNMFQ" title="HackMD → https:&#x2F;&#x2F;hackmd.io&#x2F;@Q5thU81LTku-dZ3h7gNMFQ" rel="noopener me" target="_blank"><i class="fa-solid fa-book-open fa-fw"></i>HackMD</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/images/blog_avatar.png">
+      <meta itemprop="name" content="Raymond Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R.S. Random Space">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="OFDM筆記-5: Cyclic Prefix | R.S. Random Space">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OFDM筆記-5: Cyclic Prefix
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2025-12-19 08:45:39" itemprop="dateCreated datePublished" datetime="2025-12-19T08:45:39+08:00">2025-12-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-04-10 19:08:00" itemprop="dateModified" datetime="2026-04-10T19:08:00+08:00">2026-04-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/" itemprop="url" rel="index"><span itemprop="name">通訊技術</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-5/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="通訊技術/OFDM-intro-5/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><h2 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h2><p>介紹 OFDM 系統不可或缺的 CP。其實我也不知道為什麼要特地把 CP 的介紹獨立為一篇文章，也許是因為 OFDM 系統非常依賴 CP 的緣故吧！並且 CP 的概念也用在其他調變方式，如 OTFS，所以深入理解 CP 絕對是有利無害的。</p>
+<span id="more"></span>
+
+<p>以下是OFDM筆記全系列的文章：</p>
+<ul>
+<li><a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-1/" title="OFDM筆記-1: OFDM簡介">OFDM筆記-1: OFDM簡介</a></li>
+<li><a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-2/" title="OFDM筆記-2: 通道模型">OFDM筆記-2: 通道模型</a></li>
+<li><a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-3/" title="OFDM筆記-3: OFDM模擬-Python">OFDM筆記-3: OFDM模擬-Python</a></li>
+<li><a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-4/" title="OFDM筆記-4: OFDM模擬-C++">OFDM筆記-4: OFDM模擬-C++</a></li>
+<li><a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-5/" title="OFDM筆記-5: Cyclic Prefix">OFDM筆記-5: Cyclic Prefix</a></li>
+<li><a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-6/" title="OFDM筆記-6: 待解決的問題">OFDM筆記-6: 待解決的問題</a></li>
+</ul>
+<p>&emsp;&emsp;CP 作為 guard interval，將 linear convolution 轉變為 circular convolution、進而簡化 OFDM 接收端等化器設計的故事，大家已經耳熟能詳了。所以這篇文章會介紹 CP 的其他應用。</p>
+<h2 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h2><p>&emsp;&emsp;OFDM 在頻率上 (carrier frequency offset，CFO) 以及時間上 (symbol timing offset，STO) 都需要同步，否則無法還原傳送的符號。這一節分享的是[1]這篇 1997 年的經典論文，同時處理 CFO 和 STO 的問題。在過去的文獻(相較於此論文)裡，Moose (1994) 假設 STO 為已知，在頻域計算 CFO 的 ML 估計，不過有一些 training symbol 長度的限制；Nogami (1995) 等人採用加入 null symbol 來估計 STO 的方法，但是這個方法在傳送 burst 的時候不管用。這篇論文改良 Classen (1994) 的做法，一種方法解決兩個問題。</p>
+<br>
+
+<p>&emsp;&emsp;讀完才發現這篇論文<strong>其實不是 CP 的應用</strong>，不過姑且還是和 CP 有關。論文首先說明如何解決 STO，接著描述如何解決 CFO，兩者都是基於一組 training sequence 的設計。</p>
+<h3 id="STO"><a href="#STO" class="headerlink" title="STO"></a>STO</h3><p>&emsp;&emsp;在一個 frame 的開頭設計一個 training symbol，稱作 TS1。TS1 的 useful part 長度為 2L，前 L 個 sample 和後 L 個 sample 一模一樣。這要如何得到？回想一下，如果在時域作 upsampling 兩倍，對應到頻域就是頻譜相對原點收縮兩倍。根據對偶性，在頻域作 upsampling 兩倍，就會對應到時域重複的兩半。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1g767YYKRC-6PW4iHPNj-dTSRSTmhC47m&sz=s1024" width="360">
+<center><font color="cyan">圖A，在頻域 upsampling。</font></center>
+<br>
+
+<p>&emsp;&emsp;接收端收到基頻的 sample $r_i$ 後，計算長度為 2L 的 sliding window 裡，前半和後半的 correlation ($d$ 為 sliding window 裡第一個 sample 時間)，</p>
+<p>$$<br>\begin{align}<br>&amp;P(d) &#x3D; \sum_{m &#x3D; 0}^{L - 1}{r_{d + m}^{*} r_{d + m + L}}\\[10pt]<br>&amp;P(d + 1) &#x3D; P(d) + r_{d + L}^{*} r_{d + 2L} - r_{d}^{*} r_{d + L}<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;如果 start time 完全沒有誤差，或是在 CP 長度減去通道長度的範圍內(見圖B)，$\lvert P(d)\rvert$ 都會是最大值。定義 $R(d) &#x3D; \sum_{m &#x3D; 0}^{L - 1}{\lvert r_{d + m + L}\rvert^2}$ 作為正規化的常數，我們可以定義 <strong>timing metric</strong> $M(d)$ 來表示 STO 造成的影響，</p>
+<p>$$<br>M(d) &#x3D; \frac{\lvert P(d)\rvert}{R(d)}<br>$$</p>
+<p>&emsp;&emsp;圖C呈現 start time 與 timing metric 的關係，$N_{\text{fft}} &#x3D; 1024$，$N_{\text{CP}} &#x3D; 128$。注意到有一段平坦的區間，就是前述 CP 形成的範圍，start time 在這段區間內誤差為零(但會引入固定的相位差)。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=10CHkwtyKjSP3MlSVulwnl9NkRdvIbJi3&sz=s1024" width="360">
+<center><font color="cyan">圖B，start time 的選取範圍。</font></center>
+<br>
+<img src="https://drive.google.com/thumbnail?id=149Pdv9WkRskd18u6Jl_c_R1jVCVKcmc2&sz=s1024" width="360">
+<center><font color="cyan">圖C，timing metric vs start time，取十次模擬的平均值。</font></center>
+<br>
+
+<p>&emsp;&emsp;假設接收到的 sample 可以分為訊號和雜訊的成分，$r_i &#x3D; s_i + n_i$，$E\left[\lvert s_i\rvert^2\right] &#x3D; 2\sigma_s^2$，$E\left[\lvert n_i\rvert^2\right] &#x3D; 2\sigma_n^2$。經過一番推敲，論文提出在 correct timing 的情況下，timing metric 為常態分布，期望值為</p>
+<p>$$<br>E\left[M(d_{\text{opt}})\right] &#x3D; \frac{\sigma_s^2}{\sigma_s^2 + \sigma_n^2}<br>$$</p>
+<p>&emsp;&emsp;意味著 SNR 愈大，$E\left[M(d_{\text{opt}})\right]$ 愈趨近於 1，很合理。論文也提出對 SNR 的一個估計器，</p>
+<p>$$<br>\hat{\text{SNR}} &#x3D; \frac{M(d_{\text{opt}})}{1 - M(d_{\text{opt}})}<br>$$</p>
+<p>&emsp;&emsp;這個估計器在低 SNR 時比較準確。因此，接收端可以從 timing metric 來估計 SNR，判斷<span class="hint--info hint--rounded hint--top" data-hint="SNR 過低，可能導致錯誤率過高" ontouchstart>是否解讀訊號</span>，或是將 SNR 的資訊回傳給發射端(雖然這好像和 start time 的選取比較沒關係)。</p>
+<br>
+
+<p>&emsp;&emsp;論文提供兩個尋找最佳 start time 的方法：找 timing metric 最大值的時間點，或是找最大值左右兩個 90% 最大值的點，再取兩點中心。後者的效果比較好，不過兩種方法都要求先找到峰值。</p>
+<h3 id="CFO"><a href="#CFO" class="headerlink" title="CFO"></a>CFO</h3><p>&emsp;&emsp;假設 CFO 為 $\Delta f$，則 TS1 的前後半剛好相差一個固定的相位 $\phi &#x3D; \pi T\Delta f$，$T$ 是子載波間距的倒數。$\phi$ 可以由前面提到的 $P(d)$ 來估計(假設 STO 的問題已經解決)，</p>
+<p>$$<br>\hat{\phi} &#x3D; \angle P(d)<br>$$</p>
+<p>&emsp;&emsp;然而這裡有個問題：如果實際的頻率位移 $\lvert\Delta f\rvert &gt; \frac{1}{T}$，單從 $\hat{\phi}$ (定義在 $-\pi$ 到 $\pi$ 之間)是無法得知的。更一般的情形可以寫作</p>
+<p>$$<br>\Delta f &#x3D; \frac{\hat{\phi}}{\pi T} + \frac{2k}{T}<br>$$</p>
+<p>&emsp;&emsp;可以看成是整數部分和小數部分的表示。要估計 $\Delta f$，我們需要第二個 training symbol TS2。TS2 的每一個子載波皆載有 PN 序列 (TS1 則只有偶數編號的子載波載有 PN 序列)。首先先補償 $\hat{\phi} &#x2F; \pi T$ 的相位差，接下來的目標就是估計 $2k &#x2F; T$。</p>
+<br>
+
+<p>&emsp;&emsp;令 $X_{1, i}$ 和 $X_{2, i}$ 分別表示 TS1 和 TS2 各個子載波承載的符號，當然 $X_{1, i}$ 只有在 $i$ 為偶數的時候有值；$X_{2, i}$ 則是每個 $i$ 都有值。定義 $v_i$ 為 $X_{2, i} &#x2F; X_{1, i}$，$i$ 為偶數，也就是說它是 differential 的。現在來看看 $v_i$ 在頻率位移下的變化：頻率位移後，$v_i’ &#x3D; v_{(i + 2k)_N}$，經歷了 cyclic shift，所以 correlation 的概念一樣可以用於頻率位移的估計。定義頻率位移 metric 為</p>
+<p>$$<br>B(k) &#x3D; \frac{\lvert\sum{ {X’_{1, (i + 2k)_N}}^{*}\ {v’_i}^{*}\ X’_{2, (i + 2k)_N}}\rvert^2}{2\left(\sum{\lvert X_{2, i}\rvert^2}\right)}<br>$$</p>
+<p>&emsp;&emsp;而 $\hat{k} &#x3D; \arg{\max_{k}{B(k)}}$。看起來有點複雜，不過和 timing metric 的概念是一樣的，就有點像齒輪的嵌合，選擇合適的 $\hat{k}$ 就可以讓 $B(k)$ 分子的每一項相位為零。這部分好像比較像是 detection 而不是 estimation。</p>
+<h2 id="通道估測"><a href="#通道估測" class="headerlink" title="通道估測"></a>通道估測</h2><p>&emsp;&emsp;CP 也可以用於通道估測。這一節分享[2]這篇 1999 年的論文，使用 CP 來作 blind channel estimation，也就是不使用 training symbol 的作法。論文首先強調 CP-OFDM 時域波型的 <strong>cyclostationarity</strong> 性質。令 $P &#x3D; N + N_{\text{cp}}$，並以 polyphase representation 來表示哪一個 block 的哪一個 sample，$x_p[n] &#x3D; x[n P + p]$。據此，OFDM 時域波型可以寫為</p>
+<p>$$<br>x_p[n] &#x3D; \frac{1}{N} \sum_{m &#x3D; 0}^{N - 1}{s_m[n] e^{j\frac{2\pi}{N} m(p - N_{\text{cp}})}},\ \ 0 \leq p \leq P - 1<br>$$</p>
+<p>&emsp;&emsp;而其自相關函數可以寫為(假設 $E\left[s_m[n] s^{*}_r[n]\right] &#x3D; \sigma_s^2 \delta[m - r]$)</p>
+<p>$$<br>\begin{align}<br>c_{xx}[nP + p;\ \tau] &amp;&#x3D; E\left[x_{p + \tau}[n] x^{*}_p[n]\right] \sum_{\zeta &#x3D; 0}^{P - 1}{\delta[\zeta - (p + \tau)]}\\[10pt]<br>&amp;&#x3D; \frac{1}{N^2} \sum_{m &#x3D; 0}^{N - 1}{\sum_{r &#x3D; 0}^{N - 1}{E\left[s_m[n] s^{*}_r[n]\right] e^{j\frac{2\pi}{N} m(p + \tau - N_{\text{cp}})} e^{-j\frac{2\pi}{N} r(p - N_{\text{cp}})}}} \sum_{\zeta &#x3D; 0}^{P - 1}{\delta[\zeta - (p + \tau)]}\\[10pt]<br>&amp;&#x3D; \frac{\sigma_s^2}{N^2} \sum_{m &#x3D; 0}^{N - 1}{e^{j\frac{2\pi}{N} m\tau}} \sum_{\zeta &#x3D; 0}^{P - 1}{\delta[\zeta - (p + \tau)]}\\[10pt]<br>&amp;&#x3D; \frac{\sigma_s^2}{N} \left(\delta[\tau] + \delta[\tau - N]\sum_{\zeta &#x3D; 0}^{P - N - 1}{\delta[\zeta - p]} + \delta[\tau + N]\sum_{\zeta &#x3D; N}^{P - 1}{\delta[\zeta - p]}\right)<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;$\sum{\delta[\zeta - (p + \tau)]}$ 是用來限制 $0 \leq p + \tau \leq P - 1$ (我還是第一次看到這種操作)。上面這個式子說明 $c_{xx}$ 是 $p$ 和 $\tau$ 的函數，但是<font color="yellow">注意它不是 $n$ 的函數</font>，表示每經過週期 $P$，$c_{xx}$ 就會開始重複，因此為 <strong>cyclostationary</strong>。</p>
+<br>
+
+<p>&emsp;&emsp;經過 LTI 系統，cyclostationarity 的性質不變，就不附上推導過程了 ($L$ 是通道長度)：</p>
+<p>$$<br>c_{rr}[nP + p;\ \tau] &#x3D; \sum_{\zeta &#x3D; 0}^{L - 1}{\sum_{\substack{q &#x3D;\\ \tau - \zeta - (L - 1)}}^{\tau - \zeta}{h[\zeta] h^{*}[\zeta - \tau + q] c_{xx}[nP + p - \zeta;\ q]}} + \sigma_n^2 \delta[\tau]<br>$$</p>
+<p>&emsp;&emsp;計算它的 DTFS expansion $C_{rr}[k;\ \tau]$，論文作者稱其為 cyclic correlation。基本上，時域的自相關函數對應到頻域的功率頻譜，不過 cyclic correlation 描述時間變數 $p$ 的週期性質，而不是時間差變數 $\tau$，所以不能解讀為功率頻譜；$C_{rr}[k;\ \tau]$ 可以理解為「變化週期為 $P &#x2F; k$ 的自相關模式」。說真的搞不太懂它的物理意義。</p>
+<p>$$<br>C_{rr}[k;\ \tau] &#x3D; \frac{1}{P} \sum_{p &#x3D; 0}^{P - 1}{c_{rr}[nP + p;\ \tau] e^{-j\frac{2\pi}{P} kp}}<br>$$</p>
+<br>
+<img src="https://media1.tenor.com/m/4pZEyhWbxRsAAAAd/%E5%91%A8%E6%98%9F%E9%A6%B3-%E5%8A%9F%E5%A4%AB.gif" width="450">
+<center><font color="cyan">越讀腦袋越亂，而且論文裡有些式子沒寫好，要自己推敲一番。<br>圖片來源：tenor.com，</font><a target="_blank" rel="noopener" href="https://tenor.com/zh-TW/view/周星馳-功夫-你搞得我好亂呐-gif-27169093"><font color="cyan">連結</font></a></center>
+<br>
+
+<p>&emsp;&emsp;最後，再對時間差變數 $\tau$ 作 z-transform，得到 $S_{rr}(k;\ z)$ (cyclic spectrum)。由於 $C_{rr}$ 可以寫成</p>
+<p>$$<br>C_{rr}[k;\ \tau] &#x3D; \left(h[\tau] e^{-j\frac{2\pi}{P} k\tau}\right) \star h^{*}[-\tau] \star C_{xx}[k;\ \tau]<br>$$</p>
+<p>&emsp;&emsp;故</p>
+<p>$$<br>S_{rr}(k;\ z) &#x3D; H(e^{j\frac{2\pi}{P} k} z) H^{*}((z^{-1})^{*}) S_{xx}(k;\ z)<br>$$</p>
+<p>&emsp;&emsp;$S_{xx}$ 為已知，$S_{rr}$ 則可以在接收端得到(估計)，$H(z)$ 則可以透過選取兩個合適的 $k_i$，再經過一番運算得到。圖D呈現 $L &#x3D; 7$，$N &#x3D; 64$，$N_{\text{cp}} &#x3D; 8$ 的情況下，$\lvert S_{rr}\rvert$ 的形狀。($z$ 由 $e^{j\omega}$ 代換。)</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1strRKdOmpVH-bxs4u1XTdkeVlKcd4ENF&sz=s1024" width="400">
+<center><font color="cyan">圖D，$\lvert S_{rr}(k;\ e^{j\omega})\rvert$ 頻譜。</font></center>
+<br>
+
+<p>&emsp;&emsp;這篇論文我覺得讀來相當吃力，也許是耐不住性子慢慢推導吧，和 Google Gemini 討論才對它有些想法。簡單來說，因為加入了 CP，傳送訊號與接收訊號為 cyclostationary，等於是增加了不同 $k_i$ 所提供的條件(資訊)，方能解出 $H(z)$。Blind estimation 不使用 pilot symbol，因此最大化既有的頻譜使用效率；但是估計 $S_{rr}$ 需要時間，無法應用於高速變化的通道，演算法複雜度高，不如 pilot-aided 的方法簡單有效。不過，在不可能知道 pilot 資訊的情況下，如監偵軍事情報，可能還是需要 blind estimation (thoughts from Google Gemini)。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>&emsp;&emsp;這一節我們提出一個問題：<strong>OFDM 難道就非 CP 不可嗎？</strong> 在[3]這篇論文中提出用於 ZP-OFDM 系統的等化器設計，也比較了 CP 和 ZP 的優缺點。這篇論文以相當<font color="yellow">簡潔</font>的方式表示 CP-OFDM：假設傳送的第 $i$ 個 block 符號為 ${\bf s}(i)$，則接收到的 sample 可以寫作</p>
+<p>$$<br>{\bf r}(i) &#x3D; {\rm H} {\rm F}_{\text{cp}} {\bf s}(i) + {\rm H}_{\text{IBI}} {\rm F}_{\text{cp}} {\bf s}(i - 1) + {\bf n}(i)<br>$$</p>
+<p>&emsp;&emsp;當中 ${\rm F}_{\text{cp}}$ 是加上 CP 部分的 IDFT 矩陣，$\rm H$ 是代表通道的下三角矩陣，${\rm H}_{\text{IBI}}$ 是代表 inter-block interference 的上三角矩陣。ZP-OFDM 也是一樣的形式：</p>
+<p>$$<br>\begin{align}<br>{\bf r}(i) &amp;&#x3D; {\rm H} {\rm F}_{\text{zp}} {\bf s}(i) + {\rm H}_{\text{IBI}} {\rm F}_{\text{zp}} {\bf s}(i - 1) + {\bf n}(i)\\[10pt]<br>\text{(ZP 作為 postfix)}\ &amp;&#x3D; {\rm H} {\rm F}_{\text{zp}} {\bf s}(i) + {\bf n}(i)\\[10pt]<br>&amp;&#x3D; {\rm H_0} {\rm F}_N^H {\bf s}(i) + {\bf n}(i)<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;其中 $\rm H_0$ 由 $\rm H$ 的前 $N$ 個行向量組成，也是因為將 ZP 作為 postfix 而得以簡化。注意 $P\times N$ 矩陣 $\rm H_0$ 的行向量為線性獨立，因此可以計算它的 left inverse $\rm H_0^{\dagger}$ 還原時域訊號 (ZF equalizer)。相較於 CP-OFDM 在頻域執行 one-tap equalization，ZP-OFDM 在時域的 equalizer 不會有 deep-fading 的問題，因此可以還原每一個子載波的符號 (full diversity gain)；當然 CP-OFDM 的接收機複雜度就比 ZP-OFDM 簡單許多，正所謂 <strong>trade-off 不可避</strong>，好的 performance 一定伴隨著相當的代價。</p>
+<br>
+
+<p>&emsp;&emsp;論文提出兩種 ZP-OFDM 的等化器設計，<strong>ZP-OFDM-OLA</strong> 和 <strong>ZP-OFDM-FAST</strong>，後面的十頁大家就自己去讀。從圖表得到的結論是，ZP-OFDM-OLA 的效果和 CP-OFDM 差不多，ZP-OFDM-FAST 的錯誤率在未編碼的情況下比 CP-OFDM 多出 2 ~ 3 dB 的增益，有編碼的話差異就減少到 1 dB 以內；不過模擬預設的通道也可能是 performance 差異的重要原因。</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;我一直覺得 CP 是很優美的設計，它的形式很簡單，功能卻非常強大。雖然本文舉出 CP-OFDM 的一些缺點，但是別忘了LTE-advanced、5G 和 Wifi 都是基於 CP-OFDM，顯然經過工程考量，CP 還是比較有優勢的。也許在 OTFS 系統，CP 也能大展身手。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[1] T. M. Schmidl and D. C. Cox, “Robust frequency and timing synchronization for OFDM,” in <em>IEEE Transactions on Communications</em>, vol. 45, no. 12, pp. 1613-1621, Dec. 1997.</p>
+<p>[2] R. W. Heath and G. B. Giannakis, “Exploiting input cyclostationarity for blind channel identification in OFDM systems,” in <em>IEEE Transactions on Signal Processing</em>, vol. 47, no. 3, pp. 848-856, March 1999.</p>
+<p>[3] B. Muquet, Zhengdao Wang, G. B. Giannakis, M. de Courville and P. Duhamel, “Cyclic prefixing or zero padding for wireless multicarrier transmissions?,” in <em>IEEE Transactions on Communications</em>, vol. 50, no. 12, pp. 2136-2148, Dec. 2002.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Raymond Su
+  </li>
+  <li class="post-copyright-link">
+      <strong>文章連結：</strong>
+      <a href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OFDM-intro-5/" title="OFDM筆記-5: Cyclic Prefix">https://yc518suray.github.io/通訊技術/OFDM-intro-5/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版權聲明： </strong>本網誌所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 許可協議。轉載請註明出處！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/OFDM/" rel="tag"><i class="fa fa-tag"></i> OFDM</a>
+              <a href="/tags/DSP/" rel="tag"><i class="fa fa-tag"></i> DSP</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/%E5%AD%B8%E7%BF%92%E7%AD%86%E8%A8%98/intelligent-manu-paper/" rel="prev" title="論文閱讀：A Multi-Bus Dispatching Strategy Based on Boarding Control">
+                  <i class="fa fa-angle-left"></i> 論文閱讀：A Multi-Bus Dispatching Strategy Based on Boarding Control
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/%E7%B6%B2%E9%A0%81%E5%89%8D%E7%AB%AF/comm-jam-project-concept/" rel="next" title="Comm Jam 整體概念">
+                  Comm Jam 整體概念 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Raymond Su</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"oscarsu-disqus","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
