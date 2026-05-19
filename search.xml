@@ -4306,4 +4306,75 @@ $$
         <tag>OTFS</tag>
       </tags>
   </entry>
+  <entry>
+    <title>論文閱讀：Multicell OTFS 系統</title>
+    <url>/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-multicell-otfs/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;今天分享的是一篇 IEEE 車載科技雜誌 (Vehicular Technology Magazine) 的文章，講述 multicell OTFS 系統的細胞間干擾 (inter-cell interference，ICI) 及應對之道。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1e_T2q2w0TS986xjrMRXxgF3-QquZpchc&sz=s1024" width="400"><center><font color="cyan">傍晚的大學城一景，融合現實與魔幻(?)</font></center>
+<span id="more"></span>
+
+<h2 id="論文資訊"><a href="#論文資訊" class="headerlink" title="論文資訊"></a>論文資訊</h2><p>Z. Zhang, Y. Wu, X. Lei, L. Lei and Z. Wei, “Toward 6G Multicell Orthogonal Time Frequency Space Systems: Interference Coordination and Cooperative Communications,” in <em>IEEE Vehicular Technology Magazine</em>, vol. 19, no. 1, pp. 55-64, March 2024, doi: 10.1109&#x2F;MVT.2023.3345609.</p>
+<h2 id="論文內容"><a href="#論文內容" class="headerlink" title="論文內容"></a>論文內容</h2><p>&emsp;&emsp;高速移動(e.g. 時速 100 公里)的應用情境是 6G 行動通訊的主要關注之一，如車聯網、無人機等等，在這些情境下 OFDM 的通道估測變得困難，OTFS 因此受到矚目。在 OTFS 多細胞行動通訊中，位於細胞邊緣的使用者 (cell-edge users，簡稱 CEU) 受到的干擾嚴重、SINR 較低，對於 ubiquitous communications 而言是必須正視的問題。為了對抗 ICI，5G 系統採用以下三種方法：</p>
+<ul>
+<li>ICI coordination (ICIC)</li>
+<li>Coordinated multipoint (CoMP)</li>
+<li>Integrated access and backhaul (IAB)</li>
+</ul>
+<p>&emsp;&emsp;前兩者在 4G 引進，IAB 則是 5G 引進。下面分別簡單介紹。</p>
+<h3 id="ICIC"><a href="#ICIC" class="headerlink" title="ICIC"></a>ICIC</h3><p>&emsp;&emsp;參考介紹通訊協定的知名部落格<a href="https://note-on-clouds.blogspot.com/"> Castle on a Cloud </a>的文章[1]。ICIC 最早在 3GPP Release 8 就提出，為了解決細胞間干擾的問題：UE 位於兩相鄰細胞之間的邊界，其中一個細胞的訊號會形成干擾，或是 UE 位於一個 pico cell 的服務範圍，此時 macro cell 的訊號就會形成干擾。</p>
+<br>
+
+<p>&emsp;&emsp;ICIC 使基地台 (eNB，for evolved Node B) 透過 X2 介面來協調服務基地台使用哪一個通道(e.g. 頻帶)來傳送訊號。加強版的 eICIC 增加了 ABS (Almost Blank Frame) 的功能，small cell 可以在 macro cell 傳送 ABS 的時候，收發訊號給 UE。更詳細的內容可以參考[2]。</p>
+<h3 id="CoMP"><a href="#CoMP" class="headerlink" title="CoMP"></a>CoMP</h3><p>&emsp;&emsp;參考通訊協定大神<a href="https://www.sharetechnote.com/index.html"> ShareTechnote </a>的筆記[3][4]。CoMP 自 4G 引進，沿用至 5G NR，最初的目的是增加細胞邊緣的吞吐量 (throughput)。CoMP 的使用情境為數個 macro cells 之間，或是單一 macro cell 和數個 RRH (Remote <a href="https://www.youtube.com/watch?v=u5CVsCnxyXg&pp=ygUKcmFkaW8gaGVhZA==">Radio Head</a>) 之間的協調，可以是同質網路或是異質網路(不同機器種類、功率等級)。CoMP 的功能如下(以下行為例)：</p>
+<ul>
+<li><p><strong>CS</strong> (coordinated scheduling)<br>一個 UE 的資料只會由一個傳送站點 (TP，transmission point) 發送，TP 和 UE 的配對、傳送的時槽分配等等，由中央的基地台決定 (CSI known)。</p>
+</li>
+<li><p><strong>CB</strong> (coordinated beamforming)<br>每個 TP 的傳送波束由中央的基地台最佳化，以便增加各個 UE 的 SINR。</p>
+</li>
+<li><p><strong>JT</strong> (joint transmission)<br>每個 TP 傳送相同資料給單一 UE，透過波束成型來最大化 SINR。</p>
+</li>
+<li><p><strong>TPS</strong> (transmission point selection)<br>每個時槽選定一個 TP 傳送資料給指定 UE，和 CS 有點像，但是 CS 是以 cluster 為單位分配。</p>
+</li>
+</ul>
+<p>&emsp;&emsp;因 5G NR 對低延遲、毫米波覆蓋率的要求，CoMP 成為更關鍵的技術。只不過 CoMP 也是有缺點，它需要高速低延遲的 backhaul 線路來調度各個 TP，波束成型、排程的計算量也很大，並且對於訊號同步的要求很高(波束成型的基礎)。</p>
+<h3 id="IAB"><a href="#IAB" class="headerlink" title="IAB"></a>IAB</h3><p>&emsp;&emsp;參考 Castle on a Cloud 和 ERICSSON 的文章[5][6]。由於毫米波的覆蓋範圍較小，5G 需要密集的部署基站，因此也需要相對密集的 backhaul 線路。IAB 以毫米波作為無線 backhaul 的途徑，可以是附加的功能 (IAB-MT) 或是和接取網路共用天線和硬體，如圖A。IAB 以提高訊號強度的方式來增加 SINR，和另外兩種方法的核心概念不同。</p>
+<br>
+<img src="https://www.ericsson.com/cdn-cgi/image/format=auto,fit=scale-down,width=1200/49d0ee/assets/global/qbank/2020/06/12/etr-2020-07-figure01-119301d41d8cd98f00b204e9800998ecf8427e.png" width="500">
+<center><font color="cyan">圖A，IAB 的基本概念。圖片來源：ericsson.com，</font><a href="https://www.ericsson.com/en/reports-and-papers/ericsson-technology-review/articles/introducing-integrated-access-and-backhaul"><font color="cyan">連結</font></a></center>
+
+<h3 id="Downlink-OTFS-ICI"><a href="#Downlink-OTFS-ICI" class="headerlink" title="Downlink OTFS ICI"></a>Downlink OTFS ICI</h3><p>&emsp;&emsp;回到 OTFS 系統的 ICI，其實和 OFDM 系統受到的干擾來源是相同的，但是訊號受影響的形態則不太一樣；關鍵在於 OTFS 是在 DD domain 規劃無線電資源。舉例來說，假設有某個 jamming 訊號出現在某頻帶內，對於 OFDM 系統而言，受干擾的是與 jamming 訊號頻譜重疊的子載波；但是對於 OTFS 系統而言，卻是整個 DD domain 都會被蓋到。</p>
+<h4 id="ICIC-for-multicell-OTFS"><a href="#ICIC-for-multicell-OTFS" class="headerlink" title="ICIC for multicell OTFS"></a>ICIC for multicell OTFS</h4><p>&emsp;&emsp;ICIC 有兩種作法，FFR (fraction frequency reuse) 或 SFR (soft frequency reuse)。<strong>FFR</strong> 將頻帶分為細胞中央使用的頻帶，以及細胞邊緣 CEUs 使用的頻帶，每個 CEU 實際佔用的頻帶則是依據 reuse factor 再劃分的子頻帶，因此 CEU 彼此之間就不會互相干擾。</p>
+<br>
+
+<p>&emsp;&emsp;FFR 頻帶使用效率不佳，因為細胞中央的使用者分配到的頻帶減少。<strong>SFR</strong> 放寬限制，讓細胞中央的用戶也可以使用其他細胞 CEU 分配到的頻帶，只是必須降低功率。</p>
+<br>
+
+<p>&emsp;&emsp;上述是 OFDM 系統的作法，OTFS 系統大同小異，就是把頻率資源換成 delay-Doppler 資源。圖B呈現一個 seven-cell 的系統，<span class="hint--info hint--rounded hint--top" data-hint="根據論文，這是為了增加 Doppler 的
+點數，有助於通道估測" ontouchstart>沿著 delay 軸劃分資源</span>。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1u858AfZv-JEH5Dajj6Fy-T0KBf0kQTy4&sz=s1024" width="450"><center><font color="cyan">圖B，OTFS 系統的 ICIC示意圖。圖片來源：論文 Figure 4。</font></center>
+
+<h4 id="CoMP-for-multicell-OTFS"><a href="#CoMP-for-multicell-OTFS" class="headerlink" title="CoMP for multicell OTFS"></a>CoMP for multicell OTFS</h4><p>&emsp;&emsp;在 UE 快速移動的情境下，不管是波束成型 (CB) 還是基地台排程 (CS) 都面臨挑戰。不過基本上作法和 OFDM 系統是一樣的。</p>
+<h4 id="IAB-for-multicell-OTFS"><a href="#IAB-for-multicell-OTFS" class="headerlink" title="IAB for multicell OTFS"></a>IAB for multicell OTFS</h4><p>&emsp;&emsp;OTFS 系統中的 IAB node 可以分為移動式節點或固定式節點，前者和基地台之間有相對移動，後者則是和用戶有相對移動。大致上和 OFDM 系統是一樣的。</p>
+<h4 id="效能比較"><a href="#效能比較" class="headerlink" title="效能比較"></a>效能比較</h4><p>&emsp;&emsp;論文模擬 seven-cell 的 OTFS 系統，通道假設為 3GPP EVA model 及 perfect CSI，採用 ICIC 和 CoMP。模擬結果顯示 <strong>CoMP CB</strong> 的效果優於其他方法，<strong>random beamforming</strong> 次之。(關於 random beamforming 之後會寫一篇文章給大家講解。)</p>
+<br>
+
+<p>&emsp;&emsp;至於 IAB-based 的 multicell OTFS 系統，IAB node 和基地台的距離會影響 BER，通道的路徑衰減也是重要因素。</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;本文介紹的技術都是在前幾世代行動通訊就被提出、甚至納入 3GPP spec，但是 4G 和 5G 採用的波型皆為 OFDM，這些技術未必能直接套用到新的波型，如 OTFS。這篇論文討論 OTFS 系統的細胞間干擾，指出其與 OFDM 系統的細胞間干擾相異之處，並且以模擬檢驗現有方法的效果。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[1] 柯俊先, “LTE筆記: Inter-cell Interference Coordination (ICIC) 以及其延伸 (eICIC, FeICIC)”, note-on-clouds.blogspot.com. Available: <a href="https://note-on-clouds.blogspot.com/2020/05/lte-inter-cell-interference.html">https://note-on-clouds.blogspot.com/2020/05/lte-inter-cell-interference.html</a></p>
+<p>[2] ShareTechnote, “ICIC(Inter-Cell Interference Coordination)”, sharetechnote.com. Available: <a href="https://www.sharetechnote.com/html/Handbook_LTE_ICIC.html">https://www.sharetechnote.com/html/Handbook_LTE_ICIC.html</a></p>
+<p>[3] ShareTechnote, “CoMP (Coordinate MultiPoint)”, sharetechnote.com.<br>Available: <a href="https://www.sharetechnote.com/html/5G/5G_CoMP.html">https://www.sharetechnote.com/html/5G/5G_CoMP.html</a></p>
+<p>[4] ShareTechnote, “CoMP”, sharetechnote.com.<br>Available: <a href="https://www.sharetechnote.com/html/LTE_Advanced_CoMP.html">https://www.sharetechnote.com/html/LTE_Advanced_CoMP.html</a></p>
+<p>[5] 柯俊先, “LTE筆記: 3GPP Integrated Access and Backhaul”, note-on-clouds.blogspot.com. Available: <a href="https://note-on-clouds.blogspot.com/2024/01/lte-3gpp-iab.html">https://note-on-clouds.blogspot.com/2024/01/lte-3gpp-iab.html</a></p>
+<p>[6] Henrik Ronkainen, Jonas Edstam, Anders Ericsson, Christer Östberg, “Integrated access and backhaul – a new type of wireless backhaul in 5G”, Ericsson Technology Review. Available: <a href="https://www.ericsson.com/en/reports-and-papers/ericsson-technology-review/articles/introducing-integrated-access-and-backhaul">https://www.ericsson.com/en/reports-and-papers/ericsson-technology-review/articles/introducing-integrated-access-and-backhaul</a></p>
+]]></content>
+      <categories>
+        <category>通訊技術</category>
+      </categories>
+      <tags>
+        <tag>無線通訊</tag>
+        <tag>OTFS</tag>
+      </tags>
+  </entry>
 </search>
