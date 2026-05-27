@@ -4380,21 +4380,22 @@ $$
   <entry>
     <title>OTFS ICI 視覺化展示</title>
     <url>/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OTFS-inter-cell-interference/</url>
-    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;本文展示 OTFS 系統細胞間干擾 (inter-cell interference，ICI) 的情形，以及減緩 ICI 的方法。因為我不會寫 javascript，頁面上的互動式圖表、動畫都是由 Gemini 編寫，使用 p5.js library。</p>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;本文展示 OTFS 系統細胞間干擾 (inter-cell interference，ICI) 的情形，以及減緩 ICI 的方法。因為我不會寫 javascript，頁面上的互動式圖表都是由 Gemini 編寫，使用 p5.js library。</p>
 <span id="more"></span>
 <br>
 
-<p>&emsp;&emsp;關於 OTFS 系統的 ICI 問題，可以參考我之前寫的<a href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-multicell-otfs/">這篇文章</a>，回顧過去 OFDM 系統是如何處理 ICI，OTFS 系統如何沿用 OFDM 系統的方法、面臨的挑戰等等。</p>
+<p>&emsp;&emsp;關於 OTFS 系統的細胞間干擾問題，可以參考我之前寫的<a href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-multicell-otfs/">這篇文章</a>，回顧過去 OFDM 系統是如何處理 ICI，OTFS 系統如何沿用 OFDM 系統的方法、面臨的挑戰等等。</p>
+<h2 id="ICIC-for-OTFS-systems"><a href="#ICIC-for-OTFS-systems" class="headerlink" title="ICIC for OTFS systems"></a>ICIC for OTFS systems</h2><p>&emsp;&emsp;ICIC (ICI coordination) 在 4G 行動通訊系統就已經使用，未完成…。</p>
 <br>
 
-<p>&emsp;&emsp;註：本網頁未完成…。</p>
-<h2 id="ICIC-for-OTFS-systems"><a href="#ICIC-for-OTFS-systems" class="headerlink" title="ICIC for OTFS systems"></a>ICIC for OTFS systems</h2><p>&emsp;&emsp;ICIC (ICI coordination) 在 4G 行動通訊系統就已經使用，未完成…。</p>
+<p>&emsp;&emsp;下面這張圖表呈現一個經典的 seven-cell model，每個細胞中央各有一個基地台，使用共同的 CCU 頻帶以及各自分配到的 CEU 頻帶，功率分別是 35 dB 和 40 dB。根據 Frii’s free space equation，</p>
+<p>$$<br>P_r(d) &#x3D; \frac{P_t G_t G_r \lambda^2}{(4\pi d)^2}<br>$$</p>
+<p>&emsp;&emsp;接收訊號的功率 $P_r(d)$ 會與距離 $d$ 的平方成反比。雖然不同的環境應選用合適的 path loss exponent，這裡還是假設 path loss exponent &#x3D; 2。</p>
 <div style="text-align: center; margin: 20px 0;">
-    <div id="otfs-canvas-container" style="display: inline-block; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-radius: 8px; background: #000; padding: 15px;"></div>
+    <div id="otfs-canvas-container" style="display: inline-block; border-radius: 8px; background: #000; padding: 15px;"></div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
-
 <script>
 (function() {
     let cells = []; 
@@ -4402,10 +4403,8 @@ $$
     let ueSize = 18; 
     let dragging = false; 
     let cellRadius = 60; 
-    let ccuThresholdRatio = 0.6; 
+    let ccuThresholdRatio = 0.5; 
     let delayResources = []; 
-    let maxPower = 1.0;
-    
     let currentServCell = 0;
     let isUEInCcu = true;
 
@@ -4477,7 +4476,7 @@ $$
 
             p.stroke(255, 60, 60);
             p.strokeWeight(dragging ? 3 : 1.5);
-            p.fill(dragging ? 'rgba(255,60,60,0.6)' : 'rgba(255,60,60,0.85)');
+            p.fill(dragging ? 'rgba(255,69,69,0.6)' : 'rgba(255,69,69,0.85)');
             p.ellipse(uePosition.x, uePosition.y, ueSize);
             p.pop();
         }
@@ -4508,8 +4507,8 @@ $$
             p.textAlign(p.RIGHT, p.CENTER);
             p.textSize(12);
             p.text("Power", -8, plotHeight / 2);
-            p.text("1.0", -8, 0);
-            p.text("0", -8, plotHeight);
+            p.text("40 dB", -8, 0);
+            p.text("-10 dB", -8, plotHeight);
 
             p.textAlign(p.CENTER, p.TOP);
             p.textSize(13);
@@ -4522,12 +4521,14 @@ $$
 
             for (let i = 0; i < delayResources.length; i++) {
                 let power = delayResources[i];
-                let barHeight = p.map(power, 0, maxPower, 0, plotHeight);
+                let barHeight = p.map(power, -10, 40, 0, plotHeight, true);
                 
-                if (i === 0) {
+                if (i === 0 && isUEInCcu) {
                     p.fill('rgba(52, 152, 219, 0.85)'); 
-                } else {
-                    p.fill('rgba(230, 126, 34, 0.85)'); 
+                }else if (i === currentServCell + 1 && !isUEInCcu) {
+                    p.fill('rgba(230, 126, 34, 0.85)')
+                }else {
+                    p.fill(80); 
                 }
                 
                 p.rect(barX, plotHeight - barHeight, barWidth, barHeight, 3);
@@ -4538,8 +4539,8 @@ $$
                 let labelText = (i === 0) ? "CCU" : `CEU\nC${i-1}`;
                 p.text(labelText, barX + barWidth / 2, plotHeight + 8);
                 
-                if(power > 0.02) {
-                    p.fill(50);
+                if(power > -10) {
+                    p.fill("white");
                     p.textSize(10);
                     p.textAlign(p.CENTER, p.BOTTOM);
                     p.text(power.toFixed(2), barX + barWidth / 2, plotHeight - barHeight - 3);
@@ -4553,8 +4554,8 @@ $$
         function updateResourceAllocation() {
             let powers = new Array(8).fill(0); 
             let distances = cells.map(center => p.dist(uePosition.x, uePosition.y, center.x, center.y));
-            
             let minDistance = Infinity;
+            let maxDistance = 5 * Math.log(cellRadius);
             let servCellIndex = 0;
             for(let i = 0; i < distances.length; i++) {
                 if (distances[i] < minDistance) {
@@ -4562,30 +4563,20 @@ $$
                     servCellIndex = i;
                 }
             }
-            
             currentServCell = servCellIndex;
 
             if (minDistance < cellRadius * ccuThresholdRatio) {
                 isUEInCcu = true;
-                let ccuRatio = p.map(minDistance, 0, cellRadius * ccuThresholdRatio, 1.0, 0.3);
-                powers[0] = maxPower * ccuRatio;
-            } else if (minDistance <= cellRadius) {
+            } else {
                 isUEInCcu = false;
-                let ceuRatio = p.map(minDistance, cellRadius * ccuThresholdRatio, cellRadius, 0.3, 0.9);
-                powers[servCellIndex + 1] = maxPower * ceuRatio;
-
-                for (let i = 0; i < cells.length; i++) {
-                    if (i === servCellIndex) continue;
-                    let distToEdge = distances[i] - cellRadius;
-                    if (distToEdge < 0) distToEdge = 0;
-
-                    if (distToEdge < cellRadius * 0.4) { 
-                       let iciPower = p.map(distToEdge, 0, cellRadius * 0.4, maxPower * 0.35, 0); 
-                       powers[i + 1] = iciPower; 
-                    }
-                }
             }
-            delayResources = powers;
+            if (minDistance <= cellRadius) {
+                powers[0] = 35 - 10 * Math.log10(minDistance ** 2 + 1);
+                for (let i = 0; i < cells.length; i++) {
+                    powers[i + 1] = 40 - 10 * Math.log10(distances[i] ** 2 + 1);
+                }
+                delayResources = powers;
+            }
         }
 
         function updateUEInteraction() {
@@ -4613,22 +4604,25 @@ $$
 </script>
 
 <h2 id="CoMP-for-OTFS-systems"><a href="#CoMP-for-OTFS-systems" class="headerlink" title="CoMP for OTFS systems"></a>CoMP for OTFS systems</h2><p>&emsp;&emsp;CoMP 也是 4G 系統就開始使用的技術，未完成…。</p>
+<br>
+
+<p>&emsp;&emsp;</p>
 <div style="text-align: center; margin: 40px 0 20px;">
-    <div id="comp-canvas-container" style="display: inline-block; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-radius: 8px; background: #000; padding: 15px;"></div>
+    <div id="comp-canvas-container" style="display: inline-block; border-radius: 8px; background: #000; padding: 15px;"></div>
 </div>
 
 <script>
 (function() {
-    let bss = [];       // 儲存 3 個基地台位置
-    let ueA, ueB;       // UE A 和 UE B
+    let bss = [];
+    let ueA, ueB;
     let ueSize = 18;
     let dragA = false;
-    let bsRadius = 120; // 服務範圍半徑
+    let bsRadius = 140;
     
     let canvasW = 600;
-    let canvasH = 550;
-    let topPlotH = canvasH * 0.65;      // 上方地圖高度
-    let bottomPlotH = canvasH * 0.35;   // 下方圖表高度
+    let canvasH = 600;
+    let topPlotH = canvasH * 0.65;      // 上半部圖表高度
+    let bottomPlotH = canvasH * 0.35;   // 下半部圖表高度
     
     // 訊號與干擾數值
     let stats = { sinrA: 0, intA: 0, sinrB: 0, intB: 0 };
@@ -4640,8 +4634,8 @@ $$
 
             // 初始化三個基地台 (三角形佈局)
             bss.push(p.createVector(canvasW * 0.3, topPlotH * 0.35)); // BS 0 (服務 UE A)
-            bss.push(p.createVector(canvasW * 0.7, topPlotH * 0.35)); // BS 1 (服務 UE B)
-            bss.push(p.createVector(canvasW * 0.5, topPlotH * 0.85)); // BS 2 (協調干擾源)
+            bss.push(p.createVector(canvasW * 0.65, topPlotH * 0.35)); // BS 1 (服務 UE B)
+            bss.push(p.createVector(canvasW * 0.5, topPlotH * 0.75)); // BS 2 (協調干擾源)
 
             // 初始化 UE 位置
             ueA = p.createVector(canvasW * 0.25, topPlotH * 0.6); // 可拖曳
@@ -4651,7 +4645,7 @@ $$
         };
 
         p.draw = function() {
-            p.background("black"); // HSB 的純白
+            p.background("black");
             
             // 計算物理與協調邏輯
             calculateBeamforming();
@@ -4703,10 +4697,10 @@ $$
             
             // 繪製基地台服務範圍
             for (let i = 0; i < bss.length; i++) {
-                p.stroke("white"); // 淡灰色
+                p.stroke("white");
                 p.strokeWeight(2);
                 p.drawingContext.setLineDash([5, 5]);
-                p.noFill();
+                p.fill('rgba(90, 100, 92, 0.5)');
                 p.ellipse(bss[i].x, bss[i].y, bsRadius * 2);
             }
             p.drawingContext.setLineDash([]); // 結束虛線狀態
@@ -4727,9 +4721,13 @@ $$
             let phaseC = p.atan2(ueB.y - bss[2].y, ueB.x - bss[2].x);
             drawWaterDropBeam(bss[2], ueB, phaseC, stats.sinrB * 0.7, 300 - phaseShift); // 紫色調波束
 
+            // BS 2 -> UE A (協調波束？隨便亂畫的啦)
+            let phaseA2 = p.atan2(ueA.y - bss[2].y, ueA.x - bss[2].x);
+            drawWaterDropBeam(bss[2], ueA, phaseA2, stats.sinrA * 0.8, 280 - phaseShift);
+            
             // 繪製基地台圖示
             for (let i = 0; i < bss.length; i++) {
-                p.stroke("white");
+                p.stroke("cyan");
                 p.strokeWeight(2);
                 p.fill("blue");
                 p.triangle(bss[i].x, bss[i].y - 12, bss[i].x - 10, bss[i].y + 8, bss[i].x + 10, bss[i].y + 8);
@@ -4741,7 +4739,7 @@ $$
             }
 
             // 繪製 UE B (固定)
-            p.stroke("white");
+            p.stroke("red");
             p.strokeWeight(1.5);
             p.fill("orange");
             p.ellipse(ueB.x, ueB.y, ueSize);
@@ -4751,7 +4749,7 @@ $$
             p.text("UE B (固定)", ueB.x, ueB.y - 20);
 
             // 繪製 UE A (可移動)
-            p.stroke("white");
+            p.stroke("orange");
             p.strokeWeight(dragA ? 3 : 1.5);
             p.fill(0, 75, 90);
             p.ellipse(ueA.x, ueA.y, ueSize);
@@ -4772,7 +4770,7 @@ $$
             // 使用貝茲曲線畫出水滴/葉片形狀
             p.noStroke();
             // 透明度隨強度變動 (intensity 0~1)
-            let alphaVal = p.map(intensity, 0, 1, 0.35, 1);
+            let alphaVal = p.map(intensity, 0, 1, 0.25, 1);
             p.fill(hueValue, 80, 100, alphaVal);
             
             p.beginShape();
@@ -4788,7 +4786,7 @@ $$
         function drawStats() {
             p.push();
             let chartY = topPlotH + 30;
-            let chartH = bottomPlotH - 60;
+            let chartH = bottomPlotH - 90;
             let barW = 45;
             
             // 軸線
@@ -4802,18 +4800,21 @@ $$
             drawBar(startXA + barW + 15, chartY, chartH, barW, stats.intA, 0, "干擾功率");
             
             p.noStroke();
-            p.fill("white");
-            p.textSize(14);
+            p.fill("yellow");
+            p.textSize(15);
             p.textAlign(p.CENTER);
-            p.text("UE A 功率狀態", startXA + barW, chartY + chartH + 45);
+            p.text("UE A 接收功率", startXA + 55, chartY + chartH + 30);
 
             // --- UE B 長條圖組 ---
             let startXB = canvasW * 0.65;
             drawBar(startXB, chartY, chartH, barW, stats.sinrB, 130, "訊號功率");
             drawBar(startXB + barW + 15, chartY, chartH, barW, stats.intB, 0, "干擾功率");
             
-            p.fill("white");
-            p.text("UE B 功率狀態", startXB + barW, chartY + chartH + 45);
+            p.noStroke();
+            p.fill("yellow");
+            p.textSize(15);
+            p.textAlign(p.CENTER);
+            p.text("UE B 接收功率", startXB + 55, chartY + chartH + 30);
             
             p.pop();
         }
@@ -4840,7 +4841,6 @@ $$
             p.text(label, x + w/2, y + maxH + 6);
         }
 
-        // --- 鼠標事件處理 ---
         p.mousePressed = function() {
             let d = p.dist(p.mouseX, p.mouseY, ueA.x, ueA.y);
             if (d < ueSize && p.mouseY < topPlotH) {
@@ -4853,12 +4853,15 @@ $$
         };
     };
 
-    // 啟動第二個 p5 實例
     new p5(compSketch);
 })();
 </script>
 
-<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;<a href="https://p5js.org/">p5.js</a> 真的是相當強大的網頁繪圖工具呢！雖然本文的圖表大部分是 Gemini 寫的就是了。事實上，Gemini Pro 已經提供在對話裡直接呈現互動式圖表的功能。可以稍微理解網頁前端工程師所面臨的困境。</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;<a href="https://p5js.org/">p5.js</a> 真的是相當強大的網頁繪圖工具呢！雖然本文的 code 大部分是 Gemini 寫的就是了。事實上，Gemini Pro 已經提供在對話裡直接呈現互動式圖表的功能；可以稍微理解網頁前端工程師所面臨的困境。</p>
+<br>
+
+<p>&emsp;&emsp;本文視覺化呈現 OFDM 系統已有使用的 ICIC 和 CoMP CB 技術，這些技術也可以用於 OTFS 系統，只不過資源的劃分要從時頻空間改為 delay-Doppler 空間。日常生活中，車聯網可能是 OTFS 系統最關注的應用之一，考量到臺灣都會區車輛和基地台密度極高，這些抗干擾技術應該有不少發揮空間。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[1] H. Dahrouj and W. Yu, “Coordinated beamforming for the multicell multi-antenna wireless system,” in <em>IEEE Transactions on Wireless Communications</em>, vol. 9, no. 5, pp. 1748-1759, May 2010, doi: 10.1109&#x2F;TWC.2010.05.090936.</p>
 ]]></content>
       <categories>
         <category>通訊技術</category>
