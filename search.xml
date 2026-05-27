@@ -4377,4 +4377,497 @@ $$
         <tag>OTFS</tag>
       </tags>
   </entry>
+  <entry>
+    <title>OTFS ICI 視覺化展示</title>
+    <url>/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OTFS-inter-cell-interference/</url>
+    <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;本文展示 OTFS 系統細胞間干擾 (inter-cell interference，ICI) 的情形，以及減緩 ICI 的方法。因為我不會寫 javascript，頁面上的互動式圖表、動畫都是由 Gemini 編寫，使用 p5.js library。</p>
+<span id="more"></span>
+<br>
+
+<p>&emsp;&emsp;關於 OTFS 系統的 ICI 問題，可以參考我之前寫的<a href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-multicell-otfs/">這篇文章</a>，回顧過去 OFDM 系統是如何處理 ICI，OTFS 系統如何沿用 OFDM 系統的方法、面臨的挑戰等等。</p>
+<br>
+
+<p>&emsp;&emsp;註：本網頁未完成…。</p>
+<h2 id="ICIC-for-OTFS-systems"><a href="#ICIC-for-OTFS-systems" class="headerlink" title="ICIC for OTFS systems"></a>ICIC for OTFS systems</h2><p>&emsp;&emsp;ICIC (ICI coordination) 在 4G 行動通訊系統就已經使用，未完成…。</p>
+<div style="text-align: center; margin: 20px 0;">
+    <div id="otfs-canvas-container" style="display: inline-block; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-radius: 8px; background: #000; padding: 15px;"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+
+<script>
+(function() {
+    let cells = []; 
+    let uePosition; 
+    let ueSize = 18; 
+    let dragging = false; 
+    let cellRadius = 60; 
+    let ccuThresholdRatio = 0.6; 
+    let delayResources = []; 
+    let maxPower = 1.0;
+    
+    let currentServCell = 0;
+    let isUEInCcu = true;
+
+    let canvasW = 600;
+    let canvasH = 400;
+    let leftPlotW = canvasW * 0.55;
+    let rightPlotW = canvasW * 0.4;
+    let margin = 40;
+
+    // 使用 p5 的 instance mode，避免跟 Hexo 網站其他可能的 JS 衝突
+    const s = (p) => {
+        p.setup = function() {
+            let cnv = p.createCanvas(canvasW, canvasH);
+            cnv.parent('otfs-canvas-container');
+
+            cells.push(p.createVector(leftPlotW / 2, canvasH / 2)); 
+            let angleOffset = p.PI / 6; 
+            let distance = p.sqrt(3) * cellRadius; 
+
+            for (let i = 0; i < 6; i++) {
+                let angle = angleOffset + (i * p.PI) / 3;
+                let x = leftPlotW / 2 + distance * p.cos(angle);
+                let y = canvasH / 2 + distance * p.sin(angle);
+                cells.push(p.createVector(x, y));
+            }
+            uePosition = cells[0].copy();
+            updateResourceAllocation();
+        };
+
+        p.draw = function() {
+            p.background('black');
+            drawCellPlot();
+            drawResourcePlot();
+            updateUEInteraction();
+        };
+
+        function drawCellPlot() {
+            p.push();
+            for (let i = 0; i < cells.length; i++) {
+                p.stroke(210);
+                p.strokeWeight(1);
+                if (i === currentServCell && !isUEInCcu) {
+                    p.fill('rgba(230, 126, 34, 0.75)');
+                }
+                else {
+                    p.fill(80);
+                }
+                drawHexagon(cells[i].x, cells[i].y, cellRadius);
+                
+                p.stroke(230);
+                p.strokeWeight(1);
+                p.drawingContext.setLineDash([4, 4]);
+                if (i === currentServCell && isUEInCcu) {
+                    p.fill('rgba(52, 152, 219, 0.75)');
+                }
+                else {
+                    p.fill(80);
+                }
+                drawHexagon(cells[i].x, cells[i].y, cellRadius * ccuThresholdRatio);
+                p.drawingContext.setLineDash([]); 
+            }
+            for (let i = 0; i < cells.length; i++) {
+                p.noStroke();
+                p.fill("white");
+                p.textAlign(p.CENTER, p.CENTER);
+                p.textSize(13);
+                p.text("Cell " + i, cells[i].x, cells[i].y - 8);
+            }
+
+            p.stroke(255, 60, 60);
+            p.strokeWeight(dragging ? 3 : 1.5);
+            p.fill(dragging ? 'rgba(255,60,60,0.6)' : 'rgba(255,60,60,0.85)');
+            p.ellipse(uePosition.x, uePosition.y, ueSize);
+            p.pop();
+        }
+
+        function drawHexagon(x, y, r) {
+            p.beginShape();
+            for (let angle = 0; angle < p.TWO_PI - p.PI / 6; angle += p.PI / 3) {
+                let vx = x + p.cos(angle) * r;
+                let vy = y + p.sin(angle) * r;
+                p.vertex(vx, vy);
+            }
+            p.endShape(p.CLOSE);
+        }
+
+        function drawResourcePlot() {
+            p.push();
+            p.translate(leftPlotW + margin/2, margin);
+            let plotWidth = rightPlotW - margin;
+            let plotHeight = canvasH - margin * 2.5;
+
+            p.stroke(180);
+            p.strokeWeight(1.5);
+            p.line(0, plotHeight, plotWidth, plotHeight); 
+            p.line(0, 0, 0, plotHeight); 
+
+            p.noStroke();
+            p.fill("white");
+            p.textAlign(p.RIGHT, p.CENTER);
+            p.textSize(12);
+            p.text("Power", -8, plotHeight / 2);
+            p.text("1.0", -8, 0);
+            p.text("0", -8, plotHeight);
+
+            p.textAlign(p.CENTER, p.TOP);
+            p.textSize(13);
+            p.fill("white");
+            p.text("Resource Block (delay)", plotWidth / 2, plotHeight + 35);
+
+            let barWidth = plotWidth / delayResources.length * 0.7;
+            let barSpacing = plotWidth / delayResources.length * 0.3;
+            let barX = barSpacing / 2;
+
+            for (let i = 0; i < delayResources.length; i++) {
+                let power = delayResources[i];
+                let barHeight = p.map(power, 0, maxPower, 0, plotHeight);
+                
+                if (i === 0) {
+                    p.fill('rgba(52, 152, 219, 0.85)'); 
+                } else {
+                    p.fill('rgba(230, 126, 34, 0.85)'); 
+                }
+                
+                p.rect(barX, plotHeight - barHeight, barWidth, barHeight, 3);
+
+                p.fill("white");
+                p.textSize(10);
+                p.textAlign(p.CENTER, p.TOP);
+                let labelText = (i === 0) ? "CCU" : `CEU\nC${i-1}`;
+                p.text(labelText, barX + barWidth / 2, plotHeight + 8);
+                
+                if(power > 0.02) {
+                    p.fill(50);
+                    p.textSize(10);
+                    p.textAlign(p.CENTER, p.BOTTOM);
+                    p.text(power.toFixed(2), barX + barWidth / 2, plotHeight - barHeight - 3);
+                }
+
+                barX += barWidth + barSpacing;
+            }
+            p.pop();
+        }
+
+        function updateResourceAllocation() {
+            let powers = new Array(8).fill(0); 
+            let distances = cells.map(center => p.dist(uePosition.x, uePosition.y, center.x, center.y));
+            
+            let minDistance = Infinity;
+            let servCellIndex = 0;
+            for(let i = 0; i < distances.length; i++) {
+                if (distances[i] < minDistance) {
+                    minDistance = distances[i];
+                    servCellIndex = i;
+                }
+            }
+            
+            currentServCell = servCellIndex;
+
+            if (minDistance < cellRadius * ccuThresholdRatio) {
+                isUEInCcu = true;
+                let ccuRatio = p.map(minDistance, 0, cellRadius * ccuThresholdRatio, 1.0, 0.3);
+                powers[0] = maxPower * ccuRatio;
+            } else if (minDistance <= cellRadius) {
+                isUEInCcu = false;
+                let ceuRatio = p.map(minDistance, cellRadius * ccuThresholdRatio, cellRadius, 0.3, 0.9);
+                powers[servCellIndex + 1] = maxPower * ceuRatio;
+
+                for (let i = 0; i < cells.length; i++) {
+                    if (i === servCellIndex) continue;
+                    let distToEdge = distances[i] - cellRadius;
+                    if (distToEdge < 0) distToEdge = 0;
+
+                    if (distToEdge < cellRadius * 0.4) { 
+                       let iciPower = p.map(distToEdge, 0, cellRadius * 0.4, maxPower * 0.35, 0); 
+                       powers[i + 1] = iciPower; 
+                    }
+                }
+            }
+            delayResources = powers;
+        }
+
+        function updateUEInteraction() {
+            if (dragging) {
+                uePosition.x = p.constrain(p.mouseX, ueSize, leftPlotW - ueSize);
+                uePosition.y = p.constrain(p.mouseY, ueSize, canvasH - ueSize);
+                updateResourceAllocation();
+            }
+        }
+
+        p.mousePressed = function() {
+            let d = p.dist(p.mouseX, p.mouseY, uePosition.x, uePosition.y);
+            if (d < ueSize) {
+                dragging = true;
+            }
+        };
+
+        p.mouseReleased = function() {
+            dragging = false;
+        };
+    };
+
+    new p5(s);
+})();
+</script>
+
+<h2 id="CoMP-for-OTFS-systems"><a href="#CoMP-for-OTFS-systems" class="headerlink" title="CoMP for OTFS systems"></a>CoMP for OTFS systems</h2><p>&emsp;&emsp;CoMP 也是 4G 系統就開始使用的技術，未完成…。</p>
+<div style="text-align: center; margin: 40px 0 20px;">
+    <div id="comp-canvas-container" style="display: inline-block; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-radius: 8px; background: #000; padding: 15px;"></div>
+</div>
+
+<script>
+(function() {
+    let bss = [];       // 儲存 3 個基地台位置
+    let ueA, ueB;       // UE A 和 UE B
+    let ueSize = 18;
+    let dragA = false;
+    let bsRadius = 120; // 服務範圍半徑
+    
+    let canvasW = 600;
+    let canvasH = 550;
+    let topPlotH = canvasH * 0.65;      // 上方地圖高度
+    let bottomPlotH = canvasH * 0.35;   // 下方圖表高度
+    
+    // 訊號與干擾數值
+    let stats = { sinrA: 0, intA: 0, sinrB: 0, intB: 0 };
+
+    const compSketch = (p) => {
+        p.setup = function() {
+            let cnv = p.createCanvas(canvasW, canvasH);
+            cnv.parent('comp-canvas-container');
+
+            // 初始化三個基地台 (三角形佈局)
+            bss.push(p.createVector(canvasW * 0.3, topPlotH * 0.35)); // BS 0 (服務 UE A)
+            bss.push(p.createVector(canvasW * 0.7, topPlotH * 0.35)); // BS 1 (服務 UE B)
+            bss.push(p.createVector(canvasW * 0.5, topPlotH * 0.85)); // BS 2 (協調干擾源)
+
+            // 初始化 UE 位置
+            ueA = p.createVector(canvasW * 0.25, topPlotH * 0.6); // 可拖曳
+            ueB = p.createVector(canvasW * 0.65, topPlotH * 0.5); // 固定
+            
+            p.colorMode(p.HSB, 360, 100, 100, 1); // 使用 HSB 方便用色調表示相位
+        };
+
+        p.draw = function() {
+            p.background("black"); // HSB 的純白
+            
+            // 計算物理與協調邏輯
+            calculateBeamforming();
+            
+            // 繪製上半部：基地台與電波
+            drawMap();
+            
+            // 繪製下半部：功率長條圖
+            drawStats();
+            
+            // 互動更新
+            if (dragA) {
+                ueA.x = p.constrain(p.mouseX, ueSize, canvasW - ueSize);
+                ueA.y = p.constrain(p.mouseY, ueSize, topPlotH - ueSize);
+            }
+        };
+
+        // --- 核心物理與波束成型動態模擬 ---
+        function calculateBeamforming() {
+            let distA_BS0 = p.dist(ueA.x, ueA.y, bss[0].x, bss[0].y);
+            let distA_BS1 = p.dist(ueA.x, ueA.y, bss[1].x, bss[1].y);
+            let distA_BS2 = p.dist(ueA.x, ueA.y, bss[2].x, bss[2].y);
+            
+            let distB_BS1 = p.dist(ueB.x, ueB.y, bss[1].x, bss[1].y);
+            let distB_BS2 = p.dist(ueB.x, ueB.y, bss[2].x, bss[2].y);
+
+            // 1. UE A 的理想主訊號 (隨距離衰減)
+            stats.sinrA = p.max(0.1, p.map(distA_BS0, 0, bsRadius * 1.8, 1.0, 0.05));
+            
+            // 2. CoMP 協調機制模擬：
+            // 當 UE A 靠近 UE B 時，BS 1 和 BS 2 會啟動 CoMP CB，將波束方向微調或進行相位零點化 (Nulling)
+            let distAB = p.dist(ueA.x, ueA.y, ueB.x, ueB.y);
+            let compMitigation = p.map(distAB, 0, 200, 0.85, 0.1); // 越靠近，協調壓制干擾的力道越深
+            compMitigation = p.constrain(compMitigation, 0, 0.85);
+
+            // 原始干擾 (若不協調)
+            let rawIntA = p.map(distA_BS1, 0, bsRadius*1.5, 0.6, 0) + p.map(distA_BS2, 0, bsRadius*1.5, 0.4, 0);
+            // 實際干擾透過 CoMP 壓制
+            stats.intA = p.max(0, rawIntA * (1 - compMitigation));
+
+            // 3. UE B 的訊號與干擾 (BS 1 服務它，BS 0 對它造成微幅干擾)
+            stats.sinrB = p.map(distB_BS1, 0, bsRadius, 0.9, 0.3);
+            let distB_BS0 = p.dist(ueB.x, ueB.y, bss[0].x, bss[0].y);
+            stats.intB = p.map(distB_BS0, 0, bsRadius * 2, 0.15, 0);
+        }
+
+        function drawMap() {
+            p.push();
+            
+            // 繪製基地台服務範圍
+            for (let i = 0; i < bss.length; i++) {
+                p.stroke("white"); // 淡灰色
+                p.strokeWeight(2);
+                p.drawingContext.setLineDash([5, 5]);
+                p.noFill();
+                p.ellipse(bss[i].x, bss[i].y, bsRadius * 2);
+            }
+            p.drawingContext.setLineDash([]); // 結束虛線狀態
+            
+            // 繪製傳送波束
+            // BS 0 -> UE A (主波束)
+            let phaseA = p.atan2(ueA.y - bss[0].y, ueA.x - bss[0].x);
+            drawWaterDropBeam(bss[0], ueA, phaseA, stats.sinrA, 210); // 藍色調波束
+
+            // BS 1 -> UE B (主波束)
+            let phaseB = p.atan2(ueB.y - bss[1].y, ueB.x - bss[1].x);
+            // 當 UE A 靠近時，波束相位(顏色)會受到 CoMP 協調影響而偏移
+            let distAB = p.dist(ueA.x, ueA.y, ueB.x, ueB.y);
+            let phaseShift = p.map(distAB, 0, 150, 45, 0); 
+            drawWaterDropBeam(bss[1], ueB, phaseB, stats.sinrB, 130 + phaseShift); // 綠/黃色調波束
+
+            // BS 2 -> UE B (協調波束，會對 UE A 產生旁瓣干擾)
+            let phaseC = p.atan2(ueB.y - bss[2].y, ueB.x - bss[2].x);
+            drawWaterDropBeam(bss[2], ueB, phaseC, stats.sinrB * 0.7, 300 - phaseShift); // 紫色調波束
+
+            // 繪製基地台圖示
+            for (let i = 0; i < bss.length; i++) {
+                p.stroke("white");
+                p.strokeWeight(2);
+                p.fill("blue");
+                p.triangle(bss[i].x, bss[i].y - 12, bss[i].x - 10, bss[i].y + 8, bss[i].x + 10, bss[i].y + 8);
+                p.noStroke();
+                p.fill("white");
+                p.textSize(14);
+                p.textAlign(p.CENTER, p.TOP);
+                p.text("BS " + (i+1), bss[i].x, bss[i].y + 12);
+            }
+
+            // 繪製 UE B (固定)
+            p.stroke("white");
+            p.strokeWeight(1.5);
+            p.fill("orange");
+            p.ellipse(ueB.x, ueB.y, ueSize);
+            p.noStroke();
+            p.fill("white");
+            p.textSize(14);
+            p.text("UE B (固定)", ueB.x, ueB.y - 20);
+
+            // 繪製 UE A (可移動)
+            p.stroke("white");
+            p.strokeWeight(dragA ? 3 : 1.5);
+            p.fill(0, 75, 90);
+            p.ellipse(ueA.x, ueA.y, ueSize);
+            p.noStroke();
+            p.fill("white");
+            p.textSize(14);
+            p.text("UE A (移動)", ueA.x, ueA.y - 20);
+        }
+
+        // --- 繪製拉長水滴狀波束的輔助函數 ---
+        function drawWaterDropBeam(from, to, angle, intensity, hueValue) {
+            p.push();
+            p.translate(from.x, from.y);
+            p.rotate(angle);
+            
+            let d = p.dist(from.x, from.y, to.x, to.y);
+            
+            // 使用貝茲曲線畫出水滴/葉片形狀
+            p.noStroke();
+            // 透明度隨強度變動 (intensity 0~1)
+            let alphaVal = p.map(intensity, 0, 1, 0.35, 1);
+            p.fill(hueValue, 80, 100, alphaVal);
+            
+            p.beginShape();
+            p.vertex(0, 0);
+            // 控制點拉出完美的流線波束
+            p.bezierVertex(d * 0.3, -d * 0.22, d * 0.8, -d * 0.12, d, 0);
+            p.bezierVertex(d * 0.8, d * 0.12, d * 0.3, d * 0.22, 0, 0);
+            p.endShape(p.CLOSE);
+            p.pop();
+        }
+
+        // --- 下半部：繪製訊號功率及干擾功率長條圖 ---
+        function drawStats() {
+            p.push();
+            let chartY = topPlotH + 30;
+            let chartH = bottomPlotH - 60;
+            let barW = 45;
+            
+            // 軸線
+            p.stroke(0, 0, 60);
+            p.strokeWeight(1.5);
+            p.line(60, chartY + chartH, canvasW - 60, chartY + chartH);
+
+            // --- UE A 長條圖組 ---
+            let startXA = canvasW * 0.25;
+            drawBar(startXA, chartY, chartH, barW, stats.sinrA, 210, "訊號功率");
+            drawBar(startXA + barW + 15, chartY, chartH, barW, stats.intA, 0, "干擾功率");
+            
+            p.noStroke();
+            p.fill("white");
+            p.textSize(14);
+            p.textAlign(p.CENTER);
+            p.text("UE A 功率狀態", startXA + barW, chartY + chartH + 45);
+
+            // --- UE B 長條圖組 ---
+            let startXB = canvasW * 0.65;
+            drawBar(startXB, chartY, chartH, barW, stats.sinrB, 130, "訊號功率");
+            drawBar(startXB + barW + 15, chartY, chartH, barW, stats.intB, 0, "干擾功率");
+            
+            p.fill("white");
+            p.text("UE B 功率狀態", startXB + barW, chartY + chartH + 45);
+            
+            p.pop();
+        }
+
+        function drawBar(x, y, maxH, w, value, hueVal, label) {
+            let h = p.map(value, 0, 1.2, 0, maxH);
+            h = p.constrain(h, 0, maxH);
+            
+            p.noStroke();
+            // 如果是干擾，彩度調低一點點比較符合直覺
+            p.fill(hueVal, hueVal === 0 ? 80 : 75, 85, 0.9);
+            p.rect(x, y + maxH - h, w, h, 4);
+            
+            // 數值
+            p.fill("white");
+            p.textSize(14);
+            p.textAlign(p.CENTER, p.BOTTOM);
+            p.text(value.toFixed(2), x + w/2, y + maxH - h - 3);
+            
+            // 標籤
+            p.fill("white");
+            p.textAlign(p.CENTER, p.TOP);
+            p.textSize(14);
+            p.text(label, x + w/2, y + maxH + 6);
+        }
+
+        // --- 鼠標事件處理 ---
+        p.mousePressed = function() {
+            let d = p.dist(p.mouseX, p.mouseY, ueA.x, ueA.y);
+            if (d < ueSize && p.mouseY < topPlotH) {
+                dragA = true;
+            }
+        };
+
+        p.mouseReleased = function() {
+            dragA = false;
+        };
+    };
+
+    // 啟動第二個 p5 實例
+    new p5(compSketch);
+})();
+</script>
+
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;<a href="https://p5js.org/">p5.js</a> 真的是相當強大的網頁繪圖工具呢！雖然本文的圖表大部分是 Gemini 寫的就是了。事實上，Gemini Pro 已經提供在對話裡直接呈現互動式圖表的功能。可以稍微理解網頁前端工程師所面臨的困境。</p>
+]]></content>
+      <categories>
+        <category>通訊技術</category>
+      </categories>
+      <tags>
+        <tag>無線通訊</tag>
+        <tag>網站設計</tag>
+        <tag>演算法</tag>
+        <tag>OTFS</tag>
+      </tags>
+  </entry>
 </search>

@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yc518suray.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="&emsp;&emsp;本文展示 OTFS 系統細胞間干擾 (inter-cell interference，ICI) 的情形，以及減緩 ICI 的方法。因為我不會寫 javascript，頁面上的互動式圖表、動畫都是由 Gemini 編寫，使用 p5.js library。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OTFS ICI 視覺化展示">
+<meta property="og:url" content="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OTFS-inter-cell-interference/index.html">
+<meta property="og:site_name" content="R.S. Random Space">
+<meta property="og:description" content="&emsp;&emsp;本文展示 OTFS 系統細胞間干擾 (inter-cell interference，ICI) 的情形，以及減緩 ICI 的方法。因為我不會寫 javascript，頁面上的互動式圖表、動畫都是由 Gemini 編寫，使用 p5.js library。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2026-05-27T02:38:18.000Z">
+<meta property="article:modified_time" content="2026-05-27T07:02:31.411Z">
+<meta property="article:author" content="Raymond Su">
+<meta property="article:tag" content="無線通訊">
+<meta property="article:tag" content="網站設計">
+<meta property="article:tag" content="演算法">
+<meta property="article:tag" content="OTFS">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OTFS-inter-cell-interference/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OTFS-inter-cell-interference/","path":"通訊技術/OTFS-inter-cell-interference/","title":"OTFS ICI 視覺化展示"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>OTFS ICI 視覺化展示 | R.S. Random Space</title>
+  
+
+
+
+
+
+
+
+<script src="/live2d-widget/dist/autoload.js"></script>
+<script src="/js/hexo_resize_image.js"></script>
+<link rel="stylesheet" href="/css/SpoilerBlur.css">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">R.S. Random Space</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Raymond Su的個人網站</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa-solid fa-house fa-fw"></i>首頁</a></li><li class="menu-item menu-item-archives"><a href="/archives" rel="section"><i class="fa-solid fa-folder-open fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-categories"><a href="/categories" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-tags"><a href="/tags" rel="section"><i class="fa-solid fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-音樂"><a href="/music" rel="section"><i class="fa fa-music fa-fw"></i>音樂</a></li><li class="menu-item menu-item-連結"><a href="/links" rel="section"><i class="fa fa-link fa-fw"></i>連結</a></li><li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa-solid fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ICIC-for-OTFS-systems"><span class="nav-number">1.</span> <span class="nav-text">ICIC for OTFS systems</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CoMP-for-OTFS-systems"><span class="nav-number">2.</span> <span class="nav-text">CoMP for OTFS systems</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AA%9E"><span class="nav-number">3.</span> <span class="nav-text">結語</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Raymond Su"
+      src="/uploads/images/blog_avatar.png">
+  <p class="site-author-name" itemprop="name">Raymond Su</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives">
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yc518suray" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yc518suray" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:raymondsu0110@gmail.com" title="E-mail → mailto:raymondsu0110@gmail.com" rel="noopener me" target="_blank"><i class="fa-solid fa-envelope fa-fw"></i>E-mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://hackmd.io/@Q5thU81LTku-dZ3h7gNMFQ" title="HackMD → https:&#x2F;&#x2F;hackmd.io&#x2F;@Q5thU81LTku-dZ3h7gNMFQ" rel="noopener me" target="_blank"><i class="fa-solid fa-book-open fa-fw"></i>HackMD</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OTFS-inter-cell-interference/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/images/blog_avatar.png">
+      <meta itemprop="name" content="Raymond Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R.S. Random Space">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="OTFS ICI 視覺化展示 | R.S. Random Space">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OTFS ICI 視覺化展示
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2026-05-27 10:38:18 / 修改時間：15:02:31" itemprop="dateCreated datePublished" datetime="2026-05-27T10:38:18+08:00">2026-05-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/" itemprop="url" rel="index"><span itemprop="name">通訊技術</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OTFS-inter-cell-interference/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="通訊技術/OTFS-inter-cell-interference/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;本文展示 OTFS 系統細胞間干擾 (inter-cell interference，ICI) 的情形，以及減緩 ICI 的方法。因為我不會寫 javascript，頁面上的互動式圖表、動畫都是由 Gemini 編寫，使用 p5.js library。</p>
+<span id="more"></span>
+<br>
+
+<p>&emsp;&emsp;關於 OTFS 系統的 ICI 問題，可以參考我之前寫的<a href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-multicell-otfs/">這篇文章</a>，回顧過去 OFDM 系統是如何處理 ICI，OTFS 系統如何沿用 OFDM 系統的方法、面臨的挑戰等等。</p>
+<br>
+
+<p>&emsp;&emsp;註：本網頁未完成…。</p>
+<h2 id="ICIC-for-OTFS-systems"><a href="#ICIC-for-OTFS-systems" class="headerlink" title="ICIC for OTFS systems"></a>ICIC for OTFS systems</h2><p>&emsp;&emsp;ICIC (ICI coordination) 在 4G 行動通訊系統就已經使用，未完成…。</p>
+<div style="text-align: center; margin: 20px 0;">
+    <div id="otfs-canvas-container" style="display: inline-block; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-radius: 8px; background: #000; padding: 15px;"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+
+<script>
+(function() {
+    let cells = []; 
+    let uePosition; 
+    let ueSize = 18; 
+    let dragging = false; 
+    let cellRadius = 60; 
+    let ccuThresholdRatio = 0.6; 
+    let delayResources = []; 
+    let maxPower = 1.0;
+    
+    let currentServCell = 0;
+    let isUEInCcu = true;
+
+    let canvasW = 600;
+    let canvasH = 400;
+    let leftPlotW = canvasW * 0.55;
+    let rightPlotW = canvasW * 0.4;
+    let margin = 40;
+
+    // 使用 p5 的 instance mode，避免跟 Hexo 網站其他可能的 JS 衝突
+    const s = (p) => {
+        p.setup = function() {
+            let cnv = p.createCanvas(canvasW, canvasH);
+            cnv.parent('otfs-canvas-container');
+
+            cells.push(p.createVector(leftPlotW / 2, canvasH / 2)); 
+            let angleOffset = p.PI / 6; 
+            let distance = p.sqrt(3) * cellRadius; 
+
+            for (let i = 0; i < 6; i++) {
+                let angle = angleOffset + (i * p.PI) / 3;
+                let x = leftPlotW / 2 + distance * p.cos(angle);
+                let y = canvasH / 2 + distance * p.sin(angle);
+                cells.push(p.createVector(x, y));
+            }
+            uePosition = cells[0].copy();
+            updateResourceAllocation();
+        };
+
+        p.draw = function() {
+            p.background('black');
+            drawCellPlot();
+            drawResourcePlot();
+            updateUEInteraction();
+        };
+
+        function drawCellPlot() {
+            p.push();
+            for (let i = 0; i < cells.length; i++) {
+                p.stroke(210);
+                p.strokeWeight(1);
+                if (i === currentServCell && !isUEInCcu) {
+                    p.fill('rgba(230, 126, 34, 0.75)');
+                }
+                else {
+                    p.fill(80);
+                }
+                drawHexagon(cells[i].x, cells[i].y, cellRadius);
+                
+                p.stroke(230);
+                p.strokeWeight(1);
+                p.drawingContext.setLineDash([4, 4]);
+                if (i === currentServCell && isUEInCcu) {
+                    p.fill('rgba(52, 152, 219, 0.75)');
+                }
+                else {
+                    p.fill(80);
+                }
+                drawHexagon(cells[i].x, cells[i].y, cellRadius * ccuThresholdRatio);
+                p.drawingContext.setLineDash([]); 
+            }
+            for (let i = 0; i < cells.length; i++) {
+                p.noStroke();
+                p.fill("white");
+                p.textAlign(p.CENTER, p.CENTER);
+                p.textSize(13);
+                p.text("Cell " + i, cells[i].x, cells[i].y - 8);
+            }
+
+            p.stroke(255, 60, 60);
+            p.strokeWeight(dragging ? 3 : 1.5);
+            p.fill(dragging ? 'rgba(255,60,60,0.6)' : 'rgba(255,60,60,0.85)');
+            p.ellipse(uePosition.x, uePosition.y, ueSize);
+            p.pop();
+        }
+
+        function drawHexagon(x, y, r) {
+            p.beginShape();
+            for (let angle = 0; angle < p.TWO_PI - p.PI / 6; angle += p.PI / 3) {
+                let vx = x + p.cos(angle) * r;
+                let vy = y + p.sin(angle) * r;
+                p.vertex(vx, vy);
+            }
+            p.endShape(p.CLOSE);
+        }
+
+        function drawResourcePlot() {
+            p.push();
+            p.translate(leftPlotW + margin/2, margin);
+            let plotWidth = rightPlotW - margin;
+            let plotHeight = canvasH - margin * 2.5;
+
+            p.stroke(180);
+            p.strokeWeight(1.5);
+            p.line(0, plotHeight, plotWidth, plotHeight); 
+            p.line(0, 0, 0, plotHeight); 
+
+            p.noStroke();
+            p.fill("white");
+            p.textAlign(p.RIGHT, p.CENTER);
+            p.textSize(12);
+            p.text("Power", -8, plotHeight / 2);
+            p.text("1.0", -8, 0);
+            p.text("0", -8, plotHeight);
+
+            p.textAlign(p.CENTER, p.TOP);
+            p.textSize(13);
+            p.fill("white");
+            p.text("Resource Block (delay)", plotWidth / 2, plotHeight + 35);
+
+            let barWidth = plotWidth / delayResources.length * 0.7;
+            let barSpacing = plotWidth / delayResources.length * 0.3;
+            let barX = barSpacing / 2;
+
+            for (let i = 0; i < delayResources.length; i++) {
+                let power = delayResources[i];
+                let barHeight = p.map(power, 0, maxPower, 0, plotHeight);
+                
+                if (i === 0) {
+                    p.fill('rgba(52, 152, 219, 0.85)'); 
+                } else {
+                    p.fill('rgba(230, 126, 34, 0.85)'); 
+                }
+                
+                p.rect(barX, plotHeight - barHeight, barWidth, barHeight, 3);
+
+                p.fill("white");
+                p.textSize(10);
+                p.textAlign(p.CENTER, p.TOP);
+                let labelText = (i === 0) ? "CCU" : `CEU\nC${i-1}`;
+                p.text(labelText, barX + barWidth / 2, plotHeight + 8);
+                
+                if(power > 0.02) {
+                    p.fill(50);
+                    p.textSize(10);
+                    p.textAlign(p.CENTER, p.BOTTOM);
+                    p.text(power.toFixed(2), barX + barWidth / 2, plotHeight - barHeight - 3);
+                }
+
+                barX += barWidth + barSpacing;
+            }
+            p.pop();
+        }
+
+        function updateResourceAllocation() {
+            let powers = new Array(8).fill(0); 
+            let distances = cells.map(center => p.dist(uePosition.x, uePosition.y, center.x, center.y));
+            
+            let minDistance = Infinity;
+            let servCellIndex = 0;
+            for(let i = 0; i < distances.length; i++) {
+                if (distances[i] < minDistance) {
+                    minDistance = distances[i];
+                    servCellIndex = i;
+                }
+            }
+            
+            currentServCell = servCellIndex;
+
+            if (minDistance < cellRadius * ccuThresholdRatio) {
+                isUEInCcu = true;
+                let ccuRatio = p.map(minDistance, 0, cellRadius * ccuThresholdRatio, 1.0, 0.3);
+                powers[0] = maxPower * ccuRatio;
+            } else if (minDistance <= cellRadius) {
+                isUEInCcu = false;
+                let ceuRatio = p.map(minDistance, cellRadius * ccuThresholdRatio, cellRadius, 0.3, 0.9);
+                powers[servCellIndex + 1] = maxPower * ceuRatio;
+
+                for (let i = 0; i < cells.length; i++) {
+                    if (i === servCellIndex) continue;
+                    let distToEdge = distances[i] - cellRadius;
+                    if (distToEdge < 0) distToEdge = 0;
+
+                    if (distToEdge < cellRadius * 0.4) { 
+                       let iciPower = p.map(distToEdge, 0, cellRadius * 0.4, maxPower * 0.35, 0); 
+                       powers[i + 1] = iciPower; 
+                    }
+                }
+            }
+            delayResources = powers;
+        }
+
+        function updateUEInteraction() {
+            if (dragging) {
+                uePosition.x = p.constrain(p.mouseX, ueSize, leftPlotW - ueSize);
+                uePosition.y = p.constrain(p.mouseY, ueSize, canvasH - ueSize);
+                updateResourceAllocation();
+            }
+        }
+
+        p.mousePressed = function() {
+            let d = p.dist(p.mouseX, p.mouseY, uePosition.x, uePosition.y);
+            if (d < ueSize) {
+                dragging = true;
+            }
+        };
+
+        p.mouseReleased = function() {
+            dragging = false;
+        };
+    };
+
+    new p5(s);
+})();
+</script>
+
+<h2 id="CoMP-for-OTFS-systems"><a href="#CoMP-for-OTFS-systems" class="headerlink" title="CoMP for OTFS systems"></a>CoMP for OTFS systems</h2><p>&emsp;&emsp;CoMP 也是 4G 系統就開始使用的技術，未完成…。</p>
+<div style="text-align: center; margin: 40px 0 20px;">
+    <div id="comp-canvas-container" style="display: inline-block; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-radius: 8px; background: #000; padding: 15px;"></div>
+</div>
+
+<script>
+(function() {
+    let bss = [];       // 儲存 3 個基地台位置
+    let ueA, ueB;       // UE A 和 UE B
+    let ueSize = 18;
+    let dragA = false;
+    let bsRadius = 120; // 服務範圍半徑
+    
+    let canvasW = 600;
+    let canvasH = 550;
+    let topPlotH = canvasH * 0.65;      // 上方地圖高度
+    let bottomPlotH = canvasH * 0.35;   // 下方圖表高度
+    
+    // 訊號與干擾數值
+    let stats = { sinrA: 0, intA: 0, sinrB: 0, intB: 0 };
+
+    const compSketch = (p) => {
+        p.setup = function() {
+            let cnv = p.createCanvas(canvasW, canvasH);
+            cnv.parent('comp-canvas-container');
+
+            // 初始化三個基地台 (三角形佈局)
+            bss.push(p.createVector(canvasW * 0.3, topPlotH * 0.35)); // BS 0 (服務 UE A)
+            bss.push(p.createVector(canvasW * 0.7, topPlotH * 0.35)); // BS 1 (服務 UE B)
+            bss.push(p.createVector(canvasW * 0.5, topPlotH * 0.85)); // BS 2 (協調干擾源)
+
+            // 初始化 UE 位置
+            ueA = p.createVector(canvasW * 0.25, topPlotH * 0.6); // 可拖曳
+            ueB = p.createVector(canvasW * 0.65, topPlotH * 0.5); // 固定
+            
+            p.colorMode(p.HSB, 360, 100, 100, 1); // 使用 HSB 方便用色調表示相位
+        };
+
+        p.draw = function() {
+            p.background("black"); // HSB 的純白
+            
+            // 計算物理與協調邏輯
+            calculateBeamforming();
+            
+            // 繪製上半部：基地台與電波
+            drawMap();
+            
+            // 繪製下半部：功率長條圖
+            drawStats();
+            
+            // 互動更新
+            if (dragA) {
+                ueA.x = p.constrain(p.mouseX, ueSize, canvasW - ueSize);
+                ueA.y = p.constrain(p.mouseY, ueSize, topPlotH - ueSize);
+            }
+        };
+
+        // --- 核心物理與波束成型動態模擬 ---
+        function calculateBeamforming() {
+            let distA_BS0 = p.dist(ueA.x, ueA.y, bss[0].x, bss[0].y);
+            let distA_BS1 = p.dist(ueA.x, ueA.y, bss[1].x, bss[1].y);
+            let distA_BS2 = p.dist(ueA.x, ueA.y, bss[2].x, bss[2].y);
+            
+            let distB_BS1 = p.dist(ueB.x, ueB.y, bss[1].x, bss[1].y);
+            let distB_BS2 = p.dist(ueB.x, ueB.y, bss[2].x, bss[2].y);
+
+            // 1. UE A 的理想主訊號 (隨距離衰減)
+            stats.sinrA = p.max(0.1, p.map(distA_BS0, 0, bsRadius * 1.8, 1.0, 0.05));
+            
+            // 2. CoMP 協調機制模擬：
+            // 當 UE A 靠近 UE B 時，BS 1 和 BS 2 會啟動 CoMP CB，將波束方向微調或進行相位零點化 (Nulling)
+            let distAB = p.dist(ueA.x, ueA.y, ueB.x, ueB.y);
+            let compMitigation = p.map(distAB, 0, 200, 0.85, 0.1); // 越靠近，協調壓制干擾的力道越深
+            compMitigation = p.constrain(compMitigation, 0, 0.85);
+
+            // 原始干擾 (若不協調)
+            let rawIntA = p.map(distA_BS1, 0, bsRadius*1.5, 0.6, 0) + p.map(distA_BS2, 0, bsRadius*1.5, 0.4, 0);
+            // 實際干擾透過 CoMP 壓制
+            stats.intA = p.max(0, rawIntA * (1 - compMitigation));
+
+            // 3. UE B 的訊號與干擾 (BS 1 服務它，BS 0 對它造成微幅干擾)
+            stats.sinrB = p.map(distB_BS1, 0, bsRadius, 0.9, 0.3);
+            let distB_BS0 = p.dist(ueB.x, ueB.y, bss[0].x, bss[0].y);
+            stats.intB = p.map(distB_BS0, 0, bsRadius * 2, 0.15, 0);
+        }
+
+        function drawMap() {
+            p.push();
+            
+            // 繪製基地台服務範圍
+            for (let i = 0; i < bss.length; i++) {
+                p.stroke("white"); // 淡灰色
+                p.strokeWeight(2);
+                p.drawingContext.setLineDash([5, 5]);
+                p.noFill();
+                p.ellipse(bss[i].x, bss[i].y, bsRadius * 2);
+            }
+            p.drawingContext.setLineDash([]); // 結束虛線狀態
+            
+            // 繪製傳送波束
+            // BS 0 -> UE A (主波束)
+            let phaseA = p.atan2(ueA.y - bss[0].y, ueA.x - bss[0].x);
+            drawWaterDropBeam(bss[0], ueA, phaseA, stats.sinrA, 210); // 藍色調波束
+
+            // BS 1 -> UE B (主波束)
+            let phaseB = p.atan2(ueB.y - bss[1].y, ueB.x - bss[1].x);
+            // 當 UE A 靠近時，波束相位(顏色)會受到 CoMP 協調影響而偏移
+            let distAB = p.dist(ueA.x, ueA.y, ueB.x, ueB.y);
+            let phaseShift = p.map(distAB, 0, 150, 45, 0); 
+            drawWaterDropBeam(bss[1], ueB, phaseB, stats.sinrB, 130 + phaseShift); // 綠/黃色調波束
+
+            // BS 2 -> UE B (協調波束，會對 UE A 產生旁瓣干擾)
+            let phaseC = p.atan2(ueB.y - bss[2].y, ueB.x - bss[2].x);
+            drawWaterDropBeam(bss[2], ueB, phaseC, stats.sinrB * 0.7, 300 - phaseShift); // 紫色調波束
+
+            // 繪製基地台圖示
+            for (let i = 0; i < bss.length; i++) {
+                p.stroke("white");
+                p.strokeWeight(2);
+                p.fill("blue");
+                p.triangle(bss[i].x, bss[i].y - 12, bss[i].x - 10, bss[i].y + 8, bss[i].x + 10, bss[i].y + 8);
+                p.noStroke();
+                p.fill("white");
+                p.textSize(14);
+                p.textAlign(p.CENTER, p.TOP);
+                p.text("BS " + (i+1), bss[i].x, bss[i].y + 12);
+            }
+
+            // 繪製 UE B (固定)
+            p.stroke("white");
+            p.strokeWeight(1.5);
+            p.fill("orange");
+            p.ellipse(ueB.x, ueB.y, ueSize);
+            p.noStroke();
+            p.fill("white");
+            p.textSize(14);
+            p.text("UE B (固定)", ueB.x, ueB.y - 20);
+
+            // 繪製 UE A (可移動)
+            p.stroke("white");
+            p.strokeWeight(dragA ? 3 : 1.5);
+            p.fill(0, 75, 90);
+            p.ellipse(ueA.x, ueA.y, ueSize);
+            p.noStroke();
+            p.fill("white");
+            p.textSize(14);
+            p.text("UE A (移動)", ueA.x, ueA.y - 20);
+        }
+
+        // --- 繪製拉長水滴狀波束的輔助函數 ---
+        function drawWaterDropBeam(from, to, angle, intensity, hueValue) {
+            p.push();
+            p.translate(from.x, from.y);
+            p.rotate(angle);
+            
+            let d = p.dist(from.x, from.y, to.x, to.y);
+            
+            // 使用貝茲曲線畫出水滴/葉片形狀
+            p.noStroke();
+            // 透明度隨強度變動 (intensity 0~1)
+            let alphaVal = p.map(intensity, 0, 1, 0.35, 1);
+            p.fill(hueValue, 80, 100, alphaVal);
+            
+            p.beginShape();
+            p.vertex(0, 0);
+            // 控制點拉出完美的流線波束
+            p.bezierVertex(d * 0.3, -d * 0.22, d * 0.8, -d * 0.12, d, 0);
+            p.bezierVertex(d * 0.8, d * 0.12, d * 0.3, d * 0.22, 0, 0);
+            p.endShape(p.CLOSE);
+            p.pop();
+        }
+
+        // --- 下半部：繪製訊號功率及干擾功率長條圖 ---
+        function drawStats() {
+            p.push();
+            let chartY = topPlotH + 30;
+            let chartH = bottomPlotH - 60;
+            let barW = 45;
+            
+            // 軸線
+            p.stroke(0, 0, 60);
+            p.strokeWeight(1.5);
+            p.line(60, chartY + chartH, canvasW - 60, chartY + chartH);
+
+            // --- UE A 長條圖組 ---
+            let startXA = canvasW * 0.25;
+            drawBar(startXA, chartY, chartH, barW, stats.sinrA, 210, "訊號功率");
+            drawBar(startXA + barW + 15, chartY, chartH, barW, stats.intA, 0, "干擾功率");
+            
+            p.noStroke();
+            p.fill("white");
+            p.textSize(14);
+            p.textAlign(p.CENTER);
+            p.text("UE A 功率狀態", startXA + barW, chartY + chartH + 45);
+
+            // --- UE B 長條圖組 ---
+            let startXB = canvasW * 0.65;
+            drawBar(startXB, chartY, chartH, barW, stats.sinrB, 130, "訊號功率");
+            drawBar(startXB + barW + 15, chartY, chartH, barW, stats.intB, 0, "干擾功率");
+            
+            p.fill("white");
+            p.text("UE B 功率狀態", startXB + barW, chartY + chartH + 45);
+            
+            p.pop();
+        }
+
+        function drawBar(x, y, maxH, w, value, hueVal, label) {
+            let h = p.map(value, 0, 1.2, 0, maxH);
+            h = p.constrain(h, 0, maxH);
+            
+            p.noStroke();
+            // 如果是干擾，彩度調低一點點比較符合直覺
+            p.fill(hueVal, hueVal === 0 ? 80 : 75, 85, 0.9);
+            p.rect(x, y + maxH - h, w, h, 4);
+            
+            // 數值
+            p.fill("white");
+            p.textSize(14);
+            p.textAlign(p.CENTER, p.BOTTOM);
+            p.text(value.toFixed(2), x + w/2, y + maxH - h - 3);
+            
+            // 標籤
+            p.fill("white");
+            p.textAlign(p.CENTER, p.TOP);
+            p.textSize(14);
+            p.text(label, x + w/2, y + maxH + 6);
+        }
+
+        // --- 鼠標事件處理 ---
+        p.mousePressed = function() {
+            let d = p.dist(p.mouseX, p.mouseY, ueA.x, ueA.y);
+            if (d < ueSize && p.mouseY < topPlotH) {
+                dragA = true;
+            }
+        };
+
+        p.mouseReleased = function() {
+            dragA = false;
+        };
+    };
+
+    // 啟動第二個 p5 實例
+    new p5(compSketch);
+})();
+</script>
+
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;<a target="_blank" rel="noopener" href="https://p5js.org/">p5.js</a> 真的是相當強大的網頁繪圖工具呢！雖然本文的圖表大部分是 Gemini 寫的就是了。事實上，Gemini Pro 已經提供在對話裡直接呈現互動式圖表的功能。可以稍微理解網頁前端工程師所面臨的困境。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Raymond Su
+  </li>
+  <li class="post-copyright-link">
+      <strong>文章連結：</strong>
+      <a href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OTFS-inter-cell-interference/" title="OTFS ICI 視覺化展示">https://yc518suray.github.io/通訊技術/OTFS-inter-cell-interference/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版權聲明： </strong>本網誌所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 許可協議。轉載請註明出處！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%84%A1%E7%B7%9A%E9%80%9A%E8%A8%8A/" rel="tag"><i class="fa fa-tag"></i> 無線通訊</a>
+              <a href="/tags/%E7%B6%B2%E7%AB%99%E8%A8%AD%E8%A8%88/" rel="tag"><i class="fa fa-tag"></i> 網站設計</a>
+              <a href="/tags/%E6%BC%94%E7%AE%97%E6%B3%95/" rel="tag"><i class="fa fa-tag"></i> 演算法</a>
+              <a href="/tags/OTFS/" rel="tag"><i class="fa fa-tag"></i> OTFS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-multicell-otfs/" rel="prev" title="論文閱讀：Multicell OTFS 系統">
+                  <i class="fa fa-angle-left"></i> 論文閱讀：Multicell OTFS 系統
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Raymond Su</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"oscarsu-disqus","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
