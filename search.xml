@@ -4768,8 +4768,6 @@ $$
                 let delta_matrix = math.multiply(noise_power, math.inv(F), math.ones(3, 1));
                 let delta = math.squeeze(delta_matrix).valueOf();
 
-                console.log("目前迭代的 Delta (功率分配):", delta);
-
                 if (delta[0] < 0 || delta[1] < 0 || delta[2] < 0) {
                     console.error("🚀 演算法失效警告：計算出負功率！");
                     console.error("原因：目前的目標 SINR (gamma) 在這個通道環境下是「無解」的。");

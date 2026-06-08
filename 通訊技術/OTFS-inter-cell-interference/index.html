@@ -28,7 +28,7 @@
 <meta property="og:description" content="&emsp;&emsp;本文展示 OTFS 系統細胞間干擾 (inter-cell interference，ICI) 的情形，以及減緩 ICI 的方法。因為我不會寫 javascript，頁面上的互動式圖表都是由 Gemini 編寫、我再修改，使用到 p5.js library。">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2026-05-27T02:38:18.000Z">
-<meta property="article:modified_time" content="2026-06-08T08:08:02.487Z">
+<meta property="article:modified_time" content="2026-06-08T12:06:34.241Z">
 <meta property="article:author" content="Raymond Su">
 <meta property="article:tag" content="無線通訊">
 <meta property="article:tag" content="網站設計">
@@ -247,7 +247,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-06-08 16:08:02" itemprop="dateModified" datetime="2026-06-08T16:08:02+08:00">2026-06-08</time>
+      <time title="修改時間：2026-06-08 20:06:34" itemprop="dateModified" datetime="2026-06-08T20:06:34+08:00">2026-06-08</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -669,8 +669,6 @@
                 calculateColumn(F, bfvec.w3, 2);
                 let delta_matrix = math.multiply(noise_power, math.inv(F), math.ones(3, 1));
                 let delta = math.squeeze(delta_matrix).valueOf();
-
-                console.log("目前迭代的 Delta (功率分配):", delta);
 
                 if (delta[0] < 0 || delta[1] < 0 || delta[2] < 0) {
                     console.error("🚀 演算法失效警告：計算出負功率！");
