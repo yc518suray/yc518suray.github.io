@@ -20,15 +20,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"yc518suray.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="#live2d {     display: none !important;   }   &emsp;&emsp;本文展示 OTFS 系統細胞間干擾 (inter-cell interference，ICI) 的情形，以及減緩 ICI 的方法。因為我不會寫 javascript，頁面上的互動式圖表都是由 Gemini 編寫，使用 p5.js library。">
+    <meta name="description" content="&emsp;&emsp;本文展示 OTFS 系統細胞間干擾 (inter-cell interference，ICI) 的情形，以及減緩 ICI 的方法。因為我不會寫 javascript，頁面上的互動式圖表都是由 Gemini 編寫、我再修改，使用到 p5.js library。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OTFS ICI 視覺化展示">
 <meta property="og:url" content="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/OTFS-inter-cell-interference/index.html">
 <meta property="og:site_name" content="R.S. Random Space">
-<meta property="og:description" content="#live2d {     display: none !important;   }   &emsp;&emsp;本文展示 OTFS 系統細胞間干擾 (inter-cell interference，ICI) 的情形，以及減緩 ICI 的方法。因為我不會寫 javascript，頁面上的互動式圖表都是由 Gemini 編寫，使用 p5.js library。">
+<meta property="og:description" content="&emsp;&emsp;本文展示 OTFS 系統細胞間干擾 (inter-cell interference，ICI) 的情形，以及減緩 ICI 的方法。因為我不會寫 javascript，頁面上的互動式圖表都是由 Gemini 編寫、我再修改，使用到 p5.js library。">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2026-05-27T02:38:18.000Z">
-<meta property="article:modified_time" content="2026-05-27T16:29:23.526Z">
+<meta property="article:modified_time" content="2026-06-08T08:08:02.487Z">
 <meta property="article:author" content="Raymond Su">
 <meta property="article:tag" content="無線通訊">
 <meta property="article:tag" content="網站設計">
@@ -247,7 +247,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2026-05-28 00:29:23" itemprop="dateModified" datetime="2026-05-28T00:29:23+08:00">2026-05-28</time>
+      <time title="修改時間：2026-06-08 16:08:02" itemprop="dateModified" datetime="2026-06-08T16:08:02+08:00">2026-06-08</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -282,23 +282,17 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><style>
-  #live2d {
-    display: none !important;
-  }
-</style>
-
-<p>&emsp;&emsp;本文展示 OTFS 系統細胞間干擾 (inter-cell interference，ICI) 的情形，以及減緩 ICI 的方法。因為我不會寫 javascript，頁面上的互動式圖表都是由 Gemini 編寫，使用 p5.js library。</p>
+    <div class="post-body" itemprop="articleBody"><link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;本文展示 OTFS 系統細胞間干擾 (inter-cell interference，ICI) 的情形，以及減緩 ICI 的方法。因為我不會寫 javascript，頁面上的互動式圖表都是由 Gemini 編寫、我再修改，使用到 p5.js library。</p>
 <span id="more"></span>
 <br>
 
 <p>&emsp;&emsp;關於 OTFS 系統的細胞間干擾問題，可以參考我之前寫的<a href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-multicell-otfs/">這篇文章</a>，回顧過去 OFDM 系統是如何處理 ICI，OTFS 系統如何沿用 OFDM 系統的方法、面臨的挑戰等等。</p>
-<h2 id="ICIC-for-OTFS-systems"><a href="#ICIC-for-OTFS-systems" class="headerlink" title="ICIC for OTFS systems"></a>ICIC for OTFS systems</h2><p>&emsp;&emsp;ICIC (ICI coordination) 在 4G 行動通訊系統就已經使用，未完成…。</p>
+<h2 id="ICIC-for-OTFS-systems"><a href="#ICIC-for-OTFS-systems" class="headerlink" title="ICIC for OTFS systems"></a>ICIC for OTFS systems</h2><p>&emsp;&emsp;ICIC (ICI coordination) 在 4G 行動通訊系統就已經使用，後來又推出加強版的 eICIC。作為 3GPP 規格，eICIC 在過去也有不少研究：<a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/6475212">Deb 這篇 2014 年的論文</a>提出一個基於 ABS (almost blank subframe)，有效配對 BS 與 UE 的最佳化演算法；<a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/6585734">Vasudevan 這篇 2013 年的論文</a>則是從網路動態(e.g. 來來去去的使用者、資料流量)討論動態調整 ABS 的作法。傳統 ICIC 的部分，也有<a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/8447574">Saleh 的這篇 2018 年會議論文</a>，討論實務上可以怎麼設計 frequency pattern set。</p>
 <br>
 
-<p>&emsp;&emsp;下面這張圖表呈現一個經典的 seven-cell model，每個細胞中央各有一個基地台，使用共同的 CCU 頻帶以及各自分配到的 CEU 頻帶，功率分別是 35 dB 和 40 dB。根據 Frii’s free space equation，</p>
+<p>&emsp;&emsp;這一節就來看看 ICIC 如何配置頻帶。下面這張圖表呈現一個經典的 seven-cell model，每個細胞中央各有一個基地台，使用共同的 CCU 資源以及各自分配到的 CEU 資源 (fraction frequency reuse scheme，FFR，在 OTFS 系統的資源便是 delay-Doppler 空間的 resource block)，功率分別是 35 dB 和 40 dB。根據 Frii’s free space equation，</p>
 <p>$$<br>P_r(d) &#x3D; \frac{P_t G_t G_r \lambda^2}{(4\pi d)^2}<br>$$</p>
-<p>&emsp;&emsp;接收訊號的功率 $P_r(d)$ 會與距離 $d$ 的平方成反比。雖然不同的環境應選用合適的 path loss exponent，這裡還是假設 path loss exponent &#x3D; 2。</p>
+<p>&emsp;&emsp;接收訊號的功率 $P_r(d)$ 會與距離 $d$ 的平方成反比。雖然不同的環境應選用合適的 path loss exponent，這裡還是假設 path loss exponent &#x3D; 2。這裡的作法是七個細胞分別擁有各自的 CEU RB，實務上一個 cluster 可能會在不同細胞分配相同的 CEU RB (soft frequency reuse，SFR)。</p>
 <div style="text-align: center; margin: 20px 0;">
     <div id="otfs-canvas-container" style="display: inline-block; border-radius: 8px; background: #000; padding: 15px;"></div>
 </div>
@@ -511,43 +505,86 @@
 })();
 </script>
 
-<h2 id="CoMP-for-OTFS-systems"><a href="#CoMP-for-OTFS-systems" class="headerlink" title="CoMP for OTFS systems"></a>CoMP for OTFS systems</h2><p>&emsp;&emsp;CoMP 也是 4G 系統就開始使用的技術，未完成…。</p>
+<h2 id="CoMP-for-OTFS-systems"><a href="#CoMP-for-OTFS-systems" class="headerlink" title="CoMP for OTFS systems"></a>CoMP for OTFS systems</h2><p>&emsp;&emsp;CoMP 也是 4G 系統就開始提出的技術。由於網路上有關 CoMP CB 的理論介紹並不多，以下內容參考自 2010 年發表的[1]這篇論文。</p>
 <br>
 
-<p>&emsp;&emsp;</p>
+<p>&emsp;&emsp;Coordinated beamforming (CB) 指的是鄰近細胞的基地台共同協調形成最佳的波束成形向量 (beamforming vector)。這篇論文考慮多細胞、多用戶的情景，每個細胞的基地台有多支天線，彼此共享通道資訊、但<span class="hint--info hint--rounded hint--top" data-hint="可以減少對 backhaul 傳輸速率與延遲的要求" ontouchstart>不共享傳輸的資料</span>，和一般常見的 MIMO transmit beamforming 不太一樣；每個用戶終端 (UE) 只有一支天線，接收來自所處細胞的基地台 downlink 訊號。</p>
+<br>
+
+<p>&emsp;&emsp;假設 $N$ 個細胞，每個細胞有 $K$ 個 UE，每個細胞有一個基地台，每個基地台有 $N_t$ 支天線。令 $x_{i, j}$ 表示細胞(基地台) $i$ 傳送給 UE $j$ 的訊號，$\bf{w_{i, j}}$ 為 $N_t$ by 1 的波束成型向量，$\bf{h_{l, i, j}}$ 表示細胞 $l$ 和 細胞 $i$ 的 UE $j$ 之間的通道。則細胞 $i$ 的 UE $j$ 接收到的訊號為</p>
+<p>$$<br>y_{i, j} &#x3D; {\bf h_{i, i, j}}^H {\bf w_{i, j}} x_{i, j} + \textcolor{cyan}{ {\bf h_{i, i, j}}^H \sum_{l \neq j}{ {\bf w_{i, l}} x_{i, l} } } + \textcolor{tomato}{ \sum_{m \neq i}{ {\bf h_{m, i, j}}^H \sum_{n}{ {\bf w_{m, n}} x_{m, n} } } } + z_{i, j}<br>$$</p>
+<p>&emsp;&emsp;可以拆成目標訊號、<font color="cyan">細胞內干擾</font>和<font color="tomato">細胞間干擾</font>共三項，$z_{i, j}$ 為 complex AWGN。據此可以算出細胞 $i$ 的 UE $j$ 接收訊號的 SINR $\Gamma_{i, j}$。這裡，我們定義<font color="tomato">目標函數</font>為每支天線的傳輸功率上限，<font color="tomato">限制條件</font>為各個 UE 接收訊號的 SINR，得到以下最佳化問題：</p>
+<p>$$<br>\begin{align}<br>\text{minimize}\ \ &amp;\tau\\[10pt]<br>\text{subject to}\ \ &amp;\Gamma_{i, j} \geq \gamma_{i, j},\ \ \forall i, j\\[10pt]<br>&amp;\left[\sum_{j}{ {\bf w_{i, j}} {\bf w_{i, j}}^H }\right]_{m, m} \leq \tau,\ \ \forall i, m<br>\end{align}<br>$$</p>
+<p>&emsp;&emsp;其中 $m &#x3D; 1, \cdots, N_t$。作者利用 uplink-downlink duality 的性質，推導出迭代計算最佳波束成型向量 $\bf{w_{i, j}}$ 的演算法。</p>
+<br>
+
+<p>&emsp;&emsp;下面的互動式圖表展示上述 CB 的效果，以 $N &#x3D; 3$、$K &#x3D; 1$、$N_t &#x3D; 1$ 的系統為例；在這個例子中，只需要一次計算就可以達到最佳解，無須迭代。事實上，$N_t &#x3D; 1$ 的情況與其說是 CB，更像是分散式功率控制的作法，畢竟只有一支天線。移動圖表中的 UE A，可以發現因為通道的改變，波束成型向量會調整到最佳值，確保各用戶的 SINR 達到一定值的同時(這裡 $\gamma_{i, j} &#x3D; 1.0$)，最小化各天線的傳輸功率上限。這邊為了呈現時變通道下，波束成型動態更新的效果，以弦波來模擬通道增益的波動。</p>
+<br>
+
+<p>&emsp;&emsp;由於迭代計算最佳 $\bf{w_{i, j}}$ 需要時間，我們不免疑問在 UE 快速移動的情況下，如 OTFS 系統，CB 是否仍然可行。考慮到 OTFS 系統與傳統 OFDM 系統有著相異的通道特徵，CB 計算量或許可以減少，也許可行。</p>
 <div style="text-align: center; margin: 40px 0 20px;">
     <div id="comp-canvas-container" style="display: inline-block; border-radius: 8px; background: #000; padding: 15px;"></div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/14.8.1/math.min.js"></script>
 <script>
 (function() {
+    // --- BS 與 UE 參數 --- //
     let bss = [];
-    let ueA, ueB;
+    let ueA, ueB, ueC;
     let ueSize = 18;
     let dragA = false;
-    let bsRadius = 140;
+    let bsRadius = 120;
     
+    // --- 畫布參數 --- //
     let canvasW = 600;
-    let canvasH = 600;
+    let canvasH = 500;
     let topPlotH = canvasH * 0.65;      // 上半部圖表高度
     let bottomPlotH = canvasH * 0.35;   // 下半部圖表高度
     
-    // 訊號與干擾數值
-    let stats = { sinrA: 0, intA: 0, sinrB: 0, intB: 0 };
+    // --- 演算法參數 --- //
+    let Niter = 200;                    // inner loop 迭代次數
+    let iterCount = 0;                  // inner loop 迭代計數
+    let calculate = true;               // 是否繼續迭代計算
+    let iterInterval = 50;              // 迭代間隔時間 (in ms)
+    let lastTime = 0;                   // 紀錄迭代間隔時間
+    let Theta = math.zeros(3, 1);       // 計算過程用到的矩陣
+    let lambda = [1.0, 1.0, 1.0];       // 計算過程用到的變數
+    
+    // --- 通訊系統參數 --- //
+    let noise_power = 0.0001;           // 雜訊功率
+    let gamma = 1.0;                    // 最低 SINR 要求
+    let channel = math.zeros(3, 3);     // 通道矩陣 (path loss)
+    let fading = math.zeros(3, 3);      // 通道矩陣 (fading)
+    let fading_phase = math.zeros(3, 3);
+    let bfvec = { w1: math.complex(1, 0), w2: math.complex(1, 0), w3: math.complex(1, 0) };
+    let stats = { sinrA: 0.0, pwr1: 1.0, sinrB: 0.0, pwr2: 1.0, sinrC: 0.0, pwr3: 1.0 };
 
-    const compSketch = (p) => {
+    // ========== main function ========== //
+    const CoMPSketch = (p) => {
         p.setup = function() {
             let cnv = p.createCanvas(canvasW, canvasH);
             cnv.parent('comp-canvas-container');
 
-            // 初始化三個基地台 (三角形佈局)
-            bss.push(p.createVector(canvasW * 0.3, topPlotH * 0.35)); // BS 0 (服務 UE A)
-            bss.push(p.createVector(canvasW * 0.65, topPlotH * 0.35)); // BS 1 (服務 UE B)
-            bss.push(p.createVector(canvasW * 0.5, topPlotH * 0.75)); // BS 2 (協調干擾源)
+            // --- 初始化 BS 位置 --- //
+            bss.push(p.createVector(canvasW * 0.25, topPlotH * 0.35));
+            bss.push(p.createVector(canvasW * 0.62, topPlotH * 0.35));
+            bss.push(p.createVector(canvasW * 0.5, topPlotH * 0.8));
 
-            // 初始化 UE 位置
-            ueA = p.createVector(canvasW * 0.25, topPlotH * 0.6); // 可拖曳
-            ueB = p.createVector(canvasW * 0.65, topPlotH * 0.5); // 固定
+            // --- 初始化 UE 位置 --- //
+            ueA = p.createVector(canvasW * 0.36, topPlotH * 0.08);
+            ueB = p.createVector(canvasW * 0.6, topPlotH * 0.6);
+            ueC = p.createVector(canvasW * 0.33, topPlotH * 0.85);
+         
+            // --- 初始化通道參數 --- //
+            channel = math.map(channel, (x) => math.complex(x));
+            fading_phase = math.map(fading_phase, () => {
+                return Math.random() * 2 * p.PI;
+            })
+            fading = math.map(fading_phase, (val) => {
+                return 1 + 0.025 * math.cos(val);
+            });
+            updateChannel(true);
             
             p.colorMode(p.HSB, 360, 100, 100, 1); // 使用 HSB 方便用色調表示相位
         };
@@ -555,55 +592,200 @@
         p.draw = function() {
             p.background("black");
             
-            // 計算物理與協調邏輯
-            calculateBeamforming();
-            
-            // 繪製上半部：基地台與電波
+            // --- 計算波束成型向量 --- //
+            if (p.millis() - lastTime >= iterInterval) {
+                calculateBeamforming();
+
+                // --- 達到指定迭代次數，不再計算 --- //
+                if (iterCount === Niter) {
+                    calculate = false;
+                }
+            }
+
+            // --- 繪製上半部圖表 (BS、UE 與波束) --- //
             drawMap();
             
-            // 繪製下半部：功率長條圖
+            // --- 繪製下半部圖表 (長條圖) --- //
             drawStats();
             
-            // 互動更新
+            // --- 更新 UE A 位置 --- //
             if (dragA) {
-                ueA.x = p.constrain(p.mouseX, ueSize, canvasW - ueSize);
-                ueA.y = p.constrain(p.mouseY, ueSize, topPlotH - ueSize);
+                calculate = false;
+
+                let d = p.dist(p.mouseX, p.mouseY, bss[0].x, bss[0].y);
+                if (d > bsRadius) {
+                    let angle = p.atan2(p.mouseY - bss[0].y, p.mouseX - bss[0].x);
+                    ueA.x = bss[0].x + bsRadius * p.cos(angle);
+                    ueA.y = bss[0].y + bsRadius * p.sin(angle);
+                }
+                else {
+                    ueA.x = p.mouseX;
+                    ueA.y = p.mouseY;
+                }
             }
         };
 
-        // --- 核心物理與波束成型動態模擬 ---
+        // --- 波束成型機制 --- //
         function calculateBeamforming() {
-            let distA_BS0 = p.dist(ueA.x, ueA.y, bss[0].x, bss[0].y);
-            let distA_BS1 = p.dist(ueA.x, ueA.y, bss[1].x, bss[1].y);
-            let distA_BS2 = p.dist(ueA.x, ueA.y, bss[2].x, bss[2].y);
-            
-            let distB_BS1 = p.dist(ueB.x, ueB.y, bss[1].x, bss[1].y);
-            let distB_BS2 = p.dist(ueB.x, ueB.y, bss[2].x, bss[2].y);
+            // --- 檢查是否繼續迭代演算法 --- //
+            if (calculate) {
+                // --- 更新通道 --- //
+                updateChannel(false);
+                
+                // --- 初始化 lambda 和 Theta --- //
+                if (iterCount === 0) {
+                    Theta = math.zeros(Theta.size());
+                }
 
-            // 1. UE A 的理想主訊號 (隨距離衰減)
-            stats.sinrA = p.max(0.1, p.map(distA_BS0, 0, bsRadius * 1.8, 1.0, 0.05));
-            
-            // 2. CoMP 協調機制模擬：
-            // 當 UE A 靠近 UE B 時，BS 1 和 BS 2 會啟動 CoMP CB，將波束方向微調或進行相位零點化 (Nulling)
-            let distAB = p.dist(ueA.x, ueA.y, ueB.x, ueB.y);
-            let compMitigation = p.map(distAB, 0, 200, 0.85, 0.1); // 越靠近，協調壓制干擾的力道越深
-            compMitigation = p.constrain(compMitigation, 0, 0.85);
+                // --- 計算 Theta 矩陣 --- //
+                let Lambda = math.diag(lambda);
+                Theta = math.diag(math.multiply(math.ctranspose(channel), Lambda, channel));
+                Theta = math.add(1, Theta);
+                
+                // --- 根據 Theta 矩陣，計算 lambda --- //
+                let Channel = math.diag(math.matrix(math.diag(channel)));
+                let invTheta = math.inv(math.diag(math.matrix(Theta)));
+                let temp = math.multiply(math.ctranspose(Channel), invTheta, Channel);
+                lambda = math.dotDivide(gamma / (1 + gamma), math.re(math.diag(temp)));
 
-            // 原始干擾 (若不協調)
-            let rawIntA = p.map(distA_BS1, 0, bsRadius*1.5, 0.6, 0) + p.map(distA_BS2, 0, bsRadius*1.5, 0.4, 0);
-            // 實際干擾透過 CoMP 壓制
-            stats.intA = p.max(0, rawIntA * (1 - compMitigation));
+                // --- 計算 uplink beamforming vector --- //
+                let coef_mtx  = math.dotDivide(math.multiply(1 / noise_power, math.diag(channel)), Theta);
+                let coef_array = coef_mtx.valueOf();
+                let c1 = math.complex(coef_array[0]);
+                let c2 = math.complex(coef_array[1]);
+                let c3 = math.complex(coef_array[2]);
+                
+                bfvec.w1.re = c1.re;
+                bfvec.w1.im = c1.im;
+                bfvec.w2.re = c2.re;
+                bfvec.w2.im = c2.im;
+                bfvec.w3.re = c3.re;
+                bfvec.w3.im = c3.im;;
 
-            // 3. UE B 的訊號與干擾 (BS 1 服務它，BS 0 對它造成微幅干擾)
-            stats.sinrB = p.map(distB_BS1, 0, bsRadius, 0.9, 0.3);
-            let distB_BS0 = p.dist(ueB.x, ueB.y, bss[0].x, bss[0].y);
-            stats.intB = p.map(distB_BS0, 0, bsRadius * 2, 0.15, 0);
+                // --- 計算 delta --- //
+                let F = math.zeros(3, 3);
+                calculateColumn(F, bfvec.w1, 0);
+                calculateColumn(F, bfvec.w2, 1);
+                calculateColumn(F, bfvec.w3, 2);
+                let delta_matrix = math.multiply(noise_power, math.inv(F), math.ones(3, 1));
+                let delta = math.squeeze(delta_matrix).valueOf();
+
+                console.log("目前迭代的 Delta (功率分配):", delta);
+
+                if (delta[0] < 0 || delta[1] < 0 || delta[2] < 0) {
+                    console.error("🚀 演算法失效警告：計算出負功率！");
+                    console.error("原因：目前的目標 SINR (gamma) 在這個通道環境下是「無解」的。");
+                    console.error("解法：請調低目標 SINR，或確保通道矩陣的主對角線數值遠大於非對角線。");
+                }
+
+
+                // --- 計算 downlink beamforming vector --- //
+                let scale = math.sqrt(delta[0]);
+                bfvec.w1.re = bfvec.w1.re * scale;
+                bfvec.w1.im = bfvec.w1.im * scale;
+                scale = math.sqrt(delta[1]);
+                bfvec.w2.re = bfvec.w2.re * scale;
+                bfvec.w2.im = bfvec.w2.im * scale;
+                scale = math.sqrt(delta[2]);
+                bfvec.w3.re = bfvec.w3.re * scale;
+                bfvec.w3.im = bfvec.w3.im * scale;
+
+                // --- 更新 SINR 和天線功率 --- //
+                stats.sinrA = calculateSINR(bfvec.w1, 0);
+                stats.sinrB = calculateSINR(bfvec.w2, 1);
+                stats.sinrC = calculateSINR(bfvec.w3, 2);
+                stats.pwr1 = bfvec.w1.re ** 2 + bfvec.w1.im ** 2;
+                stats.pwr2 = bfvec.w2.re ** 2 + bfvec.w2.im ** 2;
+                stats.pwr3 = bfvec.w3.re ** 2 + bfvec.w3.im ** 2;
+
+                // --- 更新迭代資訊 --- //
+                iterCount = iterCount + 1;
+                lastTime = p.millis();
+                fading_phase = math.map(fading_phase, (val) => {
+                    return val + 0.03 * p.PI;
+                })
+                fading = math.map(fading_phase, (val) => {
+                    return 1 + 0.025 * math.cos(val);
+                });
+            }
         }
 
+        function calculateColumn(F, w, idx) {
+            let w_complex = math.complex(w.re, w.im);
+            for (let i = 0; i < 3; i++) {
+                let h = channel.get([i, idx]);
+                let x = math.abs(math.multiply(math.conj(w_complex), h));
+                if (i === idx) {
+                    F.set([i, idx], (1 / gamma) * x ** 2);
+                }
+                else {
+                    F.set([i, idx], (-1) * x ** 2);
+                }
+            }
+        }
+
+        function calculateSINR(w, idx) {
+            // --- 固定目的地的通道 --- //
+            let h1 = channel.get([idx, 0]);
+            let h2 = channel.get([idx, 1]);
+            let h3 = channel.get([idx, 2]);
+
+            // --- 固定來源和目的地的功率成分 --- //
+            let x1 = math.abs(math.multiply(math.conj(bfvec.w1), h1)) ** 2;
+            let x2 = math.abs(math.multiply(math.conj(bfvec.w2), h2)) ** 2;
+            let x3 = math.abs(math.multiply(math.conj(bfvec.w3), h3)) ** 2;
+
+            // --- 區分功率成分 --- //
+            let num = (w === bfvec.w1)? x1: (w === bfvec.w2)? x2: x3;
+            let den = x1 + x2 + x3 - num + noise_power;
+
+            return num / den;
+        }
+
+        // --- 更新通道參數 --- //
+        function updateChannel(firstTime) {
+            if (firstTime) {
+                // --- to UE B --- //
+                calculateChannel(channel, 1, 0, ueB, bss[0]);
+                calculateChannel(channel, 1, 1, ueB, bss[1]);
+                calculateChannel(channel, 1, 2, ueB, bss[2]);
+                
+                // --- to UE C --- //
+                calculateChannel(channel, 2, 0, ueC, bss[0]);
+                calculateChannel(channel, 2, 1, ueC, bss[1]);
+                calculateChannel(channel, 2, 2, ueC, bss[2]);
+            }
+            // --- to UE A --- //
+            calculateChannel(channel, 0, 0, ueA, bss[0]);
+            calculateChannel(channel, 0, 1, ueA, bss[1]);
+            calculateChannel(channel, 0, 2, ueA, bss[2]);
+        }
+
+        function calculateChannel(ch, idx1, idx2, ue, bs) {
+            let c = math.complex(0, 0);
+            let d = p.dist(ue.x, ue.y, bs.x, bs.y);
+            
+            // --- path loss --- //
+            c.re = (ue.x - bs.x) / (d ** 2.05);
+            c.im = (ue.y - bs.y) / (d ** 2.05);
+         
+            // --- fading --- //
+            let fade = fading.get([idx1, idx2]);
+            c = math.multiply(c, fade);
+
+            // --- main diagonal --- //
+            if (idx1 === idx2) {
+                c = math.multiply(c, 1.075);
+            }
+
+            ch.set([idx1, idx2], c);
+        }
+
+        // --- 繪製上半部圖表 --- //
         function drawMap() {
             p.push();
             
-            // 繪製基地台服務範圍
+            // --- 繪製細胞範圍 --- //
             for (let i = 0; i < bss.length; i++) {
                 p.stroke("white");
                 p.strokeWeight(2);
@@ -613,32 +795,32 @@
             }
             p.drawingContext.setLineDash([]); // 結束虛線狀態
             
-            // 繪製傳送波束
-            // BS 0 -> UE A (主波束)
-            let phaseA = p.atan2(ueA.y - bss[0].y, ueA.x - bss[0].x);
-            drawWaterDropBeam(bss[0], ueA, phaseA, stats.sinrA, 210); // 藍色調波束
+            // --- 繪製波束 --- //
+            // --- from BS 1 --- //
+            let phase1 = p.atan2(bfvec.w1.re, bfvec.w1.im);
+            drawBeam(bss[0], ueA, phase1, stats.pwr1, false);
+            drawBeam(bss[0], ueB, phase1, stats.pwr1, true);
+            drawBeam(bss[0], ueC, phase1, stats.pwr1, true);
 
-            // BS 1 -> UE B (主波束)
-            let phaseB = p.atan2(ueB.y - bss[1].y, ueB.x - bss[1].x);
-            // 當 UE A 靠近時，波束相位(顏色)會受到 CoMP 協調影響而偏移
-            let distAB = p.dist(ueA.x, ueA.y, ueB.x, ueB.y);
-            let phaseShift = p.map(distAB, 0, 150, 45, 0); 
-            drawWaterDropBeam(bss[1], ueB, phaseB, stats.sinrB, 130 + phaseShift); // 綠/黃色調波束
-
-            // BS 2 -> UE B (協調波束，會對 UE A 產生旁瓣干擾)
-            let phaseC = p.atan2(ueB.y - bss[2].y, ueB.x - bss[2].x);
-            drawWaterDropBeam(bss[2], ueB, phaseC, stats.sinrB * 0.7, 300 - phaseShift); // 紫色調波束
-
-            // BS 2 -> UE A (協調波束？隨便亂畫的啦)
-            let phaseA2 = p.atan2(ueA.y - bss[2].y, ueA.x - bss[2].x);
-            drawWaterDropBeam(bss[2], ueA, phaseA2, stats.sinrA * 0.8, 280 - phaseShift);
+            // --- from BS 2 --- //
+            let phase2 = p.atan2(bfvec.w2.re, bfvec.w2.im);
+            drawBeam(bss[1], ueA, phase2, stats.pwr2, true);
+            drawBeam(bss[1], ueB, phase2, stats.pwr2, false);
+            drawBeam(bss[1], ueC, phase2, stats.pwr2, true);
             
-            // 繪製基地台圖示
+            // --- from BS 3 --- //
+            let phase3 = p.atan2(bfvec.w3.re, bfvec.w3.im);
+            drawBeam(bss[2], ueA, phase3, stats.pwr3, true);
+            drawBeam(bss[2], ueB, phase3, stats.pwr3, true);
+            drawBeam(bss[2], ueC, phase3, stats.pwr3, false);
+            
+            // --- 繪製 BS --- //
             for (let i = 0; i < bss.length; i++) {
                 p.stroke("cyan");
                 p.strokeWeight(2);
                 p.fill("blue");
-                p.triangle(bss[i].x, bss[i].y - 12, bss[i].x - 10, bss[i].y + 8, bss[i].x + 10, bss[i].y + 8);
+                p.triangle(bss[i].x, bss[i].y - 12, bss[i].x - 10,
+                           bss[i].y + 8, bss[i].x + 10, bss[i].y + 8);
                 p.noStroke();
                 p.fill("white");
                 p.textSize(14);
@@ -646,130 +828,153 @@
                 p.text("BS " + (i+1), bss[i].x, bss[i].y + 12);
             }
 
-            // 繪製 UE B (固定)
-            p.stroke("red");
-            p.strokeWeight(1.5);
-            p.fill("orange");
-            p.ellipse(ueB.x, ueB.y, ueSize);
-            p.noStroke();
-            p.fill("white");
-            p.textSize(14);
-            p.text("UE B (固定)", ueB.x, ueB.y - 20);
+            // --- 繪製 UE --- //
+            drawUE(ueA, "UE A (移動)");
+            drawUE(ueB, "UE B (固定)");
+            drawUE(ueC, "UE C (固定)");
 
-            // 繪製 UE A (可移動)
-            p.stroke("orange");
-            p.strokeWeight(dragA ? 3 : 1.5);
-            p.fill(0, 75, 90);
-            p.ellipse(ueA.x, ueA.y, ueSize);
-            p.noStroke();
-            p.fill("white");
-            p.textSize(14);
-            p.text("UE A (移動)", ueA.x, ueA.y - 20);
-        }
-
-        // --- 繪製拉長水滴狀波束的輔助函數 ---
-        function drawWaterDropBeam(from, to, angle, intensity, hueValue) {
-            p.push();
-            p.translate(from.x, from.y);
-            p.rotate(angle);
-            
-            let d = p.dist(from.x, from.y, to.x, to.y);
-            
-            // 使用貝茲曲線畫出水滴/葉片形狀
-            p.noStroke();
-            // 透明度隨強度變動 (intensity 0~1)
-            let alphaVal = p.map(intensity, 0, 1, 0.25, 1);
-            p.fill(hueValue, 80, 100, alphaVal);
-            
-            p.beginShape();
-            p.vertex(0, 0);
-            // 控制點拉出完美的流線波束
-            p.bezierVertex(d * 0.3, -d * 0.22, d * 0.8, -d * 0.12, d, 0);
-            p.bezierVertex(d * 0.8, d * 0.12, d * 0.3, d * 0.22, 0, 0);
-            p.endShape(p.CLOSE);
             p.pop();
         }
 
-        // --- 下半部：繪製訊號功率及干擾功率長條圖 ---
+        function drawUE(ue, text) {
+            p.stroke("orange");
+            if (ue === ueA) {
+                p.strokeWeight(dragA ? 3 : 1.5);
+            }
+            else {
+                p.strokeWeight(1.5);
+            }
+            p.fill(0, 75, 90);
+            p.ellipse(ue.x, ue.y, ueSize);
+            p.noStroke();
+            p.fill("white");
+            p.textSize(14);
+            p.text(text, ue.x, ue.y - 20);
+        }
+
+        function drawBeam(from, to, phase, intensity, interference) {
+            p.push();
+            p.translate(from.x, from.y);
+            let rotate_angle = p.atan2(to.y - from.y, to.x - from.x);
+            p.rotate(rotate_angle);
+            
+            let d = p.dist(from.x, from.y, to.x, to.y);
+            
+            // --- 透明度隨強度變動 --- //
+            p.noStroke();
+            let hue = phase * 180.0 / p.PI + 180.0;
+            let alphaVal = p.map(intensity, 3.5, 15.0, 0.3, 1.0, true);
+            alphaVal = (interference)? 0.3 * alphaVal: alphaVal;
+            p.fill(hue, 80, 100, alphaVal);
+
+            // --- 使用貝茲曲線畫出波束形狀 --- //
+            p.beginShape();
+            p.vertex(0, 0);
+            p.bezierVertex(d * 0.3, -d * 0.22, d * 0.8, -d * 0.12, d, 0);
+            p.bezierVertex(d * 0.8, d * 0.12, d * 0.3, d * 0.22, 0, 0);
+            p.endShape(p.CLOSE);
+
+            p.pop();
+        }
+
+        // --- 繪製下半部圖表 --- //
         function drawStats() {
             p.push();
             let chartY = topPlotH + 30;
             let chartH = bottomPlotH - 90;
-            let barW = 45;
+            let barW = 30;
             
-            // 軸線
+            // --- 軸線 --- //
             p.stroke(0, 0, 60);
             p.strokeWeight(1.5);
             p.line(60, chartY + chartH, canvasW - 60, chartY + chartH);
 
-            // --- UE A 長條圖組 ---
-            let startXA = canvasW * 0.25;
-            drawBar(startXA, chartY, chartH, barW, stats.sinrA, 210, "訊號功率");
-            drawBar(startXA + barW + 15, chartY, chartH, barW, stats.intA, 0, "干擾功率");
+            // --- UE A 長條圖組 --- //
+            let startXA = canvasW * 0.2;
+            drawBarSet(startXA, chartY, chartH, barW, stats.sinrA, stats.pwr1,
+                       "BS1\nant. pwr", "BS1 & UE A");
             
-            p.noStroke();
-            p.fill("yellow");
-            p.textSize(15);
-            p.textAlign(p.CENTER);
-            p.text("UE A 接收功率", startXA + 55, chartY + chartH + 30);
-
-            // --- UE B 長條圖組 ---
-            let startXB = canvasW * 0.65;
-            drawBar(startXB, chartY, chartH, barW, stats.sinrB, 130, "訊號功率");
-            drawBar(startXB + barW + 15, chartY, chartH, barW, stats.intB, 0, "干擾功率");
+            // --- UE B 長條圖組 --- //
+            let startXB = canvasW * 0.45;
+            drawBarSet(startXB, chartY, chartH, barW, stats.sinrB, stats.pwr2,
+                       "BS2\nant. pwr", "BS2 & UE B");
             
+            // --- UE C 長條圖組 --- //
+            let startXC = canvasW * 0.7;
+            drawBarSet(startXC, chartY, chartH, barW, stats.sinrC, stats.pwr3,
+                       "BS3\nant. pwr", "BS3 & UE C");
+        
+            // --- 迭代計數碼表 --- //
             p.noStroke();
-            p.fill("yellow");
-            p.textSize(15);
+            p.fill("white");
+            p.textSize(16);
             p.textAlign(p.CENTER);
-            p.text("UE B 接收功率", startXB + 55, chartY + chartH + 30);
+            p.text(`time: ${iterCount}`, startXC + 140, chartY + 16);
             
             p.pop();
         }
 
-        function drawBar(x, y, maxH, w, value, hueVal, label) {
-            let h = p.map(value, 0, 1.2, 0, maxH);
-            h = p.constrain(h, 0, maxH);
+        function drawBarSet(startX, chartY, chartH, barW, v1, v2, text1, text2) {
+            drawBar(startX, chartY, chartH, barW, v1, 210, "SINR");
+            drawBar(startX + barW + 10, chartY, chartH, barW, v2, 0, text1);
             
             p.noStroke();
-            // 如果是干擾，彩度調低一點點比較符合直覺
+            p.fill("yellow");
+            p.textSize(15);
+            p.textAlign(p.CENTER);
+            p.text(text2, startX + 35, chartY + chartH + 40);
+        }
+
+        function drawBar(x, y, maxH, w, value, hueVal, label) {
+            let h = (label === "SINR")? p.map(value, 0, 5.0, 0, maxH, true):
+                                        p.map(value, 0, 25.0, 0, maxH, true);
+            p.noStroke();
             p.fill(hueVal, hueVal === 0 ? 80 : 75, 85, 0.9);
             p.rect(x, y + maxH - h, w, h, 4);
             
-            // 數值
+            // --- 數值 --- //
             p.fill("white");
             p.textSize(14);
             p.textAlign(p.CENTER, p.BOTTOM);
             p.text(value.toFixed(2), x + w/2, y + maxH - h - 3);
             
-            // 標籤
+            // --- 標籤 --- //
             p.fill("white");
             p.textAlign(p.CENTER, p.TOP);
-            p.textSize(14);
+            p.textSize(12);
             p.text(label, x + w/2, y + maxH + 6);
         }
 
         p.mousePressed = function() {
+            // --- 確認游標是否點到 UE A --- //
             let d = p.dist(p.mouseX, p.mouseY, ueA.x, ueA.y);
-            if (d < ueSize && p.mouseY < topPlotH) {
+            if (d < ueSize) {
                 dragA = true;
+                
+                // --- 取消先前的迭代計算 --- //
+                calculate = false;
+                iterCount = 0;
             }
         };
 
         p.mouseReleased = function() {
             dragA = false;
+            if (!calculate && iterCount === 0) {
+                calculate = true;
+            }
         };
     };
 
-    new p5(compSketch);
+    new p5(CoMPSketch);
 })();
 </script>
 
-<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;<a target="_blank" rel="noopener" href="https://p5js.org/">p5.js</a> 真的是相當強大的網頁繪圖工具呢！雖然本文的 code 大部分是 Gemini 寫的就是了。事實上，Gemini Pro 已經提供在對話裡直接呈現互動式圖表的功能；可以稍微理解網頁前端工程師所面臨的困境。</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;<a target="_blank" rel="noopener" href="https://p5js.org/">p5.js</a> 真的是相當強大的網頁繪圖工具呢！雖然本文的 code 還是要歸功於 Gemini Pro。事實上，Gemini Pro 已經提供在對話裡直接呈現互動式圖表的功能；可以稍微理解網頁前端工程師所面臨的困境。</p>
 <br>
 
 <p>&emsp;&emsp;本文視覺化呈現 OFDM 系統已有使用的 ICIC 和 CoMP CB 技術，這些技術也可以用於 OTFS 系統，只不過資源的劃分要從時頻空間改為 delay-Doppler 空間。日常生活中，車聯網可能是 OTFS 系統最關注的應用之一，考量到臺灣都會區車輛和基地台密度極高，這些抗干擾技術應該有不少發揮空間。</p>
 <h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[1] H. Dahrouj and W. Yu, “Coordinated beamforming for the multicell multi-antenna wireless system,” in <em>IEEE Transactions on Wireless Communications</em>, vol. 9, no. 5, pp. 1748-1759, May 2010, doi: 10.1109&#x2F;TWC.2010.05.090936.</p>
+<p>[2] D. Lee et al., “Coordinated multipoint transmission and reception in LTE-advanced: deployment scenarios and operational challenges,” in <em>IEEE Communications Magazine</em>, vol. 50, no. 2, pp. 148-155, February 2012, doi: 10.1109&#x2F;MCOM.2012.6146494.</p>
 
     </div>
 
