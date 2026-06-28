@@ -1,0 +1,74 @@
+.little-music-player {
+  display: flex;
+  background-color: #0A4040;
+  width: 100%;
+  max-width: 500px;
+  margin: 20px auto;
+  border-radius: 8px;
+  padding: 10px;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+}
+.player-thumbnail img {
+  width: 135px;
+  height: 135px;
+  margin: 0;
+  border-radius: 10px;
+  object-fit: cover;
+  object-view-box: inset(13% 20% 13% 20%);
+  display: block;
+}
+.player-controls {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 16px;
+}
+.track-title {
+  font-weight: bold;
+  font-size: 16px;
+  color: #fff;
+}
+.track-artist {
+  font-size: 15px;
+  color: #b3b3b3;
+  margin-top: 4px;
+}
+.control-btn {
+  background: #666;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+.control-btn:hover { transform: scale(1.05); }
+.progress-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #b3b3b3;
+}
+.progress-bar-bg {
+  flex: 1;
+  background-color: #4f4f4f;
+  height: 4px;
+  margin: 0 8px;
+  border-radius: 2px;
+  position: relative;
+  cursor: pointer;
+}
+.progress-bar-fill {
+  background-color: #1db954; /* Spotify 綠 */
+  height: 100%;
+  width: 0%;
+  border-radius: 2px;
+}

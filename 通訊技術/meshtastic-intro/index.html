@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yc518suray.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="&emsp;&emsp;和撰寫 RTL-SDR 的介紹文章一樣，寫這篇文章也是為了讓自己更熟悉 Meshtastic 設備、操作方式以及運作原理。畢竟買 Meshtastic 也好幾個月了，卻因為天線的緣故一直沒有積極嘗試連上 mesh 網路。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Meshtastic 我來了！">
+<meta property="og:url" content="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/meshtastic-intro/index.html">
+<meta property="og:site_name" content="R.S. Random Space">
+<meta property="og:description" content="&emsp;&emsp;和撰寫 RTL-SDR 的介紹文章一樣，寫這篇文章也是為了讓自己更熟悉 Meshtastic 設備、操作方式以及運作原理。畢竟買 Meshtastic 也好幾個月了，卻因為天線的緣故一直沒有積極嘗試連上 mesh 網路。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=18GhngBMAQUzrmj-m18HYt16OrCxPPeqc&sz=s1024">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1djAvKF2xoA_nVzo8084YIYHnswNtfieI&sz=s1024">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1pj3L0Qm0vU4sFlcGIQS3IdpWhz5_K1sF&sz=s1024">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1_XUzME7VMjMg76fgZKeWE6PCR_SRRd_W&sz=s1024">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1ChVxbr8fc57GwLijwDI_WklFmcYjJ-tf&sz=s1024">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1UlG493hNp9uXretj2VZkoYmTZgcOeFjE&sz=s1024">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1zbikBc1r8fDWK6fcsZBUKZnH-R86hTED&sz=s1024">
+<meta property="article:published_time" content="2026-03-18T00:51:58.000Z">
+<meta property="article:modified_time" content="2026-06-28T16:26:30.353Z">
+<meta property="article:author" content="Raymond Su">
+<meta property="article:tag" content="無線通訊">
+<meta property="article:tag" content="Mesh">
+<meta property="article:tag" content="LoRa">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://drive.google.com/thumbnail?id=18GhngBMAQUzrmj-m18HYt16OrCxPPeqc&sz=s1024">
+
+
+<link rel="canonical" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/meshtastic-intro/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/meshtastic-intro/","path":"通訊技術/meshtastic-intro/","title":"Meshtastic 我來了！"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Meshtastic 我來了！ | R.S. Random Space</title>
+  
+
+
+
+
+
+
+
+<script src="/live2d-widget/dist/autoload.js"></script>
+<script src="/js/hexo_resize_image.js"></script>
+<link rel="stylesheet" href="/css/SpoilerBlur.css">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">R.S. Random Space</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Raymond Su的個人網站</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa-solid fa-house fa-fw"></i>首頁</a></li><li class="menu-item menu-item-archives"><a href="/archives" rel="section"><i class="fa-solid fa-folder-open fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-categories"><a href="/categories" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-tags"><a href="/tags" rel="section"><i class="fa-solid fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-音樂"><a href="/music" rel="section"><i class="fa fa-music fa-fw"></i>音樂</a></li><li class="menu-item menu-item-連結"><a href="/links" rel="section"><i class="fa fa-link fa-fw"></i>連結</a></li><li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa-solid fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#What"><span class="nav-number">1.</span> <span class="nav-text">What?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How"><span class="nav-number">2.</span> <span class="nav-text">How?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LoRa-CMSS"><span class="nav-number">2.1.</span> <span class="nav-text">LoRa &amp; CMSS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Heltec-V3"><span class="nav-number">2.2.</span> <span class="nav-text">Heltec V3</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%A6%E9%A9%97%EF%BC%9A%E9%80%A3%E6%8E%A5%E4%B8%8A%E7%B6%B2%E8%B7%AF"><span class="nav-number">3.</span> <span class="nav-text">實驗：連接上網路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B5%90%E8%AA%9E"><span class="nav-number">4.</span> <span class="nav-text">結語</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text">參考資料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Raymond Su"
+      src="/uploads/images/blog_avatar.png">
+  <p class="site-author-name" itemprop="name">Raymond Su</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags">
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yc518suray" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yc518suray" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:raymondsu0110@gmail.com" title="E-mail → mailto:raymondsu0110@gmail.com" rel="noopener me" target="_blank"><i class="fa-solid fa-envelope fa-fw"></i>E-mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://hackmd.io/@Q5thU81LTku-dZ3h7gNMFQ" title="HackMD → https:&#x2F;&#x2F;hackmd.io&#x2F;@Q5thU81LTku-dZ3h7gNMFQ" rel="noopener me" target="_blank"><i class="fa-solid fa-book-open fa-fw"></i>HackMD</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/meshtastic-intro/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/images/blog_avatar.png">
+      <meta itemprop="name" content="Raymond Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R.S. Random Space">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Meshtastic 我來了！ | R.S. Random Space">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Meshtastic 我來了！
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2026-03-18 08:51:58" itemprop="dateCreated datePublished" datetime="2026-03-18T08:51:58+08:00">2026-03-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-06-29 00:26:30" itemprop="dateModified" datetime="2026-06-29T00:26:30+08:00">2026-06-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/" itemprop="url" rel="index"><span itemprop="name">通訊技術</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/meshtastic-intro/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="通訊技術/meshtastic-intro/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;和撰寫 RTL-SDR 的介紹文章一樣，寫這篇文章也是為了讓自己更熟悉 Meshtastic 設備、操作方式以及運作原理。畢竟買 Meshtastic 也好幾個月了，卻因為天線的緣故一直沒有積極嘗試連上 mesh 網路。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=18GhngBMAQUzrmj-m18HYt16OrCxPPeqc&sz=s1024" width="400">
+<span id="more"></span>
+<br>
+
+<p>&emsp;&emsp;這篇文章的架構和介紹 RTL-SDR 的那篇一樣。實驗的部分我要求不多，只要能連上臺灣的 Meshtastic 網路就好。</p>
+<h2 id="What"><a href="#What" class="headerlink" title="What?"></a>What?</h2><p>&emsp;&emsp;Meshtastic 是一個「基於 LoRa 技術的開源專案」，期望建立一個「使用低功耗、低成本裝置」的「長距離無線網狀網路」[1]。更重要的是，它是<span class="hint--info hint--rounded hint--top" data-hint="可以參考 Wifi mesh 的概念" ontouchstart>去中心化的網路</span>，受到攻擊而解體的可能性較低，韌性十足。[1]是 Meshtastic Taiwan 的入門手冊，從基礎觀念講到實際應用，非常值得一讀。</p>
+<br>
+
+<p>&emsp;&emsp;Meshtastic 常見的應用如下[1]：</p>
+<ul>
+<li><strong>戶外運動</strong>：山區不一定收得到基地台訊號，Meshtastic 可以做為替代&#x2F;備援通訊方式；搭配 GPS 功能，可以得知同伴或其他山友的位置。</li>
+<li><strong>緊急救援</strong>：作為基礎設施(e.g. 基地台)失去作用時的備援通訊方式。</li>
+<li><strong>社區連結</strong>：都會區的基地台佈建密度高，行動數據網路就夠用；在地廣人稀的地區，如花蓮(被打)，社區之間、或是社區內便可以透過 Meshtastic 聯繫彼此。</li>
+<li><strong>物聯網裝置</strong>：畢竟 LoRa 本來就是用於 IoT，不過目前好像較少 IoT 方面的應用。</li>
+</ul>
+<p>&emsp;&emsp;目前也有人做出<a target="_blank" rel="noopener" href="https://hackmd.io/@fL8pq60EQsG3RplVzWfGWA/S1m_x-AOA/%2FT5om5V4RRraOkGSmGW43yA">地震通報功能</a>，讓登山者判斷行程&#x2F;路線是否需要變更。</p>
+<h2 id="How"><a href="#How" class="headerlink" title="How?"></a>How?</h2><p>&emsp;&emsp;網路上有許多資源可以參考(如[1])，所以我補充一些網路上較少討論的資訊，特別是從實體層的角度來看(硬體的部分如天線、RF 電路等，我沒有涉獵就略過不談)。</p>
+<h3 id="LoRa-CMSS"><a href="#LoRa-CMSS" class="headerlink" title="LoRa &amp; CMSS"></a>LoRa &amp; CMSS</h3><p>&emsp;&emsp;LoRa 為 Long Range 的縮寫，為低功耗廣域網路 (Low-Power Wide Area Network，LPWAN) 的實體層實現之一[2]。和蜂巢式網路、LTE-M 相比，LoRa 有著低功耗、低成本的優勢，非常適合用於在大範圍的區域內佈建 IoT 網路；LoRa 的缺點是資料傳輸率較低，這也<span class="hint--info hint--rounded hint--top" data-hint="e.g. Meshtastic 不能傳輸圖片" ontouchstart>限制了它的應用</span>。</p>
+<br>
+
+<p>&emsp;&emsp;LoRa 使用 Chirp Modulation Spread Spectrum (<strong>CMSS</strong>) 作為調變方式。CMSS 不是什麼新東西，在第二次世界大戰時就已經有人提出，主要用於軍事用途 (DSSS 和 FHSS 好像也是一樣的背景)。這邊參考 Stephan Hengstler 一篇 2002 年的 IEEE 會議論文[3]，來呈現 CMSS 的特性。作者設計一組 chirp spreading 訊號：</p>
+<p>$$<br>c_i(t) &#x3D;<br>\begin{cases}<br>\begin{align}<br>&amp;\sqrt{\frac{2E_s}{T_s}} \cos{\left(2\pi f_c t + \pi\alpha_{a, i}t^2 + \pi\theta_i\right)}&amp;&amp;,\ 0 \leq t &lt; \frac{T_s}{2}\\[10pt]<br>&amp;\sqrt{\frac{2E_s}{T_s}} \cos{\left(2\pi f_c t + 2\pi\alpha_{a, i}\frac{T_s}{2}\left(t - \frac{Ts}{4}\right) + \pi\alpha_{b, i}\left(t - \frac{T_s}{2}\right)^2 + \pi\theta_i\right)}&amp;&amp;,\ \frac{T_s}{2} \leq t \leq T_s<br>\end{align}<br>\end{cases}<br>$$</p>
+<p>&emsp;&emsp;其中 $\alpha_{a, i}$ 和 $\alpha_{b, i}$ 是用戶 $i$ 的 chirp rate 參數，單位為 Hs&#x2F;s。每一個用戶的展頻訊號 $c_i(t)$ 頻寬都相同，因此只要選定 $\alpha_{a, i}$，$\alpha_{b, i}$ 也會決定：</p>
+<p>$$<br>W &#x3D; \left(\alpha_{a, i} + \alpha_{b, i}\right)\frac{T_s}{2},\ \forall i<br>$$</p>
+<p>&emsp;&emsp;圖A-1為某展頻訊號的波型，圖A-2為其功率頻譜，載波頻率為 1500 Hz，頻寬為 500 Hz。Time-bandwidth product 愈大，功率密度頻譜的形狀愈接近方波，但是時域波型會變得過於密集，所以兩張圖採用不同的 time-bandwidth product，以呈現合適的結果。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1djAvKF2xoA_nVzo8084YIYHnswNtfieI&sz=s1024" width="350">
+<center><font color="cyan">圖A-1，展頻訊號在一個符號期間的波型，$T_s W = 5$。</font></center><br>
+<img src="https://drive.google.com/thumbnail?id=1pj3L0Qm0vU4sFlcGIQS3IdpWhz5_K1sF&sz=s1024" width="350">
+<center><font color="cyan">圖A-2，展頻訊號的功率頻譜密度，$T_s W = 100$。</font></center>
+<br>
+
+<p>&emsp;&emsp;作者假設傳送 BPSK 符號，接收端為 coherent correlator，進而推導出 AWGN 通道下的錯誤率，當中 ${\bf b} &#x3D; \left[b_1, \cdots, b_M\right]^T$，$B &#x3D; \lbrace-1, 1\rbrace$，$\rho_{ij}$ 為 $c_i(t)$ 和 $c_j(t)$ 的 correlation：</p>
+<p>$$<br>P_e &#x3D; \frac{1}{M}\sum_{i &#x3D; 1}^{M}{\sum_{ {\bf b} \in B^{M - 1} }{\frac{1}{2^{M - 1}} Q\left(\sqrt{\frac{2E_s}{N_0}} \left(1 - \sum_{j &#x3D; 1,\ j \neq i}^{M}{b_j\rho_{ij}}\right)\right)}}<br>$$</p>
+<p>&emsp;&emsp;如果這些展頻訊號彼此為正交，則 $P_e$ 就化簡為一般常見的 BPSK 錯誤率；使用正交碼(如 Hadamard code)的 DSSS 即為一例。很可惜，這裡的 CMSS 做不到。作者設計 $\Delta\overline{\alpha}_{i, i + 1} &#x3D; (\alpha_{a, i} - \alpha_{a, i + 1})T_s^2 &#x3D; \Delta\overline{\alpha}$ 為常數──相當於 equal chirp rate spacing──使得錯誤率可以最小化(至少就所設計的系統而言)。圖B為模擬的錯誤率，調變的符號為 BPSK，假設 M &#x3D; 4 個用戶，$\eta &#x3D; T_s W &#x2F; M$。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1_XUzME7VMjMg76fgZKeWE6PCR_SRRd_W&sz=s1024" width="400">
+<center><font color="cyan">圖B，CMSS 錯誤率，參數按照論文之設定；<br>$M = 4,\ \eta = 8$ 的錯誤率和論文的比較不一致，可能是參數數值精確度的問題。<br>(Gemini 幫我想的理由😜)</font></center>
+<br>
+
+<p>&emsp;&emsp;不過，這篇論文提出的展頻系統畢竟不是 LoRa，兩者雖然都是 chirp 展頻系統，但是本質上還是不一樣：這篇論文的 CMSS 把展頻訊號當成類似正交碼的 chip signal，符號仍為 BPSK 或是一般 QAM 星座圖；而 LoRa 是直接將展頻訊號代表符號，為 constant envelope。</p>
+<br>
+
+<p>&emsp;&emsp;LoRaWAN 的介紹可以參考[2]，這份文件也介紹 LoRa 的一些基本概念，推薦閱讀。其實網路上有很多介紹 LoRa 波型的論文，我介紹的這篇比較像是 CSS 的一個早期設計(殘念)，之後有時間再來介紹真正討論 LoRa 的 paper。</p>
+<h3 id="Heltec-V3"><a href="#Heltec-V3" class="headerlink" title="Heltec V3"></a>Heltec V3</h3><p>&emsp;&emsp;Meshtastic 既然是開源專案，從硬體、韌體到軟體的實現方式就有許多公開在網路上。我使用的硬體是 Heltec 的 V3，處理器為 ESP32-S3FN8 (Espressif)，LoRa 晶片為 SX1262 (Semtech)，韌體和軟體都是直接用別人寫好的。</p>
+<br>
+
+<p>&emsp;&emsp;來看看 SX1262 的 datasheet。頻率合成器的目標範圍為 150 MHz ~ 960 MHz，幾乎是整個 sub-GHz 的頻帶。中頻在 167 kHz 到 250 kHz 之間，經過 ADC 後才轉換 (DDC) 到基頻做後續的訊號處理，和一般的 SDR 架構相仿；這似乎是目前收發機設計的主流？</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1ChVxbr8fc57GwLijwDI_WklFmcYjJ-tf&sz=s1024" width="400">
+<center><font color="cyan">圖，SX1262 電路方塊圖。圖片來源：Semtech，SX1262 datasheet[4]。</font></center>
+<br>
+
+<p>&emsp;&emsp;如圖所示，SX1262 有 LoRa 和 FSK 兩種調變方式。韌體提供的 LoRa 調變參數包括<strong>調變頻寬</strong> <code>BW_L</code>、<strong>spreading factor</strong> <code>SF</code>、<strong>編碼率</strong> <code>CR</code>、<strong>低資料傳輸率最佳化</strong> <code>LDRO</code>。</p>
+<br>
+
+<p>&emsp;&emsp;<code>BW_L</code> 表示 RF 頻寬 (DSB)，參數值對應到的頻寬如表A所示。每個 symbol 由 <code>SF</code> 個 bits 組成，故每個 symbol 乘上 $2^{\text{SF}}$ 個 chips。如 SF &#x3D; 6，則每個 symbol 乘上 $2^6 &#x3D; 64$ chips。每個 symbol 以 sweeping 初始的頻率表示，如 SF &#x3D; 6 的 symbol 起始頻率為 $f_c + 2\Delta f$，表示該 symbol 為 000010 [5]。SF 和 symbol rate 的關係如下：</p>
+<p>$$<br>R_s &#x3D; \frac{\text{BW}}{2^{\text{SF}}}<br>$$</p>
+<p>&emsp;&emsp;固定頻寬的情況下，SF 愈大，symbol 被延展得愈長，symbol energy 也就愈大，不過代價是更長的傳輸時間 (time-on-air)。編碼率則是從 1&#x2F;2 到 4&#x2F;5 都有。</p>
+<br>
+<table style="width:650px; margin: 0 auto;">
+  <tr>
+    <th style="width:14%;">BW_L</th>
+    <th style="width:8.6%;">0</th>
+    <th style="width:8.6%;">1</th>
+    <th style="width:8.6%;">2</th>
+    <th style="width:8.6%;">3</th>
+    <th style="width:8.6%;">4</th>
+    <th style="width:8.6%;">5</th>
+    <th style="width:8.6%;">6</th>
+    <th style="width:8.6%;">7</th>
+    <th style="width:8.6%;">8</th>
+    <th style="width:8.6%;">9</th>
+  </tr>
+  <tr>
+    <td>訊號頻寬 (kHz)</td>
+    <td>7.81</td>
+    <td>10.42</td>
+    <td>15.63</td>
+    <td>20.83</td>
+    <td>31.25</td>
+    <td>41.67</td>
+    <td>62.5</td>
+    <td>125</td>
+    <td>250</td>
+    <td>500</td>
+  </tr>
+</table>
+<center><font color="cyan">表A，BW_L 對應到的頻寬。資料來源：Semtech，SX1262 datasheet[4]。</font></center>
+<br>
+
+<p>&emsp;&emsp;LoRa 訊號封包的格式可以參考圖，preamble 用於同步，長度從 10 ~ 65535 個 symbols；header 用於 explicit mode，提供 payload 的長度、編碼率、CRC有無等資訊。在 implicit mode 則預設接收端知道這些資訊，就不提供 header。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1UlG493hNp9uXretj2VZkoYmTZgcOeFjE&sz=s1024" width="550">
+<center><font color="cyan">圖，LoRa 封包格式。圖片來源：Semtech，SX1262 datasheet[4]。</font></center>
+
+<h2 id="實驗：連接上網路"><a href="#實驗：連接上網路" class="headerlink" title="實驗：連接上網路"></a>實驗：連接上網路</h2><p>&emsp;&emsp;第一次測試結果如圖，確認可以連結到 Meshtastic 網路。不過或許是天線的原因(還在使用 Heltec V3 原廠附的天線)，傳送訊號的品質不好。</p>
+<br>
+<img src="https://drive.google.com/thumbnail?id=1zbikBc1r8fDWK6fcsZBUKZnH-R86hTED&sz=s1024" width="450">
+<center><font color="cyan">圖，左：在 SignalTest 頻道測試，有被中繼節點接收到但是沒有收到機器人回應。<br>右：第一次發現到附近的節點，數量不少。</font></center>
+<br>
+
+<p>&emsp;&emsp;後來在蝦皮買了 TX915 天線，租屋處頂樓測試的結果…發現了更多節點，但是還是沒有收到 @ab 機器人回應。也許是設定有些問題，或是機器人回應了但是我沒有收到，之後再試試看。</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>&emsp;&emsp;其實也沒有什麼要說的，<a target="_blank" rel="noopener" href="https://www.facebook.com/groups/meshtastictw/">Meshtastic Taiwan</a> 的臉書社團有很多大佬，我有時候看著看著，都覺得我這個通訊工程的研究生到底算哪根蔥？所以我決定抱著好玩的心態來認識 Meshtastic，有些人認真的玩，有些人隨便玩。只是玩玩，這樣就可以降低接觸的門檻，希望大家都來玩玩看。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[1] BASHCAT, HackMD 筆記, “Meshtastic Taiwan 快速入門指南”, hackmd.io. Available: <a target="_blank" rel="noopener" href="https://hackmd.io/@fL8pq60EQsG3RplVzWfGWA/S1m_x-AOA/%2FUAmGpkIzQy-Fc5xKmcyBtQ">https:&#x2F;&#x2F;hackmd.io&#x2F;@fL8pq60EQsG3RplVzWfGWA&#x2F;S1m_x-AOA&#x2F;%2FUAmGpkIzQy-Fc5xKmcyBtQ</a></p>
+<p>[2] Semtech (document), “LoRa® and LoRaWAN®”, semtech.com, Mar. 2024. Available: <a target="_blank" rel="noopener" href="https://www.semtech.com/uploads/technology/LoRa/lora-and-lorawan.pdf">https://www.semtech.com/uploads/technology/LoRa/lora-and-lorawan.pdf</a></p>
+<p>[3] S. Hengstler, D. P. Kasilingam and A. H. Costa, “A novel chirp modulation spread spectrum technique for multiple access,” <em>IEEE Seventh International Symposium on Spread Spectrum Techniques and Applications</em>, Prague, Czech Republic, 2002, pp. 73-77 vol.1, doi: 10.1109&#x2F;ISSSTA.2002.1049289.</p>
+<p>[4] Semtech (datasheet), “SX1261&#x2F;2: Long Range, Low Power, sub-GHz RF Transceiver”. Available: <a target="_blank" rel="noopener" href="https://cdn.sparkfun.com/assets/6/b/5/1/4/SX1262_datasheet.pdf">https://cdn.sparkfun.com/assets/6/b/5/1/4/SX1262_datasheet.pdf</a></p>
+<p>[5] GW Instek (Youtube), “C-1200 LoRa Tester: (4) LoRa Test Overview”, youtube.com. Available: <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=vEZ2xDCCvsU">https://www.youtube.com/watch?v=vEZ2xDCCvsU</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Raymond Su
+  </li>
+  <li class="post-copyright-link">
+      <strong>文章連結：</strong>
+      <a href="https://yc518suray.github.io/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/meshtastic-intro/" title="Meshtastic 我來了！">https://yc518suray.github.io/通訊技術/meshtastic-intro/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版權聲明： </strong>本網誌所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 許可協議。轉載請註明出處！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%84%A1%E7%B7%9A%E9%80%9A%E8%A8%8A/" rel="tag"><i class="fa fa-tag"></i> 無線通訊</a>
+              <a href="/tags/Mesh/" rel="tag"><i class="fa fa-tag"></i> Mesh</a>
+              <a href="/tags/LoRa/" rel="tag"><i class="fa fa-tag"></i> LoRa</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/paper-OTFS-modulation/" rel="prev" title="論文閱讀：OTFS Modulation">
+                  <i class="fa fa-angle-left"></i> 論文閱讀：OTFS Modulation
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/%E9%80%9A%E8%A8%8A%E6%8A%80%E8%A1%93/delay-doppler-question-1/" rel="next" title="Delay-Doppler 的 time-invariant 特性">
+                  Delay-Doppler 的 time-invariant 特性 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Raymond Su</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"oscarsu-disqus","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
