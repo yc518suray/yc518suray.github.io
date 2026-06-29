@@ -5127,7 +5127,7 @@ $$
 <center><font color="cyan">圖B，CMSS 錯誤率，參數按照論文之設定；<br>$M = 4,\ \eta = 8$ 的錯誤率和論文的比較不一致，可能是參數數值精確度的問題。<br>(Gemini 幫我想的理由😜)</font></center>
 <br>
 
-<p>&emsp;&emsp;不過，這篇論文提出的展頻系統畢竟不是 LoRa，兩者雖然都是 chirp 展頻系統，但是本質上還是不一樣：這篇論文的 CMSS 把展頻訊號當成類似正交碼的 chip signal，符號仍為 BPSK 或是一般 QAM 星座圖；而 LoRa 是直接將展頻訊號代表符號，為 constant envelope。</p>
+<p>&emsp;&emsp;不過，這篇論文提出的展頻系統畢竟不是 LoRa，兩者雖然都是 chirp 展頻系統，但是本質上還是不一樣：這篇論文的 CMSS 把展頻訊號當成類似正交碼的 chip signal，符號仍為 BPSK 或是 QAM；而 LoRa 是直接將展頻訊號代表符號，為 constant envelope。</p>
 <br>
 
 <p>&emsp;&emsp;LoRaWAN 的介紹可以參考[2]，這份文件也介紹 LoRa 的一些基本概念，推薦閱讀。其實網路上有很多介紹 LoRa 波型的論文，我介紹的這篇比較像是 CSS 的一個早期設計(殘念)，之後有時間再來介紹真正討論 LoRa 的 paper。</p>
@@ -5137,10 +5137,10 @@ $$
 <p>&emsp;&emsp;來看看 SX1262 的 datasheet。頻率合成器的目標範圍為 150 MHz ~ 960 MHz，幾乎是整個 sub-GHz 的頻帶。中頻在 167 kHz 到 250 kHz 之間，經過 ADC 後才轉換 (DDC) 到基頻做後續的訊號處理，和一般的 SDR 架構相仿；這似乎是目前收發機設計的主流？</p>
 <br>
 <img src="https://drive.google.com/thumbnail?id=1ChVxbr8fc57GwLijwDI_WklFmcYjJ-tf&sz=s1024" width="400">
-<center><font color="cyan">圖，SX1262 電路方塊圖。圖片來源：Semtech，SX1262 datasheet[4]。</font></center>
+<center><font color="cyan">圖C，SX1262 電路方塊圖。圖片來源：Semtech，SX1262 datasheet[4]。</font></center>
 <br>
 
-<p>&emsp;&emsp;如圖所示，SX1262 有 LoRa 和 FSK 兩種調變方式。韌體提供的 LoRa 調變參數包括<strong>調變頻寬</strong> <code>BW_L</code>、<strong>spreading factor</strong> <code>SF</code>、<strong>編碼率</strong> <code>CR</code>、<strong>低資料傳輸率最佳化</strong> <code>LDRO</code>。</p>
+<p>&emsp;&emsp;如圖C所示，SX1262 有 LoRa 和 FSK 兩種調變方式。韌體提供的 LoRa 調變參數包括<strong>調變頻寬</strong> <code>BW_L</code>、<strong>spreading factor</strong> <code>SF</code>、<strong>編碼率</strong> <code>CR</code>、<strong>低資料傳輸率最佳化</strong> <code>LDRO</code>。</p>
 <br>
 
 <p>&emsp;&emsp;<code>BW_L</code> 表示 RF 頻寬 (DSB)，參數值對應到的頻寬如表A所示。每個 symbol 由 <code>SF</code> 個 bits 組成，故每個 symbol 乘上 $2^{\text{SF}}$ 個 chips。如 SF &#x3D; 6，則每個 symbol 乘上 $2^6 &#x3D; 64$ chips。每個 symbol 以 sweeping 初始的頻率表示，如 SF &#x3D; 6 的 symbol 起始頻率為 $f_c + 2\Delta f$，表示該 symbol 為 000010 [5]。SF 和 symbol rate 的關係如下：</p>
@@ -5178,15 +5178,15 @@ $$
 <center><font color="cyan">表A，BW_L 對應到的頻寬。資料來源：Semtech，SX1262 datasheet[4]。</font></center>
 <br>
 
-<p>&emsp;&emsp;LoRa 訊號封包的格式可以參考圖，preamble 用於同步，長度從 10 ~ 65535 個 symbols；header 用於 explicit mode，提供 payload 的長度、編碼率、CRC有無等資訊。在 implicit mode 則預設接收端知道這些資訊，就不提供 header。</p>
+<p>&emsp;&emsp;LoRa 訊號封包的格式可以參考圖D，preamble 用於同步，長度從 10 ~ 65535 個 symbols；header 用於 explicit mode，提供 payload 的長度、編碼率、CRC有無等資訊。在 implicit mode 則預設接收端知道這些資訊，就不提供 header。</p>
 <br>
 <img src="https://drive.google.com/thumbnail?id=1UlG493hNp9uXretj2VZkoYmTZgcOeFjE&sz=s1024" width="550">
-<center><font color="cyan">圖，LoRa 封包格式。圖片來源：Semtech，SX1262 datasheet[4]。</font></center>
+<center><font color="cyan">圖D，LoRa 封包格式。圖片來源：Semtech，SX1262 datasheet[4]。</font></center>
 
-<h2 id="實驗：連接上網路"><a href="#實驗：連接上網路" class="headerlink" title="實驗：連接上網路"></a>實驗：連接上網路</h2><p>&emsp;&emsp;第一次測試結果如圖，確認可以連結到 Meshtastic 網路。不過或許是天線的原因(還在使用 Heltec V3 原廠附的天線)，傳送訊號的品質不好。</p>
+<h2 id="實驗：連接上網路"><a href="#實驗：連接上網路" class="headerlink" title="實驗：連接上網路"></a>實驗：連接上網路</h2><p>&emsp;&emsp;第一次測試結果如圖E，確認可以連結到 Meshtastic 網路。不過或許是天線的原因(還在使用 Heltec V3 原廠附的天線)，傳送訊號的品質不好。</p>
 <br>
 <img src="https://drive.google.com/thumbnail?id=1zbikBc1r8fDWK6fcsZBUKZnH-R86hTED&sz=s1024" width="450">
-<center><font color="cyan">圖，左：在 SignalTest 頻道測試，有被中繼節點接收到但是沒有收到機器人回應。<br>右：第一次發現到附近的節點，數量不少。</font></center>
+<center><font color="cyan">圖E，左：在 SignalTest 頻道測試，有被中繼節點接收到但是沒有收到機器人回應。<br>右：第一次發現到附近的節點，數量不少。</font></center>
 <br>
 
 <p>&emsp;&emsp;後來在蝦皮買了 TX915 天線，租屋處頂樓測試的結果…發現了更多節點，但是還是沒有收到 @ab 機器人回應。也許是設定有些問題，或是機器人回應了但是我沒有收到，之後再試試看。</p>
