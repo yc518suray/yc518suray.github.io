@@ -5792,7 +5792,7 @@ $$
   </entry>
   <entry>
     <title>測試 mermaid.js 圖表</title>
-    <url>/uncategorized/mermaid-chart-test/</url>
+    <url>/%E7%B6%B2%E9%A0%81%E5%89%8D%E7%AB%AF/mermaid-chart-test/</url>
     <content><![CDATA[<link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;測試一下 mermaid.js 的各種圖表。</p>
 <span id="more"></span>
 
@@ -5939,5 +5939,11 @@ stateDiagram-v2
 <p>&emsp;&emsp;程式碼如下：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line">&#123;<span class="string">%</span> <span class="string">mermaid</span> <span class="string">%</span>&#125;</span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">Personal</span> <span class="string">System</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">stateDiagram-v2</span></span><br><span class="line">    <span class="string">direction</span> <span class="string">LR</span></span><br><span class="line">    [<span class="string">*</span>] <span class="string">--&gt;</span> <span class="string">Sleep</span></span><br><span class="line">    <span class="string">Sleep</span> <span class="string">--&gt;</span> <span class="attr">Eat:</span> <span class="string">hungry</span></span><br><span class="line">    <span class="string">Eat</span> <span class="string">--&gt;</span> <span class="attr">Sleep:</span> <span class="string">full</span></span><br><span class="line">    <span class="string">Eat</span> <span class="string">--&gt;</span> <span class="attr">Die:</span> <span class="string">too</span> <span class="string">old</span></span><br><span class="line">    <span class="string">Die</span> <span class="string">--&gt;</span> [<span class="string">*</span>]</span><br><span class="line">&#123;<span class="string">%</span> <span class="string">endmermaid</span> <span class="string">%</span>&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
+      <categories>
+        <category>網頁前端</category>
+      </categories>
+      <tags>
+        <tag>網誌設計</tag>
+      </tags>
   </entry>
 </search>
