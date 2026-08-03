@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yc518suray.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.22.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"找到 ${hits} 個搜索結果（用時 ${time} 毫秒）","hits":"找到 ${hits} 個搜索結果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="&emsp;&emsp;測試一下 mermaid.js 的各種圖表。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="測試 mermaid.js 圖表">
+<meta property="og:url" content="https://yc518suray.github.io/uncategorized/mermaid-chart-test/index.html">
+<meta property="og:site_name" content="R.S. Random Space">
+<meta property="og:description" content="&emsp;&emsp;測試一下 mermaid.js 的各種圖表。">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2026-08-02T09:18:31.000Z">
+<meta property="article:modified_time" content="2026-08-03T14:30:45.857Z">
+<meta property="article:author" content="Raymond Su">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://yc518suray.github.io/uncategorized/mermaid-chart-test/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"https://yc518suray.github.io/uncategorized/mermaid-chart-test/","path":"uncategorized/mermaid-chart-test/","title":"測試 mermaid.js 圖表"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>測試 mermaid.js 圖表 | R.S. Random Space</title>
+  
+
+
+
+
+
+
+
+<script src="/live2d-widget/dist/autoload.js"></script>
+<script src="/js/hexo_resize_image.js"></script>
+<link rel="stylesheet" href="/css/SpoilerBlur.css">
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="R.S. Random Space" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{width:40px!important;height:40px!important;z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">R.S. Random Space</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Raymond Su的個人網站</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa-solid fa-house fa-fw"></i>首頁</a></li><li class="menu-item menu-item-archives"><a href="/archives" rel="section"><i class="fa-solid fa-folder-open fa-fw"></i>歸檔</a></li><li class="menu-item menu-item-categories"><a href="/categories" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-tags"><a href="/tags" rel="section"><i class="fa-solid fa-tags fa-fw"></i>標籤</a></li><li class="menu-item menu-item-音樂"><a href="/music" rel="section"><i class="fa fa-music fa-fw"></i>音樂</a></li><li class="menu-item menu-item-連結"><a href="/links" rel="section"><i class="fa fa-link fa-fw"></i>連結</a></li><li class="menu-item menu-item-now"><a href="/now" rel="section"><i class="fa fa-calendar fa-fw"></i>now</a></li><li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa-solid fa-user fa-fw"></i>關於</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜尋..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B%E5%9C%96"><span class="nav-number">1.</span> <span class="nav-text">流程圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E5%A1%8A%E5%9C%96"><span class="nav-number">2.</span> <span class="nav-text">方塊圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%93%E9%A4%85%E5%9C%96"><span class="nav-number">3.</span> <span class="nav-text">圓餅圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%80%85%E6%97%85%E7%A8%8B%E5%9C%96"><span class="nav-number">4.</span> <span class="nav-text">使用者旅程圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git-%E6%A8%B9%E7%8B%80%E5%9C%96"><span class="nav-number">5.</span> <span class="nav-text">Git 樹狀圖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8B%80%E6%85%8B%E5%9C%96"><span class="nav-number">6.</span> <span class="nav-text">狀態圖</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Raymond Su"
+      src="/uploads/images/blog_avatar.png">
+  <p class="site-author-name" itemprop="name">Raymond Su</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives">
+          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分類</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags">
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yc518suray" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yc518suray" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:raymondsu0110@gmail.com" title="E-mail → mailto:raymondsu0110@gmail.com" rel="noopener me" target="_blank"><i class="fa-solid fa-envelope fa-fw"></i>E-mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://hackmd.io/@Q5thU81LTku-dZ3h7gNMFQ" title="HackMD → https:&#x2F;&#x2F;hackmd.io&#x2F;@Q5thU81LTku-dZ3h7gNMFQ" rel="noopener me" target="_blank"><i class="fa-solid fa-book-open fa-fw"></i>HackMD</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://yc518suray.github.io/atom.xml" title="RSS → https:&#x2F;&#x2F;yc518suray.github.io&#x2F;atom.xml" rel="noopener me"><i class="fa-solid fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://yc518suray.github.io/uncategorized/mermaid-chart-test/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/images/blog_avatar.png">
+      <meta itemprop="name" content="Raymond Su">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="R.S. Random Space">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="測試 mermaid.js 圖表 | R.S. Random Space">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          測試 mermaid.js 圖表
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2026-08-02 17:18:31" itemprop="dateCreated datePublished" datetime="2026-08-02T17:18:31+08:00">2026-08-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2026-08-03 22:30:45" itemprop="dateModified" datetime="2026-08-03T22:30:45+08:00">2026-08-03</time>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/uncategorized/mermaid-chart-test/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="uncategorized/mermaid-chart-test/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><link rel="stylesheet" type="text&#x2F;css" href="https://cdn.jsdelivr.net/npm/hexo-tag-hint@0.3.1/dist/hexo-tag-hint.min.css"><p>&emsp;&emsp;測試一下 mermaid.js 的各種圖表。</p>
+<span id="more"></span>
+
+<h2 id="流程圖"><a href="#流程圖" class="headerlink" title="流程圖"></a>流程圖</h2><p>&emsp;&emsp;參考自<a target="_blank" rel="noopener" href="https://moon-jam.me/NexT-chart/">這篇教學文章</a>。下圖是高度簡化的 OFDM 收發機的方塊圖。</p>
+<pre>
+<code class="mermaid">
+flowchart LR
+subgraph Tx
+    A[info bits]--&gt;B[QAM mapper]--&gt;C[IDFT]
+end
+subgraph channel
+    C--&gt;D[H]
+end
+subgraph Rx
+    D--&gt;E[DFT]--&gt;G[QAM demapper]--&gt;H[bits]
+end
+</code>
+</pre>
+
+<p>&emsp;&emsp;程式瑪如下(使用 Hexo 的 tag 外掛)：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;% mermaid flowchart LR %&#125;</span><br><span class="line">subgraph Tx</span><br><span class="line">    <span class="selector-tag">A</span><span class="selector-attr">[info bits]</span>--&gt;<span class="selector-tag">B</span><span class="selector-attr">[mapper]</span>--&gt;C<span class="selector-attr">[IDFT]</span></span><br><span class="line">end</span><br><span class="line">subgraph channel</span><br><span class="line">    C--&gt;D<span class="selector-attr">[H]</span></span><br><span class="line">end</span><br><span class="line">subgraph Rx</span><br><span class="line">    D--&gt;E<span class="selector-attr">[DFT]</span>--&gt;<span class="selector-tag">G</span><span class="selector-attr">[demapper]</span>--&gt;H<span class="selector-attr">[bits]</span></span><br><span class="line">end</span><br><span class="line">&#123;% endmermaid %&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="方塊圖"><a href="#方塊圖" class="headerlink" title="方塊圖"></a>方塊圖</h2><pre>
+<code class="mermaid">
+block-beta
+columns 3
+Frontend space:1 Backend
+space:3
+Disk space:1 Database[(&quot;Database&quot;)]
+
+Frontend --&gt; Backend
+Backend --&gt; Database
+Database[(&quot;Database&quot;)] --&gt; Disk
+</code>
+</pre>
+
+<p>&emsp;&emsp;下圖是較完整的離散時間 OFDM 基頻收發機方塊圖。相較之下，flowchart 因為不能改變箭頭方向，不適合畫這種方塊圖。也許是圖表內容使然，沒有想像中好畫。</p>
+<pre>
+<code class="mermaid">
+block-beta
+columns 13
+    tx_bits[&quot;info\nbits&quot;] space:1 source_coder[&quot;source\ncoding&quot;] space:1 channel_coder[&quot;channel\ncoding&quot;] space:1 mapper space:1 S&#x2F;P space:1 IDFT space:1 P&#x2F;S
+    space:13
+    space:12 channel
+    space:13
+    space:10 AWGN space:1 awgnplus((&quot;&emsp;+&emsp;&quot;))
+    space:13
+    rx_bits[&quot;received\nbits&quot;] space:1 source_decoder[&quot;source\ndecoding&quot;]space:1 channel_decoder[&quot;channel\ndecoding&quot;] space:1 demapper space:1 P2S[&quot;P&#x2F;S&quot;] space:1 dftneq[&quot;DFT &amp;\nequal&quot;] space:1 S2P[&quot;S&#x2F;P&quot;]
+    tx_bits --&gt; source_coder
+    source_coder --&gt; channel_coder
+    channel_coder --&gt; mapper
+    mapper --&gt; S&#x2F;P
+    S&#x2F;P --&gt; IDFT
+    IDFT --&gt; P&#x2F;S
+    P&#x2F;S --&gt; channel
+    channel --&gt; awgnplus
+    awgnplus --&gt; S2P
+    S2P --&gt; dftneq
+    dftneq --&gt; P2S
+    P2S --&gt; demapper
+    demapper --&gt; channel_decoder
+    channel_decoder --&gt; source_decoder
+    source_decoder --&gt; rx_bits
+    AWGN --&gt; awgnplus
+</code>
+</pre>
+
+<p>&emsp;&emsp;程式碼如下：</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#123;% mermaid block-beta %&#125;</span><br><span class="line">columns <span class="number">13</span></span><br><span class="line">    tx_bits[<span class="string">&quot;info\nbits&quot;</span>] <span class="literal">space</span>:<span class="number">1</span> source_coder[<span class="string">&quot;source\ncoding&quot;</span>] <span class="literal">space</span>:<span class="number">1</span> channel_coder[<span class="string">&quot;channel\ncoding&quot;</span>] <span class="literal">space</span>:<span class="number">1</span> mapper <span class="literal">space</span>:<span class="number">1</span> S/P <span class="literal">space</span>:<span class="number">1</span> IDFT <span class="literal">space</span>:<span class="number">1</span> P/S</span><br><span class="line">    <span class="literal">space</span>:<span class="number">13</span></span><br><span class="line">    <span class="literal">space</span>:<span class="number">12</span> channel</span><br><span class="line">    <span class="literal">space</span>:<span class="number">13</span></span><br><span class="line">    <span class="literal">space</span>:<span class="number">10</span> AWGN <span class="literal">space</span>:<span class="number">1</span> awgnplus((<span class="string">&quot;&amp;emsp;+&amp;emsp;&quot;</span>))</span><br><span class="line">    <span class="literal">space</span>:<span class="number">13</span></span><br><span class="line">    rx_bits[<span class="string">&quot;received\nbits&quot;</span>] <span class="literal">space</span>:<span class="number">1</span> source_decoder[<span class="string">&quot;source\ndecoding&quot;</span>]<span class="literal">space</span>:<span class="number">1</span> channel_decoder[<span class="string">&quot;channel\ndecoding&quot;</span>] <span class="literal">space</span>:<span class="number">1</span> demapper <span class="literal">space</span>:<span class="number">1</span> P2S[<span class="string">&quot;P/S&quot;</span>] <span class="literal">space</span>:<span class="number">1</span> dftneq[<span class="string">&quot;DFT &amp;\nequal&quot;</span>] <span class="literal">space</span>:<span class="number">1</span> S2P[<span class="string">&quot;S/P&quot;</span>]</span><br><span class="line">    tx_bits <span class="comment">--&gt; source_coder</span></span><br><span class="line">    source_coder <span class="comment">--&gt; channel_coder</span></span><br><span class="line">    channel_coder <span class="comment">--&gt; mapper</span></span><br><span class="line">    mapper <span class="comment">--&gt; S/P</span></span><br><span class="line">    S/P <span class="comment">--&gt; IDFT</span></span><br><span class="line">    IDFT <span class="comment">--&gt; P/S</span></span><br><span class="line">    P/S <span class="comment">--&gt; channel</span></span><br><span class="line">    channel <span class="comment">--&gt; awgnplus</span></span><br><span class="line">    awgnplus <span class="comment">--&gt; S2P</span></span><br><span class="line">    S2P <span class="comment">--&gt; dftneq</span></span><br><span class="line">    dftneq <span class="comment">--&gt; P2S</span></span><br><span class="line">    P2S <span class="comment">--&gt; demapper</span></span><br><span class="line">    demapper <span class="comment">--&gt; channel_decoder</span></span><br><span class="line">    channel_decoder <span class="comment">--&gt; source_decoder</span></span><br><span class="line">    source_decoder <span class="comment">--&gt; rx_bits</span></span><br><span class="line">    AWGN <span class="comment">--&gt; awgnplus</span></span><br><span class="line">&#123;% endmermaid %&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="圓餅圖"><a href="#圓餅圖" class="headerlink" title="圓餅圖"></a>圓餅圖</h2><pre>
+<code class="mermaid">
+
+pie
+    title Smartphone SoC Market Share - 2026 Q1
+    &quot;MediaTek&quot; : 32
+    &quot;Samsung&quot; : 7
+    &quot;Qualcomm&quot; : 23
+    &quot;Apple&quot; : 19
+    &quot;UNISOC&quot; : 14
+    &quot;HiSilicon&quot; : 4
+    &quot;others&quot; : 1
+</code>
+</pre>
+
+<p>&emsp;&emsp;程式碼如下：</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;% mermaid %&#125;</span><br><span class="line">pie</span><br><span class="line">    title Smartphone SoC Market Share - <span class="number">2026</span> Q1</span><br><span class="line">    <span class="string">&quot;MediaTek&quot;</span> : 32</span><br><span class="line">    <span class="string">&quot;Samsung&quot;</span> : 7</span><br><span class="line">    <span class="string">&quot;Qualcomm&quot;</span> : 23</span><br><span class="line">    <span class="string">&quot;Apple&quot;</span> : 19</span><br><span class="line">    <span class="string">&quot;UNISOC&quot;</span> : 14</span><br><span class="line">    <span class="string">&quot;HiSilicon&quot;</span> : 4</span><br><span class="line">    <span class="string">&quot;others&quot;</span> : 1</span><br><span class="line">&#123;% endmermaid %&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用者旅程圖"><a href="#使用者旅程圖" class="headerlink" title="使用者旅程圖"></a>使用者旅程圖</h2><div style="height: 320px; overflow: hidden;">
+<pre>
+<code class="mermaid">
+
+journey
+    title Goals
+    section Master thesis
+        Core concept: 3: Raymond, Jack
+        Formulation: 2: Raymond
+        Simulation: 1: Raymond
+    section Life
+        Girlfriend: 0: Raymond
+        Weight: 0: Raymond
+</code>
+</pre>
+</div>
+
+<p>&emsp;&emsp;以前從來沒有聽過這種圖表，可能是商業相關的分析比較用得到。程式碼如下(加上 css 直接設定高度，否則圖表底部會有一大片空白)：</p>
+<figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">&quot;height: 320px; overflow: hidden;&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span><span class="template-tag">&#123;% <span class="name">mermaid</span> %&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">journey</span></span><br><span class="line"><span class="language-xml">    title Goals</span></span><br><span class="line"><span class="language-xml">    section Master thesis</span></span><br><span class="line"><span class="language-xml">        Core concept: 3: Raymond, Jack</span></span><br><span class="line"><span class="language-xml">        Formulation: 2: Raymond</span></span><br><span class="line"><span class="language-xml">        Simulation: 1: Raymond</span></span><br><span class="line"><span class="language-xml">    section Life</span></span><br><span class="line"><span class="language-xml">        Girlfriend: 0: Raymond</span></span><br><span class="line"><span class="language-xml">        Weight: 0: Raymond</span></span><br><span class="line"><span class="language-xml"></span><span class="template-tag">&#123;% <span class="name">endmermaid</span> %&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Git-樹狀圖"><a href="#Git-樹狀圖" class="headerlink" title="Git 樹狀圖"></a>Git 樹狀圖</h2><pre>
+<code class="mermaid">
+gitGraph
+commit
+commit
+branch develop
+checkout develop
+commit
+commit
+checkout main
+merge develop
+commit
+commit
+</code>
+</pre>
+
+<p>&emsp;&emsp;程式碼如下，詳細用法請參考<a target="_blank" rel="noopener" href="https://mermaid.js.org/syntax/gitgraph.html">官方網站的教學</a>：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;% mermaid gitGraph %&#125;</span><br><span class="line">    <span class="keyword">commit</span></span><br><span class="line">    <span class="keyword">commit</span></span><br><span class="line">    branch develop</span><br><span class="line">    checkout develop</span><br><span class="line">    <span class="keyword">commit</span></span><br><span class="line">    <span class="keyword">commit</span></span><br><span class="line">    checkout main</span><br><span class="line">    merge develop</span><br><span class="line">    <span class="keyword">commit</span></span><br><span class="line">    <span class="keyword">commit</span></span><br><span class="line">&#123;% endmermaid %&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="狀態圖"><a href="#狀態圖" class="headerlink" title="狀態圖"></a>狀態圖</h2><pre>
+<code class="mermaid">
+
+---
+title: Personal System
+---
+stateDiagram-v2
+    direction LR
+    [*] --&gt; Sleep
+    Sleep --&gt; Eat: hungry
+    Eat --&gt; Sleep: full
+    Eat --&gt; Die: too old
+    Die --&gt; [*]
+</code>
+</pre>
+
+<p>&emsp;&emsp;程式碼如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">%</span> <span class="string">mermaid</span> <span class="string">%</span>&#125;</span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">Personal</span> <span class="string">System</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">stateDiagram-v2</span></span><br><span class="line">    <span class="string">direction</span> <span class="string">LR</span></span><br><span class="line">    [<span class="string">*</span>] <span class="string">--&gt;</span> <span class="string">Sleep</span></span><br><span class="line">    <span class="string">Sleep</span> <span class="string">--&gt;</span> <span class="attr">Eat:</span> <span class="string">hungry</span></span><br><span class="line">    <span class="string">Eat</span> <span class="string">--&gt;</span> <span class="attr">Sleep:</span> <span class="string">full</span></span><br><span class="line">    <span class="string">Eat</span> <span class="string">--&gt;</span> <span class="attr">Die:</span> <span class="string">too</span> <span class="string">old</span></span><br><span class="line">    <span class="string">Die</span> <span class="string">--&gt;</span> [<span class="string">*</span>]</span><br><span class="line">&#123;<span class="string">%</span> <span class="string">endmermaid</span> <span class="string">%</span>&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Raymond Su
+  </li>
+  <li class="post-copyright-link">
+      <strong>文章連結：</strong>
+      <a href="https://yc518suray.github.io/uncategorized/mermaid-chart-test/" title="測試 mermaid.js 圖表">https://yc518suray.github.io/uncategorized/mermaid-chart-test/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版權聲明： </strong>本網誌所有文章除特別聲明外，均採用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 許可協議。轉載請註明出處！
+  </li>
+</ul>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Foo-Birds-%E9%9B%99%E9%80%B1%E5%88%8A/fortnightly-issue1/" rel="prev" title="Foo Birds 雙週刊-No. 1 創刊號">
+                  <i class="fa fa-angle-left"></i> Foo Birds 雙週刊-No. 1 創刊號
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Raymond Su</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.0/mermaid.min.js","integrity":"sha256-G8ouPAnw4zzMbnAenHnVz6h9XpKbNdOkrqTh7AadyHs="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '20px',
+  right: 'unset',
+  left: '70px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#8A1A2F',
+  buttonColorLight: '#8A1A2F',
+  saveInCookies: true,
+  label: '🌗',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"oscarsu-disqus","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
