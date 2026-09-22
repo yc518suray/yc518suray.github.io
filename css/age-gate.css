@@ -1,0 +1,72 @@
+.age-gate-overlay
+{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(0, 0, 0, 0.3);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 999999;
+	user-select: none;
+}
+.age-gate-box
+{
+	background: #222;
+	color: #fff;
+	border: 2px solid #444;
+	padding: 20px 20px;
+	border-radius: 12px;
+	max-width: 420px;
+	width: 90%;
+	text-align: center;
+}
+.age-gate-box h2
+{
+	font-size: 28px;
+	margin: 0 0 12px;
+	color: #ff4d4f;
+}
+.age-gate-box p
+{
+	font-size: 15px;
+	color: #ccc;
+	line-height: 1.6;
+	margin: 0 0 24px;
+}
+.age-gate-actions
+{
+	display: flex;
+	gap: 12px;
+	justify-content: center;
+}
+.age-btn
+{
+	flex: 1;
+	padding: 10px 16px;
+	border: none;
+	border-radius: 6px;
+	font-size: 20px;
+	cursor: pointer;
+	font-weight: bold;
+	opacity: 0.8;
+	transition: opacity 0.2s;
+}
+.age-btn:hover
+{
+	opacity: 1;
+}
+.age-btn.leave
+{
+	background: #444;
+	color: #fff;
+}
+.age-btn.enter
+{
+	background: #ff4d4f;
+	color: #fff;
+}
